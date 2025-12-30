@@ -3,34 +3,52 @@
 import Image from "next/image"
 import Link from "next/link"
 import { ArrowRight, ArrowLeft } from "lucide-react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 const areasTrabajo = [
   {
     name: "Construcción",
-    description: "Realizamos todo tipo de obras de construcción y mantenimiento, diseño de proyectos, remodelaciones en pintura, trabajos con drywall, etc.",
+    description: "Obras de construcción y mantenimiento, diseño de proyectos, remodelaciones en pintura, trabajos con drywall, etc.",
     image: "https://images.unsplash.com/photo-1591076787947-aaa4dec435d8?q=80&w=1471&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
   },
   {
     name: "Industrial",
-    description: "Realizamos instalaciones eléctricas, mantenimientos y reparaciones, sistemas de potencia, iluminación, instalación de paneles eléctricos, etc.",
+    description: "Instalaciones eléctricas, mantenimientos y reparaciones, sistemas de potencia, iluminación, instalación de paneles eléctricos, etc.",
     image: "https://images.unsplash.com/photo-1576446470246-499c738d1c8e?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
   },
   {
-    name: "Sistemas Eléctricos",
-    description: "Realizamos instalaciones de sistemas de domótica y automatización, cableado estructurado, y seguridad electrónica, etc.",
+    name: "Sistemas",
+    description: "Instalaciones de sistemas de domótica y automatización, cableado estructurado, y seguridad electrónica, etc.",
     image: "https://images.unsplash.com/photo-1645639417590-32e8778b2141?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
   },
   {
-    name: "Proyectos",
-    description: "Realizamos diseño y planificación de proyectos, consultoría en ingeniería, proyects en eficiencia energética, etc.",
+    name: "Residencial",
+    description: "Diseño y planificación de proyectos, consultoría en ingeniería de proyectos, proyectos en eficiencia energética, etc.",
     image: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
   },
 ]
 
 export default function ServicesSection() {
   const [currentSlide, setCurrentSlide] = useState(0)
-  const cardsPerSlide = 3
+  const [cardsPerSlide, setCardsPerSlide] = useState(3)
+  
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setCardsPerSlide(1) // Móvil: 1 card
+      } else if (window.innerWidth < 1024) {
+        setCardsPerSlide(2) // Tablet: 2 cards
+      } else {
+        setCardsPerSlide(3) // Desktop: 3 cards
+      }
+      setCurrentSlide(0) // Reiniciar al primer slide cuando cambia el tamaño
+    }
+
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
   const totalSlides = Math.ceil(areasTrabajo.length / cardsPerSlide)
 
   const nextSlide = () => {
@@ -50,7 +68,7 @@ export default function ServicesSection() {
       <div
         className="max-w-7xl mx-auto px-4 md:px-0">
         <div>
-          <h2 className="text-center text-primary text-4xl font-bold">
+          <h2 className="text-center text-primary text-3xl font-light uppercase">
             Sectores de Trabajo
           </h2>
         </div>
@@ -87,7 +105,11 @@ export default function ServicesSection() {
             >
               {Array.from({ length: totalSlides }).map((_, slideIndex) => (
                 <div key={slideIndex} className="min-w-full">
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className={`grid gap-4 ${
+                    cardsPerSlide === 1 ? 'grid-cols-1' : 
+                    cardsPerSlide === 2 ? 'grid-cols-2' : 
+                    'grid-cols-3'
+                  }`}>
                     {areasTrabajo
                       .slice(slideIndex * cardsPerSlide, slideIndex * cardsPerSlide + cardsPerSlide)
                       .map((areaTrabajo) => (
@@ -157,9 +179,9 @@ export default function ServicesSection() {
         <div
           className="max-w-7xl mx-auto px-4 md:px-0 py-15">
           <div
-            className="grid grid-cols-3 gap-4">
+            className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div
-              className="bg-white rounded-2xl row-span-2 flex flex-col justify-center items-center px-4 space-y-10">
+              className="bg-white row-span-2 rounded-2xl md:row-span-2 flex flex-col justify-center items-center py-10 md:py-0 px-4 space-y-10">
               <h2
               className="text-2xl font-semibold uppercase text-center text-primary">Servicios Destacados</h2>
               <p
