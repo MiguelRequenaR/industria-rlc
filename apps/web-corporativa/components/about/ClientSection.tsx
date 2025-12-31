@@ -101,7 +101,7 @@ export default function ClientSection() {
               Con aprecio,
               <br /> <br />
               <span className="font-bold">
-                Indutria RLC
+                Industria RLC
               </span>
             </p>
           </div>
