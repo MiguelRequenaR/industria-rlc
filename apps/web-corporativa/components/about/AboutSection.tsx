@@ -13,7 +13,7 @@ export default function AboutSection() {
         <div
         className="flex flex-col justify-center items-center">
           <p
-          className="text-primary text-lg font-light text-center md:text-left mx-4 md:mx-0">
+          className="text-primary text-lg font-light text-justify mx-4 md:mx-0">
             Somos un equipo multidisciplinario de profesionales, comprometidos con soluciones de ingeniería complejas y confiables que van desde el diseño hasta la puesta en marcha, mantenimiento y optimización de instalaciones eléctricas, mecánicas y especialidades complementarias. <br />
             Nuestras operaciones destacan por el enfoque en prevención de riesgos, exigentes normas técnicas y plazos desafiantes.
           </p>
