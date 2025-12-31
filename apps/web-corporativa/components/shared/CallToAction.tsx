@@ -4,16 +4,17 @@ import Link from "next/link"
 export default function CallToAction() {
   return (
     <section
-      className="max-w-7xl mx-auto px-4 md:px-0 bg-primary text-white py-10 md:py-20 md:rounded-2xl">
+      className="max-w-7xl mx-auto px-4 md:px-0 bg-primary text-white py-10 md:py-20 md:rounded-2xl mt-10">
       <div
       className="flex flex-col md:flex-row justify-between items-center px-4 md:px-30 gap-10">
-        <div>
+        <div
+        className="space-y-5">
           <h2
           className="text-2xl md:text-4xl font-bold text-center md:text-left">
             Industria RLC
           </h2>
           <p
-          className="md:text-lg text-center md:text-left">
+          className="md:text-lg text-center md:text-left font-light">
             Somos una empresa peruana dedicada a la construcción y mantenimiento de infraestructuras eléctricas y de telecomunicaciones. Contáctanos para más información.
           </p>
         </div>
