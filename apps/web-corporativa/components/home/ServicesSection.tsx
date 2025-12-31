@@ -177,7 +177,7 @@ export default function ServicesSection() {
           )}
         </div>
         <div
-          className="max-w-7xl mx-auto px-4 md:px-0 py-15">
+          className="max-w-7xl mx-auto py-15">
           <div
             className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div
