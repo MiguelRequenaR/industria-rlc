@@ -1,13 +1,12 @@
-import React from 'react'
 
-export default function HeroAbout() {
+export default function HeroExperience() {
   return (
     <section>
-      <div className="w-full pb-10">
+      <div className="w-full bg-[#f5f5f5] pb-20">
         <div
           className="relative md:w-[84%] h-75 md:rounded-br-2xl overflow-hidden"
           style={{
-            backgroundImage: "url('https://images.unsplash.com/photo-1597502310092-31cdaa35b46d?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
+            backgroundImage: "url('https://images.unsplash.com/photo-1660330590022-9f4ff56b63f6?q=80&w=1632&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
             backgroundSize: "cover",
             backgroundPosition: "center"
           }}
@@ -18,10 +17,10 @@ export default function HeroAbout() {
               <div className="h-full w-1 bg-white rounded" style={{ minHeight: "80px" }} />
               <div>
                 <h2 className="text-white text-4xl font-semibold">
-                  ¿Quiénes somos?
+                  Experiencia
                 </h2>
                 <p className="text-lg text-white font-semibold mt-5">
-                  Te acompañamos con soluciones de ingeniería de alta calidad.
+                  Te acompañamos con soluciones de ingenería de alta calidad.
                 </p>
               </div>
             </div>

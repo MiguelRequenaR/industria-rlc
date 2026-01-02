@@ -5,7 +5,7 @@ export default function HeroServices() {
     <section>
       <div className="w-full pb-10">
         <div
-          className="relative md:w-[84%] h-[300px] md:rounded-br-2xl overflow-hidden"
+          className="relative md:w-[84%] h-75 md:rounded-br-2xl overflow-hidden"
           style={{
             backgroundImage: "url('https://images.unsplash.com/photo-1596962677810-62375eba1de3?q=80&w=1488&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
             backgroundSize: "cover",

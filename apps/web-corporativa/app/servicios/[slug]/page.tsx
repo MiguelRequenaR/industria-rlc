@@ -59,7 +59,7 @@ export default async function SubServicePage({ params }: { params: Promise<{ slu
 
   return (
     <main className="min-h-screen">
-      <section className="relative h-[500px] w-full">
+      <section className="relative h-125 w-full">
         <Image
           src={subService.image}
           alt={subService.title}
