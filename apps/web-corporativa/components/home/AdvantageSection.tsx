@@ -52,14 +52,14 @@ export default function AdvantageSection() {
     <section
     className="bg-[#f6f6f6] py-20">
       <div
-      className="max-w-7xl mx-auto px-4 md:px-0">
+      className="max-w-7xl mx-auto px-4 md:px-0" data-aos="fade-up">
         <div>
           <h2 className="text-center text-primary text-3xl font-light uppercase mb-10">
             Nuestras Ventajas
           </h2>
         </div>
         <div
-        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 auto-rows-[200px]">
+        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 auto-rows-[200px]" data-aos="fade-up" data-aos-delay="100">
           {ventajas.map((ventaja, index) => (
             <div
               key={index}

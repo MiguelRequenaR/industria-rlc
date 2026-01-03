@@ -1,7 +1,7 @@
 
 export default function HeroExperience() {
   return (
-    <section>
+    <section data-aos="fade-right">
       <div className="w-full bg-[#f5f5f5] pb-20">
         <div
           className="relative md:w-[84%] h-75 md:rounded-br-2xl overflow-hidden"

@@ -67,13 +67,13 @@ export default function ServicesSection() {
     <section className="bg-[#f6f6f6] py-20">
       <div
         className="max-w-7xl mx-auto px-4 md:px-0">
-        <div>
+        <div data-aos="fade-up">
           <h2 className="text-center text-primary text-3xl font-light uppercase">
             Sectores de Trabajo
           </h2>
         </div>
 
-        <div className="relative mt-10">
+        <div className="relative mt-10" data-aos="fade-up" data-aos-delay="100">
           {/* Navigation Buttons */}
           {totalSlides > 1 && (
             <>
@@ -181,22 +181,22 @@ export default function ServicesSection() {
           <div
             className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div
-              className="bg-white row-span-2 rounded-2xl md:row-span-2 flex flex-col justify-center items-center py-10 md:py-0 px-4 space-y-10">
+              className="bg-white row-span-2 rounded-2xl md:row-span-2 flex flex-col justify-center items-center py-10 md:py-0 px-4 space-y-10" data-aos="fade-up">
               <h2
               className="text-2xl font-semibold uppercase text-center text-primary">Servicios Destacados</h2>
               <p
               className="text-center text-primary text-lg">
                 Nuestro compromiso es encontrar la solución perfecta acorde a las necesidades de tu proyecto.
               </p>
-              <a href="/servicios" 
+              <Link href="/servicios" 
                 className="relative w-fit overflow-hidden bg-primary text-white px-5 py-2 uppercase cursor-pointer border border-primary group transition-colors duration-500 hover:text-primary rounded-full">
                 <span className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-in-out pointer-events-none" />
                 <span className="relative z-10 transition-colors duration-500">
                   Ver Servicios
                 </span>
-              </a>
+              </Link>
             </div>
-            <div className="rounded-2xl flex flex-col items-center">
+            <div className="rounded-2xl flex flex-col items-center" data-aos="fade-up" data-aos-delay="100">
               <Link
                 href="/servicios"
                 className="relative w-full flex justify-center group overflow-hidden cursor-pointer"
@@ -218,7 +218,7 @@ export default function ServicesSection() {
                 </h2>
               </Link>
             </div>
-            <div className="rounded-2xl flex flex-col items-center">
+            <div className="rounded-2xl flex flex-col items-center" data-aos="fade-up" data-aos-delay="200">
               <Link
                 href="/servicios"
                 className="relative w-full flex justify-center group overflow-hidden cursor-pointer"
@@ -240,7 +240,7 @@ export default function ServicesSection() {
                 </h2>
               </Link>
             </div>
-            <div className="rounded-2xl flex flex-col items-center">
+            <div className="rounded-2xl flex flex-col items-center" data-aos="fade-up" data-aos-delay="300">
               <Link
                 href="/servicios"
                 className="relative w-full flex justify-center group overflow-hidden cursor-pointer"
@@ -262,7 +262,7 @@ export default function ServicesSection() {
                 </h2>
               </Link>
             </div>
-            <div className="rounded-2xl flex flex-col items-center">
+            <div className="rounded-2xl flex flex-col items-center" data-aos="fade-up" data-aos-delay="400">
               <Link
                 href="/servicios"
                 className="relative w-full flex justify-center group overflow-hidden cursor-pointer"

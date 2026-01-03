@@ -4,7 +4,7 @@ import Link from "next/link"
 export default function CallToAction() {
   return (
     <section
-      className="max-w-7xl mx-auto px-4 md:px-0 bg-primary text-white py-10 md:py-20 md:rounded-2xl mt-10">
+      className="max-w-7xl mx-auto px-4 md:px-0 bg-primary text-white py-10 md:py-20 md:rounded-2xl mt-10" data-aos="zoom-in">
       <div
       className="flex flex-col md:flex-row justify-between items-center px-4 md:px-30 gap-10">
         <div

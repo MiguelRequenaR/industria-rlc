@@ -7,11 +7,11 @@ export default function AboutSection() {
       <div
       className="grid grid-cols-1 md:grid-cols-2 gap-10">
         <div
-        className="flex justify-center items-center">
+        className="flex justify-center items-center" data-aos="fade-up">
           <Image src="/RLCLOGOCORP.png" alt="logo" width={300} height={300} />
         </div>
         <div
-        className="flex flex-col justify-center items-center">
+        className="flex flex-col justify-center items-center" data-aos="fade-up" data-aos-delay="100">
           <p
           className="text-primary text-lg font-light text-justify mx-4 md:mx-0">
             Somos un equipo multidisciplinario de profesionales, comprometidos con soluciones de ingeniería complejas y confiables que van desde el diseño hasta la puesta en marcha, mantenimiento y optimización de instalaciones eléctricas, mecánicas y especialidades complementarias. <br />
@@ -20,14 +20,14 @@ export default function AboutSection() {
         </div>
       </div>
       <div className="pt-20">
-        <h2 className="text-3xl text-center text-primary uppercase font-light">
+        <h2 className="text-3xl text-center text-primary uppercase font-light" data-aos="fade-up">
           Nuestra Misión y Visión
         </h2>
       </div>
       <div
       className="grid grid-cols-1 md:grid-cols-2 gap-10 pt-10 mx-4 md:mx-0">
         <div
-        className="bg-primary p-10 rounded-2xl">
+        className="bg-primary p-10 rounded-2xl" data-aos="fade-up" data-aos-delay="100">
           <h2
           className="text-white text-2xl font-semibold text-center uppercase">
             Misión
@@ -38,7 +38,7 @@ export default function AboutSection() {
           </p>
         </div>
         <div
-        className="bg-primary p-10 rounded-2xl">
+        className="bg-primary p-10 rounded-2xl" data-aos="fade-up" data-aos-delay="100">
           <h2
           className="text-white text-2xl font-semibold text-center uppercase">
             Visión

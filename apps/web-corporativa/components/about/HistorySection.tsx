@@ -60,14 +60,14 @@ export default function HistorySection() {
 
   return (
     <section className="max-w-7xl mx-auto py-20 px-4">
-      <div>
+      <div data-aos="fade-up">
         <h2 className="text-3xl text-primary mb-4 text-center pb-5 uppercase font-light">
           Nuestra Historia
         </h2>
       </div>
       <div className="flex flex-col md:flex-row gap-8 md:gap-12">
         {/* Lista de años - Izquierda */}
-        <div className="flex flex-col md:shrink-0 md:w-auto">
+        <div className="flex flex-col md:shrink-0 md:w-auto" data-aos="fade-up" data-aos-delay="100">
           <div className="overflow-y-auto max-h-[600px] pr-4">
             <div className="flex flex-col gap-3">
               {historyData.map((item) => (
@@ -92,7 +92,7 @@ export default function HistorySection() {
         </div>
 
         {/* Contenido - Derecha */}
-        <div className="flex flex-col justify-center flex-1">
+        <div className="flex flex-col justify-center flex-1" data-aos="fade-up" data-aos-delay="200">
           <div className="bg-white overflow-hidden">
             <div className="relative w-full h-64 md:h-80 lg:h-96">
               <Image
@@ -103,7 +103,7 @@ export default function HistorySection() {
                 sizes="100% 100%"
               />
             </div>
-            <div className="py-4 md:py-0 md:p-8">
+            <div className="py-4 md:p-8">
               <h3 className="text-3xl font-light text-primary mb-4">
                 {selectedHistory.title}
               </h3>

@@ -68,7 +68,7 @@ export default async function SubServicePage({ params }: { params: Promise<{ slu
           priority
         />
         <div className="absolute inset-0 bg-primary/70" />
-        <div className="absolute inset-0 flex flex-col items-center justify-center text-white px-4">
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-white px-4" data-aos="fade-right">
           <h1 className="text-4xl md:text-6xl font-bold text-center mb-4">
             {subService.title}
           </h1>
@@ -94,7 +94,7 @@ export default async function SubServicePage({ params }: { params: Promise<{ slu
 
       <section className="max-w-7xl mx-auto px-4 md:px-0 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-          <div>
+          <div data-aos="fade-up">
             <div className="mb-6">
               <span className="text-sm uppercase tracking-wider text-gray-500">
                 {serviceTitle}
@@ -109,7 +109,7 @@ export default async function SubServicePage({ params }: { params: Promise<{ slu
           </div>
 
           {subService.benefits && subService.benefits.length > 0 && (
-            <div>
+            <div data-aos="fade-up" data-aos-delay="100">
               <h2 className="text-2xl font-light uppercase text-primary mb-6">
                 Beneficios
               </h2>
@@ -126,7 +126,7 @@ export default async function SubServicePage({ params }: { params: Promise<{ slu
         </div>
 
         {subService.applications && subService.applications.length > 0 && (
-          <div className="mt-16">
+          <div className="mt-16" data-aos="fade-up" data-aos-delay="200">
             <h2 className="text-2xl font-light uppercase text-primary mb-8 text-center">
               Aplicaciones
             </h2>
@@ -145,7 +145,7 @@ export default async function SubServicePage({ params }: { params: Promise<{ slu
           </div>
         )}
 
-        <div className="mt-16 bg-primary text-white rounded-2xl p-12 text-center">
+        <div className="mt-16 bg-primary text-white rounded-2xl p-12 text-center" data-aos="zoom-in">
           <h2 className="text-3xl font-bold mb-4">
             ¿Necesitas más información?
           </h2>

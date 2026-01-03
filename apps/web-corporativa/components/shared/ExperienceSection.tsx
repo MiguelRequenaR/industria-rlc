@@ -16,7 +16,7 @@ export default function ExperienceSection({ limit, showTitle = true }: Experienc
     <section
     className="bg-[#f6f6f6] pb-10">
       <div
-      className="max-w-7xl mx-auto px-4 md:px-0">
+      className="max-w-7xl mx-auto px-4 md:px-0" data-aos="fade-up">
         {showTitle && (
           <div>
             <h2 className="text-center text-primary text-3xl font-light uppercase mb-10">
@@ -25,7 +25,7 @@ export default function ExperienceSection({ limit, showTitle = true }: Experienc
           </div>
         )}
         <div
-        className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        className="grid grid-cols-1 md:grid-cols-3 gap-4" data-aos="fade-up" data-aos-delay="100">
           {experienciasToShow.map((experiencia) => (
             <Link
               key={experiencia.id}

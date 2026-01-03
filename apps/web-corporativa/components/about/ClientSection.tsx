@@ -53,13 +53,13 @@ export default function ClientSection() {
     className="bg-[#f6f6f6] py-20">
       <div
       className="max-w-7xl mx-auto">
-        <div>
+        <div data-aos="fade-up">
           <h2 className="text-3xl text-center text-primary uppercase font-light">
             Principios
           </h2>
         </div>
         <div
-        className="grid grid-cols-2 md:grid-cols-5 gap-5">
+        className="grid grid-cols-2 md:grid-cols-5 gap-5" data-aos="fade-up" data-aos-delay="100">
           {
             principles.map((principle) => (
               <div
@@ -81,7 +81,7 @@ export default function ClientSection() {
         <div
         className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center justify-center py-20">
           <div
-          className="space-y-5">
+          className="space-y-5" data-aos="fade-right">
             <h2
             className="text-3xl text-center text-primary uppercase font-light">
               Carta a nuestros clientes
@@ -105,12 +105,12 @@ export default function ClientSection() {
               </span>
             </p>
           </div>
-          <div>
+          <div data-aos="fade-up">
             <Image src="https://images.unsplash.com/photo-1683295083329-4d4738291f3a?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Carta a nuestros clientes" width={500} height={500} className="md:rounded-2xl"/>
           </div>
         </div>
         <div
-        className="grid grid-cols-1 md:grid-cols-3 gap-10 bg-primary p-10 rounded-2xl mx-4 md:mx-0">
+        className="grid grid-cols-1 md:grid-cols-3 gap-10 bg-primary p-10 rounded-2xl mx-4 md:mx-0" data-aos="zoom-in">
           {
             substats.map((substat) => (
               <div

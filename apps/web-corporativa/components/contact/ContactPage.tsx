@@ -5,7 +5,7 @@ export default function ContactPage() {
   return (
     <section className="max-w-7xl mx-auto">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mx-4 md:mx-0">
-        <div className="bg-primary text-white p-5 md:p-10 rounded-2xl h-fit">
+        <div className="bg-primary text-white p-5 md:p-10 rounded-2xl h-fit" data-aos="fade-up">
           <div className="space-y-7">
             <div className="space-y-2">
               <h2 className="text-3xl font-semibold">
@@ -56,7 +56,7 @@ export default function ContactPage() {
             </div>
           </div>
         </div>
-        <div>
+        <div data-aos="fade-up" data-aos-delay="100">
           <FormContact />
         </div>
       </div>

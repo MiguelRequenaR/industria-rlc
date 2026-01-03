@@ -15,15 +15,15 @@ export default function ServicesPage() {
           <div key={service.id}
             className="mb-16">
             <h2
-              className="text-center text-3xl font-light uppercase text-primary mb-4">
+              className="text-center text-3xl font-light uppercase text-primary mb-4" data-aos="fade-up">
               {service.title}
             </h2>
             <p
-              className="text-center text-lg text-primary mb-8">
+              className="text-center text-lg text-primary mb-8" data-aos="fade-up" data-aos-delay="100">
               {service.description}
             </p>
             <div
-              className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              className="grid grid-cols-1 md:grid-cols-3 gap-4" data-aos="fade-up" data-aos-delay="200">
               {
                 service.subServices.map((subService) => (
                   <Link 

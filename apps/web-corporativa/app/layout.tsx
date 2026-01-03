@@ -4,6 +4,7 @@ import "./globals.css";
 import NavBar from "@/components/shared/NavBar"
 import CallToAction from "@/components/shared/CallToAction";
 import Footer from "@/components/shared/Footer";
+import AOSProvider from "@/components/shared/AOSProvider";
 
 const nunito = Nunito({
   subsets: ["latin"],
@@ -25,6 +26,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={nunito.className}>
+        <AOSProvider />
         <NavBar />
         {children}
         <CallToAction />

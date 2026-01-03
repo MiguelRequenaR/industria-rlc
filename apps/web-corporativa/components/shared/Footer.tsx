@@ -10,7 +10,7 @@ export default function Footer() {
 
   const handleEnviarWhatsApp = () => {
     if (mensaje.trim()) {
-      const numeroWhatsApp = '51999999999' // Reemplazar con el número real
+      const numeroWhatsApp = '+51940162009'
       const textoMensaje = encodeURIComponent(`Sugerencia/Denuncia: ${mensaje}`)
       window.open(`https://wa.me/${numeroWhatsApp}?text=${textoMensaje}`, '_blank')
       setMensaje('')
@@ -34,7 +34,7 @@ export default function Footer() {
 
   return (
     <footer className="bg-primary text-white py-12 md:py-16 mt-20">
-      <div className="max-w-7xl mx-auto px-4 md:px-6">
+      <div className="max-w-7xl mx-auto px-4 md:px-6" data-aos="fade-down">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center md:text-left">
           
           {/* Columna 1: Logo y Nombre */}

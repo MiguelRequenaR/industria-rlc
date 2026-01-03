@@ -57,9 +57,9 @@ function AnimatedCounter({ value, prefix = "+", duration = 1200 }: { value: numb
 export default function StatsSection() {
   return (
     <section
-      className="bg-[#f6f6f6] mx-4 md:mx-0">
+      className="bg-[#f6f6f6] mx-4 md:mx-0 pt-10">
       <div
-      className="max-w-7xl mx-auto px-4 md:px-0 bg-primary text-white py-15 rounded-2xl mt-10 shadow-lg">
+      className="max-w-7xl mx-auto px-4 md:px-0 bg-primary text-white py-15 rounded-2xl shadow-lg" data-aos="zoom-in">
         <div
           className="grid grid-cols-1 md:grid-cols-4 gap-4">
           {

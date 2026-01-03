@@ -57,13 +57,13 @@ export default async function ExperiencePage({ params }: { params: Promise<{ slu
       </div>
 
       <section className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-7xl mx-auto">
-        <div className="bg-primary p-5 md:p-10 m-4 md:m-0 rounded-2xl">
+        <div className="bg-primary p-5 md:p-10 m-4 md:m-0 rounded-2xl" data-aos="fade-up">
           <div className="text-3xl font-light uppercase text-white flex items-center gap-2 mb-10">
             <div className="self-stretch w-1 bg-secondary"></div>
             {experience.title}
           </div>
           <div>
-            <p className="text-white text-xl font-light mb-6">
+            <p className="text-white text-lg font-light mb-6">
               {experience.description}
             </p>
           </div>
@@ -75,9 +75,9 @@ export default async function ExperiencePage({ params }: { params: Promise<{ slu
                 </h2>
                 <ul className="space-y-4">
                   {experience.features.map((feature, index) => (
-                    <li key={index} className="flex items-start gap-3">
+                    <li key={index} className="flex items-center gap-3">
                       <CheckCircle className="text-white shrink-0 mt-1" size={24} />
-                      <span className="text-lg text-gray-200">{feature}</span>
+                      <span className="text-sm text-gray-200">{feature}</span>
                     </li>
                   ))}
                 </ul>
@@ -85,7 +85,7 @@ export default async function ExperiencePage({ params }: { params: Promise<{ slu
             )}
           </div>
         </div>
-        <div className="p-4 md:p-10">
+        <div className="p-4 md:p-10" data-aos="fade-up" data-aos-delay="100">
           <h2 className="text-2xl font-light uppercase text-primary mb-6">
             Información General
           </h2>
@@ -118,7 +118,7 @@ export default async function ExperiencePage({ params }: { params: Promise<{ slu
 
         </div>
       </section>
-      <section className="max-w-7xl mx-auto px-4 md:px-0 py-10 md:py-20">
+      <section className="max-w-7xl mx-auto px-4 md:px-0 py-10 md:py-20" data-aos="fade-up" data-aos-delay="200">
         <h2 className="text-2xl font-light uppercase text-primary mb-6">
           Galeria de imágenes
         </h2>
