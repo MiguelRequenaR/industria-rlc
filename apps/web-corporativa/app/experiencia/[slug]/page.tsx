@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
   if (!experience) {
     return {
-      title: "Experiencia no encontrada",
+      title: "Proyecto no encontrada",
     };
   }
 
@@ -63,7 +63,7 @@ export default async function ExperiencePage({ params }: { params: Promise<{ slu
             {experience.title}
           </div>
           <div>
-            <p className="text-white text-xl font-light">
+            <p className="text-white text-xl font-light mb-6">
               {experience.description}
             </p>
           </div>

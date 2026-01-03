@@ -52,7 +52,7 @@ export default function NavBar() {
           </button>
 
           <div className="hidden md:flex bg-secondary rounded-full items-center">
-            <input type="text" placeholder="Buscar..." className="w-[400px] bg-white h-10 rounded-full border border-white px-4 text-secondary focus:outline-none" />
+            <input type="text" placeholder="Buscar..." className="w-100 bg-white h-10 rounded-full border border-white px-4 text-secondary focus:outline-none" />
             <span className="text-white px-4 flex items-center gap-2">
               <Phone className="w-4 h-4" />
               <a
@@ -67,7 +67,7 @@ export default function NavBar() {
                 href="mailto:proyectos@industria-rlc.com"
                 className="hover:underline flex items-center gap-1"
               >
-                proyectos@industria-rlc.com
+                proyectos@industriarlc.com
               </a>
             </span>
           </div>
