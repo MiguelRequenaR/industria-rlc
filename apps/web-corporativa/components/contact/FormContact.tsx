@@ -56,10 +56,10 @@ export default function FormContact() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5 p-4 md:p-10">
+    <form onSubmit={handleSubmit} className="space-y-5 p-4 md:p-10 shadow-lg rounded-2xl">
       <div>
         <label htmlFor="nombre" className="block text-sm font-medium text-gray-700 mb-2">
-          Nombre completo
+          Nombre completo <span className="text-red-500">*</span>
         </label>
         <input
           type="text"
@@ -75,7 +75,7 @@ export default function FormContact() {
 
       <div>
         <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-          Correo electrónico
+          Correo electrónico <span className="text-red-500">*</span>
         </label>
         <input
           type="email"
@@ -91,7 +91,7 @@ export default function FormContact() {
 
       <div>
         <label htmlFor="empresa" className="block text-sm font-medium text-gray-700 mb-2">
-          Empresa
+          Empresa <span className="text-red-500">*</span>
         </label>
         <input
           type="text"
@@ -106,7 +106,7 @@ export default function FormContact() {
 
       <div>
         <label htmlFor="ruc" className="block text-sm font-medium text-gray-700 mb-2">
-          RUC
+          RUC <span className="text-red-500">*</span>
         </label>
         <input
           type="text"
@@ -121,7 +121,7 @@ export default function FormContact() {
 
       <div>
         <label htmlFor="servicio" className="block text-sm font-medium text-gray-700 mb-2">
-          Servicio de interés
+          Servicio de interés <span className="text-red-500">*</span>
         </label>
         <select
           id="servicio"
@@ -145,7 +145,7 @@ export default function FormContact() {
 
       <div>
         <label htmlFor="telefono" className="block text-sm font-medium text-gray-700 mb-2">
-          Teléfono
+          Teléfono <span className="text-red-500">*</span>
         </label>
         <input
           type="tel"
@@ -161,7 +161,7 @@ export default function FormContact() {
 
       <div>
         <label htmlFor="mensaje" className="block text-sm font-medium text-gray-700 mb-2">
-          Mensaje
+          Mensaje <span className="text-red-500">*</span>
         </label>
         <textarea
           id="mensaje"
