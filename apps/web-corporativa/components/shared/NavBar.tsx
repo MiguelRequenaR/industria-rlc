@@ -37,8 +37,8 @@ export default function NavBar() {
         <div className="flex items-center justify-between gap-4 w-full md:w-auto md:justify-start">
           <Link href="/">
             <div className="flex items-center gap-2">
-              <Image src="/RLCLOGOCORP.png" alt="logo" width={64} height={64} />
-              <h1 className="text-2xl font-bold text-white uppercase">Industria RLC</h1>
+              <Image src="/RLCLOGOCORP.png" alt="Logo de Industria RLC - Servicios Eléctricos Integrales" width={64} height={64} />
+              <span className="text-2xl font-bold text-white uppercase">Industria RLC</span>
             </div>
           </Link>
           
@@ -123,7 +123,7 @@ export default function NavBar() {
       >
         {/* Close button */}
         <div className="flex justify-between items-center p-5">
-          <h1 className="text-2xl font-bold text-white uppercase">Industria RLC</h1>
+          <span className="text-2xl font-bold text-white uppercase">Industria RLC</span>
           <button
             onClick={() => setMenuOpen(false)}
             className="text-white"

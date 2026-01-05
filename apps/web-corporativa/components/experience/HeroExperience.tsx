@@ -16,9 +16,9 @@ export default function HeroExperience() {
             <div className="flex items-start space-x-5">
               <div className="h-full w-1 bg-white rounded" style={{ minHeight: "80px" }} />
               <div>
-                <h2 className="text-white text-4xl font-semibold">
-                  Experiencia
-                </h2>
+                <h1 className="text-white text-4xl font-semibold">
+                  Nuestra Experiencia
+                </h1>
                 <p className="text-lg text-white font-semibold mt-5">
                   Te acompañamos con soluciones de ingenería de alta calidad.
                 </p>

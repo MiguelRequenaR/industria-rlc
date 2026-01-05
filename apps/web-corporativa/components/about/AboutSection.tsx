@@ -8,7 +8,7 @@ export default function AboutSection() {
       className="grid grid-cols-1 md:grid-cols-2 gap-10">
         <div
         className="flex justify-center items-center" data-aos="fade-up">
-          <Image src="/RLCLOGOCORP.png" alt="logo" width={300} height={300} />
+          <Image src="/RLCLOGOCORP.png" alt="Logo de Industria RLC - Servicios Eléctricos Integrales" width={300} height={300} loading="lazy" />
         </div>
         <div
         className="flex flex-col justify-center items-center" data-aos="fade-up" data-aos-delay="100">

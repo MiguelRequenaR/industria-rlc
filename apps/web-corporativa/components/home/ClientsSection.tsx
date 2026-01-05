@@ -39,6 +39,7 @@ export default function ClientsSection() {
                     alt={client.name}
                     width={150}
                     height={80}
+                    loading='lazy'
                     className='w-full h-auto object-contain max-h-16'
                   />
                 </div>

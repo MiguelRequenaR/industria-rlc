@@ -121,6 +121,7 @@ export default function ServicesSection() {
                             src={areaTrabajo.image}
                             alt={areaTrabajo.name}
                             className="w-full h-full object-cover"
+                            loading="lazy"
                             width={500}
                             height={500}
                           />
@@ -136,11 +137,11 @@ export default function ServicesSection() {
                           />
 
                           <div className="absolute bottom-0 left-0 w-full z-10 group-hover:-translate-y-[165px] transition-transform duration-500 ease-in-out">
-                            <h2
+                            <h3
                               className="relative bg-primary/80 text-white text-2xl font-light w-full py-4 text-center"
                             >
                               {areaTrabajo.name}
-                            </h2>
+                            </h3>
 
                             <p className="
                               relative text-white text-center mx-4
@@ -182,8 +183,8 @@ export default function ServicesSection() {
             className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div
               className="bg-white row-span-2 rounded-2xl md:row-span-2 flex flex-col justify-center items-center py-10 md:py-0 px-4 space-y-10" data-aos="fade-up">
-              <h2
-              className="text-2xl font-semibold uppercase text-center text-primary">Servicios Destacados</h2>
+              <h3
+              className="text-2xl font-semibold uppercase text-center text-primary">Servicios Destacados</h3>
               <p
               className="text-center text-primary text-lg">
                 Nuestro compromiso es encontrar la solución perfecta acorde a las necesidades de tu proyecto.
@@ -204,18 +205,19 @@ export default function ServicesSection() {
               >
                 <Image
                   src="https://images.unsplash.com/photo-1576446470246-499c738d1c8e?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  alt="Servicios Eléctricos Integrales"
+                  alt="Servicios Eléctricos Integrales - Instalaciones eléctricas en alta y baja tensión"
+                  loading="lazy"
                   width={370}
                   height={400}
                   className="rounded-2xl"
                 />
-                <h2 className="absolute inset-0 flex items-center justify-center text-xl font-bold text-white rounded-2xl overflow-hidden">
+                <h4 className="absolute inset-0 flex items-center justify-center text-xl font-bold text-white rounded-2xl overflow-hidden">
                   <span className="absolute inset-0 bg-black/40 rounded-2xl z-0" />
                   <span className="absolute inset-0 bg-primary/70 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-in-out pointer-events-none rounded-2xl z-10" />
                   <span className="relative z-20 transition-colors duration-500 font-semibold uppercase">
                     Servicios Eléctricos Integrales
                   </span>
-                </h2>
+                </h4>
               </Link>
             </div>
             <div className="rounded-2xl flex flex-col items-center" data-aos="fade-up" data-aos-delay="200">
@@ -226,18 +228,19 @@ export default function ServicesSection() {
               >
                 <Image
                   src="https://images.unsplash.com/photo-1562324771-4fb277001e1a?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  alt="Construcción y Acabados"
+                  alt="Construcción y Acabados - Obras civiles, remodelaciones y acabados de calidad"
+                  loading="lazy"
                   width={500}
                   height={500}
                   className="rounded-2xl w-full h-full object-cover"
                 />
-                <h2 className="absolute inset-0 flex items-center justify-center text-xl font-bold text-white rounded-2xl overflow-hidden">
+                <h4 className="absolute inset-0 flex items-center justify-center text-xl font-bold text-white rounded-2xl overflow-hidden">
                   <span className="absolute inset-0 bg-black/40 rounded-2xl z-0" />
                   <span className="absolute inset-0 bg-primary/70 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-in-out pointer-events-none rounded-2xl z-10" />
                   <span className="relative z-20 transition-colors duration-500 font-semibold uppercase">
                     Construcción y Acabados
                   </span>
-                </h2>
+                </h4>
               </Link>
             </div>
             <div className="rounded-2xl flex flex-col items-center" data-aos="fade-up" data-aos-delay="300">
@@ -248,18 +251,19 @@ export default function ServicesSection() {
               >
                 <Image
                   src="https://images.unsplash.com/photo-1584809923235-fabdba83d1df?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  alt="Sistemas Eléctricos"
+                  alt="Tecnología y Automatización - Domótica y sistemas inteligentes"
+                  loading="lazy"
                   width={500}
                   height={500}
                   className="rounded-2xl"
                 />
-                <h2 className="absolute inset-0 flex items-center justify-center text-xl font-bold text-white rounded-2xl overflow-hidden">
+                <h4 className="absolute inset-0 flex items-center justify-center text-xl font-bold text-white rounded-2xl overflow-hidden">
                   <span className="absolute inset-0 bg-black/40 rounded-2xl z-0" />
                   <span className="absolute inset-0 bg-primary/70 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-in-out pointer-events-none rounded-2xl z-10" />
                   <span className="relative z-20 transition-colors duration-500 font-semibold uppercase">
                     Sistemas Eléctricos
                   </span>
-                </h2>
+                </h4>
               </Link>
             </div>
             <div className="rounded-2xl flex flex-col items-center" data-aos="fade-up" data-aos-delay="400">
@@ -270,18 +274,19 @@ export default function ServicesSection() {
               >
                 <Image
                   src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  alt="Ingeniería y Gestión de Proyectos"
+                  alt="Ingeniería y Gestión de Proyectos - Asesoría profesional y cumplimiento de normativas"
+                  loading="lazy"
                   width={500}
                   height={500}
                   className="rounded-2xl"
                 />
-                <h2 className="absolute inset-0 flex items-center justify-center text-xl font-bold text-white rounded-2xl overflow-hidden">
+                <h4 className="absolute inset-0 flex items-center justify-center text-xl font-bold text-white rounded-2xl overflow-hidden">
                   <span className="absolute inset-0 bg-black/40 rounded-2xl z-0" />
                   <span className="absolute inset-0 bg-primary/70 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-in-out pointer-events-none rounded-2xl z-10" />
                   <span className="relative z-20 transition-colors duration-500 font-semibold uppercase">
                     Ingeniería y Gestión de Proyectos
                   </span>
-                </h2>
+                </h4>
               </Link>
             </div>
           </div>

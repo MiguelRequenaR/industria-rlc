@@ -1,0 +1,64 @@
+import { MetadataRoute } from 'next'
+import { servicesData } from '@/lib/services-data'
+import { experienceData } from '@/lib/experience-data'
+
+export default function sitemap(): MetadataRoute.Sitemap {
+  const baseUrl = 'https://industriarlc.com'
+  
+  const staticPages = [
+    {
+      url: baseUrl,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 1,
+    },
+    {
+      url: `${baseUrl}/nosotros`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly' as const,
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/servicios`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/experiencia`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/contacto`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly' as const,
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/libro-reclamaciones`,
+      lastModified: new Date(),
+      changeFrequency: 'yearly' as const,
+      priority: 0.5,
+    },
+  ]
+
+  const servicePages = servicesData.flatMap(service => 
+    service.subServices.map(subService => ({
+      url: `${baseUrl}/servicios/${subService.id}`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly' as const,
+      priority: 0.7,
+    }))
+  )
+
+  const experiencePages = experienceData.map(exp => ({
+    url: `${baseUrl}/experiencia/${exp.id}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly' as const,
+    priority: 0.6,
+  }))
+
+  return [...staticPages, ...servicePages, ...experiencePages]
+}

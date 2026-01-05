@@ -85,9 +85,9 @@ export default function HeroHome() {
 
             <div className="relative z-10 flex justify-center w-full h-full" data-aos="fade-up">
               <div className="flex flex-col max-w-7xl w-full px-4 md:px-0 justify-center">
-                <h1 className="text-white text-3xl md:text-7xl font-bold mb-4 drop-shadow-lg uppercase whitespace-pre-line">
+                <h2 className="text-white text-3xl md:text-7xl font-bold mb-4 drop-shadow-lg uppercase whitespace-pre-line">
                   {slide.title}
-                </h1>
+                </h2>
                 <p className="text-white text-2xl mb-6 drop-shadow whitespace-pre-line">
                   {slide.description}
                 </p>
