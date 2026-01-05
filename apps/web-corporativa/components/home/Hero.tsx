@@ -60,7 +60,7 @@ export default function HeroHome() {
   }, [currentIndex]);
 
   return (
-    <section className="relative w-full h-[60vh] min-h-80 flex items-center overflow-hidden">
+    <section className="relative w-full h-[70vh] min-h-80 flex items-center overflow-hidden pt-24">
       {/* Contenedor de slides */}
       <div
         className="flex w-full h-full transition-transform duration-700 ease-in-out"
@@ -80,6 +80,7 @@ export default function HeroHome() {
               className="object-cover"
               sizes="100vw"
               priority={slide.id === 1}
+              style={{ objectFit: 'cover' }}
             />
             <div className="absolute inset-0 bg-black/40"></div>
 

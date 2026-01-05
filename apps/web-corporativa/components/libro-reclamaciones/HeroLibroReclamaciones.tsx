@@ -2,7 +2,7 @@ import { BookOpen } from 'lucide-react'
 
 export default function HeroLibroReclamaciones() {
   return (
-    <section className="relative pt-32 pb-20 px-4 bg-linear-to-br from-primary to-primary/90 text-white overflow-hidden">
+    <section className="relative pt-40 pb-20 px-4 bg-linear-to-br from-primary to-primary/90 text-white overflow-hidden">
       
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="text-center" data-aos="fade-up">

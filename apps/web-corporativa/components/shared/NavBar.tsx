@@ -1,11 +1,98 @@
 "use client"
 import { useState } from "react"
-import { Menu, X, Mail, Phone} from "lucide-react"
+import { Menu, X, Mail, Phone, Search } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
+import { useRouter } from "next/navigation"
+import { servicesData } from "@/lib/services-data"
+import { experienceData } from "@/lib/experience-data"
+
+interface SearchResult {
+  type: 'service' | 'experience';
+  title: string;
+  description: string;
+  slug: string;
+  parentSlug?: string;
+}
 
 export default function NavBar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
+  const [showResults, setShowResults] = useState(false);
+  const router = useRouter();
+
+  // Función para cerrar los resultados con un pequeño delay
+  const handleBlur = () => {
+    setTimeout(() => {
+      setShowResults(false);
+    }, 200);
+  };
+
+  // Función de búsqueda
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+    
+    if (query.trim().length < 2) {
+      setSearchResults([]);
+      setShowResults(false);
+      return;
+    }
+
+    const results: SearchResult[] = [];
+    const lowerQuery = query.toLowerCase();
+
+    // Buscar en servicios
+    servicesData.forEach(service => {
+      service.subServices.forEach(subService => {
+        if (
+          subService.title.toLowerCase().includes(lowerQuery) ||
+          subService.description.toLowerCase().includes(lowerQuery) ||
+          subService.detailedDescription?.toLowerCase().includes(lowerQuery)
+        ) {
+          results.push({
+            type: 'service',
+            title: subService.title,
+            description: subService.description,
+            slug: subService.slug,
+            parentSlug: service.slug
+          });
+        }
+      });
+    });
+
+    // Buscar en experiencias
+    experienceData.forEach(experience => {
+      if (
+        experience.title.toLowerCase().includes(lowerQuery) ||
+        experience.description.toLowerCase().includes(lowerQuery) ||
+        experience.client.toLowerCase().includes(lowerQuery) ||
+        experience.location.toLowerCase().includes(lowerQuery)
+      ) {
+        results.push({
+          type: 'experience',
+          title: experience.title,
+          description: experience.description,
+          slug: experience.slug
+        });
+      }
+    });
+
+    setSearchResults(results);
+    setShowResults(results.length > 0);
+  };
+
+  // Navegar al resultado seleccionado
+  const handleResultClick = (result: SearchResult) => {
+    if (result.type === 'service') {
+      router.push(`/servicios/${result.slug}`);
+    } else {
+      router.push(`/experiencia/${result.slug}`);
+    }
+    setSearchQuery("");
+    setSearchResults([]);
+    setShowResults(false);
+  };
 
   const links = [
     {
@@ -31,13 +118,19 @@ export default function NavBar() {
   ];
 
   return (
-    <header className="bg-primary relative">
+    <header className="bg-primary fixed top-0 left-0 right-0 z-50 shadow-lg">
       {/* Desktop */}
       <div className="max-w-7xl mx-auto flex flex-col justify-between items-center py-5 px-4 md:px-0">
         <div className="flex items-center justify-between gap-4 w-full md:w-auto md:justify-start">
           <Link href="/">
             <div className="flex items-center gap-2">
-              <Image src="/RLCLOGOCORP.png" alt="Logo de Industria RLC - Servicios Eléctricos Integrales" width={64} height={64} />
+              <Image 
+                src="/RLCLOGOCORP.png" 
+                alt="Logo de Industria RLC - Servicios Eléctricos Integrales" 
+                width={64} 
+                height={64}
+                className="w-16 h-16"
+              />
               <span className="text-2xl font-bold text-white uppercase">Industria RLC</span>
             </div>
           </Link>
@@ -51,9 +144,56 @@ export default function NavBar() {
             <Menu className="w-7 h-7" />
           </button>
 
-          <div className="hidden md:flex bg-secondary rounded-full items-center">
-            <input type="text" placeholder="Buscar..." className="w-100 bg-white h-10 rounded-full border border-white px-4 text-secondary focus:outline-none" />
-            <span className="text-white px-4 flex items-center gap-2">
+          <div className="hidden md:flex items-center gap-4">
+            {/* Barra de búsqueda */}
+            <div className="relative">
+              <div className="flex items-center bg-white rounded-full border border-white">
+                <Search className="w-4 h-4 text-secondary ml-3" />
+                <input
+                  type="text"
+                  placeholder="Buscar servicios o experiencias..."
+                  value={searchQuery}
+                  onChange={(e) => handleSearch(e.target.value)}
+                  onFocus={() => searchResults.length > 0 && setShowResults(true)}
+                  onBlur={handleBlur}
+                  className="w-80 bg-white h-10 rounded-full px-3 text-secondary focus:outline-none"
+                />
+              </div>
+
+              {/* Resultados de búsqueda */}
+              {showResults && searchResults.length > 0 && (
+                <div className="absolute top-full mt-2 w-full bg-white rounded-lg shadow-xl max-h-96 overflow-y-auto z-50 border border-gray-200">
+                  {searchResults.map((result, index) => (
+                    <div
+                      key={`${result.type}-${result.slug}-${index}`}
+                      onClick={() => handleResultClick(result)}
+                      className="p-4 hover:bg-gray-100 cursor-pointer border-b border-gray-100 last:border-b-0 transition-colors"
+                    >
+                      <div className="flex items-start gap-3">
+                        <span className={`text-xs font-semibold px-2 py-1 rounded-full ${
+                          result.type === 'service' 
+                            ? 'bg-blue-100 text-blue-700' 
+                            : 'bg-green-100 text-green-700'
+                        }`}>
+                          {result.type === 'service' ? 'Servicio' : 'Experiencia'}
+                        </span>
+                        <div className="flex-1">
+                          <h3 className="font-semibold text-secondary text-sm mb-1">
+                            {result.title}
+                          </h3>
+                          <p className="text-xs text-gray-600 line-clamp-2">
+                            {result.description}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Información de contacto */}
+            <span className="text-white px-4 flex items-center gap-2 bg-secondary rounded-full h-10">
               <Phone className="w-4 h-4" />
               <a
                 href="tel:+51940162009"
@@ -133,7 +273,59 @@ export default function NavBar() {
           </button>
         </div>
         {/* Mobile nav */}
-        <nav className="flex-1 flex flex-col items-center justify-center">
+        <nav className="flex-1 flex flex-col items-center justify-center px-5">
+          {/* Barra de búsqueda móvil */}
+          <div className="w-full mb-8">
+            <div className="relative">
+              <div className="flex items-center bg-white rounded-full border border-white">
+                <Search className="w-4 h-4 text-secondary ml-3" />
+                <input
+                  type="text"
+                  placeholder="Buscar..."
+                  value={searchQuery}
+                  onChange={(e) => handleSearch(e.target.value)}
+                  onFocus={() => searchResults.length > 0 && setShowResults(true)}
+                  onBlur={handleBlur}
+                  className="w-full bg-white h-10 rounded-full px-3 text-secondary focus:outline-none"
+                />
+              </div>
+
+              {/* Resultados de búsqueda móvil */}
+              {showResults && searchResults.length > 0 && (
+                <div className="absolute top-full mt-2 w-full bg-white rounded-lg shadow-xl max-h-80 overflow-y-auto z-50 border border-gray-200">
+                  {searchResults.map((result, index) => (
+                    <div
+                      key={`${result.type}-${result.slug}-mobile-${index}`}
+                      onClick={() => {
+                        handleResultClick(result);
+                        setMenuOpen(false);
+                      }}
+                      className="p-4 hover:bg-gray-100 cursor-pointer border-b border-gray-100 last:border-b-0 transition-colors"
+                    >
+                      <div className="flex items-start gap-3">
+                        <span className={`text-xs font-semibold px-2 py-1 rounded-full ${
+                          result.type === 'service' 
+                            ? 'bg-blue-100 text-blue-700' 
+                            : 'bg-green-100 text-green-700'
+                        }`}>
+                          {result.type === 'service' ? 'Servicio' : 'Experiencia'}
+                        </span>
+                        <div className="flex-1">
+                          <h3 className="font-semibold text-secondary text-sm mb-1">
+                            {result.title}
+                          </h3>
+                          <p className="text-xs text-gray-600 line-clamp-2">
+                            {result.description}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+
           <ul className="flex flex-col gap-8 text-white text-2xl font-semibold">
             {links.map((item) => (
               <li key={item.label}>
