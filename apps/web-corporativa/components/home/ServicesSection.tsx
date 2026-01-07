@@ -31,7 +31,7 @@ const areasTrabajo = [
 export default function ServicesSection() {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [cardsPerSlide, setCardsPerSlide] = useState(3)
-  
+
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 768) {
@@ -68,9 +68,10 @@ export default function ServicesSection() {
       <div
         className="max-w-7xl mx-auto px-4 md:px-0">
         <div data-aos="fade-up">
-          <h2 className="text-center text-primary text-3xl font-light uppercase">
-            Sectores de Trabajo
+          <h2 className="text-center text-primary text-3xl font-bold uppercase">
+            Sectores<span className="text-secondary"> de Trabajo</span>
           </h2>
+          <hr className="w-50 border-t-2 mx-auto border-secondary" />
         </div>
 
         <div className="relative mt-10" data-aos="fade-up" data-aos-delay="100">
@@ -105,11 +106,10 @@ export default function ServicesSection() {
             >
               {Array.from({ length: totalSlides }).map((_, slideIndex) => (
                 <div key={slideIndex} className="min-w-full">
-                  <div className={`grid gap-4 ${
-                    cardsPerSlide === 1 ? 'grid-cols-1' : 
-                    cardsPerSlide === 2 ? 'grid-cols-2' : 
-                    'grid-cols-3'
-                  }`}>
+                  <div className={`grid gap-4 ${cardsPerSlide === 1 ? 'grid-cols-1' :
+                      cardsPerSlide === 2 ? 'grid-cols-2' :
+                        'grid-cols-3'
+                    }`}>
                     {areasTrabajo
                       .slice(slideIndex * cardsPerSlide, slideIndex * cardsPerSlide + cardsPerSlide)
                       .map((areaTrabajo) => (
@@ -168,8 +168,8 @@ export default function ServicesSection() {
                   key={index}
                   onClick={() => goToSlide(index)}
                   className={`h-3 rounded-full transition-all ${index === currentSlide
-                      ? "bg-primary w-8"
-                      : "bg-gray-300 hover:bg-gray-400 w-3"
+                    ? "bg-primary w-8"
+                    : "bg-gray-300 hover:bg-gray-400 w-3"
                     }`}
                   aria-label={`Ir al grupo ${index + 1}`}
                 />
@@ -183,15 +183,18 @@ export default function ServicesSection() {
             className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div
               className="bg-white row-span-2 rounded-2xl md:row-span-2 flex flex-col justify-center items-center py-10 md:py-0 px-4 space-y-10" data-aos="fade-up">
-              <h3
-              className="text-2xl font-semibold uppercase text-center text-primary">Servicios Destacados</h3>
+              <div>
+                <h3
+                  className="text-2xl font-bold uppercase text-center text-primary">Servicios <span className="text-secondary">Destacados</span></h3>
+                <hr className="w-50 border-t-2 mx-auto border-secondary" />
+              </div>
               <p
-              className="text-center text-primary text-lg">
+                className="text-center text-primary text-lg">
                 Nuestro compromiso es encontrar la solución perfecta acorde a las necesidades de tu proyecto.
               </p>
-              <Link href="/servicios" 
-                className="relative w-fit overflow-hidden bg-primary text-white px-5 py-2 uppercase cursor-pointer border border-primary group transition-colors duration-500 hover:text-primary rounded-full">
-                <span className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-in-out pointer-events-none" />
+              <Link href="/servicios"
+                className="relative w-fit overflow-hidden bg-primary text-white px-5 py-2 uppercase cursor-pointer group transition-colors duration-500 hover:text-white rounded-full">
+                <span className="absolute inset-0 bg-secondary translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-in-out pointer-events-none" />
                 <span className="relative z-10 transition-colors duration-500">
                   Ver Servicios
                 </span>

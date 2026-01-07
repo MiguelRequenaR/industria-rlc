@@ -54,9 +54,10 @@ export default function ClientSection() {
       <div
         className="max-w-7xl mx-auto">
         <div data-aos="fade-up">
-          <h2 className="text-3xl text-center text-primary uppercase font-light">
-            Principios
+          <h2 className="text-3xl text-center text-primary uppercase font-bold">
+            Nuestros <span className="text-secondary">Principios</span>
           </h2>
+          <hr className="w-50 border-t-2 mx-auto border-secondary" />
         </div>
         <div
           className="grid grid-cols-2 md:grid-cols-5 gap-5" data-aos="fade-up" data-aos-delay="100">
@@ -64,7 +65,7 @@ export default function ClientSection() {
             principles.map((principle) => (
               <div
                 key={principle.id}
-                className="flex flex-col justify-center items-center gap-2 pt-10">
+                className="flex flex-col justify-center items-center gap-2 pt-10 hover:scale-110 transition-all duration-500 ease-in-out">
                 <div
                   className="w-16 h-16 bg-primary rounded-full flex items-center justify-center text-white">
                   {principle.icon}
@@ -82,10 +83,13 @@ export default function ClientSection() {
           className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center justify-center py-20">
           <div
             className="space-y-5" data-aos="fade-right">
-            <h2
-              className="text-3xl text-center text-primary uppercase font-light">
-              Carta a nuestros clientes
-            </h2>
+            <div>
+              <h2
+                className="text-3xl text-center text-primary uppercase font-bold">
+                Carta a <span className="text-secondary"> nuestros clientes</span>
+              </h2>
+              <hr className="w-50 border-t-2 mx-auto border-secondary" />
+            </div>
             <p
               className="text-primary text-lg font-light text-center md:text-left mx-4 md:mx-0">
               Parte de nuestra misión es desarrollar sistemas eléctricos confiables, mantenerlo optimizado con nuevas tecnologías, a través de una atención personalizada y eficiente.
@@ -100,7 +104,7 @@ export default function ClientSection() {
               <br /> <br />
               Con aprecio,
               <br /> <br />
-              <span className="font-bold">
+              <span className="font-bold text-secondary">
                 Industria RLC
               </span>
             </p>
@@ -116,12 +120,12 @@ export default function ClientSection() {
               <div
                 key={substat.id}>
                 <div>
-                  <h3 className="text-3xl font-semibold text-center text-white">
+                  <h3 className="text-3xl font-semibold text-center text-secondary">
                     {substat.title}
                   </h3>
                 </div>
                 <div>
-                  <p className="text-white text-lg font-light text-center">
+                  <p className="text-secondary text-lg font-bold text-center">
                     {substat.description}
                   </p>
                 </div>

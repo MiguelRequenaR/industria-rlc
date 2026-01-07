@@ -41,14 +41,14 @@ export default function Footer() {
           <div className="flex flex-col items-center md:items-start md:text-left">
             <div className="mb-4 flex justify-center md:justify-start w-full">
               <Image
-                src="/RLCLOGOCORP.png"
-                alt="RLC Logo"
-                width={120}
-                height={120}
-                className="w-24 h-24 object-contain mx-auto md:mx-0"
+                src="/logoPNG.png"
+                alt="Logo de la empresa Industria RLC"
+                width={150}
+                height={150}
+                className="object-contain mx-auto md:mx-0"
               />
             </div>
-            <h3 className="text-xl font-bold mb-2 text-center md:text-left">
+            <h3 className="text-xl uppercase text-secondary font-bold mb-2 text-center md:text-left">
               Industria RLC
             </h3>
             <p className="text-gray-300 text-sm text-center md:text-left">
@@ -58,13 +58,13 @@ export default function Footer() {
 
           {/* Columna 2: Enlaces */}
           <div>
-            <h4 className="text-lg font-bold mb-4 text-center md:text-left">Enlaces Rápidos</h4>
+            <h4 className="text-lg font-bold mb-4 text-center md:text-left text-secondary">Enlaces Rápidos</h4>
             <ul className="space-y-2 flex flex-col items-center md:items-start">
               {enlaces.map((enlace, index) => (
                 <li key={index}>
                   <Link 
                     href={enlace.url}
-                    className="text-gray-300 hover:text-white transition-colors duration-200"
+                    className="text-gray-300 hover:text-secondary hover:underline transition-colors duration-200"
                   >
                     {enlace.nombre}
                   </Link>
@@ -76,8 +76,8 @@ export default function Footer() {
           {/* Columna 3: Horario, Redes Sociales y Libro de Reclamaciones */}
           <div>
             <div className="mb-6">
-              <h4 className="text-lg font-bold mb-3 flex items-center gap-2 justify-center md:justify-start">
-                <Clock size={20} />
+              <h4 className="text-lg font-bold mb-3 flex items-center gap-2 justify-center md:justify-start text-secondary">
+                <Clock size={20} className="text-secondary" />
                 Horario de Atención
               </h4>
               <p className="text-gray-300 text-sm text-center md:text-left">
@@ -89,7 +89,7 @@ export default function Footer() {
             </div>
 
             <div className="mb-6">
-              <h4 className="text-lg font-bold mb-3 text-center md:text-left">Síguenos</h4>
+              <h4 className="text-lg font-bold mb-3 text-center md:text-left text-secondary">Síguenos</h4>
               <div className="flex gap-3 justify-center md:justify-start">
                 {redesSociales.map((red, index) => {
                   const Icon = red.icon
@@ -125,7 +125,7 @@ export default function Footer() {
 
           {/* Columna 4: Sugerencias o Denuncias */}
           <div>
-            <h4 className="text-lg font-bold mb-4 text-center md:text-left">Sugerencias o Denuncias</h4>
+            <h4 className="text-lg font-bold mb-4 text-center md:text-left text-secondary">Sugerencias o Denuncias</h4>
             <p className="text-gray-300 text-sm mb-4 text-center md:text-left">
               Envíanos tus comentarios o denuncias de forma confidencial
             </p>

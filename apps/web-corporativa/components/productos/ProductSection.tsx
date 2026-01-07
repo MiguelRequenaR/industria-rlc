@@ -8,63 +8,54 @@ const products = [
     name: 'Cables y Conductores',
     icon: <Plug2 />,
     image: '/cables-conductores.webp',
-    bgColor: 'bg-primary'
   },
   {
     id: 2,
     name: 'Iluminación',
     icon: <Lightbulb />,
     image: '/iluminacion.webp',
-    bgColor: 'bg-primary/80'
   },
   {
     id: 3,
     name: 'Interruptores y Tomacorrientes',
     icon: <CirclePower />,
     image: '/interruptores-tomacorriente.webp',
-    bgColor: 'bg-orange-400/70'
   },
   {
     id: 4,
     name: 'Automatización y Control',
     icon: <Workflow />,
     image: '/automatizacion-control.webp',
-    bgColor: 'bg-green-900/70'
   },
   {
     id: 5,
     name: 'Protección Electrica',
     icon: <ShieldCheck />,
     image: '/proteccion-electrica.webp',
-    bgColor: 'bg-blue-900/70'
   },
   {
     id: 6,
     name: 'Puesta a Tierra',
     icon: <ShieldCheck />,
     image: '/puesta-tierra.webp',
-    bgColor: 'bg-red-900/70'
   },
   {
     id: 7,
     name: 'Herramientas Electricas',
     icon: <Hammer />,
     image: '/herramientas.webp',
-    bgColor: 'bg-purple-900/70'
   },
   {
     id: 8,
     name: 'Accesorios Consumibles',
     icon: <Box />,
     image: '/accesorios.webp',
-    bgColor: 'bg-indigo-400'
   },
   {
     id: 9,
     name: 'Energía y Respaldo',
     icon: <BatteryCharging />,
     image: '/energia-respaldo.webp',
-    bgColor: 'bg-orange-900/70'
   },
 ]
 
@@ -129,31 +120,31 @@ export default function ProductSection() {
         {/* Info */}
         <div className="flex flex-col gap-2 w-full">
           <div className="bg-primary p-5 md:p-7 rounded-none md:rounded-r-2xl">
-            <h2 className="text-white text-2xl md:text-3xl font-semibold text-center md:text-left">
+            <h2 className="text-secondary text-2xl font-semibold text-center md:text-left uppercase">
               Catálogo de Materiales Eléctricos
             </h2>
           </div>
           <div className="flex flex-col md:flex-row bg-primary p-4 md:p-6 rounded-none md:rounded-r-2xl gap-3 md:gap-2 md:space-x-6 space-x-0">
             <div className="flex items-center gap-2 justify-center md:justify-start">
-              <CheckCircle2 className="text-white" />
+              <CheckCircle2 className="text-secondary" />
               <p className="text-white text-lg md:text-xl font-semibold">
                 Hogar
               </p>
             </div>
             <div className="flex items-center gap-2 justify-center md:justify-start">
-              <CheckCircle2 className="text-white" />
+              <CheckCircle2 className="text-secondary" />
               <p className="text-white text-lg md:text-xl font-semibold">
                 Comercial
               </p>
             </div>
             <div className="flex items-center gap-2 justify-center md:justify-start">
-              <Phone className="text-white" />
+              <Phone className="text-secondary" />
               <a href="tel:+51940162009" className="text-white text-lg md:text-xl font-semibold">
                 +51 940 162 009
               </a>
             </div>
             <div className="flex items-center gap-2 justify-center md:justify-start">
-              <Globe className="text-white" />
+              <Globe className="text-secondary" />
               <a href="https://www.industrialrlc.com" className="text-white text-lg md:text-xl font-semibold break-all">
                 www.industrialrlc.com
               </a>
@@ -165,12 +156,12 @@ export default function ProductSection() {
         className='grid grid-cols-1 md:grid-cols-3 gap-5 pt-20 mx-4 md:mx-0' data-aos="fade-up" data-aos-delay={100}>
         {
           products.map((product) => (
-            <div className='shadow-2xl rounded-2xl overflow-hidden group' key={product.id}>
-              <div className={`flex items-center gap-2 ${product.bgColor} p-5`}>
-                <span className='text-white'>
+            <div className='shadow-lg rounded-2xl overflow-hidden group' key={product.id}>
+              <div className="flex items-center gap-2 bg-primary p-5">
+                <span className='text-secondary'>
                   {product.icon}
                 </span>
-                <h3 className='text-white text-xl font-semibold'>
+                <h3 className='text-secondary text-xl font-semibold'>
                   {product.name}
                 </h3>
               </div>

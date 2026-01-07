@@ -14,10 +14,18 @@ export default function ServicesPage() {
         services.map((service) => (
           <div key={service.id}
             className="mb-16">
-            <h2
-              className="text-center text-3xl font-light uppercase text-primary mb-4" data-aos="fade-up">
-              {service.title}
-            </h2>
+            <div className="mb-4">
+              <h2
+                className="text-center text-3xl font-bold uppercase text-primary" data-aos="fade-up">
+                <span className="text-primary">
+                  {service.title.split(" ")[0]}
+                </span>{" "}
+                <span className="text-secondary">
+                  {service.title.split(" ").slice(1).join(" ")}
+                </span>
+              </h2>
+              <hr className="w-50 border-t-2 mx-auto border-secondary" />
+            </div>
             <p
               className="text-center text-lg text-primary mb-8" data-aos="fade-up" data-aos-delay="100">
               {service.description}
@@ -26,7 +34,7 @@ export default function ServicesPage() {
               className="grid grid-cols-1 md:grid-cols-3 gap-4" data-aos="fade-up" data-aos-delay="200">
               {
                 service.subServices.map((subService) => (
-                  <Link 
+                  <Link
                     key={subService.id}
                     href={`/servicios/${subService.slug}`}
                     className="relative w-full h-[400px] overflow-hidden group cursor-pointer block"

@@ -122,26 +122,25 @@ export default function NavBar() {
   ];
 
   return (
-    <header className="bg-primary fixed top-0 left-0 right-0 z-50 shadow-lg">
+    <header className="bg-white fixed top-0 left-0 right-0 z-50 shadow-lg">
       {/* Desktop */}
       <div className="max-w-7xl mx-auto flex flex-col justify-between items-center py-5 px-4 md:px-0">
         <div className="flex items-center justify-between gap-4 w-full md:w-auto md:justify-start">
           <Link href="/">
             <div className="flex items-center gap-2">
               <Image 
-                src="/RLCLOGOCORP.png" 
+                src="/logoPNG.png" 
                 alt="Logo de Industria RLC - Servicios Eléctricos Integrales" 
-                width={64} 
-                height={64}
-                className="w-16 h-16"
+                width={80} 
+                height={80}
+                loading="lazy"
               />
-              <span className="text-2xl font-bold text-white uppercase">Industria RLC</span>
             </div>
           </Link>
           
           {/* Botón hamburguesa para móvil */}
           <button
-            className="md:hidden flex items-center justify-center text-white"
+            className="md:hidden flex items-center justify-center text-primary"
             onClick={() => setMenuOpen(true)}
             aria-label="Abrir menú"
           >
@@ -151,8 +150,8 @@ export default function NavBar() {
           <div className="hidden md:flex items-center gap-4">
             {/* Barra de búsqueda */}
             <div className="relative">
-              <div className="flex items-center bg-white rounded-full border border-white">
-                <Search className="w-4 h-4 text-secondary ml-3" />
+              <div className="flex items-center rounded-full border border-secondary ">
+                <Search className="w-4 h-4 text-secondary mx-3" />
                 <input
                   type="text"
                   placeholder="Buscar servicios o experiencias..."
@@ -160,7 +159,7 @@ export default function NavBar() {
                   onChange={(e) => handleSearch(e.target.value)}
                   onFocus={() => searchResults.length > 0 && setShowResults(true)}
                   onBlur={handleBlur}
-                  className="w-80 bg-white h-10 rounded-full px-3 text-secondary focus:outline-none"
+                  className="w-80  h-10 rounded-fullpx-3 text-secondary focus:outline-none"
                 />
               </div>
 
@@ -218,7 +217,7 @@ export default function NavBar() {
         </div>
         <div className="flex items-center gap-4 mt-5">
           <nav className="hidden md:block">
-            <ul className="text-white flex gap-20 font-semibold">
+            <ul className="text-primary flex gap-15 font-semibold">
               {links.map((item) => (
                 <li key={item.label}>
                   <Link
@@ -235,7 +234,7 @@ export default function NavBar() {
           <div className="hidden md:block ml-20">
             <Link href="/contacto">
               <button
-                className="relative overflow-hidden bg-primary text-white px-5 py-2 uppercase cursor-pointer border border-white group transition-colors duration-500 rounded-full"
+                className="relative overflow-hidden bg-primary text-white px-5 py-2 uppercase cursor-pointer group transition-colors duration-500 rounded-full"
               >
                 <span
                   className="
@@ -330,12 +329,12 @@ export default function NavBar() {
             </div>
           </div>
 
-          <ul className="flex flex-col gap-8 text-white text-2xl font-semibold">
+          <ul className="flex flex-col gap-8 text-white text-lg font-semibold">
             {links.map((item) => (
               <li key={item.label}>
                 <Link
                   href={item.link}
-                  className="relative group cursor-pointer transition-colors duration-300 hover:text-secondary uppercase"
+                  className="relative group cursor-pointer transition-colors duration-300 hover:text-secondary"
                   onClick={() => {
                     setMenuOpen(false);
                   }}

@@ -12,41 +12,30 @@ interface HistoryItem {
 
 const historyData: HistoryItem[] = [
   {
-    year: 2018,
+    year: 2022,
     title: "Inicio de operaciones",
     description: "Fundación de Industria RLC con la visión de brindar soluciones de ingeniería de alta calidad. Comenzamos nuestras operaciones con un equipo comprometido y especializado.",
     image: "https://images.unsplash.com/photo-1555963966-b7ae5404b6ed?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
   },
   {
-    year: 2019,
+    year: 2023,
     title: "Expansión de servicios",
     description: "Ampliación de nuestros servicios para incluir instalaciones eléctricas, mecánicas y especialidades complementarias. Establecimiento de alianzas estratégicas.",
     image: "https://images.unsplash.com/photo-1597502310092-31cdaa35b46d?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
   },
   {
-    year: 2020,
+    year: 2024,
     title: "Crecimiento y consolidación",
     description: "Consolidación en el mercado peruano con proyectos de gran envergadura. Implementación de sistemas de gestión de calidad y seguridad más estrictos.",
     image: "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?q=80&w=1469&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
   },
   {
-    year: 2021,
+    year: 2025,
     title: "Innovación tecnológica",
     description: "Inversión en tecnología y equipamiento de última generación. Certificaciones y reconocimientos por nuestro compromiso con la excelencia operativa.",
     image: "https://images.unsplash.com/photo-1660330590022-9f4ff56b63f6?q=80&w=1632&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
   },
-  {
-    year: 2022,
-    title: "Expansión nacional",
-    description: "Ampliación de operaciones a nivel nacional. Nuevos proyectos en diversas regiones del país, consolidando nuestra presencia en el mercado peruano.",
-    image: "https://images.unsplash.com/photo-1660330589487-39cc0177ba89?q=80&w=1632&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-  },
-  {
-    year: 2023,
-    title: "Liderazgo en el sector",
-    description: "Reconocimiento como empresa líder en soluciones de ingeniería. Continuamos innovando y estableciendo nuevos estándares en el sector industrial.",
-    image: "https://images.unsplash.com/photo-1566417110090-6b15a06ec800?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-  }
+
 ]
 
 export default function HistorySection() {
@@ -61,8 +50,9 @@ export default function HistorySection() {
   return (
     <section className="max-w-7xl mx-auto py-20 px-4">
       <div data-aos="fade-up">
-        <h2 className="text-3xl text-primary mb-4 text-center pb-5 uppercase font-light">
-          Nuestra Historia
+        <h2 className="text-3xl text-primary mb-4 text-center pb-5 uppercase font-bold">
+          Nuestra <span className="text-secondary">Historia</span>
+          <hr className="w-50 border-t-2 mx-auto border-secondary" />
         </h2>
       </div>
       <div className="flex flex-col md:flex-row gap-8 md:gap-12">

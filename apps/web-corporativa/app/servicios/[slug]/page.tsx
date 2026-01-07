@@ -58,7 +58,7 @@ export default async function SubServicePage({ params }: { params: Promise<{ slu
   const { subService, serviceTitle } = result;
 
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen pt-30">
       <section className="relative h-125 w-full">
         <Image
           src={subService.image}
@@ -68,11 +68,11 @@ export default async function SubServicePage({ params }: { params: Promise<{ slu
           priority
         />
         <div className="absolute inset-0 bg-primary/70" />
-        <div className="absolute inset-0 flex flex-col items-center justify-center text-white px-4" data-aos="fade-right">
-          <h1 className="text-4xl md:text-6xl font-bold text-center mb-4">
+        <div className="absolute inset-0 flex flex-col items-center justify-center px-4" data-aos="fade-right">
+          <h1 className="text-4xl md:text-6xl font-bold text-center mb-4 text-secondary">
             {subService.title}
           </h1>
-          <p className="text-xl md:text-2xl text-center max-w-3xl">
+          <p className="text-xl md:text-2xl text-center max-w-3xl text-white">
             {subService.description}
           </p>
         </div>
@@ -100,9 +100,12 @@ export default async function SubServicePage({ params }: { params: Promise<{ slu
                 {serviceTitle}
               </span>
             </div>
-            <h2 className="text-2xl font-light uppercase text-primary mb-6">
-              Descripción del Servicio
-            </h2>
+            <div>
+              <h2 className="text-2xl font-bold uppercase text-primary mb-3">
+                Descripción del <span className="text-secondary">servicio</span>
+              </h2>
+              <hr className="w-50 border-t-2 border-secondary mb-6" />
+            </div>
             <p className="text-lg text-gray-700 leading-relaxed">
               {subService.detailedDescription || subService.description}
             </p>
@@ -110,9 +113,12 @@ export default async function SubServicePage({ params }: { params: Promise<{ slu
 
           {subService.benefits && subService.benefits.length > 0 && (
             <div data-aos="fade-up" data-aos-delay="100">
-              <h2 className="text-2xl font-light uppercase text-primary mb-6">
-                Beneficios
-              </h2>
+              <div className="mb-6">
+                <h2 className="text-2xl font-bold uppercase text-primary">
+                  Beneficios
+                </h2>
+                <hr className="w-30 border-t-2 border-secondary" />
+              </div>
               <ul className="space-y-4">
                 {subService.benefits.map((benefit, index) => (
                   <li key={index} className="flex items-start gap-3">
@@ -127,9 +133,12 @@ export default async function SubServicePage({ params }: { params: Promise<{ slu
 
         {subService.applications && subService.applications.length > 0 && (
           <div className="mt-16" data-aos="fade-up" data-aos-delay="200">
-            <h2 className="text-2xl font-light uppercase text-primary mb-8 text-center">
-              Aplicaciones
-            </h2>
+            <div className="mb-8 text-center">
+              <h2 className="text-2xl font-bold uppercase text-primary">
+                Aplicaciones
+              </h2>
+              <hr className="w-28 border-t-2 border-secondary mx-auto" />
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {subService.applications.map((application, index) => (
                 <div 

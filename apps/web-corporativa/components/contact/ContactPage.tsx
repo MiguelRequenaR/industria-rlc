@@ -8,15 +8,18 @@ export default function ContactPage() {
         <div className="bg-primary text-white p-5 md:p-10 rounded-2xl h-fit" data-aos="fade-up">
           <div className="space-y-7">
             <div className="space-y-2">
-              <h2 className="text-3xl font-semibold">
-                Estamos a un clic de distancia
-              </h2>
+              <div className="mb-6">
+                <h2 className="text-3xl font-semibold uppercase ">
+                  Estamos a un clic <span className="text-secondary"> de distancia</span>
+                </h2>
+                <hr className="w-30 border-t-2 border-secondary" />
+              </div>
               <p className="text-base font-light">
                 Estamos para ayudarte. Contacta con nosotros para obtener más información sobre nuestros servicios.
               </p>
             </div>
             <div className="flex items-start gap-4">
-              <div className="bg-white/10 p-3 rounded-full flex items-center justify-center">
+              <div className="bg-secondary p-3 rounded-full flex items-center justify-center">
                 <Phone size={26} />
               </div>
               <div>
@@ -25,7 +28,7 @@ export default function ContactPage() {
               </div>
             </div>
             <div className="flex items-start gap-4">
-              <div className="bg-white/10 p-3 rounded-full flex items-center justify-center">
+              <div className="bg-secondary p-3 rounded-full flex items-center justify-center">
                 <Mail size={26} />
               </div>
               <div>
@@ -34,7 +37,7 @@ export default function ContactPage() {
               </div>
             </div>
             <div className="flex items-start gap-4">
-              <div className="bg-white/10 p-3 rounded-full flex items-center justify-center">
+              <div className="bg-secondary p-3 rounded-full flex items-center justify-center">
                 <Clock size={26} />
               </div>
               <div>
@@ -46,7 +49,7 @@ export default function ContactPage() {
               </div>
             </div>
             <div className="flex items-start gap-4">
-              <div className="bg-white/10 p-3 rounded-full flex items-center justify-center">
+              <div className="bg-secondary p-3 rounded-full flex items-center justify-center">
                 <MapPin size={26} />
               </div>
               <div>

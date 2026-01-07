@@ -10,11 +10,11 @@ export default function CallToAction() {
         <div
         className="space-y-5">
           <h2
-          className="text-2xl md:text-4xl font-bold text-center md:text-left">
+          className="text-2xl md:text-3xl font-bold text-center md:text-left text-secondary uppercase">
             Industria RLC
           </h2>
           <p
-          className="md:text-lg text-center md:text-left font-light">
+          className=" text-center md:text-left font-light">
             Somos una empresa peruana dedicada a la construcción y mantenimiento de infraestructuras eléctricas y de telecomunicaciones. Contáctanos para más información.
           </p>
         </div>

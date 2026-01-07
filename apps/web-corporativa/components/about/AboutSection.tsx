@@ -20,8 +20,9 @@ export default function AboutSection() {
         </div>
       </div>
       <div className="pt-20">
-        <h2 className="text-3xl text-center text-primary uppercase font-light" data-aos="fade-up">
-          Nuestra Misión y Visión
+        <h2 className="text-3xl text-center text-primary uppercase font-bold" data-aos="fade-up">
+          Nuestra <span className="text-secondary">Misión y Visión</span>
+          <hr className="w-50 border-t-2 mx-auto border-secondary" />
         </h2>
       </div>
       <div
@@ -33,7 +34,7 @@ export default function AboutSection() {
             Misión
           </h2>
           <p
-          className="text-white text-lg font-light">
+          className="text-white text-lg font-light text-justify">
             Nuestra misión es brindar soluciones de ingeniería de alta calidad que cumplan con los estándares más altos de seguridad, eficiencia y sostenibilidad.
           </p>
         </div>
@@ -44,7 +45,7 @@ export default function AboutSection() {
             Visión
           </h2>
           <p
-          className="text-white text-lg font-light">
+          className="text-white text-lg font-light text-justify">
             Nuestra visión es ser líderes en la ingeniería de soluciones eléctricas, mecánicas y especialidades complementarias, brindando soluciones de alta calidad que cumplan con los estándares más altos de seguridad, eficiencia y sostenibilidad.
           </p>
         </div>

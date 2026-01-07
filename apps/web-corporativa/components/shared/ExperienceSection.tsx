@@ -19,9 +19,10 @@ export default function ExperienceSection({ limit, showTitle = true }: Experienc
       className="max-w-7xl mx-auto px-4 md:px-0" data-aos="fade-up">
         {showTitle && (
           <div>
-            <h2 className="text-center text-primary text-3xl font-light uppercase mb-10">
-              Nuestra Experiencia
+            <h2 className="text-center text-primary text-3xl font-bold uppercase">
+              Nuestra <span className="text-secondary">Experiencia</span>
             </h2>
+            <hr className="w-50 border-t-2 mx-auto border-secondary mb-10" />
           </div>
         )}
         <div

@@ -33,9 +33,12 @@ export default function RelatedServices({ currentSlug, limit = 3 }: RelatedServi
   return (
     <section className="bg-gray-50 py-16" data-aos="fade-up">
       <div className="max-w-7xl mx-auto px-4 md:px-0">
-        <h2 className="text-2xl font-light uppercase text-primary mb-8 text-center">
-          Otros Servicios
-        </h2>
+        <div className="mb-8 text-center">
+          <h2 className="text-2xl font-bold uppercase text-primary">
+            Otros <span className="text-secondary">Servicios</span>
+          </h2>
+          <hr className="w-30 border-t-2 border-secondary mx-auto" />
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {relatedServices.map((subService) => (
             <Link

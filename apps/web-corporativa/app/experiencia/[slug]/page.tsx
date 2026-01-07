@@ -41,7 +41,7 @@ export default async function ExperiencePage({ params }: { params: Promise<{ slu
   }
 
   return (
-    <main className="">
+    <main className="pt-40 md:pt-50">
       <div className="py-4">
         <div className="max-w-7xl mx-auto px-4 md:px-0">
           <div>
@@ -86,9 +86,12 @@ export default async function ExperiencePage({ params }: { params: Promise<{ slu
           </div>
         </div>
         <div className="p-4 md:p-10" data-aos="fade-up" data-aos-delay="100">
-          <h2 className="text-2xl font-light uppercase text-primary mb-6">
-            Información General
-          </h2>
+          <div className="mb-6">  
+            <h2 className="text-2xl font-bold uppercase text-primary">
+              Información <span className="text-secondary">General</span>
+            </h2>
+            <hr className="w-30 border-t-2 border-secondary" />
+          </div>
           <div className="space-y-5 mb-5">
             {/* Project Info Cards */}
             <div className="bg-white border-2 border-gray-200 rounded-lg p-6 flex items-start gap-4">
@@ -119,9 +122,12 @@ export default async function ExperiencePage({ params }: { params: Promise<{ slu
         </div>
       </section>
       <section className="max-w-7xl mx-auto px-4 md:px-0 py-10 md:py-20" data-aos="fade-up" data-aos-delay="200">
-        <h2 className="text-2xl font-light uppercase text-primary mb-6">
-          Galeria de imágenes
-        </h2>
+        <div className="mb-8 text-center">
+          <h2 className="text-2xl font-bold uppercase text-primary">
+            Galeria de <span className="text-secondary">imágenes</span>
+          </h2>
+          <hr className="w-30 border-t-2 border-secondary mx-auto" />
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           {experience.image.map((image, idx) => (
             <div

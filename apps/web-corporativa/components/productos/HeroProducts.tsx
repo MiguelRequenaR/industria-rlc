@@ -1,6 +1,6 @@
 export default function HeroProducts() {
   return (
-    <section data-aos="fade-right" className="pt-24">
+    <section data-aos="fade-right" className="pt-24 md:pt-40">
       <div className="w-full">
         <div
           className="relative md:w-[84%] h-75 md:rounded-br-2xl overflow-hidden"
@@ -13,9 +13,9 @@ export default function HeroProducts() {
           <div className="absolute inset-0 bg-primary/90" />
           <div className="relative max-w-4xl mx-auto h-full flex flex-col justify-center p-5 md:p-0">
             <div className="flex items-start space-x-5">
-              <div className="h-full w-1 bg-white rounded" style={{ minHeight: "80px" }} />
+              <div className="h-full w-1 bg-secondary rounded" style={{ minHeight: "80px" }} />
               <div>
-                <h1 className="text-white text-4xl font-semibold">
+                <h1 className="text-secondary text-4xl font-semibold">
                   Nuestro Catálogo de Productos
                 </h1>
                 <p className="text-lg text-white font-semibold mt-5">
