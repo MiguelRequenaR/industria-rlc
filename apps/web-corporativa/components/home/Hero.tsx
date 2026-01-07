@@ -94,7 +94,7 @@ export default function HeroHome() {
                 <p className="text-white text-lg md:text-2xl mb-6 drop-shadow whitespace-pre-line">
                   {slide.description}
                 </p>
-                <div className="flex gap-4">
+                <div className="flex flex-col md:flex-row gap-4">
                   <a
                     href={slide.buttonLink}
                     className="relative w-fit overflow-hidden bg-primary text-white px-5 py-2 uppercase cursor-pointer group transition-colors duration-500 hover:text-white rounded-full"
