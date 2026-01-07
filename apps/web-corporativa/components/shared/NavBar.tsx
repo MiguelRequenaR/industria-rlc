@@ -112,6 +112,10 @@ export default function NavBar() {
       link: "/experiencia"
     },
     {
+      label: "Productos",
+      link: "/productos",
+    },
+    {
       label: "Academia",
       link: "/academia",
     }
