@@ -1,6 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
-import { CheckCircle2, Globe, Lightbulb, Phone, Plug2, CirclePower, Workflow, ShieldCheck, Hammer, Box, BatteryCharging, FileText, Building2 } from 'lucide-react'
+import { CheckCircle2, Globe, Lightbulb, Phone, Plug2, CirclePower, Workflow, ShieldCheck, Hammer, Box, BatteryCharging } from 'lucide-react'
 
 const products = [
   {
@@ -191,7 +191,7 @@ export default function ProductSection() {
           ))
         }
       </div>
-      <div className='grid grid-cols-1 md:grid-cols-4 gap-5 pt-20 space-y-4 md:space-y-0' data-aos="fade-up" data-aos-delay={200}>
+      <div className='grid grid-cols-1 md:grid-cols-4 gap-5 pt-20 space-y-4 md:space-y-0'>
         {
           marcas.map((marca) => (
             <div key={marca.id} className="flex justify-center items-center">
@@ -200,25 +200,15 @@ export default function ProductSection() {
                 alt={marca.name}
                 width={200}
                 height={200}
+                loading='lazy'
+                placeholder="blur"
+                blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2YzZjRmNiIvPjwvc3ZnPg=="
                 style={{ width: "auto", height: "auto" }}
+                className="object-contain"
               />
             </div>
           ))
         }
-      </div>
-      <div className='flex flex-col md:flex-row gap-5 mt-20 p-5 md:p-20 bg-primary rounded-2xl items-center justify-center mx-4 md:mx-0' data-aos="fade-up" data-aos-delay={300}>
-        <div className='flex items-center justify-center gap-2 flex-1'>
-          <ShieldCheck className='text-white w-8 h-8 md:w-10 md:h-10' />
-          <h3 className='text-white text-center text-lg md:text-2xl font-semibold'>Calidad Garantizada</h3>
-        </div>
-        <div className='flex items-center justify-center gap-2 flex-1'>
-          <FileText className='text-white w-8 h-8 md:w-10 md:h-10' />
-          <h3 className='text-white text-center text-lg md:text-2xl font-semibold'>Fichas Técnicas</h3>
-        </div>
-        <div className='flex items-center justify-center gap-2 flex-1'>
-          <Building2 className='text-white w-8 h-8 md:w-10 md:h-10' />
-          <h3 className='text-white text-center text-lg md:text-2xl font-semibold'>Industria y Hogar</h3>
-        </div>
       </div>
     </section>
   )
