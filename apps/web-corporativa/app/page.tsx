@@ -4,7 +4,6 @@ import StatsSection from "@/components/home/StatsSection"
 import ServicesSection from "@/components/home/ServicesSection"
 import ExperienceHome from "@/components/home/ExperienceHome"
 import AdvantageSection from "@/components/home/AdvantageSection"
-import ClientsSection from "@/components/home/ClientsSection"
 
 export const metadata: Metadata = {
   title: "Industria RLC - Servicios Eléctricos Integrales en Huancayo, Perú",
@@ -19,7 +18,6 @@ export default function page() {
       <ServicesSection />
       <ExperienceHome />
       <AdvantageSection />
-      <ClientsSection />
     </div>
   )
 }

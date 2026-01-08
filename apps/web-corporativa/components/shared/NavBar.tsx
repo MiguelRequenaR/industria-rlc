@@ -32,7 +32,7 @@ export default function NavBar() {
   // Función de búsqueda
   const handleSearch = (query: string) => {
     setSearchQuery(query);
-    
+
     if (query.trim().length < 2) {
       setSearchResults([]);
       setShowResults(false);
@@ -115,10 +115,6 @@ export default function NavBar() {
       label: "Productos",
       link: "/productos",
     },
-    {
-      label: "Academia",
-      link: "/academia",
-    }
   ];
 
   return (
@@ -128,16 +124,16 @@ export default function NavBar() {
         <div className="flex items-center justify-between gap-4 w-full md:w-auto md:justify-start">
           <Link href="/">
             <div className="flex items-center gap-2">
-              <Image 
-                src="/logoPNG.png" 
-                alt="Logo de Industria RLC - Servicios Eléctricos Integrales" 
-                width={80} 
+              <Image
+                src="/logoPNG.png"
+                alt="Logo de Industria RLC - Servicios Eléctricos Integrales"
+                width={80}
                 height={80}
                 loading="lazy"
               />
             </div>
           </Link>
-          
+
           {/* Botón hamburguesa para móvil */}
           <button
             className="md:hidden flex items-center justify-center text-primary"
@@ -173,11 +169,10 @@ export default function NavBar() {
                       className="p-4 hover:bg-gray-100 cursor-pointer border-b border-gray-100 last:border-b-0 transition-colors"
                     >
                       <div className="flex items-start gap-3">
-                        <span className={`text-xs font-semibold px-2 py-1 rounded-full ${
-                          result.type === 'service' 
-                            ? 'bg-blue-100 text-blue-700' 
+                        <span className={`text-xs font-semibold px-2 py-1 rounded-full ${result.type === 'service'
+                            ? 'bg-blue-100 text-blue-700'
                             : 'bg-green-100 text-green-700'
-                        }`}>
+                          }`}>
                           {result.type === 'service' ? 'Servicio' : 'Experiencia'}
                         </span>
                         <div className="flex-1">
@@ -231,11 +226,9 @@ export default function NavBar() {
               ))}
             </ul>
           </nav>
-          <div className="hidden md:block ml-20">
-            <Link href="/contacto">
-              <button
-                className="relative overflow-hidden bg-primary text-white px-5 py-2 uppercase cursor-pointer group transition-colors duration-500 rounded-full"
-              >
+          <div className="hidden md:flex ml-16 gap-4 items-center">
+            <a href="https://industria-rlc-web-academia.vercel.app/" target="_blank" rel="noopener noreferrer">
+              <span className="inline-block relative overflow-hidden bg-white text-primary border-2 border-secondary px-6 py-2 rounded-full font-semibold uppercase transition-all duration-300 hover:text-white hover:shadow-md cursor-pointer group">
                 <span
                   className="
                     absolute inset-0 
@@ -245,12 +238,26 @@ export default function NavBar() {
                     transition-transform duration-500 ease-in-out pointer-events-none
                   "
                 />
+                <span className="relative z-10 transition-colors duration-500">
+                  Academia
+                </span>
+              </span>
+            </a>
+            <Link href="/contacto">
+              <span className="inline-block relative overflow-hidden bg-secondary text-white px-6 py-2 rounded-full font-semibold uppercase transition-all duration-300 hover:text-white hover:shadow-md cursor-pointer group">
                 <span
-                  className="relative z-10 transition-colors duration-500"
-                >
+                  className="
+                    absolute inset-0 
+                    bg-primary
+                    translate-y-full
+                    group-hover:translate-y-0
+                    transition-transform duration-500 ease-in-out pointer-events-none
+                  "
+                />
+                <span className="relative z-10 transition-colors duration-500">
                   Cotizar Servicio
                 </span>
-              </button>
+              </span>
             </Link>
           </div>
         </div>
@@ -306,11 +313,10 @@ export default function NavBar() {
                       className="p-4 hover:bg-gray-100 cursor-pointer border-b border-gray-100 last:border-b-0 transition-colors"
                     >
                       <div className="flex items-start gap-3">
-                        <span className={`text-xs font-semibold px-2 py-1 rounded-full ${
-                          result.type === 'service' 
-                            ? 'bg-blue-100 text-blue-700' 
+                        <span className={`text-xs font-semibold px-2 py-1 rounded-full ${result.type === 'service'
+                            ? 'bg-blue-100 text-blue-700'
                             : 'bg-green-100 text-green-700'
-                        }`}>
+                          }`}>
                           {result.type === 'service' ? 'Servicio' : 'Experiencia'}
                         </span>
                         <div className="flex-1">
@@ -345,7 +351,7 @@ export default function NavBar() {
               </li>
             ))}
           </ul>
-          
+
           {/* Contact info en móvil */}
           <div className="mt-10 text-white text-sm space-y-3">
             <a
