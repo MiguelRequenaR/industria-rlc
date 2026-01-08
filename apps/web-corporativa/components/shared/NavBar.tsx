@@ -370,10 +370,30 @@ export default function NavBar() {
             </a>
           </div>
         </nav>
-        <div className="flex justify-center pb-8 px-5">
+        <div className="flex flex-col gap-4 justify-center pb-8 px-5">
+          <a href="https://industria-rlc-web-academia.vercel.app/" target="_blank" rel="noopener noreferrer">
+            <button
+              className="relative overflow-hidden bg-white text-primary px-8 py-3 uppercase cursor-pointer border-2 border-secondary group transition-colors duration-500 hover:text-white text-base rounded-full w-full"
+            >
+              <span
+                className="
+                  absolute inset-0 
+                  bg-secondary
+                  translate-y-full
+                  group-hover:translate-y-0
+                  transition-transform duration-500 ease-in-out pointer-events-none
+                "
+              />
+              <span
+                className="relative z-10 transition-colors duration-500 font-semibold"
+              >
+                Academia
+              </span>
+            </button>
+          </a>
           <Link href="/contacto" onClick={() => setMenuOpen(false)}>
             <button
-              className="relative overflow-hidden bg-secondary px-8 py-3 uppercase cursor-pointer border border-secondary group transition-colors duration-500 hover:text-white text-base rounded-full"
+              className="relative overflow-hidden bg-secondary px-8 py-3 uppercase cursor-pointer border border-secondary group transition-colors duration-500 hover:text-white text-base rounded-full w-full"
             >
               <span
                 className="
@@ -385,7 +405,7 @@ export default function NavBar() {
                 "
               />
               <span
-                className="relative z-10 transition-colors duration-500"
+                className="relative z-10 transition-colors duration-500 font-semibold"
               >
                 Cotizar Servicio
               </span>
