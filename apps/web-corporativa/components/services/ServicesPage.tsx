@@ -24,7 +24,7 @@ export default function ServicesPage() {
                   {service.title.split(" ").slice(1).join(" ")}
                 </span>
               </h2>
-              <hr className="w-50 border-t-2 mx-auto border-secondary" />
+              <hr className="w-50 border-t-2 mx-auto border-secondary" data-aos="fade-up" data-aos-delay="100" />
             </div>
             <p
               className="text-center text-lg text-primary mb-8" data-aos="fade-up" data-aos-delay="100">

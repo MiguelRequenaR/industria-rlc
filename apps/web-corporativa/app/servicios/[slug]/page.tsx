@@ -106,7 +106,7 @@ export default async function SubServicePage({ params }: { params: Promise<{ slu
               </h2>
               <hr className="w-50 border-t-2 border-secondary mb-6" />
             </div>
-            <p className="text-lg text-gray-700 leading-relaxed">
+            <p className="text-lg text-gray-700 leading-relaxed whitespace-pre-line">
               {subService.detailedDescription || subService.description}
             </p>
           </div>
@@ -115,7 +115,7 @@ export default async function SubServicePage({ params }: { params: Promise<{ slu
             <div data-aos="fade-up" data-aos-delay="100">
               <div className="mb-6">
                 <h2 className="text-2xl font-bold uppercase text-primary">
-                  Beneficios
+                  Servicios
                 </h2>
                 <hr className="w-30 border-t-2 border-secondary" />
               </div>

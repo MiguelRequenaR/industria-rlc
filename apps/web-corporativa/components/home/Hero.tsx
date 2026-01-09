@@ -22,7 +22,7 @@ const carouselImages = [
     id: 3,
     image: "https://images.unsplash.com/photo-1584809923235-fabdba83d1df?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     title: "Tecnología\ny Automatización",
-    description: "Modernización de espacios con domótica y conectividad.",
+    description: "Integramos domótica y sistemas conectados con control remoto para \n mejorar productividad y seguridad en tus instalaciones.",
     buttonLink: "/servicios",
   },
   {
