@@ -11,7 +11,7 @@ export default function Hero() {
             <span className="inline-block w-3 h-3 rounded-full bg-yellow-400 shrink-0"></span>
             Nueva Plataforma 360°
           </div>
-          <h1 className='text-4xl md:text-7xl font-bold text-primary leading-snug text-center '>
+          <h1 className='text-4xl md:text-7xl font-bold text-primary leading-snug text-center md:text-left'>
             Domina la <span
               className='bg-primary text-secondary inline-block px-4'
               style={{ transform: 'rotate(-1deg)', display: 'inline-block' }}

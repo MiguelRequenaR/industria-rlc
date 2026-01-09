@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Nunito } from "next/font/google";
 import NavBar from "@/components/shared/NavBar";
+import Footer from "@/components/shared/Footer";
+import CalltoAction from "@/components/shared/CalltoAction";
 import QuickAccessBar from "@/components/shared/QuickAccessBar";
 import "./globals.css";
 
@@ -27,6 +29,8 @@ export default function RootLayout({
         <NavBar />
         <QuickAccessBar />
         {children}
+        <CalltoAction />
+        <Footer />
       </body>
     </html>
   );
