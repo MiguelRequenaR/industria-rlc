@@ -25,7 +25,7 @@ export default function HeroBlog({ onCategoryChange }: HeroBlogProps) {
   }
 
   return (
-    <section className='max-w-7xl mx-auto pt-30 pb-10 px-4'>
+    <section className='max-w-7xl mx-auto pt-20 md:pt-30 pb-10 px-4'>
       <div className="space-y-8" data-aos="fade-up">
         <div className='inline-flex items-center gap-2 bg-[#293038] text-secondary px-5 py-2 rounded-xl w-auto font-bold border border-secondary'>
           <span className="inline-block w-3 h-3 rounded-full shrink-0 bg-secondary"></span>

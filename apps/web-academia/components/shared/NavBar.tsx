@@ -174,10 +174,17 @@ export default function NavBar() {
             </a>
           </div>
         </nav>
-        <div className="flex justify-center pb-8 px-5">
+        <div className="flex flex-col gap-4 justify-center pb-8 px-5">
+          <Link 
+            href="/cursos" 
+            onClick={() => setMenuOpen(false)}
+            className="text-center text-white hover:text-secondary transition-colors duration-300 text-base font-semibold"
+          >
+            Iniciar Sesión
+          </Link>
           <Link href="/contacto" onClick={() => setMenuOpen(false)}>
             <button
-              className="relative overflow-hidden bg-secondary px-8 py-3 uppercase cursor-pointer border border-secondary group transition-colors duration-500 hover:text-white text-base rounded-full"
+              className="w-full relative overflow-hidden bg-secondary px-8 py-3 uppercase cursor-pointer border border-secondary group transition-colors duration-500 hover:text-white text-base rounded-full"
             >
               <span
                 className="
@@ -191,7 +198,7 @@ export default function NavBar() {
               <span
                 className="relative z-10 transition-colors duration-500"
               >
-                Cotizar Servicio
+                Inscribirse
               </span>
             </button>
           </Link>

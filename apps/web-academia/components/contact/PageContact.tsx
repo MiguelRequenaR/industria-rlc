@@ -19,24 +19,24 @@ export default function PageContact() {
       </div>
       <div className='grid grid-cols-1 md:grid-cols-2 gap-10 pt-20'>
         <div className="space-y-5 mx-4 md:mx-0" data-aos="fade-right" data-aos-delay="100">
-          <h2 className='text-3xl font-bold text-primary'>
+          <h2 className='text-2xl md:text-3xl font-bold text-primary'>
             Contáctanos
           </h2>
-          <p className='text-tertiary text-lg'>
+          <p className='text-tertiary text-base md:text-lg'>
             ¿Tienes dudas sobre nuestros cursos? <br />
             Estamos aquí para ayudarte.
           </p>
           <div className="flex items-center gap-2">
             <Phone size={26} className="text-secondary"/>
-            <a href="tel:+51940162009" className="text-primary hover:underline font-bold text-lg">(+51) 940 162 009</a>
+            <a href="tel:+51940162009" className="text-primary hover:underline font-bold text-base md:text-lg">(+51) 940 162 009</a>
           </div>
           <div className="flex items-center gap-2">
             <Mail size={26} className="text-secondary"/>
-            <a href="mailto:proyectos@industria-rlc.com" className="text-primary hover:underline font-bold text-lg">proyectos@industria-rlc.com</a>
+            <a href="mailto:proyectos@industria-rlc.com" className="text-primary hover:underline font-bold text-base md:text-lg">proyectos@industria-rlc.com</a>
           </div>
           <div className="flex items-center gap-2">
             <MapPin size={26} className="text-secondary"/>
-            <span className="text-primary font-bold text-lg">Av. de la Constitución, s/n</span>
+            <span className="text-primary font-bold text-base md:text-lg">Av. de la Constitución, s/n</span>
           </div>
           <Image src="/images/rlciconpetduda.png" alt="Mapa" width={500} height={500} />
         </div>

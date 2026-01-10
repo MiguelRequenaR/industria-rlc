@@ -16,7 +16,7 @@ export default function HeroCourses() {
               Domina la <span
                 className='bg-secondary text-primary inline-block px-4'
                 style={{ transform: 'rotate(-1deg)', display: 'inline-block' }}
-              >Energía</span> del <br /> Futuro
+              >Energía</span> del <br className="hidden md:inline" /> Futuro
             </h1>
             <p className='text-white text-lg'>
               Capacitación técnica especializada en electricidad, instalaciones eléctricas, seguridad y riesgo eléctrico. <br />

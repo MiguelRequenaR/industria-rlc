@@ -28,8 +28,9 @@ export default function BlogSection({ selectedCategory = "Todos" }: BlogSectionP
           className="block mb-20 group"
           data-aos="fade-up"
         >
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 bg-white rounded-3xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-300">
-            <div className="relative h-[400px] lg:h-auto">
+          {/* Desktop: Layout horizontal */}
+          <div className="hidden lg:grid grid-cols-2 gap-8 bg-white rounded-3xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-300">
+            <div className="relative h-auto">
               <Image
                 src={featuredBlog.image}
                 alt={featuredBlog.title}
@@ -37,7 +38,7 @@ export default function BlogSection({ selectedCategory = "Todos" }: BlogSectionP
                 className="object-cover group-hover:scale-105 transition-transform duration-500"
               />
             </div>
-            <div className="p-8 lg:p-12 flex flex-col justify-center space-y-6">
+            <div className="p-12 flex flex-col justify-center space-y-6">
               <div className="flex items-center gap-4 text-sm text-tertiary">
                 <span className="bg-secondary/10 text-primary px-4 py-1 rounded-full font-semibold">
                   {featuredBlog.category}
@@ -47,7 +48,7 @@ export default function BlogSection({ selectedCategory = "Todos" }: BlogSectionP
                   {featuredBlog.readTime}
                 </span>
               </div>
-              <h2 className="text-3xl md:text-4xl font-bold text-primary group-hover:text-secondary transition-colors duration-300">
+              <h2 className="text-4xl font-bold text-primary group-hover:text-secondary transition-colors duration-300">
                 {featuredBlog.title}
               </h2>
               <p className="text-tertiary text-lg leading-relaxed">
@@ -70,13 +71,54 @@ export default function BlogSection({ selectedCategory = "Todos" }: BlogSectionP
               </div>
             </div>
           </div>
+
+          {/* Mobile: Layout vertical como los demás */}
+          <div className="lg:hidden bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+            <div className="relative h-64">
+              <Image
+                src={featuredBlog.image}
+                alt={featuredBlog.title}
+                fill
+                className="object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+            </div>
+            <div className="p-6 space-y-4">
+              <div className="flex items-center gap-3 text-sm text-tertiary">
+                <span className="bg-secondary/10 text-primary px-3 py-1 rounded-full font-semibold text-xs">
+                  {featuredBlog.category}
+                </span>
+                <span className="flex items-center gap-1">
+                  <Clock className="w-4 h-4" />
+                  {featuredBlog.readTime}
+                </span>
+              </div>
+              <h3 className="text-xl font-bold text-primary group-hover:text-secondary transition-colors duration-300">
+                {featuredBlog.title}
+              </h3>
+              <p className="text-tertiary text-sm line-clamp-3">
+                {featuredBlog.excerpt}
+              </p>
+              <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center">
+                    <User className="w-4 h-4 text-primary" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-primary">{featuredBlog.author.name}</p>
+                    <p className="text-xs text-tertiary">{featuredBlog.date}</p>
+                  </div>
+                </div>
+                <ArrowRight className="w-5 h-5 text-primary group-hover:translate-x-2 transition-transform duration-300" />
+              </div>
+            </div>
+          </div>
         </Link>
       )}
 
       {regularBlogs.length > 0 && (
         <>
           <div className="mb-12" data-aos="fade-up">
-            <h2 className="text-3xl md:text-4xl font-bold text-primary">
+            <h2 className="text-2xl md:text-4xl font-bold text-primary">
               Artículos Recientes
             </h2>
           </div>
