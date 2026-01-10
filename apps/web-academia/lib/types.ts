@@ -30,3 +30,23 @@ export interface Course {
   certificate: boolean;
   includes: string[];
 }
+
+export interface BlogPost {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  image: string;
+  category: string;
+  author: {
+    name: string;
+    avatar?: string;
+  };
+  date: string;
+  readTime: string;
+  content: {
+    type: 'text' | 'image' | 'heading';
+    value: string;
+  }[];
+  featured?: boolean;
+}

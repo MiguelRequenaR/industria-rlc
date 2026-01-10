@@ -319,8 +319,8 @@ export const coursesData: Course[] = [
     id: "seguridad-riesgo-electrico",
     title: "Seguridad y Riesgo Eléctrico",
     slug: "seguridad-riesgo-electrico",
-    imageCard: "https://images.unsplash.com/photo-1530124566582-a618bc2615dc?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    imageDetail: "https://images.unsplash.com/photo-1530124566582-a618bc2615dc?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    imageCard: "https://images.unsplash.com/photo-1635340412124-5fdb9d0db38f?q=80&w=1160&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    imageDetail: "https://images.unsplash.com/photo-1635340412124-5fdb9d0db38f?q=80&w=1160&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     description: "Certifícate en seguridad eléctrica y prevención de riesgos según normativas nacionales e internacionales.",
     detailedDescription: "Curso especializado en seguridad eléctrica que cumple con las normativas OSHA, NFPA 70E y legislación nacional. Aprende a identificar, evaluar y controlar riesgos eléctricos, implementar programas de seguridad y realizar trabajos eléctricos seguros en cualquier entorno.",
     badges: [
@@ -424,8 +424,8 @@ export const coursesData: Course[] = [
     id: "ups-tableros-sistemas-energia",
     title: "UPS, Tableros y Sistemas de Energía",
     slug: "ups-tableros-sistemas-energia",
-    imageCard: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    imageDetail: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    imageCard: "https://images.unsplash.com/photo-1544724569-5f546fd6f2b5?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    imageDetail: "https://i.ibb.co/JRFLvwtc/tablerosdeenergia.png",
     description: "Especialízate en sistemas de energía de respaldo, UPS, tableros de distribución y calidad de energía.",
     detailedDescription: "Conviértete en experto en sistemas de energía ininterrumpida (UPS), tableros eléctricos y gestión de calidad energética. Este curso especializado cubre desde el diseño de tableros hasta la implementación de sistemas de respaldo críticos para data centers, hospitales e industrias.",
     badges: [

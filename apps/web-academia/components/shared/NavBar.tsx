@@ -26,10 +26,6 @@ export default function NavBar() {
       label: "Blog",
       link: "/blog"
     },
-    {
-      label: "Contacto",
-      link: "/contacto",
-    }
   ];
 
   return (
