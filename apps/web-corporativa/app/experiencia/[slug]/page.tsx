@@ -41,7 +41,7 @@ export default async function ExperiencePage({ params }: { params: Promise<{ slu
   }
 
   return (
-    <main className="pt-40 md:pt-50">
+    <main className="pt-30 md:pt-50">
       <div className="py-4">
         <div className="max-w-7xl mx-auto px-4 md:px-0">
           <div>
