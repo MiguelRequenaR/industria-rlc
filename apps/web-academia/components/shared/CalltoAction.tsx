@@ -6,14 +6,16 @@ export default function CalltoAction() {
   return (
     <section className='bg-[#0B202B] py-10 relative'>
       <div className='flex items-center justify-center'>
-        <Image 
-          src="/images/rlciconpetwb.png" 
-          alt="RLC Academy Background" 
-          width={400} 
-          height={400} 
-          className='opacity-20'
-        />
-        <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
+        <div data-aos="zoom-in">
+          <Image 
+            src="/images/rlciconpetwb.png" 
+            alt="RLC Academy Background" 
+            width={400} 
+            height={400} 
+            className='opacity-20'
+          />
+        </div>
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-center" data-aos="fade-up" data-aos-delay="100">
           <h2 className='text-white text-2xl md:text-4xl font-bold mb-4 uppercase'>
             ¿Listo para encender tu futuro?
           </h2>

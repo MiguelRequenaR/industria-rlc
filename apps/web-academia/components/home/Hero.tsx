@@ -6,7 +6,7 @@ export default function Hero() {
   return (
     <section className='max-w-7xl mx-auto min-h-screen flex items-center justify-center'>
       <div className='grid grid-cols-1 md:grid-cols-2 gap-10 items-center justify-center'>
-        <div className='space-y-10 mx-4 md:mx-0'>
+        <div className='space-y-10 mx-4 md:mx-0' data-aos="fade-right">
           <div className='inline-flex items-center gap-2 bg-primary text-white px-5 py-2 rounded-xl w-auto font-bold uppercase'>
             <span className="inline-block w-3 h-3 rounded-full bg-yellow-400 shrink-0"></span>
             Nueva Plataforma 360°
@@ -40,7 +40,7 @@ export default function Hero() {
             <p className='text-tertiary text-lg font-bold'>+500 Estudiantes activos</p>
           </div>
         </div>
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-center" data-aos="fade-left">
           <Image src="/images/rlciconpet.jpeg" alt="Hero" width={500} height={500} />
         </div>
       </div>

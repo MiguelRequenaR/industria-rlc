@@ -24,7 +24,7 @@ const stats = [
 
 export default function StatsSection() {
   return (
-    <section className='bg-primary py-10'>
+    <section className='bg-primary py-10' data-aos="fade-up">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 max-w-7xl mx-auto">
         {
           stats.map((stat) => (

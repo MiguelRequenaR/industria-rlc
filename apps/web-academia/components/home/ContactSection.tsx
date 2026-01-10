@@ -4,7 +4,7 @@ import FormContact from "@/components/shared/FormContact"
 export default function ContactSection() {
   return (
     <section
-    className="max-w-5xl mx-auto py-30">
+    className="max-w-5xl mx-auto py-30" data-aos="zoom-in">
       <div
       className="grid grid-cols-1 md:grid-cols-2 shadow-2xl rounded-2xl overflow-hidden mx-4 md:mx-0">
         <div className="bg-primary text-white p-5 md:p-10 space-y-5 flex flex-col h-full">

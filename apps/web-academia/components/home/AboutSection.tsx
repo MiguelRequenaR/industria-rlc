@@ -9,10 +9,10 @@ export default function AboutSection() {
       className="max-w-7xl mx-auto">
         <div
         className="grid grid-cols-1 md:grid-cols-2 gap-10">
-          <div className="flex justify-center items-center">
+          <div className="flex justify-center items-center" data-aos="fade-right">
             <Image src="/images/rlciconpetwb.png" alt="Logo de RLC Academy 360" width={500} height={500} />
           </div>
-          <div className="space-y-6 flex flex-col justify-center mx-4 md:mx-0">
+          <div className="space-y-6 flex flex-col justify-center mx-4 md:mx-0" data-aos="fade-left">
             <span className="text-secondary uppercase font-bold">Sobre Nosotros</span>
             <h2 className="text-white text-2xl md:text-4xl font-bold">
               Innovando en la Educación Técnica

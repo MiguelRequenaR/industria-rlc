@@ -4,6 +4,8 @@ import NavBar from "@/components/shared/NavBar";
 import Footer from "@/components/shared/Footer";
 import CalltoAction from "@/components/shared/CalltoAction";
 import QuickAccessBar from "@/components/shared/QuickAccessBar";
+import AOSProvider from "@/components/shared/AOSProvider";
+import "aos/dist/aos.css";
 import "./globals.css";
 
 const nunito = Nunito({
@@ -26,6 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={nunito.className}>
+        <AOSProvider />
         <NavBar />
         <QuickAccessBar />
         {children}

@@ -24,7 +24,7 @@ const services = [
 export default function ServiceSection() {
   return (
     <section className="max-w-7xl mx-auto py-20">
-      <div className="text-center mb-10">
+      <div className="text-center mb-10" data-aos="fade-up">
         <span className="text-secondary uppercase font-bold">
           Qué Ofrecemos
         </span>
@@ -34,7 +34,7 @@ export default function ServiceSection() {
         <hr className="w-40 border-t-3 mx-auto border-secondary rounded-full" />
       </div>
       <div
-      className="grid grid-cols-1 md:grid-cols-3 gap-10 mx-4 md:mx-0">
+      className="grid grid-cols-1 md:grid-cols-3 gap-10 mx-4 md:mx-0" data-aos="fade-up" data-aos-delay="100">
         {
           services.map((service) => (
             <div
