@@ -4,113 +4,82 @@ export const experienceData: Experience[] = [
   {
     id: "1",
     slug: "proyecto-electrico-industrial",
-    title: "Proyecto Eléctrico Industrial",
-    client: "Planta de Manufactura",
-    location: "La Victoria - Lima",
-    description: "Instalación completa de sistemas eléctricos en planta de manufactura, incluyendo paneles de control y sistemas de respaldo.",
+    title: "Mantenimiento de Pararrayos",
+    client: "Corporación Industrial Huanca",
+    location: "Huancayo - Junín",
+    description: "Mantenimiento preventivo y correctivo de pararrayos en la Corporación Industrial Huanca, asegurando la protección de equipos y personas contra descargas eléctricas.",
     date: "2024",
     features: [
-      "Instalación de paneles de control",
-      "Sistemas de respaldo energético",
-      "Cableado industrial de alta potencia",
-      "Cumplimiento de normativas de seguridad"
+      "Mantenimiento preventivo de pararrayos",
+      "Mantenimiento correctivo de pararrayos",
+      "Inspección de pararrayos",
+      "Cumplimiento de normativas de seguridad",
+      "Cumplimiento de normativas de calidad"
     ],
     image: [
-      "https://images.unsplash.com/photo-1576446470246-499c738d1c8e?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "https://images.unsplash.com/photo-1562324771-4fb277001e1a?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "https://images.unsplash.com/photo-1645639417590-32e8778b2141?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "https://images.unsplash.com/photo-1645639417590-32e8778b2141?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-
+      "https://i.ibb.co/yctcnf69/pararrayos2.jpg",
+      "https://i.ibb.co/GQbzrjM6/pararrayos1.jpg",
+      "https://i.ibb.co/jkgBhhzn/pararrayos3.jpg",
+      "https://i.ibb.co/7dp0bHbN/pararrayos4.jpg",
+      "https://i.ibb.co/93TVmRYR/pararrayos5.jpg",
+      "https://i.ibb.co/gMv7dmw3/pararrayos6.jpg",
+      "https://i.ibb.co/z9GNCw1/pararrayos7.jpg"
     ]
   },
   {
     id: "2",
-    slug: "remodelacion-comercial",
-    title: "Remodelación Comercial",
-    client: "Centro Comercial San Isidro",
-    location: "San Isidro - Lima",
-    description: "Renovación integral de espacios comerciales con acabados modernos, iluminación LED y sistemas de climatización.",
-    date: "2023",
+    slug: "mantenimiento-aire-acondicionado",
+    title: "Mantenimiento de Aire Acondicionado",
+    client: "Corporación Industrial Huanca",
+    location: "Huancayo - Junín",
+    description: "Mantenimiento preventivo y correctivo de aire acondicionado en la Corporación Industrial Huanca, asegurando el confort y la eficiencia energética de los espacios.",
+    date: "2025",
     features: [
-      "Acabados modernos de alta calidad",
-      "Instalación de iluminación LED eficiente",
-      "Sistemas de climatización inteligente",
-      "Diseño de espacios funcionales"
+      "Mantenimiento preventivo de aire acondicionado",
+      "Mantenimiento correctivo de aire acondicionado",
+      "Inspección de aire acondicionado",
+      "Cumplimiento de normativas de seguridad",
+      "Cumplimiento de normativas de calidad"
     ],
     image: [
-      "https://images.unsplash.com/photo-1562324771-4fb277001e1a?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      "https://i.ibb.co/JRs0y0rb/mantenimientoaire.jpg"
     ]
   },
   {
     id: "3",
-    slug: "sistema-automatizacion",
-    title: "Sistema de Automatización",
-    client: "Residencia Moderna",
-    location: "San Jerónimo - Huancayo",
-    description: "Implementación de sistema de domótica integral, cableado estructurado y seguridad electrónica de última generación.",
-    date: "2023",
+    slug: "instalacion-pozo-a-tierra",
+    title: "Instalación de Pozo a Tierra",
+    client: "Condominio Los Olivos",
+    location: "Huancayo - Junín",
+    description: "Instalación de pozo a tierra en el condominio Los Olivos, asegurando la protección de equipos y personas contra descargas eléctricas.",
+    date: "2025",
     features: [
-      "Sistema de domótica integral",
-      "Cableado estructurado categoría 6A",
-      "Seguridad electrónica avanzada",
-      "Control automatizado de iluminación y climatización"
+      "Instalación de pozo a tierra",
+      "Inspección de pozo a tierra",
+      "Cumplimiento de normativas de seguridad",
+      "Cumplimiento de normativas de calidad"
     ],
     image: [
-      "https://images.unsplash.com/photo-1645639417590-32e8778b2141?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      "https://i.ibb.co/fzQckF7f/pozoatierra.jpg"
     ]
   },
   {
     id: "4",
-    slug: "instalacion-sistema-fotovoltaico",
-    title: "Instalación de Sistema Fotovoltaico",
-    client: "Complejo Residencial Pachacámac",
-    location: "Pachacámac - Lima",
-    description: "Diseño e instalación de paneles solares en complejo residencial, optimizando el consumo energético y reduciendo la huella de carbono.",
-    date: "2022",
+    slug: "instalacion-cerco-electrico",
+    title: "Instalación de Cerco Eléctrico",
+    client: "Vivienda particular",
+    location: "Huancayo - Junín",
+    description: "Instalación de cerco eléctrico en una vivienda particular, asegurando la protección de equipos y personas contra descargas eléctricas.",
+    date: "2025",
     features: [
-      "Instalación de paneles solares de alta eficiencia",
-      "Sistema de almacenamiento energético",
-      "Reducción de 60% en consumo de red eléctrica",
-      "Monitoreo en tiempo real del rendimiento"
+      "Instalación de cerco eléctrico",
+      "Inspección de cerco eléctrico",
+      "Cumplimiento de normativas de seguridad",
+      "Cumplimiento de normativas de calidad"
     ],
     image: [
-      "https://images.unsplash.com/photo-1576446470246-499c738d1c8e?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      "https://i.ibb.co/JR2B8ZkC/cercoelectrico2.jpg",
+      "https://i.ibb.co/F4dDnpX9/cercoelectrico.jpg",
     ]
   },
-  {
-    id: "5",
-    slug: "obra-civil-institucion-educativa",
-    title: "Obra Civil en Institución Educativa",
-    client: "Institución Educativa El Tambo",
-    location: "El Tambo - Huancayo",
-    description: "Construcción y acondicionamiento de aulas, sistemas eléctricos y de emergencia, asegurando ambientes seguros y modernos para los estudiantes.",
-    date: "2021",
-    features: [
-      "Construcción de nuevas aulas modernas",
-      "Sistema eléctrico de emergencia",
-      "Iluminación natural y artificial optimizada",
-      "Espacios seguros y accesibles"
-    ],
-    image: [
-      "https://images.unsplash.com/photo-1562324771-4fb277001e1a?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-    ]
-  },
-  {
-    id: "6",
-    slug: "modernizacion-iluminacion-publica",
-    title: "Modernización de Iluminación Pública",
-    client: "Municipalidad del Cercado de Lima",
-    location: "Cercado de Lima",
-    description: "Reemplazo de luminarias tradicionales por tecnología LED, aumentando la eficiencia energética y la seguridad en espacios públicos.",
-    date: "2022",
-    features: [
-      "Instalación de 500+ luminarias LED",
-      "Reducción de 70% en consumo energético",
-      "Mayor visibilidad y seguridad nocturna",
-      "Sistema de control remoto inteligente"
-    ],
-    image: [
-      "https://images.unsplash.com/photo-1645639417590-32e8778b2141?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-    ]
-  }
 ]

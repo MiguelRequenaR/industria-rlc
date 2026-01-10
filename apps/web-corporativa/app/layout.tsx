@@ -4,6 +4,7 @@ import "./globals.css";
 import NavBar from "@/components/shared/NavBar"
 import CallToAction from "@/components/shared/CallToAction";
 import Footer from "@/components/shared/Footer";
+import WhatsAppButton from "@/components/shared/WhatsAppButton";
 import AOSProvider from "@/components/shared/AOSProvider";
 import StructuredData from "@/components/shared/StructuredData";
 
@@ -79,6 +80,7 @@ export default function RootLayout({
         {children}
         <CallToAction />
         <Footer />
+        <WhatsAppButton />
       </body>
     </html>
   );

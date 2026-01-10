@@ -7,23 +7,33 @@ import { useState, useEffect } from "react"
 
 const areasTrabajo = [
   {
-    name: "Construcción",
-    description: "Obras de construcción y mantenimiento, diseño de proyectos, remodelaciones en pintura, trabajos con drywall, etc.",
-    image: "https://images.unsplash.com/photo-1591076787947-aaa4dec435d8?q=80&w=1471&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-  },
-  {
-    name: "Industrial",
-    description: "Instalaciones eléctricas, mantenimientos y reparaciones, sistemas de potencia, iluminación, instalación de paneles eléctricos, etc.",
+    name: "Sector Industrial",
+    description: "Plantas industriales, naves de producción, talleres especializados, líneas de manufactura y centros logísticos con soluciones eléctricas, automatización y mantenimiento.",
     image: "https://images.unsplash.com/photo-1576446470246-499c738d1c8e?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
   },
   {
-    name: "Sistemas",
-    description: "Instalaciones de sistemas de domótica y automatización, cableado estructurado, y seguridad electrónica, etc.",
-    image: "https://images.unsplash.com/photo-1645639417590-32e8778b2141?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    name: "Sector Comercial",
+    description: "Edificios corporativos, centros comerciales, oficinas, locales comerciales y hoteles con sistemas eléctricos, data, seguridad y construcción.",
+    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
   },
   {
-    name: "Residencial",
-    description: "Diseño y planificación de proyectos, consultoría en ingeniería de proyectos, proyectos en eficiencia energética, etc.",
+    name: "Sector Salud",
+    description: "Hospitales, clínicas, consultorios y centros médicos con instalaciones eléctricas especializadas, equipos de respaldo, aires de precisión y seguridad.",
+    image: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=1453&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  },
+  {
+    name: "Sector Educación",
+    description: "Colegios, universidades, centros de estudios e instituciones educativas con sistemas eléctricos, cableado estructurado, seguridad y construcción.",
+    image: "https://images.unsplash.com/photo-1562774053-701939374585?q=80&w=1486&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  },
+  {
+    name: "Sector Minería",
+    description: "Instalaciones mineras, campamentos, plantas de procesamiento con sistemas eléctricos de alta potencia, subestaciones y automatización industrial.",
+    image: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  },
+  {
+    name: "Sector Residencial",
+    description: "Viviendas, departamentos, condominios y edificios residenciales con instalaciones eléctricas, domótica, seguridad electrónica y remodelaciones.",
     image: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
   },
 ]
@@ -218,7 +228,7 @@ export default function ServicesSection() {
                   <span className="absolute inset-0 bg-black/40 rounded-2xl z-0" />
                   <span className="absolute inset-0 bg-primary/70 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-in-out pointer-events-none rounded-2xl z-10" />
                   <span className="relative z-20 transition-colors duration-500 font-semibold uppercase">
-                    Servicios Eléctricos Integrales
+                    Servicios de Electricidad Industrial
                   </span>
                 </h4>
               </Link>
@@ -264,7 +274,7 @@ export default function ServicesSection() {
                   <span className="absolute inset-0 bg-black/40 rounded-2xl z-0" />
                   <span className="absolute inset-0 bg-primary/70 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-in-out pointer-events-none rounded-2xl z-10" />
                   <span className="relative z-20 transition-colors duration-500 font-semibold uppercase">
-                    Sistemas Eléctricos
+                    Sistemas de Automatización y <br />Domótica
                   </span>
                 </h4>
               </Link>

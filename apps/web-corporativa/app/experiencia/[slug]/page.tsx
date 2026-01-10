@@ -139,7 +139,7 @@ export default async function ExperiencePage({ params }: { params: Promise<{ slu
                 alt="Imagen del proyecto"
                 width={500}
                 height={500}
-                className="object-cover w-full h-full"
+                className="object-cover w-full h-full hover:scale-105 transition-transform duration-500 ease-in-out cursor-pointer"
                 style={{ minHeight: "200px", maxHeight: "320px" }}
               />
             </div>
