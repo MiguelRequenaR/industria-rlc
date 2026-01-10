@@ -1,8 +1,8 @@
-import Link from 'next/link'
-import Image from 'next/image'
-import { GraduationCap, User, Search, Check, Zap } from 'lucide-react'
 
-export default function HeroAbout() {
+import Image from 'next/image'
+import { Search, Check, Zap } from 'lucide-react'
+
+export default function HeroCourses() {
   return (
     <section className='bg-primary min-h-screen flex items-center justify-center'>
       <div className='max-w-7xl mx-auto'>
