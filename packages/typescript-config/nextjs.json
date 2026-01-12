@@ -2,11 +2,16 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "extends": "./base.json",
   "compilerOptions": {
-    "plugins": [{ "name": "next" }],
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "jsx": "preserve",
+    "incremental": true,
+    "module": "esnext",
+    "target": "es5",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
     "noEmit": true
-  }
+  },
+  "exclude": ["node_modules"]
 }
