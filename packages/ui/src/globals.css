@@ -1,11 +1,11 @@
 @import "tailwindcss";
 
 @theme {
-  /* Tus colores personalizados */
+  /* Colores personalizados */
   --color-primary: #07215e;
   --color-secondary: #ef871e;
   
-  /* Colores de shadcn/ui */
+  /* Colores de shadcn/ui en HSL */
   --color-background: 0 0% 100%;
   --color-foreground: 222.2 84% 4.9%;
   --color-card: 0 0% 100%;
@@ -21,11 +21,6 @@
   --color-border: 214.3 31.8% 91.4%;
   --color-input: 214.3 31.8% 91.4%;
   --color-ring: 222.2 84% 4.9%;
-  
-  /* Font personalizada */
-  --font-sans: var(--font-nunito), "Inter", sans-serif;
-  
-  /* Radius */
   --radius: 0.5rem;
 }
 
