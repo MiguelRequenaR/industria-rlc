@@ -12,7 +12,7 @@ function SubmitButton() {
   return (
     <button
       type="submit"
-      className="w-full py-3 rounded-md font-semibold uppercase transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+      className="w-full py-3 rounded-md font-semibold uppercase transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
       style={{
         backgroundColor: 'var(--primary)',
         color: 'white'
@@ -52,7 +52,7 @@ export default function LoginPage() {
               placeholder="tu@email.com"
               required
               autoComplete="email"
-              className="w-full border-2 rounded-md px-3 py-2 focus:outline-none focus:ring-2 transition"
+              className="w-full border-2 rounded-md px-3 py-2 focus:outline-none focus:ring-2 transition font-bold text-lg"
               style={{
                 borderColor: 'var(--secondary)',
                 color: 'var(--secondary)'

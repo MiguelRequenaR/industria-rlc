@@ -33,6 +33,28 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
+  // Obtener el rol del usuario si está autenticado
+  if (user) {
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', user.id)
+      .single();
+
+    if (profile?.role) {
+      // Guardar el rol en una cookie para usarlo en el middleware
+      response.cookies.set('user_role', profile.role, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        maxAge: 60 * 60 * 24 * 7, // 7 días
+      });
+    }
+  } else {
+    // Si no hay usuario, eliminar la cookie de rol
+    response.cookies.delete('user_role');
+  }
+
   if (
     !user &&
     !request.nextUrl.pathname.startsWith('/login') &&

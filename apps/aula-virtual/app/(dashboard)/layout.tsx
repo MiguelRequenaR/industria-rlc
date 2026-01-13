@@ -1,4 +1,4 @@
-import { AppSidebar } from "@/components/app-sidebar"
+import { AppSidebar } from "@/components/layouts/app-sidebar"
 import { Menu } from "lucide-react"
 import "../globals.css"
 

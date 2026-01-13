@@ -14,7 +14,6 @@ type FormState = {
 } | undefined;
 
 export async function loginAction(prevState: FormState, formData: FormData): Promise<FormState> {
-  // validar datos del form
   const data = Object.fromEntries(formData);
   const parsed = loginSchema.safeParse(data);
 
@@ -24,7 +23,6 @@ export async function loginAction(prevState: FormState, formData: FormData): Pro
 
   const { email, password } = parsed.data;
 
-  // conexión con supabase
   const supabase = await createClient();
 
   const { error } = await supabase.auth.signInWithPassword({
@@ -37,4 +35,10 @@ export async function loginAction(prevState: FormState, formData: FormData): Pro
   }
 
   redirect("/");
+}
+
+export async function logoutAction() {
+  const supabase = await createClient();
+  await supabase.auth.signOut();
+  redirect("/login");
 }
