@@ -3,35 +3,24 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import {
-  BookOpen,
   GraduationCap,
   Home,
-  MessageSquare,
-  Settings,
   User,
   Users,
   ClipboardList,
-  BarChart3,
   FolderOpen,
-  BookMarked,
   Award,
-  Video,
   LogOut,
 } from "lucide-react"
 import { useUserProfile } from "@/hooks/use-user-profile"
 import { logoutAction } from "@/actions/auth-actions"
 
-// Menús por rol
 const menusByRole = {
   admin: {
     main: [
       { title: "Dashboard", url: "/admin", icon: Home },
       { title: "Usuarios", url: "/admin/usuarios", icon: Users },
       { title: "Cursos", url: "/admin/cursos", icon: GraduationCap },
-      { title: "Reportes", url: "/admin/reportes", icon: BarChart3 },
-    ],
-    secondary: [
-      { title: "Configuración", url: "/admin/configuracion", icon: Settings },
     ],
   },
   docente: {
@@ -42,10 +31,6 @@ const menusByRole = {
       { title: "Tareas", url: "/docente/tareas", icon: ClipboardList },
       { title: "Horarios", url: "/docente/horarios", icon: FolderOpen },
     ],
-    secondary: [
-      { title: "Mensajes", url: "/docente/mensajes", icon: MessageSquare },
-      { title: "Configuración", url: "/docente/configuracion", icon: Settings },
-    ],
   },
   estudiante: {
     main: [
@@ -54,10 +39,6 @@ const menusByRole = {
       { title: "Tareas", url: "/estudiante/tareas", icon: ClipboardList },
       { title: "Calificaciones", url: "/estudiante/calificaciones", icon: Award },
     ],
-    secondary: [
-      { title: "Calendario", url: "/estudiante/calendario", icon: MessageSquare },
-      { title: "Configuración", url: "/estudiante/configuracion", icon: Settings },
-    ],
   },
 }
 
@@ -65,7 +46,6 @@ export function AppSidebar() {
   const pathname = usePathname()
   const { profile, loading } = useUserProfile()
 
-  // Obtener menú según rol
   const menu = profile?.role ? menusByRole[profile.role] : menusByRole.estudiante
 
   if (loading) {
@@ -120,33 +100,6 @@ export function AppSidebar() {
             })}
           </ul>
         </div>
-
-        {/* Menú Secundario */}
-        {menu.secondary && menu.secondary.length > 0 && (
-          <div>
-            <ul className="space-y-1">
-              {menu.secondary.map((item) => {
-                const Icon = item.icon
-                const isActive = pathname === item.url
-                return (
-                  <li key={item.title}>
-                    <Link
-                      href={item.url}
-                      className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
-                        isActive
-                          ? 'bg-blue-50 text-blue-900 font-medium'
-                          : 'text-gray-700 hover:bg-gray-100'
-                      }`}
-                    >
-                      <Icon className="w-5 h-5" />
-                      <span>{item.title}</span>
-                    </Link>
-                  </li>
-                )
-              })}
-            </ul>
-          </div>
-        )}
       </nav>
 
       {/* Footer - Perfil del Usuario */}

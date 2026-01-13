@@ -38,7 +38,7 @@ export function UsersTable({ users }: UsersTableProps) {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight">Gestión de Usuarios</h2>
+          <h2 className="text-2xl font-bold tracking-tight text-secondary">Gestión de Usuarios</h2>
           <p className="text-gray-500 text-sm mt-1">
             Administra los usuarios del sistema
           </p>
