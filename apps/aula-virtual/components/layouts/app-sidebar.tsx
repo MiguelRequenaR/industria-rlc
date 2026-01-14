@@ -28,17 +28,14 @@ const menusByRole = {
   docente: {
     main: [
       { title: "Dashboard", url: "/docente", icon: Home },
-      { title: "Mis Cursos", url: "/docente/cursos", icon: GraduationCap },
-      { title: "Estudiantes", url: "/docente/estudiantes", icon: Users },
-      { title: "Tareas", url: "/docente/tareas", icon: ClipboardList },
-      { title: "Horarios", url: "/docente/horarios", icon: FolderOpen },
+      { title: "Cursos", url: "/docente/cursos", icon: GraduationCap },
+      { title: "Calificaciones", url: "/docente/calificaciones", icon: Award },
+      { title: "Seguimiento", url: "/docente/seguimiento", icon: ClipboardList },
     ],
   },
   estudiante: {
     main: [
-      { title: "Dashboard", url: "/estudiante", icon: Home },
-      { title: "Mis Cursos", url: "/estudiante/cursos", icon: GraduationCap },
-      { title: "Tareas", url: "/estudiante/tareas", icon: ClipboardList },
+      { title: "Mis Cursos", url: "/estudiante", icon: GraduationCap },
       { title: "Calificaciones", url: "/estudiante/calificaciones", icon: Award },
     ],
   },
@@ -130,7 +127,7 @@ export function AppSidebar() {
           
           <button
             onClick={() => logoutAction()}
-            className="flex items-center gap-2 px-3 py-2 rounded-lg text-red-600 hover:bg-red-50 transition-colors"
+            className="flex items-center gap-2 px-3 py-2 rounded-lg text-red-600 hover:bg-red-50 transition-colors cursor-pointer"
             title="Cerrar Sesión"
           >
             <LogOut className="w-4 h-4" />

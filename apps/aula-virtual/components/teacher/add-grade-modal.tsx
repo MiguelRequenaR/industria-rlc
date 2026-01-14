@@ -1,0 +1,123 @@
+"use client"
+
+import { useState } from "react"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogBody } from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
+import { useCreateGrade } from "@/hooks/use-grades"
+
+interface AddGradeModalProps {
+  isOpen: boolean
+  onClose: () => void
+  courseId: string
+  studentId: string
+  studentName: string
+}
+
+export function AddGradeModal({ isOpen, onClose, courseId, studentId, studentName }: AddGradeModalProps) {
+  const [itemName, setItemName] = useState("")
+  const [score, setScore] = useState("")
+  const [feedback, setFeedback] = useState("")
+
+  const createGradeMutation = useCreateGrade()
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    
+    const scoreNumber = parseFloat(score)
+    if (isNaN(scoreNumber)) {
+      return
+    }
+
+    await createGradeMutation.mutateAsync({
+      courseId,
+      studentId,
+      itemName,
+      score: scoreNumber,
+      feedback: feedback || undefined,
+    })
+
+    // Reset form
+    setItemName("")
+    setScore("")
+    setFeedback("")
+    onClose()
+  }
+
+  return (
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="max-w-md">
+        <DialogHeader onClose={onClose}>
+          <DialogTitle>Agregar Calificación</DialogTitle>
+        </DialogHeader>
+        
+        <DialogBody>
+          <p className="text-sm text-gray-600 mb-4">
+            Estudiante: <span className="font-semibold text-primary">{studentName}</span>
+          </p>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Concepto <span className="text-red-500">*</span>
+            </label>
+            <Input
+              type="text"
+              placeholder="Ej: Examen Final, Tarea 1, Proyecto..."
+              value={itemName}
+              onChange={(e) => setItemName(e.target.value)}
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Nota <span className="text-red-500">*</span>
+            </label>
+            <Input
+              type="number"
+              step="0.01"
+              min="0"
+              max="20"
+              placeholder="0 - 20"
+              value={score}
+              onChange={(e) => setScore(e.target.value)}
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Retroalimentación (Opcional)
+            </label>
+            <textarea
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              rows={3}
+              placeholder="Comentarios sobre el desempeño del estudiante..."
+              value={feedback}
+              onChange={(e) => setFeedback(e.target.value)}
+            />
+          </div>
+
+          <div className="flex gap-3 pt-2">
+            <Button
+              type="button"
+              onClick={onClose}
+              className="flex-1 bg-gray-200 text-gray-700 hover:bg-gray-300"
+            >
+              Cancelar
+            </Button>
+            <Button
+              type="submit"
+              disabled={createGradeMutation.isPending}
+              className="flex-1 bg-secondary text-white hover:bg-secondary/90"
+            >
+              {createGradeMutation.isPending ? "Guardando..." : "Guardar"}
+            </Button>
+          </div>
+        </form>
+        </DialogBody>
+      </DialogContent>
+    </Dialog>
+  )
+}
