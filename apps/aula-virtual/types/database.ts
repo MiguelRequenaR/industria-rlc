@@ -8,6 +8,7 @@ export interface Profile {
   full_name: string | null
   avatar_url: string | null
   role: UserRole
+  email: string
   created_at: string
 }
 
@@ -66,6 +67,7 @@ export interface Grade {
 export interface Invitation {
   id: string
   token: string
+  role: UserRole
   course_id: string | null
   is_used: boolean
   created_by: string | null
@@ -155,7 +157,8 @@ export interface Database {
         Row: Invitation
         Insert: Omit<Invitation, "id" | "created_at"> & { 
           id?: string
-          is_used?: boolean 
+          is_used?: boolean
+          role: UserRole
         }
         Update: Partial<Omit<Invitation, "id" | "created_at">>
       }

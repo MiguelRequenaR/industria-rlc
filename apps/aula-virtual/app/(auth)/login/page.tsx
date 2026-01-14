@@ -3,8 +3,10 @@
 import { useState } from "react"
 import { useActionState } from "react"
 import { useFormStatus } from "react-dom"
-import { Eye, EyeOff } from "lucide-react"
+import { useSearchParams } from "next/navigation"
+import { Eye, EyeOff, CheckCircle2 } from "lucide-react"
 import { loginAction } from "@/actions/auth-actions"
+import Link from "next/link"
 
 function SubmitButton() {
   const { pending } = useFormStatus()
@@ -27,6 +29,8 @@ function SubmitButton() {
 export default function LoginPage() {
   const [state, formAction] = useActionState(loginAction, undefined)
   const [showPassword, setShowPassword] = useState(false)
+  const searchParams = useSearchParams()
+  const registered = searchParams.get("registered") === "true"
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-blue-50 via-white to-orange-50 p-4">
@@ -41,6 +45,17 @@ export default function LoginPage() {
         </div>
         
         <form action={formAction} className="space-y-6">
+          {registered && (
+            <div className="p-4 rounded-lg bg-green-50 border-2 border-green-200">
+              <div className="flex items-center gap-2 text-green-700">
+                <CheckCircle2 className="w-5 h-5 shrink-0" />
+                <p className="text-sm font-semibold">
+                  ¡Registro exitoso! Ahora puedes iniciar sesión con tus credenciales.
+                </p>
+              </div>
+            </div>
+          )}
+
           <div className="space-y-2">
             <label htmlFor="email" className="text-sm font-semibold uppercase block" style={{ color: 'var(--primary)' }}>
               Email
@@ -103,6 +118,19 @@ export default function LoginPage() {
           )}
 
           <SubmitButton />
+
+          <div className="text-center pt-4">
+            <p className="text-sm text-gray-600">
+              ¿No tienes una cuenta?{" "}
+              <Link 
+                href="/registro" 
+                className="font-semibold hover:underline transition-colors"
+                style={{ color: 'var(--primary)' }}
+              >
+                Regístrate aquí
+              </Link>
+            </p>
+          </div>
         </form>
       </div>
     </div>

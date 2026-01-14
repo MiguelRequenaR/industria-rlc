@@ -11,6 +11,7 @@ import {
   FolderOpen,
   Award,
   LogOut,
+  Mail,
 } from "lucide-react"
 import { useUserProfile } from "@/hooks/use-user-profile"
 import { logoutAction } from "@/actions/auth-actions"
@@ -21,6 +22,7 @@ const menusByRole = {
       { title: "Dashboard", url: "/admin", icon: Home },
       { title: "Usuarios", url: "/admin/usuarios", icon: Users },
       { title: "Cursos", url: "/admin/cursos", icon: GraduationCap },
+      { title: "Invitaciones", url: "/admin/invitaciones", icon: Mail },
     ],
   },
   docente: {
@@ -50,93 +52,89 @@ export function AppSidebar() {
 
   if (loading) {
     return (
-      <aside className="fixed left-0 top-0 h-screen w-64 bg-white border-r border-gray-200 flex items-center justify-center">
-        <div className="animate-pulse">
-          <div className="w-10 h-10 bg-gray-200 rounded-lg mb-2" />
+      <nav className="fixed top-0 left-0 right-0 h-16 bg-white border-b border-gray-200 flex items-center justify-center z-50">
+        <div className="animate-pulse flex items-center gap-4">
+          <div className="w-10 h-10 bg-gray-200 rounded-lg" />
           <div className="w-32 h-4 bg-gray-200 rounded" />
         </div>
-      </aside>
+      </nav>
     )
   }
 
   return (
-    <aside className="fixed left-0 top-0 h-screen w-64 bg-white border-r border-gray-200 flex flex-col">
-      {/* Header */}
-      <div className="p-4 border-b border-gray-200">
-        <Link href="/" className="flex items-center gap-3">
+    <nav className="fixed top-0 left-0 right-0 h-16 bg-white border-b border-gray-200 flex items-center z-50">
+      <div className="w-full max-w-7xl mx-auto px-6 flex items-center justify-between gap-6">
+        {/* Logo y Marca */}
+        <Link href="/" className="flex items-center gap-3 shrink-0">
           <div className="w-10 h-10 rounded-lg flex items-center justify-center text-white" style={{ backgroundColor: 'var(--primary)' }}>
             <GraduationCap className="w-5 h-5" />
           </div>
-          <div>
-            <p className="font-bold text-sm" style={{ color: 'var(--primary)' }}>Aula Virtual</p>
-            <p className="text-xs" style={{ color: 'var(--secondary)' }}>Industrial RLC</p>
+          <div className="hidden md:block">
+            <p className="font-bold text-sm leading-tight" style={{ color: 'var(--primary)' }}>Aula Virtual</p>
+            <p className="text-xs leading-tight" style={{ color: 'var(--secondary)' }}>Industrial RLC</p>
           </div>
         </Link>
-      </div>
-      {/* Content */}
-      <nav className="flex-1 overflow-y-auto p-4 space-y-6">
-        {/* Menú Principal */}
-        <div>
-          <p className="text-xs font-semibold text-gray-500 uppercase mb-2">Principal</p>
-          <ul className="space-y-1">
-            {menu.main.map((item) => {
-              const Icon = item.icon
-              const isActive = pathname === item.url
-              return (
-                <li key={item.title}>
-                  <Link
-                    href={item.url}
-                    className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
-                      isActive
-                        ? 'bg-blue-50 text-blue-900 font-medium'
-                        : 'text-gray-700 hover:bg-gray-100'
-                    }`}
-                  >
-                    <Icon className="w-5 h-5" />
-                    <span>{item.title}</span>
-                  </Link>
-                </li>
-              )
-            })}
-          </ul>
-        </div>
-      </nav>
 
-      {/* Footer - Perfil del Usuario */}
-      <div className="p-4 border-t border-gray-200 space-y-2">
-        <Link
-          href="/perfil"
-          className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition-colors"
-        >
-          {profile?.avatar_url ? (
-            <img 
-              src={profile.avatar_url} 
-              alt={profile.full_name || "Usuario"} 
-              className="w-10 h-10 rounded-lg object-cover"
-            />
-          ) : (
-            <div className="w-10 h-10 rounded-lg flex items-center justify-center text-white" style={{ backgroundColor: 'var(--primary)' }}>
-              <User className="w-5 h-5" />
+        {/* Menú Principal */}
+        <ul className="flex items-center gap-1 flex-1 justify-center">
+          {menu.main.map((item) => {
+            const Icon = item.icon
+            const isActive = pathname === item.url
+            return (
+              <li key={item.title}>
+                <Link
+                  href={item.url}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
+                    isActive
+                      ? 'bg-blue-50 text-blue-900 font-medium'
+                      : 'text-gray-700 hover:bg-gray-100'
+                  }`}
+                >
+                  <Icon className="w-4 h-4" />
+                  <span className="text-sm hidden lg:inline">{item.title}</span>
+                </Link>
+              </li>
+            )
+          })}
+        </ul>
+
+        {/* Perfil del Usuario */}
+        <div className="flex items-center gap-2 shrink-0">
+          <Link
+            href="/perfil"
+            className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors"
+          >
+            {profile?.avatar_url ? (
+              <img 
+                src={profile.avatar_url} 
+                alt={profile.full_name || "Usuario"} 
+                className="w-8 h-8 rounded-lg object-cover"
+              />
+            ) : (
+              <div className="w-8 h-8 rounded-lg flex items-center justify-center text-white" style={{ backgroundColor: 'var(--primary)' }}>
+                <User className="w-4 h-4" />
+              </div>
+            )}
+            <div className="hidden xl:block">
+              <p className="text-xs font-semibold truncate max-w-[120px]">
+                {profile?.full_name || "Usuario"}
+              </p>
+              <p className="text-[10px] text-gray-500 truncate">
+                {profile?.role || "Cargando..."}
+              </p>
             </div>
-          )}
-          <div className="flex-1">
-            <p className="text-sm font-semibold truncate">
-              {profile?.full_name || "Usuario"}
-            </p>
-            <p className="text-xs text-gray-500 truncate">
-              {profile?.role || "Cargando..."}
-            </p>
-          </div>
-        </Link>
-        
-        <button
-          onClick={() => logoutAction()}
-          className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-red-600 hover:bg-red-50 transition-colors"
-        >
-          <LogOut className="w-5 h-5" />
-          <span className="text-sm font-medium">Cerrar Sesión</span>
-        </button>
+          </Link>
+          
+          <button
+            onClick={() => logoutAction()}
+            className="flex items-center gap-2 px-3 py-2 rounded-lg text-red-600 hover:bg-red-50 transition-colors"
+            title="Cerrar Sesión"
+          >
+            <LogOut className="w-4 h-4" />
+            <span className="text-sm font-medium hidden xl:inline">Cerrar Sesión</span>
+          </button>
+        </div>
       </div>
-    </aside>
+    </nav>
   )
 }

@@ -6,16 +6,10 @@ import {
   CheckCircle2, 
   FolderOpen, 
   FileText,
-  TrendingUp,
-  TrendingDown,
-  Clock,
-  Calendar,
   Activity,
   Plus,
   ArrowRight,
-  Sparkles,
   Award,
-  Target
 } from 'lucide-react';
 import { getDashboardStats } from '@/actions/admin-actions';
 import Link from 'next/link';
@@ -136,42 +130,6 @@ export default async function AdminDashboardPage() {
               })}
             </div>
           </div>
-
-          {/* Actividad reciente */}
-          <div className="bg-white rounded-2xl p-6 shadow-lg border-2 border-gray-100">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-bold text-primary">Actividad Reciente</h2>
-              <Clock className="h-5 w-5 text-secondary" />
-            </div>
-            
-            <div className="space-y-4">
-              {recentActivity.map((activity, index) => {
-                const Icon = activity.icon;
-                return (
-                  <div
-                    key={index}
-                    className="flex items-start gap-4 p-3 rounded-xl hover:bg-secondary/5 transition-colors"
-                  >
-                    <div className="shrink-0 w-10 h-10 rounded-lg bg-secondary flex items-center justify-center shadow-md">
-                      <Icon className="h-5 w-5 text-primary" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-semibold text-primary">{activity.action}</p>
-                      <p className="text-xs text-secondary">{activity.user}</p>
-                    </div>
-                    <div className="shrink-0">
-                      <p className="text-xs text-gray-400">{activity.time}</p>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-            
-            <button className="mt-4 w-full flex items-center justify-center gap-2 py-2 text-sm font-semibold text-secondary hover:text-primary hover:bg-secondary/10 rounded-lg transition-colors">
-              Ver toda la actividad
-              <ArrowRight className="h-4 w-4" />
-            </button>
-          </div>
         </div>
 
         {/* Sidebar con acciones rápidas y calendario */}
@@ -198,35 +156,6 @@ export default async function AdminDashboardPage() {
                   </Link>
                 );
               })}
-            </div>
-          </div>
-
-          {/* Resumen del mes */}
-          <div className="bg-white rounded-2xl p-6 shadow-lg border-2 border-secondary">
-            <div className="flex items-center gap-2 mb-4">
-              <Calendar className="h-6 w-6 text-secondary" />
-              <h2 className="text-xl font-bold text-secondary">Resumen del Mes</h2>
-            </div>
-            
-            <div className="space-y-4">
-              <div className="flex items-center justify-between p-3 bg-primary/5 rounded-lg backdrop-blur-sm border border-primary/10">
-                <span className="text-sm font-medium text-secondary">Nuevos usuarios</span>
-                <span className="text-2xl font-bold text-secondary">+{Math.floor(stats.totalUsers * 0.12)}</span>
-              </div>
-              <div className="flex items-center justify-between p-3 bg-primary/5 rounded-lg backdrop-blur-sm border border-primary/10">
-                <span className="text-sm font-medium text-secondary">Cursos creados</span>
-                <span className="text-2xl font-bold text-secondary">+{Math.floor(stats.totalCourses * 0.08)}</span>
-              </div>
-              <div className="flex items-center justify-between p-3 bg-primary/5 rounded-lg backdrop-blur-sm border border-primary/10">
-                <span className="text-sm font-medium text-secondary">Inscripciones</span>
-                <span className="text-2xl font-bold text-secondary">+{Math.floor(stats.totalEnrollments * 0.23)}</span>
-              </div>
-            </div>
-
-            <div className="mt-4 pt-4 border-t border-primary/20">
-              <p className="text-xs text-primary/80">
-                ¡Excelente progreso! El sistema está creciendo cada día.
-              </p>
             </div>
           </div>
         </div>

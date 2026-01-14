@@ -1,7 +1,8 @@
 "use server"
 
-import { createClient } from "@/lib/supabase/server"
-import { Profile, CourseWithTeacher } from "@/types/database"
+import { createClient, createAdminClient } from "@/lib/supabase/server"
+import { Profile, CourseWithTeacher, Invitation, UserRole } from "@/types/database"
+import { nanoid } from "nanoid"
 
 export interface UserWithEmail extends Profile {
   email: string
@@ -24,15 +25,13 @@ export async function getAllUsers(): Promise<UserWithEmail[]> {
     return []
   }
 
-  const usersWithEmail: UserWithEmail[] = profiles.map(profile => ({
-    ...profile,
-    email: "No disponible"
-  }))
-
-  return usersWithEmail
+  return profiles as UserWithEmail[]
 }
 
-export async function deleteUser(userId: string): Promise<{ success: boolean; error?: string }> {
+export async function updateUser(
+  userId: string, 
+  updates: { full_name?: string; role?: UserRole }
+): Promise<{ success: boolean; error?: string }> {
   const supabase = await createClient()
 
   const { data: { user } } = await supabase.auth.getUser()
@@ -50,7 +49,41 @@ export async function deleteUser(userId: string): Promise<{ success: boolean; er
     return { success: false, error: "No tienes permisos para realizar esta acción" }
   }
 
-  const { error } = await supabase.auth.admin.deleteUser(userId)
+  const { error } = await supabase
+    .from("profiles")
+    .update(updates)
+    .eq("id", userId)
+
+  if (error) {
+    console.error("Error updating user:", error)
+    return { success: false, error: error.message }
+  }
+
+  return { success: true }
+}
+
+export async function deleteUser(userId: string): Promise<{ success: boolean; error?: string }> {
+  const supabase = await createClient()
+
+  // Verificar que el usuario actual es admin
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) {
+    return { success: false, error: "No autenticado" }
+  }
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .single()
+
+  if (profile?.role !== "admin") {
+    return { success: false, error: "No tienes permisos para realizar esta acción" }
+  }
+
+  // Usar el cliente admin para eliminar el usuario del auth
+  const adminClient = createAdminClient()
+  const { error } = await adminClient.auth.admin.deleteUser(userId)
 
   if (error) {
     console.error("Error deleting user:", error)
@@ -140,4 +173,97 @@ export async function getDashboardStats(): Promise<DashboardStats> {
     totalModules: modules || 0,
     totalLessons: lessons || 0
   }
+}
+
+// ==================== INVITACIONES ====================
+
+export async function createInvitation(role: UserRole): Promise<{ success: boolean; token?: string; error?: string }> {
+  const supabase = await createClient()
+
+  // Verificar que el usuario es admin
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) {
+    return { success: false, error: "No autenticado" }
+  }
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .single()
+
+  if (profile?.role !== "admin") {
+    return { success: false, error: "No tienes permisos para realizar esta acción" }
+  }
+
+  // Generar token único
+  const token = nanoid(12)
+
+  // Crear invitación
+  const { data, error } = await supabase
+    .from("invitations")
+    .insert({
+      token,
+      role,
+      is_used: false,
+      created_by: user.id,
+      course_id: null
+    })
+    .select()
+    .single()
+
+  if (error) {
+    console.error("Error creating invitation:", error)
+    return { success: false, error: error.message }
+  }
+
+  return { success: true, token }
+}
+
+export async function getAllInvitations(): Promise<Invitation[]> {
+  const supabase = await createClient()
+
+  const { data: invitations, error } = await supabase
+    .from("invitations")
+    .select("*")
+    .order("created_at", { ascending: false })
+
+  if (error) {
+    console.error("Error fetching invitations:", error)
+    return []
+  }
+
+  return invitations || []
+}
+
+export async function deleteInvitation(invitationId: string): Promise<{ success: boolean; error?: string }> {
+  const supabase = await createClient()
+
+  // Verificar que el usuario es admin
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) {
+    return { success: false, error: "No autenticado" }
+  }
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .single()
+
+  if (profile?.role !== "admin") {
+    return { success: false, error: "No tienes permisos para realizar esta acción" }
+  }
+
+  const { error } = await supabase
+    .from("invitations")
+    .delete()
+    .eq("id", invitationId)
+
+  if (error) {
+    console.error("Error deleting invitation:", error)
+    return { success: false, error: error.message }
+  }
+
+  return { success: true }
 }
