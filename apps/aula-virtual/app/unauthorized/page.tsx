@@ -6,14 +6,14 @@ export default function UnauthorizedPage() {
     <div className="flex min-h-screen flex-col items-center justify-center bg-background p-4">
       <div className="mx-auto max-w-md text-center">
         <div className="mb-6 flex justify-center">
-          <ShieldAlert className="h-24 w-24 text-destructive" />
+          <ShieldAlert className="h-24 w-24 text-red-600" />
         </div>
         
-        <h1 className="mb-2 text-3xl font-bold tracking-tight">
+        <h1 className="mb-2 text-3xl font-bold tracking-tight text-primary">
           Acceso No Autorizado
         </h1>
         
-        <p className="mb-8 text-muted-foreground">
+        <p className="mb-8 text-primary">
           No tienes permisos para acceder a esta página. Si crees que esto es un error, 
           por favor contacta con el administrador.
         </p>

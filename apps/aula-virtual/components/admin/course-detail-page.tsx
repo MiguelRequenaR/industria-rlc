@@ -1,14 +1,17 @@
 "use client"
 
 import { useState } from "react"
-import { ArrowLeft, BookOpen, Settings as SettingsIcon, Layers } from "lucide-react"
+import { ArrowLeft, BookOpen, Settings as SettingsIcon, Layers, UserPlus, Users } from "lucide-react"
 import { Tabs } from "@/components/ui/tabs"
 import { CourseDetails } from "./course-details"
 import { CourseModules } from "./course-modules"
 import { CourseSettings } from "./course-settings"
+import { CourseStudents } from "./course-students"
 import { AssignInstructorModal } from "./assign-instructor-modal"
+import { EnrollStudentsModal } from "./enroll-students-modal"
 import Link from "next/link"
 import { useCourse } from "@/hooks/use-course"
+import { useProfileQuery } from "@/hooks/use-profile-query"
 
 interface CourseDetailPageProps {
   initialCourse: any
@@ -17,10 +20,14 @@ interface CourseDetailPageProps {
 
 export function CourseDetailPage({ initialCourse, slug }: CourseDetailPageProps) {
   const [showAssignInstructor, setShowAssignInstructor] = useState(false)
+  const [showEnrollStudents, setShowEnrollStudents] = useState(false)
   const { data: course } = useCourse(slug)
+  const { profile } = useProfileQuery()
   
   // Usar el curso actualizado si existe, sino usar el inicial
   const currentCourse = course || initialCourse
+  const isAdmin = profile?.role === "admin"
+  const isTeacher = profile?.role === "docente"
 
   const handleAssignSuccess = () => {
     // La query se invalida automáticamente en el hook
@@ -31,7 +38,11 @@ export function CourseDetailPage({ initialCourse, slug }: CourseDetailPageProps)
       id: "details",
       label: "Detalles",
       icon: <BookOpen className="w-4 h-4" />,
-      content: <CourseDetails course={currentCourse} onAssignInstructorClick={() => setShowAssignInstructor(true)} />
+      content: <CourseDetails 
+        course={currentCourse} 
+        onAssignInstructorClick={isAdmin ? () => setShowAssignInstructor(true) : undefined}
+        isAdmin={isAdmin}
+      />
     },
     {
       id: "modules",
@@ -39,6 +50,13 @@ export function CourseDetailPage({ initialCourse, slug }: CourseDetailPageProps)
       icon: <Layers className="w-4 h-4" />,
       content: <CourseModules modules={currentCourse.modules} courseId={currentCourse.id} />
     },
+    // Tab de Estudiantes (solo para docente)
+    ...(isTeacher ? [{
+      id: "students",
+      label: "Estudiantes",
+      icon: <Users className="w-4 h-4" />,
+      content: <CourseStudents courseId={currentCourse.id} />
+    }] : []),
     {
       id: "settings",
       label: "Configuración",
@@ -55,7 +73,7 @@ export function CourseDetailPage({ initialCourse, slug }: CourseDetailPageProps)
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <Link
-                href="/admin/cursos"
+                href={isAdmin ? "/admin/cursos" : "/docente/cursos"}
                 className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
               >
                 <ArrowLeft className="w-5 h-5 text-gray-600" />
@@ -78,12 +96,23 @@ export function CourseDetailPage({ initialCourse, slug }: CourseDetailPageProps)
             </div>
 
             <div className="flex items-center gap-3">
-              <button
-                onClick={() => setShowAssignInstructor(true)}
-                className="px-4 py-2 bg-primary text-white rounded-lg text-base font-medium hover:bg-secondary transition-all duration-500 cursor-pointer"
-              >
-                Asignar Instructor
-              </button>
+              {isAdmin && (
+                <button
+                  onClick={() => setShowAssignInstructor(true)}
+                  className="px-4 py-2 bg-primary text-white rounded-lg text-base font-medium hover:bg-secondary transition-all duration-500 cursor-pointer"
+                >
+                  Asignar Instructor
+                </button>
+              )}
+              {(isAdmin || isTeacher) && (
+                <button
+                  onClick={() => setShowEnrollStudents(true)}
+                  className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg text-base font-medium hover:bg-green-700 transition-all duration-500 cursor-pointer"
+                >
+                  <UserPlus className="w-5 h-5" />
+                  Inscribir Estudiantes
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -95,13 +124,25 @@ export function CourseDetailPage({ initialCourse, slug }: CourseDetailPageProps)
       </div>
 
       {/* Assign Instructor Modal */}
-      <AssignInstructorModal
-        isOpen={showAssignInstructor}
-        onClose={() => setShowAssignInstructor(false)}
-        courseId={currentCourse.id}
-        currentTeacherId={currentCourse.teacher_id}
-        onSuccess={handleAssignSuccess}
-      />
+      {isAdmin && (
+        <AssignInstructorModal
+          isOpen={showAssignInstructor}
+          onClose={() => setShowAssignInstructor(false)}
+          courseId={currentCourse.id}
+          currentTeacherId={currentCourse.teacher_id}
+          onSuccess={handleAssignSuccess}
+        />
+      )}
+
+      {/* Enroll Students Modal */}
+      {(isAdmin || isTeacher) && (
+        <EnrollStudentsModal
+          isOpen={showEnrollStudents}
+          onClose={() => setShowEnrollStudents(false)}
+          courseId={currentCourse.id}
+          onSuccess={handleAssignSuccess}
+        />
+      )}
     </div>
   )
 }

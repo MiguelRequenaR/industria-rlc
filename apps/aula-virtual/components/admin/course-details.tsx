@@ -9,9 +9,10 @@ interface CourseDetailsProps {
   }
   onEditClick?: () => void
   onAssignInstructorClick?: () => void
+  isAdmin?: boolean
 }
 
-export function CourseDetails({ course, onEditClick, onAssignInstructorClick }: CourseDetailsProps) {
+export function CourseDetails({ course, onEditClick, onAssignInstructorClick, isAdmin = true }: CourseDetailsProps) {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
       {/* Contenido principal */}
@@ -96,7 +97,7 @@ export function CourseDetails({ course, onEditClick, onAssignInstructorClick }: 
         <div className="bg-white rounded-lg border border-gray-200 p-6 space-y-4">
           <div className="flex items-center justify-between">
             <h3 className="font-semibold text-primary">Instructor</h3>
-            {onAssignInstructorClick && (
+            {isAdmin && onAssignInstructorClick && (
               <button 
                 onClick={onAssignInstructorClick}
                 className="text-sm font-medium text-secondary hover:text-primary transition-all duration-500 cursor-pointer"

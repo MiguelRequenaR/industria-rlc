@@ -140,16 +140,28 @@ export async function getTeacherCourses(): Promise<CourseWithTeacher[]> {
 export interface StudentWithGrades {
   student: Profile
   grades: Grade[]
+  student_id: string
+  enrolled_at: string
+  full_name: string | null
+  email: string
+  avatar_url: string | null
 }
 
 export async function getStudentsByCourse(courseId: string): Promise<StudentWithGrades[]> {
   const supabase = await createClient()
 
-  // Verificar que el usuario es el docente del curso
+  // Verificar autenticación
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) {
     return []
   }
+
+  // Verificar permisos (admin o docente del curso)
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .single()
 
   const { data: course } = await supabase
     .from("courses")
@@ -157,16 +169,20 @@ export async function getStudentsByCourse(courseId: string): Promise<StudentWith
     .eq("id", courseId)
     .single()
 
-  if (!course || course.teacher_id !== user.id) {
-    console.error("No tienes permisos para ver las calificaciones de este curso")
+  const isAdmin = profile?.role === "admin"
+  const isTeacher = course?.teacher_id === user.id
+
+  if (!isAdmin && !isTeacher) {
+    console.error("No tienes permisos para ver los estudiantes de este curso")
     return []
   }
 
-  // Obtener estudiantes inscritos
+  // Obtener estudiantes inscritos con fecha de inscripción
   const { data: enrollments } = await supabase
     .from("enrollments")
     .select(`
       student_id,
+      created_at,
       student:profiles!student_id(*)
     `)
     .eq("course_id", courseId)
@@ -194,7 +210,12 @@ export async function getStudentsByCourse(courseId: string): Promise<StudentWith
 
     studentsWithGrades.push({
       student: student as Profile,
-      grades: grades || []
+      grades: grades || [],
+      student_id: enrollment.student_id,
+      enrolled_at: enrollment.created_at,
+      full_name: student.full_name,
+      email: student.email,
+      avatar_url: student.avatar_url
     })
   }
 

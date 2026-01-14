@@ -28,6 +28,7 @@ export interface Enrollment {
   student_id: string
   course_id: string
   enrolled_at: string
+  created_at: string
 }
 
 export interface Module {

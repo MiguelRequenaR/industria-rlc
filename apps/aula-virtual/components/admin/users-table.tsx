@@ -1,13 +1,14 @@
 "use client"
 
 import { useState } from "react"
-import { Search, Plus, Edit, Trash2, UserCheck, Mail, Calendar, Shield, AlertTriangle } from "lucide-react"
+import { Search, Plus, Edit, Trash2, UserCheck, Mail, Calendar, Shield, AlertTriangle, Lock, Eye, EyeOff } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogBody, DialogFooter } from "@/components/ui/dialog"
 import { UserWithEmail, updateUser, deleteUser } from "@/actions/admin-actions"
+import { changeUserPasswordAction } from "@/actions/profile-actions"
 import { useRouter } from "next/navigation"
 import { UserRole } from "@/types/database"
 import { toast } from "react-toastify"
@@ -30,6 +31,8 @@ export function UsersTable({ users }: UsersTableProps) {
   // Edit form states
   const [editFullName, setEditFullName] = useState("")
   const [editRole, setEditRole] = useState<UserRole>("estudiante")
+  const [editPassword, setEditPassword] = useState("")
+  const [showPassword, setShowPassword] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const filteredUsers = users.filter((user) => {
@@ -59,6 +62,8 @@ export function UsersTable({ users }: UsersTableProps) {
     setSelectedUser(user)
     setEditFullName(user.full_name || "")
     setEditRole(user.role)
+    setEditPassword("")
+    setShowPassword(false)
     setEditModalOpen(true)
   }
 
@@ -72,6 +77,18 @@ export function UsersTable({ users }: UsersTableProps) {
     
     setIsSubmitting(true)
     try {
+      // Si hay una nueva contraseña, cambiarla primero
+      if (editPassword) {
+        const passwordResult = await changeUserPasswordAction(selectedUser.id, editPassword)
+        if (passwordResult.error) {
+          toast.error(passwordResult.error)
+          setIsSubmitting(false)
+          return
+        }
+        toast.success("Contraseña actualizada correctamente")
+      }
+
+      // Actualizar el resto de los datos del usuario
       const result = await updateUser(selectedUser.id, {
         full_name: editFullName,
         role: editRole
@@ -80,6 +97,7 @@ export function UsersTable({ users }: UsersTableProps) {
       if (result.success) {
         toast.success("Usuario actualizado correctamente")
         setEditModalOpen(false)
+        setEditPassword("")
         router.refresh()
       } else {
         toast.error(result.error || "Error al actualizar el usuario")
@@ -416,6 +434,36 @@ export function UsersTable({ users }: UsersTableProps) {
                       <option value="docente">Docente</option>
                       <option value="admin">Administrador</option>
                     </Select>
+                  </div>
+
+                  <div className="p-4 border-2 border-orange-200 bg-orange-50 rounded-lg">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Lock className="w-5 h-5 text-orange-600" />
+                      <label className="block text-sm font-semibold text-orange-900">
+                        Cambiar Contraseña (Opcional)
+                      </label>
+                    </div>
+                    <p className="text-xs text-orange-700 mb-3">
+                      Deja este campo vacío si no deseas cambiar la contraseña del usuario.
+                    </p>
+                    <div className="relative">
+                      <Input
+                        type={showPassword ? "text" : "password"}
+                        value={editPassword}
+                        onChange={(e) => setEditPassword(e.target.value)}
+                        placeholder="Nueva contraseña (mínimo 6 caracteres)"
+                        disabled={isSubmitting}
+                        className="pr-10"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-orange-600 hover:text-orange-800"
+                        disabled={isSubmitting}
+                      >
+                        {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>

@@ -2,6 +2,9 @@
 
 import { Course } from "@/types/database"
 import { useState } from "react"
+import { updateCourseSettings } from "@/actions/admin-actions"
+import { toast } from "react-toastify"
+import { useQueryClient } from "@tanstack/react-query"
 
 interface CourseSettingsProps {
   course: Course
@@ -9,6 +12,38 @@ interface CourseSettingsProps {
 
 export function CourseSettings({ course }: CourseSettingsProps) {
   const [isPublished, setIsPublished] = useState(course.is_published)
+  const [isSaving, setIsSaving] = useState(false)
+  const queryClient = useQueryClient()
+
+  const handleSave = async () => {
+    setIsSaving(true)
+    try {
+      const result = await updateCourseSettings(course.id, { is_published: isPublished })
+      if (result.success) {
+        toast.success("Configuración actualizada correctamente")
+        // Invalidar queries para refrescar los datos
+        queryClient.invalidateQueries({ queryKey: ["course", course.slug] })
+        queryClient.invalidateQueries({ queryKey: ["courses"] })
+        queryClient.invalidateQueries({ queryKey: ["teacher-courses"] })
+      } else {
+        toast.error(result.error || "Error al actualizar configuración")
+        // Revertir el estado si falla
+        setIsPublished(course.is_published)
+      }
+    } catch (error) {
+      toast.error("Error al actualizar configuración")
+      setIsPublished(course.is_published)
+    } finally {
+      setIsSaving(false)
+    }
+  }
+
+  const handleCancel = () => {
+    setIsPublished(course.is_published)
+    toast.info("Cambios descartados")
+  }
+
+  const hasChanges = isPublished !== course.is_published
 
   return (
     <div className="max-w-3xl space-y-6">
@@ -134,14 +169,36 @@ export function CourseSettings({ course }: CourseSettingsProps) {
       </div>
 
       {/* Botón de Guardar */}
-      <div className="flex items-center justify-end gap-3 pt-4">
-        <button className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">
-          Cancelar
-        </button>
-        <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-          Guardar Cambios
-        </button>
-      </div>
+      {hasChanges && (
+        <div className="flex items-center justify-between p-4 bg-blue-50 border border-blue-200 rounded-lg">
+          <p className="text-sm text-blue-700 font-medium">
+            Tienes cambios sin guardar
+          </p>
+          <div className="flex items-center gap-3">
+            <button 
+              onClick={handleCancel}
+              disabled={isSaving}
+              className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Cancelar
+            </button>
+            <button 
+              onClick={handleSave}
+              disabled={isSaving}
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+            >
+              {isSaving ? (
+                <>
+                  <div className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full"></div>
+                  Guardando...
+                </>
+              ) : (
+                "Guardar Cambios"
+              )}
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
