@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, Suspense } from "react"
 import { useActionState } from "react"
 import { useFormStatus } from "react-dom"
 import { useSearchParams } from "next/navigation"
@@ -26,7 +26,7 @@ function SubmitButton() {
   )
 }
 
-export default function LoginPage() {
+function LoginForm() {
   const [state, formAction] = useActionState(loginAction, undefined)
   const [showPassword, setShowPassword] = useState(false)
   const searchParams = useSearchParams()
@@ -134,5 +134,23 @@ export default function LoginPage() {
         </form>
       </div>
     </div>
+  )
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-blue-50 via-white to-orange-50">
+        <div className="w-full max-w-lg bg-white rounded-2xl shadow-2xl border-2 border-blue-100 py-20 px-10">
+          <div className="text-center">
+            <p className="text-lg font-medium" style={{ color: 'var(--secondary)' }}>
+              Cargando...
+            </p>
+          </div>
+        </div>
+      </div>
+    }>
+      <LoginForm />
+    </Suspense>
   )
 }

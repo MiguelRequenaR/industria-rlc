@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, Suspense } from "react"
 import { useActionState } from "react"
 import { useFormStatus } from "react-dom"
 import { useSearchParams } from "next/navigation"
@@ -26,7 +26,7 @@ function SubmitButton() {
   )
 }
 
-export default function RegistroPage() {
+function RegistroForm() {
   const [state, formAction] = useActionState(registerAction, undefined)
   const [showPassword, setShowPassword] = useState(false)
   const searchParams = useSearchParams()
@@ -199,5 +199,26 @@ export default function RegistroPage() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function RegistroPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-blue-50 via-white to-orange-50">
+        <div className="w-full max-w-lg bg-white rounded-2xl shadow-2xl border-2 border-blue-100 py-12 px-10">
+          <div className="text-center">
+            <div className="w-16 h-16 mx-auto mb-4 rounded-2xl flex items-center justify-center shadow-lg" style={{ backgroundColor: 'var(--primary)' }}>
+              <UserPlus className="w-8 h-8 text-white" />
+            </div>
+            <p className="text-lg font-medium" style={{ color: 'var(--secondary)' }}>
+              Cargando...
+            </p>
+          </div>
+        </div>
+      </div>
+    }>
+      <RegistroForm />
+    </Suspense>
   )
 }
