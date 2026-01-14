@@ -2,18 +2,22 @@ import { NextResponse, type NextRequest } from "next/server";
 import { updateSession } from "@/lib/supabase/middleware";
 
 export async function middleware(request: NextRequest) {
-  // Primero actualizar la sesión de Supabase
   const response = await updateSession(request);
   
-  // Si hay una redirección, retornarla inmediatamente
   if (response.status === 307 || response.status === 308) {
     return response;
   }
 
   const path = request.nextUrl.pathname;
-  const userRole = request.cookies.get('user_role')?.value;
+  const userRole = response.cookies.get('user_role')?.value;
 
-  // Proteger rutas según rol
+  const publicPaths = ['/', '/login', '/registro', '/auth', '/unauthorized'];
+  const isPublicPath = publicPaths.some(publicPath => path === publicPath || path.startsWith('/auth/'));
+  
+  if (isPublicPath) {
+    return response;
+  }
+
   if (path.startsWith('/admin') && userRole !== 'admin') {
     return NextResponse.redirect(new URL('/unauthorized', request.url));
   }
@@ -23,6 +27,10 @@ export async function middleware(request: NextRequest) {
   }
 
   if (path.startsWith('/estudiante') && userRole !== 'estudiante' && userRole !== 'admin') {
+    return NextResponse.redirect(new URL('/unauthorized', request.url));
+  }
+
+  if (path.startsWith('/curso/') && !userRole) {
     return NextResponse.redirect(new URL('/unauthorized', request.url));
   }
 
