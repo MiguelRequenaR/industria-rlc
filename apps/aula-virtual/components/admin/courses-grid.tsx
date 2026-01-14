@@ -5,16 +5,24 @@ import { Search, Plus } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Select } from "@/components/ui/select"
 import { CourseWithTeacher } from "@/types/database"
+import Link from "next/link"
+import { AddCourseModal } from "./add-course-modal"
+import { useCourses } from "@/hooks/use-courses"
 
 interface CoursesGridProps {
-  courses: CourseWithTeacher[]
+  initialCourses: CourseWithTeacher[]
 }
 
-export function CoursesGrid({ courses }: CoursesGridProps) {
+export function CoursesGrid({ initialCourses }: CoursesGridProps) {
   const [searchTerm, setSearchTerm] = useState("")
   const [statusFilter, setStatusFilter] = useState<string>("all")
+  const [showAddCourse, setShowAddCourse] = useState(false)
+  
+  // Usar React Query para obtener cursos actualizados
+  const { data: courses } = useCourses()
+  const currentCourses = courses || initialCourses
 
-  const filteredCourses = courses.filter((course) => {
+  const filteredCourses = currentCourses.filter((course) => {
     const matchesSearch =
       course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       (course.description?.toLowerCase().includes(searchTerm.toLowerCase()) ?? false)
@@ -62,13 +70,14 @@ export function CoursesGrid({ courses }: CoursesGridProps) {
         {/* Cards de cursos */}
         {filteredCourses.length === 0 ? (
           <div className="col-span-full text-center py-12 text-gray-500">
-            {courses.length === 0 ? "No hay cursos registrados" : "No se encontraron cursos"}
+            {currentCourses.length === 0 ? "No hay cursos registrados" : "No se encontraron cursos"}
           </div>
         ) : (
           <>
             {filteredCourses.map((course) => (
-              <div
+              <Link
                 key={course.id}
+                href={`/admin/cursos/${course.slug}`}
                 className="group relative bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-200 cursor-pointer"
               >
                 {/* Imagen del curso */}
@@ -104,10 +113,13 @@ export function CoursesGrid({ courses }: CoursesGridProps) {
                     </p>
                   )}
                 </div>
-              </div>
+              </Link>
             ))}
             {/* Card para agregar nuevo curso */}
-            <button className="group relative h-full min-h-[300px] border-2 border-dashed border-secondary rounded-lg hover:border-secondary hover:bg-secondary/10 transition-all duration-200 flex flex-col items-center justify-center gap-3 p-6 cursor-pointer">
+            <button 
+              onClick={() => setShowAddCourse(true)}
+              className="group relative h-full min-h-[300px] border-2 border-dashed border-secondary rounded-lg hover:border-secondary hover:bg-secondary/10 transition-all duration-200 flex flex-col items-center justify-center gap-3 p-6 cursor-pointer"
+            >
               <div className="w-16 h-16 rounded-full bg-gray-100 group-hover:bg-blue-100 flex items-center justify-center transition-colors">
                 <Plus className="h-8 w-8 text-primary group-hover:text-secondary" />
               </div>
@@ -122,7 +134,7 @@ export function CoursesGrid({ courses }: CoursesGridProps) {
       <div className="flex items-center justify-between text-sm text-gray-500">
         <div>
           Mostrando <span className="font-medium text-gray-900">{filteredCourses.length}</span> de{" "}
-          <span className="font-medium text-gray-900">{courses.length}</span> cursos
+          <span className="font-medium text-gray-900">{currentCourses.length}</span> cursos
         </div>
         {searchTerm || statusFilter !== "all" ? (
           <button
@@ -136,6 +148,12 @@ export function CoursesGrid({ courses }: CoursesGridProps) {
           </button>
         ) : null}
       </div>
+
+      {/* Modal para agregar curso */}
+      <AddCourseModal
+        isOpen={showAddCourse}
+        onClose={() => setShowAddCourse(false)}
+      />
     </div>
   )
 }

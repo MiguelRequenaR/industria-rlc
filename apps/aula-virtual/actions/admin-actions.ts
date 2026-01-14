@@ -267,3 +267,323 @@ export async function deleteInvitation(invitationId: string): Promise<{ success:
 
   return { success: true }
 }
+
+// ==================== CURSOS ====================
+
+export async function createCourse(
+  title: string,
+  description?: string,
+  imageUrl?: string
+): Promise<{ success: boolean; error?: string; slug?: string }> {
+  const supabase = await createClient()
+
+  // Verificar autenticación
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) {
+    return { success: false, error: "No autenticado" }
+  }
+
+  // Verificar permisos (admin o docente)
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .single()
+
+  const isAdmin = profile?.role === "admin"
+  const isTeacher = profile?.role === "docente"
+
+  if (!isAdmin && !isTeacher) {
+    return { success: false, error: "No tienes permisos para crear cursos" }
+  }
+
+  // Generar slug del título
+  const slug = title
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "") // Eliminar acentos
+    .replace(/[^a-z0-9\s-]/g, "") // Eliminar caracteres especiales
+    .trim()
+    .replace(/\s+/g, "-") // Reemplazar espacios por guiones
+    .replace(/-+/g, "-") // Eliminar guiones múltiples
+
+  // Verificar si el slug ya existe
+  const { data: existingCourse } = await supabase
+    .from("courses")
+    .select("id")
+    .eq("slug", slug)
+    .single()
+
+  if (existingCourse) {
+    return { success: false, error: "Ya existe un curso con ese nombre" }
+  }
+
+  // Crear el curso
+  const { error } = await supabase
+    .from("courses")
+    .insert({
+      title,
+      slug,
+      description: description || null,
+      image_url: imageUrl || null,
+      teacher_id: isTeacher ? user.id : null, // Si es docente, asignarlo automáticamente
+      is_published: false
+    })
+
+  if (error) {
+    console.error("Error creating course:", error)
+    return { success: false, error: error.message }
+  }
+
+  return { success: true, slug }
+}
+
+export async function getCourseBySlug(slug: string) {
+  const supabase = await createClient()
+
+  // Verificar que el usuario está autenticado
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) {
+    console.error("Usuario no autenticado")
+    return null
+  }
+
+  // Obtener el perfil del usuario para verificar su rol
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .single()
+
+  // Obtener el curso con el teacher
+  const { data: course, error: courseError } = await supabase
+    .from("courses")
+    .select(`
+      *,
+      teacher:profiles!teacher_id(*)
+    `)
+    .eq("slug", slug)
+    .single()
+
+  if (courseError) {
+    console.error("Error fetching course:", courseError)
+    return null
+  }
+
+  // Verificar permisos según RLS:
+  // - Admin puede ver todos los cursos
+  // - Teacher puede ver sus propios cursos
+  // - Estudiantes solo pueden ver cursos publicados
+  const isAdmin = profile?.role === "admin"
+  const isTeacher = profile?.role === "docente" && course.teacher_id === user.id
+  const isPublished = course.is_published
+
+  if (!isAdmin && !isTeacher && !isPublished) {
+    console.error("Usuario sin permisos para ver este curso")
+    return null
+  }
+
+  // Obtener módulos con lecciones
+  const { data: modules, error: modulesError } = await supabase
+    .from("modules")
+    .select(`
+      *,
+      lessons(*)
+    `)
+    .eq("course_id", course.id)
+    .order("order_index", { ascending: true })
+
+  if (modulesError) {
+    console.error("Error fetching modules:", modulesError)
+  }
+
+  // Obtener estadísticas del curso
+  const { count: enrollmentsCount } = await supabase
+    .from("enrollments")
+    .select("*", { count: "exact", head: true })
+    .eq("course_id", course.id)
+
+  return {
+    ...course,
+    teacher: Array.isArray(course.teacher) ? course.teacher[0] || null : course.teacher || null,
+    modules: modules || [],
+    enrollmentsCount: enrollmentsCount || 0
+  }
+}
+
+export async function getAllTeachers(): Promise<Profile[]> {
+  const supabase = await createClient()
+
+  const { data: teachers, error } = await supabase
+    .from("profiles")
+    .select("*")
+    .eq("role", "docente")
+    .order("full_name", { ascending: true })
+
+  if (error) {
+    console.error("Error fetching teachers:", error)
+    return []
+  }
+
+  return teachers || []
+}
+
+export async function assignTeacherToCourse(
+  courseId: string,
+  teacherId: string | null
+): Promise<{ success: boolean; error?: string }> {
+  const supabase = await createClient()
+
+  // Verificar que el usuario es admin
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) {
+    return { success: false, error: "No autenticado" }
+  }
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .single()
+
+  if (profile?.role !== "admin") {
+    return { success: false, error: "No tienes permisos para realizar esta acción" }
+  }
+
+  const { error } = await supabase
+    .from("courses")
+    .update({ teacher_id: teacherId })
+    .eq("id", courseId)
+
+  if (error) {
+    console.error("Error assigning teacher:", error)
+    return { success: false, error: error.message }
+  }
+
+  return { success: true }
+}
+
+// ==================== MÓDULOS ====================
+
+export async function createModule(
+  courseId: string,
+  title: string
+): Promise<{ success: boolean; error?: string }> {
+  const supabase = await createClient()
+
+  // Verificar autenticación
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) {
+    return { success: false, error: "No autenticado" }
+  }
+
+  // Verificar permisos (admin o docente del curso)
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .single()
+
+  const { data: course } = await supabase
+    .from("courses")
+    .select("teacher_id")
+    .eq("id", courseId)
+    .single()
+
+  const isAdmin = profile?.role === "admin"
+  const isTeacher = course?.teacher_id === user.id
+
+  if (!isAdmin && !isTeacher) {
+    return { success: false, error: "No tienes permisos para agregar módulos a este curso" }
+  }
+
+  // Obtener el siguiente order_index
+  const { data: modules } = await supabase
+    .from("modules")
+    .select("order_index")
+    .eq("course_id", courseId)
+    .order("order_index", { ascending: false })
+    .limit(1)
+
+  const nextOrderIndex = modules && modules.length > 0 ? modules[0].order_index + 1 : 0
+
+  // Crear el módulo
+  const { error } = await supabase
+    .from("modules")
+    .insert({
+      course_id: courseId,
+      title,
+      order_index: nextOrderIndex
+    })
+
+  if (error) {
+    console.error("Error creating module:", error)
+    return { success: false, error: error.message }
+  }
+
+  return { success: true }
+}
+
+export async function createLesson(
+  moduleId: string,
+  title: string,
+  meetingLink?: string,
+  pdfUrl?: string
+): Promise<{ success: boolean; error?: string }> {
+  const supabase = await createClient()
+
+  // Verificar autenticación
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) {
+    return { success: false, error: "No autenticado" }
+  }
+
+  // Obtener el curso del módulo para verificar permisos
+  const { data: module } = await supabase
+    .from("modules")
+    .select("course_id")
+    .eq("id", moduleId)
+    .single()
+
+  if (!module) {
+    return { success: false, error: "Módulo no encontrado" }
+  }
+
+  // Verificar permisos
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .single()
+
+  const { data: course } = await supabase
+    .from("courses")
+    .select("teacher_id")
+    .eq("id", module.course_id)
+    .single()
+
+  const isAdmin = profile?.role === "admin"
+  const isTeacher = course?.teacher_id === user.id
+
+  if (!isAdmin && !isTeacher) {
+    return { success: false, error: "No tienes permisos para agregar lecciones a este módulo" }
+  }
+
+  // Crear la lección
+  const { error } = await supabase
+    .from("lessons")
+    .insert({
+      module_id: moduleId,
+      title,
+      meeting_link: meetingLink || null,
+      pdf_url: pdfUrl || null,
+      is_visible: true
+    })
+
+  if (error) {
+    console.error("Error creating lesson:", error)
+    return { success: false, error: error.message }
+  }
+
+  return { success: true }
+}

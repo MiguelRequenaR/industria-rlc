@@ -6,7 +6,7 @@ export default async function CursosPage() {
 
   return (
     <div className="p-6">
-      <CoursesGrid courses={courses} />
+      <CoursesGrid initialCourses={courses} />
     </div>
   )
 }
