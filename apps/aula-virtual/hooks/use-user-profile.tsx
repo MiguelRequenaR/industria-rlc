@@ -10,6 +10,7 @@ interface UserProfile {
   full_name: string | null
   avatar_url: string | null
   role: UserRole
+  email: string
   created_at: string
 }
 
@@ -43,7 +44,11 @@ export function useUserProfile() {
           return
         }
 
-        setProfile(data)
+        // Agregar el email del usuario de auth
+        setProfile({
+          ...data,
+          email: user.email || "",
+        })
         setError(null)
       } catch (err) {
         setError("Error al cargar el perfil")

@@ -13,7 +13,7 @@ import {
   LogOut,
   Mail,
 } from "lucide-react"
-import { useUserProfile } from "@/hooks/use-user-profile"
+import { useProfileQuery } from "@/hooks/use-profile-query"
 import { logoutAction } from "@/actions/auth-actions"
 
 const menusByRole = {
@@ -46,9 +46,12 @@ const menusByRole = {
 
 export function AppSidebar() {
   const pathname = usePathname()
-  const { profile, loading } = useUserProfile()
+  const { profile, loading } = useProfileQuery()
 
   const menu = profile?.role ? menusByRole[profile.role] : menusByRole.estudiante
+  
+  // URL de inicio según el rol
+  const homeUrl = profile?.role ? `/${profile.role}` : "/estudiante"
 
   if (loading) {
     return (
@@ -65,7 +68,7 @@ export function AppSidebar() {
     <nav className="fixed top-0 left-0 right-0 h-16 bg-white border-b border-gray-200 flex items-center z-50">
       <div className="w-full max-w-7xl mx-auto px-6 flex items-center justify-between gap-6">
         {/* Logo y Marca */}
-        <Link href="/" className="flex items-center gap-3 shrink-0">
+        <Link href={homeUrl} className="flex items-center gap-3 shrink-0">
           <div className="w-10 h-10 rounded-lg flex items-center justify-center text-white" style={{ backgroundColor: 'var(--primary)' }}>
             <GraduationCap className="w-5 h-5" />
           </div>
@@ -116,10 +119,10 @@ export function AppSidebar() {
               </div>
             )}
             <div className="hidden xl:block">
-              <p className="text-xs font-semibold truncate max-w-[120px]">
+              <p className="text-sm font-semibold truncate max-w-[120px]">
                 {profile?.full_name || "Usuario"}
               </p>
-              <p className="text-[10px] text-gray-500 truncate">
+              <p className="text-sm text-secondary font-bold truncate">
                 {profile?.role || "Cargando..."}
               </p>
             </div>
