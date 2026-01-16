@@ -80,9 +80,9 @@ export default function DocenteDashboardPage() {
   ]
 
   return (
-    <div className="space-y-8 p-8 bg-linear-to-br from-gray-50 to-gray-100 min-h-screen">
+    <div className="space-y-8 pt-10 max-w-7xl mx-auto">
       {/* Header con saludo personalizado */}
-      <div className="relative overflow-hidden rounded-2xl bg-secondary p-8 shadow-2xl">
+      <div className="relative overflow-hidden rounded-2xl bg-secondary p-8 shadow-2xl mx-4 md:mx-0">
         <div className="absolute inset-0 bg-grid-white/10"></div>
         <div className="relative z-10">
           <div className="flex items-center gap-3 mb-2">
@@ -100,7 +100,7 @@ export default function DocenteDashboardPage() {
       </div>
 
       {/* KPIs principales */}
-      <div className="grid gap-6 md:grid-cols-3">
+      <div className="grid gap-6 md:grid-cols-3 mx-4 md:mx-0">
         {mainStats.map((stat) => {
           const Icon = stat.icon
           return (
@@ -143,7 +143,7 @@ export default function DocenteDashboardPage() {
         })}
       </div>
 
-      <div className="grid lg:grid-cols-3 gap-6">
+      <div className="grid lg:grid-cols-3 gap-6 mx-4 md:mx-0">
         {/* Actividad reciente */}
         <div className="lg:col-span-2 space-y-6">
           <div className="bg-white rounded-2xl p-6 shadow-lg border-2 border-gray-100">

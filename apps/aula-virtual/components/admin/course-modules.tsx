@@ -46,7 +46,7 @@ export function CourseModules({ modules, courseId }: CourseModulesProps) {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h2 className="text-2xl font-bold text-primary">Módulos y Lecciones</h2>
           <p className="text-sm text-gray-500 mt-1">
@@ -55,7 +55,7 @@ export function CourseModules({ modules, courseId }: CourseModulesProps) {
         </div>
         <button 
           onClick={() => setShowAddModule(true)}
-          className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-secondary transition-all duration-500 cursor-pointer"
+          className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-secondary transition-all duration-500 cursor-pointer w-full sm:w-auto justify-center"
         >
           <Plus className="w-4 h-4" />
           Agregar Módulo

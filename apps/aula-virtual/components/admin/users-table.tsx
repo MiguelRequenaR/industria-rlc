@@ -133,8 +133,8 @@ export function UsersTable({ users }: UsersTableProps) {
   }
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between">
+    <div className="space-y-4 max-w-7xl mx-auto">
+      <div className="flex flex-col md:flex-row md:items-center justify-between space-y-4 md:space-y-0">
         <div>
           <h2 className="text-2xl font-bold tracking-tight text-secondary">Gestión de Usuarios</h2>
           <p className="text-gray-500 text-sm mt-1">

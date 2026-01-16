@@ -55,7 +55,7 @@ export default async function AdminDashboardPage() {
   ];
 
   return (
-    <div className="space-y-8 p-8 bg-linear-to-br from-gray-50 to-gray-100 min-h-screen">
+    <div className="space-y-8 pt-10 min-h-screen max-w-7xl mx-auto">
       {/* Header mejorado */}
       <div className="relative overflow-hidden rounded-2xl bg-secondary p-8 shadow-2xl">
         <div className="absolute inset-0 bg-grid-white/10"></div>
@@ -110,7 +110,7 @@ export default async function AdminDashboardPage() {
               <Activity className="h-5 w-5 text-secondary" />
             </div>
             
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {detailedStats.map((stat) => {
                 const Icon = stat.icon;
                 return (

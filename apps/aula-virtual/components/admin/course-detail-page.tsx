@@ -69,18 +69,19 @@ export function CourseDetailPage({ initialCourse, slug }: CourseDetailPageProps)
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <div className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
+          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            {/* Info header */}
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4">
               <Link
                 href={isAdmin ? "/admin/cursos" : "/docente/cursos"}
-                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                className="self-start sm:self-auto p-2 hover:bg-gray-100 rounded-lg transition-colors"
               >
                 <ArrowLeft className="w-5 h-5 text-gray-600" />
               </Link>
               <div>
-                <div className="flex items-center gap-3">
-                  <h1 className="text-2xl font-bold text-gray-900">{currentCourse.title}</h1>
+                <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
+                  <h1 className="text-xl sm:text-2xl font-bold text-gray-900 break-words">{currentCourse.title}</h1>
                   <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded text-xs font-semibold uppercase ${
                     currentCourse.is_published 
                       ? "bg-green-100 text-green-700" 
@@ -95,11 +96,12 @@ export function CourseDetailPage({ initialCourse, slug }: CourseDetailPageProps)
               </div>
             </div>
 
-            <div className="flex items-center gap-3">
+            {/* Botones */}
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
               {isAdmin && (
                 <button
                   onClick={() => setShowAssignInstructor(true)}
-                  className="px-4 py-2 bg-primary text-white rounded-lg text-base font-medium hover:bg-secondary transition-all duration-500 cursor-pointer"
+                  className="px-4 py-2 bg-primary text-white rounded-lg text-base font-medium hover:bg-secondary transition-all duration-500 cursor-pointer w-full sm:w-auto"
                 >
                   Asignar Instructor
                 </button>
@@ -107,7 +109,7 @@ export function CourseDetailPage({ initialCourse, slug }: CourseDetailPageProps)
               {(isAdmin || isTeacher) && (
                 <button
                   onClick={() => setShowEnrollStudents(true)}
-                  className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg text-base font-medium hover:bg-green-700 transition-all duration-500 cursor-pointer"
+                  className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg text-base font-medium hover:bg-green-700 transition-all duration-500 cursor-pointer w-full sm:w-auto"
                 >
                   <UserPlus className="w-5 h-5" />
                   Inscribir Estudiantes

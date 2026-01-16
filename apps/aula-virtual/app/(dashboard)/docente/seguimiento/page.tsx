@@ -41,7 +41,7 @@ export default function DocenteSeguimientoPage() {
   }
 
   return (
-    <div className="space-y-6 p-6">
+    <div className="space-y-6 p-6 max-w-7xl mx-auto">
       <div>
         <h2 className="text-2xl font-bold tracking-tight text-secondary">Seguimiento de Estudiantes</h2>
         <p className="text-gray-500 text-sm mt-1">
@@ -97,10 +97,10 @@ export default function DocenteSeguimientoPage() {
               {studentsProgress.map((studentProgress) => (
                 <div
                   key={studentProgress.student.id}
-                  className="flex items-center gap-4 p-4 rounded-lg border border-gray-200 hover:border-secondary/30 hover:shadow-md transition-all"
+                  className="flex flex-col sm:flex-row sm:items-center gap-4 p-4 rounded-lg border border-gray-200 hover:border-secondary/30 hover:shadow-md transition-all"
                 >
                   {/* Avatar y nombre */}
-                  <div className="flex items-center gap-3 flex-1 min-w-0">
+                  <div className="flex items-center gap-3 flex-1 min-w-0 mb-2 sm:mb-0">
                     {studentProgress.student.avatar_url ? (
                       <img
                         src={studentProgress.student.avatar_url}
@@ -123,8 +123,8 @@ export default function DocenteSeguimientoPage() {
                   </div>
 
                   {/* Barra de progreso */}
-                  <div className="flex-1 max-w-md">
-                    <div className="flex items-center justify-between mb-1">
+                  <div className="flex-1 max-w-full sm:max-w-md w-full mb-2 sm:mb-0">
+                    <div className="flex flex-col xs:flex-row xs:items-center xs:justify-between mb-1 gap-1 xs:gap-0">
                       <span className="text-xs text-gray-600">
                         {studentProgress.completed_lessons} de {studentProgress.total_lessons} lecciones
                       </span>
@@ -144,16 +144,18 @@ export default function DocenteSeguimientoPage() {
                   </div>
 
                   {/* Botón de detalle */}
-                  <Button
-                    onClick={() => handleViewDetails(
-                      studentProgress.student.id,
-                      studentProgress.student.full_name || "Usuario"
-                    )}
-                    className="bg-secondary text-white hover:bg-secondary/90"
-                  >
-                    <Eye className="h-4 w-4 mr-2" />
-                    Ver Detalle
-                  </Button>
+                  <div className="flex justify-end sm:justify-center">
+                    <Button
+                      onClick={() => handleViewDetails(
+                        studentProgress.student.id,
+                        studentProgress.student.full_name || "Usuario"
+                      )}
+                      className="bg-secondary text-white hover:bg-secondary/90 w-full sm:w-auto"
+                    >
+                      <Eye className="h-4 w-4 mr-2" />
+                      Ver Detalle
+                    </Button>
+                  </div>
                 </div>
               ))}
             </div>

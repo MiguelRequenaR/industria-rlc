@@ -123,19 +123,19 @@ export default function InvitacionesPage() {
   const usedInvitations = invitations.filter(inv => inv.is_used)
 
   return (
-    <div className="space-y-8 p-8 bg-linear-to-br from-gray-50 to-gray-100 min-h-screen">
+    <div className="space-y-8 pt-10 min-h-screen max-w-7xl mx-auto">
       {/* Header */}
-      <div className="relative overflow-hidden rounded-2xl bg-secondary p-8 shadow-2xl">
+      <div className="relative overflow-hidden rounded-2xl bg-secondary p-8 shadow-2xl mx-4 md:mx-0">
         <div className="absolute inset-0 bg-grid-white/10"></div>
-        <div className="relative z-10 flex items-center justify-between">
+        <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between space-y-4 md:space-y-0">
           <div>
             <div className="flex items-center gap-3 mb-2">
               <Mail className="w-10 h-10 text-white" />
-              <h1 className="text-4xl font-bold text-white tracking-tight">
+              <h1 className="text-2xl md:text-4xl font-bold text-white tracking-tight">
                 Gestión de Invitaciones
               </h1>
             </div>
-            <p className="text-white text-lg">
+            <p className="text-white text-sm md:text-lg">
               Crea y administra códigos de invitación con roles específicos
             </p>
           </div>
@@ -212,7 +212,7 @@ export default function InvitacionesPage() {
               return (
                 <div
                   key={invitation.id}
-                  className="flex items-center justify-between p-4 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors border border-gray-200"
+                  className="flex flex-col md:flex-row items-start justify-between p-4 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors border border-gray-200"
                 >
                   <div className="flex items-center gap-4 flex-1">
                     <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${roleColors[invitation.role]} border-2`}>
@@ -236,7 +236,7 @@ export default function InvitacionesPage() {
                       </p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-start gap-2 md:items-center pt-5">
                     <button
                       onClick={() => copyToClipboard(invitation.token)}
                       className="flex items-center gap-2 px-4 py-2 bg-secondary text-white rounded-lg hover:bg-secondary/90 transition-colors text-sm font-semibold"
@@ -279,15 +279,15 @@ export default function InvitacionesPage() {
               return (
                 <div
                   key={invitation.id}
-                  className="flex items-center justify-between p-4 rounded-xl bg-gray-50 border border-gray-200 opacity-60"
+                  className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-4 rounded-xl bg-gray-50 border border-gray-200 opacity-60"
                 >
-                  <div className="flex items-center gap-4 flex-1">
-                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${roleColors[invitation.role]} border-2`}>
+                  <div className="flex items-center gap-3 sm:gap-4 flex-1 w-full">
+                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${roleColors[invitation.role]} border-2 shrink-0`}>
                       <RoleIcon className="w-6 h-6" />
                     </div>
                     <div className="flex-1">
-                      <div className="flex items-center gap-3 mb-1">
-                        <p className="font-mono text-sm font-semibold text-gray-800 line-through">{invitation.token}</p>
+                      <div className="flex flex-col xs:flex-row xs:items-center gap-2 xs:gap-3 mb-1">
+                        <p className="font-mono text-sm font-semibold text-gray-800 line-through break-all">{invitation.token}</p>
                         <span className={`px-3 py-1 rounded-lg text-xs font-semibold ${roleColors[invitation.role]} border`}>
                           {roleLabels[invitation.role]}
                         </span>

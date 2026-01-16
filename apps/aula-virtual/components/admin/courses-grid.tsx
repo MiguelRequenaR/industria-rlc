@@ -34,7 +34,7 @@ export function CoursesGrid({ initialCourses }: CoursesGridProps) {
   })
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 max-w-7xl mx-auto">
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold tracking-tight text-secondary">Gestión de Cursos</h2>
