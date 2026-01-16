@@ -9,7 +9,7 @@ export default function Robots(): MetadataRoute.Robots {
         disallow: ['/api/', '/admin/'],
       }
     ],
-    sitemap: 'https://www.industriarlc.com/sitemap.xml',
-    host: 'https://www.industriarlc.com/',
+    sitemap: 'https://industriarlc.com/sitemap.xml',
+    host: 'https://industriarlc.com/',
   }
 }

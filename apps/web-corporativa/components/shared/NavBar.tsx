@@ -125,7 +125,7 @@ export default function NavBar() {
           <Link href="/">
             <div className="flex items-center gap-2">
               <Image
-                src="/logoPNG.png"
+                src="/industriarlc512.png"
                 alt="Logo de Industria RLC - Servicios Eléctricos Integrales"
                 width={80}
                 height={80}

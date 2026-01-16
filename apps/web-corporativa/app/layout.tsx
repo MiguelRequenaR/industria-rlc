@@ -16,7 +16,7 @@ const nunito = Nunito({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://www.industriarlc.com/'),
+  metadataBase: new URL('https://industriarlc.com/'),
   title: {
     default: "Industria RLC - Servicios Eléctricos Integrales en Huancayo, Perú",
     template: "%s | Industria RLC",
@@ -26,7 +26,11 @@ export const metadata: Metadata = {
   authors: [
     {
       name: "Industria RLC",
-      url: "https://www.industriarlc.com/",
+      url: "https://industriarlc.com/",
+    },
+    {
+      name: "Miguel Requena - Grobles Studio",
+      url: "https://miguel-paris.netlify.app/"
     }
   ],
   creator: "Industria RLC",
@@ -34,13 +38,13 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "es_PE",
-    url: "https://www.industriarlc.com/",
+    url: "https://industriarlc.com/",
     siteName: "Industria RLC",
     title: "Industria RLC - Servicios Eléctricos Integrales en Huancayo, Perú",
     description: "Empresa peruana líder en servicios eléctricos integrales, construcción, automatización y gestión de proyectos. +10 de años de experiencia.",
     images: [
       {
-        url: "/RLCLOGOCORP.png",
+        url: "/ogImageRLC.png",
         width: 1200,
         height: 630,
         alt: "Industria RLC - Servicios Eléctricos Integrales en Huancayo, Perú",
@@ -51,7 +55,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Industria RLC - Servicios Eléctricos Integrales en Huancayo, Perú",
     description: "Empresa peruana líder en servicios eléctricos integrales, construcción, automatización y gestión de proyectos. +10 de años de experiencia.",
-    images: ['/RLCLOGOCORP.png'],
+    images: ['/ogImageRLC.png'],
   },
   robots: {
     index: true,

@@ -8,7 +8,7 @@ import { useState, useEffect } from "react"
 const areasTrabajo = [
   {
     name: "Sector Industrial",
-    description: "Plantas industriales, naves de producción, talleres especializados, líneas de manufactura y centros logísticos con soluciones eléctricas, automatización y mantenimiento.",
+    description: "Plantas industriales, talleres especializados, líneas de manufactura y centros logísticos con soluciones eléctricas, automatización y mantenimiento.",
     image: "https://images.unsplash.com/photo-1576446470246-499c738d1c8e?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
   },
   {

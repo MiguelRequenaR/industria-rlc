@@ -41,7 +41,7 @@ export default function Footer() {
           <div className="flex flex-col items-center md:items-start md:text-left">
             <div className="mb-4 flex justify-center md:justify-start w-full">
               <Image
-                src="/logoPNG.png"
+                src="/logoIndustriaRLCWBW.png"
                 alt="Logo de la empresa Industria RLC"
                 width={150}
                 height={150}

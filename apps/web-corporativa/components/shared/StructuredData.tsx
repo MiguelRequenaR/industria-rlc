@@ -4,7 +4,7 @@ export default function StructuredData() {
     "@type": "Organization",
     "name": "Industria RLC",
     "url": "https://industriarlc.com",
-    "logo": "https://industriarlc.com/RLCLOGOCORP.png",
+    "logo": "https://industriarlc.com/industriarlc512.png",
     "description": "Empresa peruana líder en servicios eléctricos integrales, construcción y automatización industrial",
     "address": {
       "@type": "PostalAddress",
@@ -33,7 +33,7 @@ export default function StructuredData() {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     "name": "Industria RLC",
-    "image": "https://industriarlc.com/RLCLOGOCORP.png",
+    "image": "https://industriarlc.com/industriarlc512.png",
     "telephone": "+51940162009",
     "email": "proyectos@industriarlc.com",
     "address": {

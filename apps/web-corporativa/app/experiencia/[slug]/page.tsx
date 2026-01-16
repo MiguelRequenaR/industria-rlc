@@ -136,7 +136,7 @@ export default async function ExperiencePage({ params }: { params: Promise<{ slu
             >
               <Image
                 src={image}
-                alt="Imagen del proyecto"
+                alt={`Imagen del proyecto: ${experience.title} - ${experience.client} en ${experience.location}`}
                 width={500}
                 height={500}
                 className="object-cover w-full h-full hover:scale-105 transition-transform duration-500 ease-in-out cursor-pointer"
