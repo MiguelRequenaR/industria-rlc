@@ -7,7 +7,7 @@ import AboutSection from "@/components/home/AboutSection"
 import ContactSection from "@/components/home/ContactSection"
 
 export const metadata: Metadata = {
-  title: 'Inicio',
+  title: 'RLC Academy - Formación Técnica en Electricidad Industrial',
   description: 'RLC Academy ofrece cursos especializados en electricidad industrial, instalaciones eléctricas, sistemas UPS y seguridad eléctrica. Fórmate con los mejores instructores y obtén certificaciones profesionales reconocidas.',
   openGraph: {
     title: 'RLC Academy - Formación Técnica en Electricidad Industrial',
