@@ -40,7 +40,9 @@ export default function QuickAccessBar() {
 
         {/* Ubicanos */}
         <Link
-          href="#ubicacion"
+          href="https://www.google.com/maps/@-12.0686083,-75.2100758,18.84z?entry=ttu&g_ep=EgoyMDI2MDExMy4wIKXMDSoASAFQAw%3D%3D"
+          target="_blank"
+          rel="noopener noreferrer"
           onClick={() => setIsOpen(false)}
           className="bg-secondary hover:bg-[#e5ad00] transition-colors duration-300 w-20 h-24 flex flex-col items-center justify-center gap-2 border-b-2 border-white group"
         >
@@ -52,7 +54,9 @@ export default function QuickAccessBar() {
 
         {/* Alumnos */}
         <Link
-          href="/alumnos"
+          href="https://aula.industriarlc.com/login"
+          target="_blank"
+          rel="noopener noreferrer"
           onClick={() => setIsOpen(false)}
           className="bg-secondary hover:bg-[#e5ad00] transition-colors duration-300 w-20 h-24 flex flex-col items-center justify-center gap-2 border-b-2 border-white group"
         >
@@ -64,7 +68,9 @@ export default function QuickAccessBar() {
 
         {/* Docentes */}
         <Link
-          href="/docentes"
+          href="https://aula.industriarlc.com/login"
+          target="_blank"
+          rel="noopener noreferrer"
           onClick={() => setIsOpen(false)}
           className="bg-secondary hover:bg-[#e5ad00] transition-colors duration-300 w-20 h-24 flex flex-col items-center justify-center gap-2 group"
         >

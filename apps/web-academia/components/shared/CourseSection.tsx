@@ -1,10 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Clock, Signal, ArrowRight } from "lucide-react";
+import { Clock, Signal, ArrowRight, GraduationCap } from "lucide-react";
 import { coursesData } from "@/lib/courses-data";
 
-export default function CourseSection() {
-  const courses = coursesData;
+interface CourseSectionProps {
+  limit?: number;
+  showViewAllButton?: boolean;
+}
+
+export default function CourseSection({ limit, showViewAllButton = false }: CourseSectionProps) {
+  const courses = limit ? coursesData.slice(0, limit) : coursesData;
 
   return (
     <section
@@ -64,6 +69,18 @@ export default function CourseSection() {
           ))
         }
       </div>
+      {showViewAllButton && (
+        <div className="flex justify-center mt-12" data-aos="fade-up" data-aos-delay="200">
+          <Link 
+            href="/cursos" 
+            className="flex items-center gap-2 bg-primary hover:bg-secondary transition-colors duration-500 text-white hover:text-primary rounded-full px-8 py-3 font-bold text-lg shadow-lg hover:shadow-xl group"
+          >
+            <GraduationCap className="w-5 h-5" />
+            Ver Catálogo Completo
+            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+          </Link>
+        </div>
+      )}
     </section>
   )
 }

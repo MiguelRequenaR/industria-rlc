@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation"
 import { getCourseBySlug, getAllCourseSlugs } from "@/lib/courses-data"
 import CourseDetailPage from "@/components/courses/CourseDetailPage"
+import CourseStructuredData from "@/components/seo/CourseStructuredData"
 import type { Metadata } from "next"
 
 interface CoursePageProps {
@@ -16,17 +17,45 @@ export async function generateMetadata({ params }: CoursePageProps): Promise<Met
 
   if (!course) {
     return {
-      title: "Curso no encontrado - RLC Academy",
+      title: "Curso no encontrado",
     }
   }
 
+  const courseUrl = `https://academia.industriarlc.com/cursos/${slug}`
+
   return {
-    title: `${course.title} - RLC Academy 360`,
+    title: course.title,
     description: course.detailedDescription,
+    keywords: [
+      course.title,
+      'curso electricidad',
+      'formación técnica',
+      'certificación profesional',
+      course.modality,
+      course.badges[0]?.level || 'curso técnico',
+    ],
     openGraph: {
-      title: course.title,
+      title: `${course.title} | RLC Academy`,
+      description: course.description,
+      url: courseUrl,
+      type: 'website',
+      images: [
+        {
+          url: course.imageCard,
+          width: 1200,
+          height: 630,
+          alt: course.title,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${course.title} | RLC Academy`,
       description: course.description,
       images: [course.imageCard],
+    },
+    alternates: {
+      canonical: courseUrl,
     },
   }
 }
@@ -47,5 +76,10 @@ export default async function CoursePage({ params }: CoursePageProps) {
     notFound()
   }
 
-  return <CourseDetailPage course={course} />
+  return (
+    <>
+      <CourseStructuredData course={course} />
+      <CourseDetailPage course={course} />
+    </>
+  )
 }

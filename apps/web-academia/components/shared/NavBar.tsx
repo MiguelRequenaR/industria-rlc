@@ -73,7 +73,7 @@ export default function NavBar() {
           
           {/* Botones - Derecha */}
           <div className="hidden md:flex items-center justify-end gap-5">
-            <Link href="/cursos" className="text-tertiary hover:text-secondary transition-colors duration-300">
+            <Link href="https://aula.industriarlc.com/login" target="_blank" rel="noopener noreferrer" className="text-tertiary hover:text-secondary transition-colors duration-300">
               Iniciar Sesión
             </Link>
             <Link href="/contacto" className="relative overflow-hidden bg-primary text-white hover:text-primary px-5 py-2 uppercase cursor-pointer group transition-colors duration-500 rounded-full">

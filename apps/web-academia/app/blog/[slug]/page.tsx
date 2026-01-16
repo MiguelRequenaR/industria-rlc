@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation"
 import { getBlogBySlug, getAllBlogSlugs } from "@/lib/blog-data"
 import BlogDetailPage from "@/components/blog/BlogDetailPage"
+import BlogStructuredData from "@/components/seo/BlogStructuredData"
 import type { Metadata } from "next"
 
 interface BlogPageProps {
@@ -16,17 +17,41 @@ export async function generateMetadata({ params }: BlogPageProps): Promise<Metad
 
   if (!post) {
     return {
-      title: "Artículo no encontrado - RLC Academy",
+      title: "Artículo no encontrado",
     }
   }
 
+  const blogUrl = `https://academia.industriarlc.com/blog/${slug}`
+
   return {
-    title: `${post.title} - Blog RLC Academy`,
+    title: post.title,
     description: post.excerpt,
+    keywords: [post.category, 'blog electricidad', 'artículos técnicos', 'RLC Academy'],
+    authors: [{ name: post.author.name }],
     openGraph: {
+      title: `${post.title} | Blog RLC Academy`,
+      description: post.excerpt,
+      url: blogUrl,
+      type: 'article',
+      publishedTime: post.date,
+      authors: [post.author.name],
+      images: [
+        {
+          url: post.image,
+          width: 1200,
+          height: 630,
+          alt: post.title,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
       title: post.title,
       description: post.excerpt,
       images: [post.image],
+    },
+    alternates: {
+      canonical: blogUrl,
     },
   }
 }
@@ -47,5 +72,10 @@ export default async function BlogPage({ params }: BlogPageProps) {
     notFound()
   }
 
-  return <BlogDetailPage post={post} />
+  return (
+    <>
+      <BlogStructuredData post={post} />
+      <BlogDetailPage post={post} />
+    </>
+  )
 }

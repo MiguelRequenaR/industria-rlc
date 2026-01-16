@@ -4,12 +4,14 @@ import { GraduationCap, User } from 'lucide-react'
 
 export default function Hero() {
   return (
-    <section className='max-w-7xl mx-auto min-h-screen flex items-center justify-center'>
+    <section className='max-w-7xl mx-auto min-h-screen flex items-center justify-center pt-20 md:pt-0'>
       <div className='grid grid-cols-1 md:grid-cols-2 gap-10 items-center justify-center'>
         <div className='space-y-10 mx-4 md:mx-0' data-aos="fade-right">
-          <div className='inline-flex items-center gap-2 bg-primary text-white px-5 py-2 rounded-xl w-auto font-bold uppercase'>
-            <span className="inline-block w-3 h-3 rounded-full bg-yellow-400 shrink-0"></span>
-            Nueva Plataforma 360°
+          <div className="flex justify-center md:justify-start">
+            <div className='inline-flex items-center gap-2 bg-primary text-white px-5 py-2 rounded-xl w-auto font-bold uppercase'>
+              <span className="inline-block w-3 h-3 rounded-full bg-yellow-400 shrink-0"></span>
+              Nueva Plataforma 360°
+            </div>
           </div>
           <h1 className='text-4xl md:text-7xl font-bold text-primary leading-snug text-center md:text-left'>
             Domina la <span
