@@ -155,6 +155,7 @@ export default function Footer() {
         {/* Copyright */}
         <div className="mt-12 pt-8 border-t border-white/10 text-center text-gray-400 text-sm">
           <p>&copy; {new Date().getFullYear()} Industria RLC. Todos los derechos reservados.</p>
+          <p>Desarrollado por <a href="https://groblestudio.com/" target="_blank" rel="noopener noreferrer" className="text-secondary hover:text-white hover:underline transition-colors duration-200">Grobles Studio</a></p>
         </div>
       </div>
     </footer>
