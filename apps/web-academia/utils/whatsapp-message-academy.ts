@@ -2,6 +2,7 @@ export interface FormContactData {
   nombre: string
   telefono: string
   email: string
+  curso: string
   mensaje: string
 }
 

@@ -3,12 +3,14 @@
 import { Send } from "lucide-react";
 import { useState, FormEvent } from "react";
 import { sendWhatsAppMessage, type FormContactData } from "@/utils/whatsapp-message-academy";
+import { coursesData } from "@/lib/courses-data";
 
 export default function FormContact() {
   const [formData, setFormData] = useState<FormContactData>({
     nombre: "",
     telefono: "",
     email: "",
+    curso: "",
     mensaje: "",
   });
 
@@ -26,6 +28,7 @@ export default function FormContact() {
       nombre: "",
       telefono: "",
       email: "",
+      curso: "",
       mensaje: "",
     });
   };
@@ -45,9 +48,9 @@ export default function FormContact() {
           <label htmlFor="nombre" className="block text-primary font-semibold mb-2">
             Nombre Completo
           </label>
-          <input 
-            type="text" 
-            id="nombre" 
+          <input
+            type="text"
+            id="nombre"
             name="nombre"
             value={formData.nombre}
             onChange={handleChange}
@@ -55,14 +58,14 @@ export default function FormContact() {
             required
           />
         </div>
-        
+
         <div>
           <label htmlFor="telefono" className="block text-primary font-semibold mb-2">
             Teléfono
           </label>
-          <input 
-            type="tel" 
-            id="telefono" 
+          <input
+            type="tel"
+            id="telefono"
             name="telefono"
             value={formData.telefono}
             onChange={handleChange}
@@ -75,9 +78,9 @@ export default function FormContact() {
           <label htmlFor="email" className="block text-primary font-semibold mb-2">
             Correo Electrónico
           </label>
-          <input 
-            type="email" 
-            id="email" 
+          <input
+            type="email"
+            id="email"
             name="email"
             value={formData.email}
             onChange={handleChange}
@@ -87,11 +90,32 @@ export default function FormContact() {
         </div>
 
         <div>
+          <label htmlFor="curso" className="block text-primary font-semibold mb-2">
+            Curso
+          </label>
+          <select
+            id="curso"
+            name="curso"
+            value={formData.curso}
+            onChange={(e) => setFormData(prev => ({ ...prev, curso: e.target.value }))}
+            className="w-full px-4 py-2 border-2 border-gray-300 rounded-full focus:outline-none focus:border-secondary transition-colors"
+            required
+          >
+            <option value="">Selecciona un curso</option>
+            {coursesData.map((course) => (
+              <option key={course.id} value={course.title}>
+                {course.title}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div>
           <label htmlFor="mensaje" className="block text-primary font-semibold mb-2">
             Mensaje
           </label>
-          <textarea 
-            id="mensaje" 
+          <textarea
+            id="mensaje"
             name="mensaje"
             value={formData.mensaje}
             onChange={handleChange}
@@ -101,8 +125,8 @@ export default function FormContact() {
           />
         </div>
 
-        <button 
-          type="submit" 
+        <button
+          type="submit"
           className="w-full bg-[#FFC107] hover:bg-[#FFB300] text-primary font-bold py-4 px-6 rounded-full flex items-center justify-center gap-2 transition-colors shadow-lg cursor-pointer"
         >
           <Send className="w-5 h-5" />
