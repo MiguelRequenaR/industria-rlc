@@ -227,7 +227,7 @@ export default function NavBar() {
             </ul>
           </nav>
           <div className="hidden md:flex ml-16 gap-4 items-center">
-            <a href="https://industria-rlc-web-academia.vercel.app/" target="_blank" rel="noopener noreferrer">
+            <a href="https://academia.industriarlc.com/" target="_blank" rel="noopener noreferrer">
               <span className="inline-block relative overflow-hidden bg-white text-primary border-2 border-secondary px-6 py-2 rounded-full font-semibold uppercase transition-all duration-300 hover:text-white hover:shadow-md cursor-pointer group">
                 <span
                   className="

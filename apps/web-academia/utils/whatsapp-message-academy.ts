@@ -55,3 +55,51 @@ export function sendNewsletterWhatsAppMessage(data: NewsletterData): void {
   const url = generateNewsletterWhatsAppUrl(data)
   window.open(url, '_blank')
 }
+
+export interface LibroReclamacionesData {
+  tipoDocumento: string
+  numeroDocumento: string
+  nombres: string
+  apellidos: string
+  email: string
+  telefono: string
+  direccion: string
+  tipoReclamo: string
+  detalleReclamo: string
+  pedido: string
+}
+
+export function formatLibroReclamacionesWhatsAppMessage(data: LibroReclamacionesData): string {
+  let message = '*Libro de Reclamaciones - Academia RLC*\n\n'
+  message += `*Tipo:* ${data.tipoReclamo === 'queja' ? 'QUEJA' : 'RECLAMO'}\n\n`
+  message += '*Datos del Consumidor*\n'
+  message += `${data.tipoDocumento}: ${data.numeroDocumento}\n`
+  message += `Nombre: ${data.nombres} ${data.apellidos}\n`
+  message += `Email: ${data.email}\n`
+  message += `Teléfono: ${data.telefono}\n`
+  message += `Dirección: ${data.direccion}\n`
+  
+  if (data.pedido) {
+    message += `Nro. Pedido/Matrícula: ${data.pedido}\n`
+  }
+  
+  message += `\n*Detalle del ${data.tipoReclamo === 'queja' ? 'Queja' : 'Reclamo'}*\n`
+  message += `${data.detalleReclamo}\n`
+  message += `\n*Fecha y Hora*\n`
+  message += `${new Date().toLocaleString('es-PE', { timeZone: 'America/Lima' })}\n`
+  message += `\n─────────────────\n`
+  message += `_Este ${data.tipoReclamo} fue enviado desde el Libro de Reclamaciones oficial de Academia RLC_\n`
+  message += `_Se dará respuesta en un plazo máximo de 30 días hábiles._`
+  return message
+}
+
+export function generateLibroReclamacionesWhatsAppUrl(data: LibroReclamacionesData): string {
+  const message = formatLibroReclamacionesWhatsAppMessage(data)
+  const encodedMessage = encodeURIComponent(message)
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`
+}
+
+export function sendLibroReclamacionesWhatsAppMessage(data: LibroReclamacionesData): void {
+  const url = generateLibroReclamacionesWhatsAppUrl(data)
+  window.open(url, '_blank')
+}

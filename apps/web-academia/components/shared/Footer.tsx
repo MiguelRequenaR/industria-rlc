@@ -71,8 +71,8 @@ export default function Footer() {
             <h4 className='text-lg font-bold mb-4'>Soporte</h4>
             <ul className='space-y-2'>
               <li>
-                <Link href='/preguntas-frecuentes' className='text-gray-300 hover:text-secondary transition-colors text-sm'>
-                  Preguntas Frecuentes
+                <Link href='/libro-reclamaciones' className='text-gray-300 hover:text-secondary transition-colors text-sm'>       
+                  Libro de Reclamaciones
                 </Link>
               </li>
               <li>
