@@ -81,7 +81,7 @@ export function CourseDetailPage({ initialCourse, slug }: CourseDetailPageProps)
               </Link>
               <div>
                 <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
-                  <h1 className="text-xl sm:text-2xl font-bold text-gray-900 break-words">{currentCourse.title}</h1>
+                  <h1 className="text-xl sm:text-2xl font-bold text-gray-900 wrap-break-word">{currentCourse.title}</h1>
                   <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded text-xs font-semibold uppercase ${
                     currentCourse.is_published 
                       ? "bg-green-100 text-green-700" 
@@ -109,7 +109,7 @@ export function CourseDetailPage({ initialCourse, slug }: CourseDetailPageProps)
               {(isAdmin || isTeacher) && (
                 <button
                   onClick={() => setShowEnrollStudents(true)}
-                  className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg text-base font-medium hover:bg-green-700 transition-all duration-500 cursor-pointer w-full sm:w-auto"
+                  className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg text-base font-medium hover:bg-secondary transition-all duration-500 cursor-pointer w-full sm:w-auto"
                 >
                   <UserPlus className="w-5 h-5" />
                   Inscribir Estudiantes

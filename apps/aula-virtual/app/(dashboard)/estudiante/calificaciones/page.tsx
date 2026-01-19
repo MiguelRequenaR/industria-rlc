@@ -12,7 +12,7 @@ export default function EstudianteCalificacionesPage() {
   const selectedCourse = gradesByCourse?.find(c => c.course.id === selectedCourseId)
 
   return (
-    <div className="space-y-6 p-6">
+    <div className="space-y-6 p-4 max-w-7xl mx-auto">
       {/* Header */}
       <div>
         <h2 className="text-2xl font-bold tracking-tight text-secondary">Mis Calificaciones</h2>
