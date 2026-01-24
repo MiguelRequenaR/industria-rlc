@@ -170,9 +170,9 @@ export function CourseModules({ modules, courseId, canEdit = false }: CourseModu
             const isExpanded = expandedModules.has(module.id)
             
             return (
-              <div key={module.id} className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+              <div key={module.id} className="bg-white rounded-lg border border-gray-200">
                 {/* Module Header */}
-                <div className="flex items-center gap-3 p-4 hover:bg-gray-50 transition-colors">
+                <div className={`flex items-center gap-3 p-4 hover:bg-gray-50 transition-colors ${isExpanded ? 'rounded-t-lg' : 'rounded-lg'}`}>
                   <button
                     onClick={() => toggleModule(module.id)}
                     className="flex items-center gap-3 flex-1"
@@ -237,7 +237,7 @@ export function CourseModules({ modules, courseId, canEdit = false }: CourseModu
 
                 {/* Lessons */}
                 {isExpanded && (
-                  <div className="border-t border-gray-200">
+                  <div className="border-t border-gray-200 rounded-b-lg overflow-hidden">
                     {module.lessons.length === 0 ? (
                       <div className="p-8 text-center">
                         <p className="text-gray-500 text-sm mb-4">No hay lecciones en este módulo</p>
