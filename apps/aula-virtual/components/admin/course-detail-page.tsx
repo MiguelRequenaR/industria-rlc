@@ -48,7 +48,11 @@ export function CourseDetailPage({ initialCourse, slug }: CourseDetailPageProps)
       id: "modules",
       label: "Módulos",
       icon: <Layers className="w-4 h-4" />,
-      content: <CourseModules modules={currentCourse.modules} courseId={currentCourse.id} />
+      content: <CourseModules 
+        modules={currentCourse.modules} 
+        courseId={currentCourse.id}
+        canEdit={isAdmin || isTeacher}
+      />
     },
     // Tab de Estudiantes (solo para docente)
     ...(isTeacher ? [{

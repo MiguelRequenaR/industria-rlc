@@ -588,6 +588,240 @@ export async function createLesson(
   return { success: true }
 }
 
+export async function updateModule(
+  moduleId: string,
+  title: string
+): Promise<{ success: boolean; error?: string }> {
+  const supabase = await createClient()
+
+  // Verificar autenticación
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) {
+    return { success: false, error: "No autenticado" }
+  }
+
+  // Obtener el curso del módulo para verificar permisos
+  const { data: module } = await supabase
+    .from("modules")
+    .select("course_id")
+    .eq("id", moduleId)
+    .single()
+
+  if (!module) {
+    return { success: false, error: "Módulo no encontrado" }
+  }
+
+  // Verificar permisos
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .single()
+
+  const { data: course } = await supabase
+    .from("courses")
+    .select("teacher_id")
+    .eq("id", module.course_id)
+    .single()
+
+  const isAdmin = profile?.role === "admin"
+  const isTeacher = course?.teacher_id === user.id
+
+  if (!isAdmin && !isTeacher) {
+    return { success: false, error: "No tienes permisos para editar este módulo" }
+  }
+
+  // Actualizar el módulo
+  const { error } = await supabase
+    .from("modules")
+    .update({ title })
+    .eq("id", moduleId)
+
+  if (error) {
+    console.error("Error updating module:", error)
+    return { success: false, error: error.message }
+  }
+
+  return { success: true }
+}
+
+export async function deleteModule(
+  moduleId: string
+): Promise<{ success: boolean; error?: string }> {
+  const supabase = await createClient()
+
+  // Verificar autenticación
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) {
+    return { success: false, error: "No autenticado" }
+  }
+
+  // Obtener el curso del módulo para verificar permisos
+  const { data: module } = await supabase
+    .from("modules")
+    .select("course_id")
+    .eq("id", moduleId)
+    .single()
+
+  if (!module) {
+    return { success: false, error: "Módulo no encontrado" }
+  }
+
+  // Verificar permisos
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .single()
+
+  const { data: course } = await supabase
+    .from("courses")
+    .select("teacher_id")
+    .eq("id", module.course_id)
+    .single()
+
+  const isAdmin = profile?.role === "admin"
+  const isTeacher = course?.teacher_id === user.id
+
+  if (!isAdmin && !isTeacher) {
+    return { success: false, error: "No tienes permisos para eliminar este módulo" }
+  }
+
+  // Eliminar el módulo (las lecciones se eliminarán en cascada)
+  const { error } = await supabase
+    .from("modules")
+    .delete()
+    .eq("id", moduleId)
+
+  if (error) {
+    console.error("Error deleting module:", error)
+    return { success: false, error: error.message }
+  }
+
+  return { success: true }
+}
+
+export async function updateLesson(
+  lessonId: string,
+  title: string,
+  meetingLink?: string,
+  pdfUrl?: string,
+  isVisible?: boolean
+): Promise<{ success: boolean; error?: string }> {
+  const supabase = await createClient()
+
+  // Verificar autenticación
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) {
+    return { success: false, error: "No autenticado" }
+  }
+
+  // Obtener el módulo y curso de la lección para verificar permisos
+  const { data: lesson } = await supabase
+    .from("lessons")
+    .select("module_id, modules(course_id)")
+    .eq("id", lessonId)
+    .single()
+
+  if (!lesson) {
+    return { success: false, error: "Lección no encontrada" }
+  }
+
+  // Verificar permisos
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .single()
+
+  const { data: course } = await supabase
+    .from("courses")
+    .select("teacher_id")
+    .eq("id", (lesson.modules as any).course_id)
+    .single()
+
+  const isAdmin = profile?.role === "admin"
+  const isTeacher = course?.teacher_id === user.id
+
+  if (!isAdmin && !isTeacher) {
+    return { success: false, error: "No tienes permisos para editar esta lección" }
+  }
+
+  // Actualizar la lección
+  const { error } = await supabase
+    .from("lessons")
+    .update({
+      title,
+      meeting_link: meetingLink || null,
+      pdf_url: pdfUrl || null,
+      is_visible: isVisible !== undefined ? isVisible : true
+    })
+    .eq("id", lessonId)
+
+  if (error) {
+    console.error("Error updating lesson:", error)
+    return { success: false, error: error.message }
+  }
+
+  return { success: true }
+}
+
+export async function deleteLesson(
+  lessonId: string
+): Promise<{ success: boolean; error?: string }> {
+  const supabase = await createClient()
+
+  // Verificar autenticación
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) {
+    return { success: false, error: "No autenticado" }
+  }
+
+  // Obtener el módulo y curso de la lección para verificar permisos
+  const { data: lesson } = await supabase
+    .from("lessons")
+    .select("module_id, modules(course_id)")
+    .eq("id", lessonId)
+    .single()
+
+  if (!lesson) {
+    return { success: false, error: "Lección no encontrada" }
+  }
+
+  // Verificar permisos
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .single()
+
+  const { data: course } = await supabase
+    .from("courses")
+    .select("teacher_id")
+    .eq("id", (lesson.modules as any).course_id)
+    .single()
+
+  const isAdmin = profile?.role === "admin"
+  const isTeacher = course?.teacher_id === user.id
+
+  if (!isAdmin && !isTeacher) {
+    return { success: false, error: "No tienes permisos para eliminar esta lección" }
+  }
+
+  // Eliminar la lección
+  const { error } = await supabase
+    .from("lessons")
+    .delete()
+    .eq("id", lessonId)
+
+  if (error) {
+    console.error("Error deleting lesson:", error)
+    return { success: false, error: error.message }
+  }
+
+  return { success: true }
+}
+
 // ==================== INSCRIPCIONES ====================
 
 export async function getAllStudents(): Promise<Profile[]> {
