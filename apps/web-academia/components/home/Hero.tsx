@@ -42,7 +42,7 @@ export default function Hero() {
             <p className='text-tertiary text-lg font-bold'>+500 Estudiantes activos</p>
           </div>
         </div>
-        <div className="flex items-center justify-center" data-aos="fade-left">
+        <div className="flex items-center justify-center" data-aos="zoom-in">
           <Image src="/images/rlciconpet.jpeg" alt="Hero" width={500} height={500} />
         </div>
       </div>

@@ -63,7 +63,7 @@ export default function HeroAbout() {
             </div>
             </div>
           </div>
-          <div className="flex items-center justify-center relative" data-aos="fade-left">
+          <div className="flex items-center justify-center relative" data-aos="zoom-in">
             {/* Badge Certificación Oficial - Top Right */}
             <div className="absolute top-0 right-0 md:top-10 md:right-10 bg-white rounded-2xl px-6 py-3 shadow-xl z-10 animate-bounce-slow">
               <div className="flex items-center gap-3">

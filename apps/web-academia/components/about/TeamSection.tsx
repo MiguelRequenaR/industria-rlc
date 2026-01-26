@@ -32,7 +32,7 @@ export default function TeamSection() {
           Expertos que Inspiran
         </h2>
         <hr className="w-40 border-t-3 mx-auto border-secondary rounded-full" />
-        <p className="text-primary pt-5 font-bold text-lg">
+        <p className="text-primary pt-5 font-bold text-lg mx-4 md:mx-0">
           Nuestro equipo combina experiencia de campo con pasión pedagógica. Aprende de los mejores del sector.
         </p>
       </div>

@@ -36,7 +36,7 @@ export default function HistorySection() {
             height={500}
           />
         </div>
-        <div data-aos="fade-left">
+        <div data-aos="fade-up">
           <h2 className='text-2xl md:text-4xl font-bold text-primary mb-10'>
             Nuestra Historia
           </h2>
