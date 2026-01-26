@@ -124,29 +124,30 @@ export default function ProductSection() {
               Catálogo de Materiales Eléctricos
             </h2>
           </div>
-          <div className="flex flex-col md:flex-row bg-primary p-4 md:p-6 rounded-none md:rounded-r-2xl gap-3 md:gap-2 md:space-x-6 space-x-0">
+          <div className="flex flex-col md:flex-row bg-primary p-4 md:p-6 rounded-none md:rounded-r-2xl gap-3 md:gap-2">
             <div className="flex items-center gap-2 justify-center md:justify-start">
               <CheckCircle2 className="text-secondary" />
               <p className="text-white text-lg md:text-xl font-semibold">
-                Hogar
+                Llámanos:
               </p>
             </div>
-            <div className="flex items-center gap-2 justify-center md:justify-start">
-              <CheckCircle2 className="text-secondary" />
-              <p className="text-white text-lg md:text-xl font-semibold">
-                Comercial
-              </p>
-            </div>
-            <div className="flex items-center gap-2 justify-center md:justify-start">
+            
+            <div className="flex items-center gap-2 justify-center md:justify-start md:mr-10">
               <Phone className="text-secondary" />
               <a href="tel:+51940162009" className="text-white text-lg md:text-xl font-semibold">
                 +51 940 162 009
               </a>
             </div>
             <div className="flex items-center gap-2 justify-center md:justify-start">
+              <CheckCircle2 className="text-secondary" />
+              <p className="text-white text-lg md:text-xl font-semibold">
+                Envíanos un correo:
+              </p>
+            </div>
+            <div className="flex items-center gap-2 justify-center md:justify-start">
               <Globe className="text-secondary" />
-              <a href="https://www.industrialrlc.com" className="text-white text-lg md:text-xl font-semibold break-all">
-                www.industrialrlc.com
+              <a href="mailto:ventas@industriarlc.com" className="text-white text-lg md:text-xl font-semibold break-all">
+                ventas@industriarlc.com
               </a>
             </div>
           </div>
