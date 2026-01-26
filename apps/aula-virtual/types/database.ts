@@ -46,6 +46,7 @@ export interface Lesson {
   meeting_link: string | null
   pdf_url: string | null
   is_visible: boolean
+  order_index?: number
 }
 
 export interface Progress {
@@ -138,7 +139,8 @@ export interface Database {
         Row: Lesson
         Insert: Omit<Lesson, "id"> & { 
           id?: string
-          is_visible?: boolean 
+          is_visible?: boolean
+          order_index?: number
         }
         Update: Partial<Omit<Lesson, "id">>
       }
@@ -173,7 +175,7 @@ export interface Database {
 
 export type CourseFormData = Omit<Course, "id" | "created_at" | "slug">
 export type ModuleFormData = Omit<Module, "id" | "created_at">
-export type LessonFormData = Omit<Lesson, "id">
+export type LessonFormData = Omit<Lesson, "id" | "order_index">
 export type GradeFormData = Omit<Grade, "id" | "created_at">
 
 export type TypedSupabaseClient = SupabaseClient<Database>

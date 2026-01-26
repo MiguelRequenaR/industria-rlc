@@ -397,6 +397,29 @@ export async function getCourseBySlug(slug: string) {
     console.error("Error fetching modules:", modulesError)
   }
 
+  // Ordenar las lecciones de cada módulo por order_index
+  const modulesWithSortedLessons = modules?.map(module => ({
+    ...module,
+    lessons: (module.lessons || []).sort((a, b) => {
+      // Ordenar por order_index si existe, sino por id como fallback
+      if (a.order_index != null && b.order_index != null) {
+        return a.order_index - b.order_index
+      }
+      // Si alguna lección no tiene order_index, ordenar por id
+      return a.id.localeCompare(b.id)
+    })
+  })) || []
+
+  // Asegurar que los módulos estén ordenados correctamente
+  const sortedModules = modulesWithSortedLessons.sort((a, b) => {
+    // Primero por order_index
+    if (a.order_index !== b.order_index) {
+      return a.order_index - b.order_index
+    }
+    // Fallback por id si order_index es igual
+    return a.id.localeCompare(b.id)
+  })
+
   // Obtener estadísticas del curso
   const { count: enrollmentsCount } = await supabase
     .from("enrollments")
@@ -406,7 +429,7 @@ export async function getCourseBySlug(slug: string) {
   return {
     ...course,
     teacher: Array.isArray(course.teacher) ? course.teacher[0] || null : course.teacher || null,
-    modules: modules || [],
+    modules: sortedModules,
     enrollmentsCount: enrollmentsCount || 0
   }
 }
@@ -569,6 +592,18 @@ export async function createLesson(
     return { success: false, error: "No tienes permisos para agregar lecciones a este módulo" }
   }
 
+  // Obtener el siguiente order_index para la lección
+  const { data: existingLessons } = await supabase
+    .from("lessons")
+    .select("order_index")
+    .eq("module_id", moduleId)
+    .order("order_index", { ascending: false })
+    .limit(1)
+
+  const nextOrderIndex = existingLessons && existingLessons.length > 0 
+    ? (existingLessons[0].order_index ?? -1) + 1 
+    : 0
+
   // Crear la lección
   const { error } = await supabase
     .from("lessons")
@@ -577,7 +612,8 @@ export async function createLesson(
       title,
       meeting_link: meetingLink || null,
       pdf_url: pdfUrl || null,
-      is_visible: true
+      is_visible: true,
+      order_index: nextOrderIndex
     })
 
   if (error) {

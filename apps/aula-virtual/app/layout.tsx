@@ -13,7 +13,7 @@ const nunito = Nunito({
 });
 
 export const metadata: Metadata = {
-  title: "RLC Acamdey 360 - Aula Virtual",
+  title: "RLC Academy - Aula Virtual",
   description: "Aula Virtual de la RLC Academy 360",
 };
 
