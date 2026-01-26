@@ -1,7 +1,7 @@
 "use server"
 
 import { createClient, createAdminClient } from "@/lib/supabase/server"
-import { Profile, CourseWithTeacher, Invitation, UserRole } from "@/types/database"
+import { Profile, CourseWithTeacher, Invitation, UserRole, Lesson } from "@/types/database"
 import { nanoid } from "nanoid"
 
 export interface UserWithEmail extends Profile {
@@ -400,10 +400,12 @@ export async function getCourseBySlug(slug: string) {
   // Ordenar las lecciones de cada módulo por order_index
   const modulesWithSortedLessons = modules?.map(module => ({
     ...module,
-    lessons: (module.lessons || []).sort((a, b) => {
+    lessons: ((module.lessons || []) as Lesson[]).sort((a, b) => {
       // Ordenar por order_index si existe, sino por id como fallback
-      if (a.order_index != null && b.order_index != null) {
-        return a.order_index - b.order_index
+      const aOrder = a.order_index ?? null
+      const bOrder = b.order_index ?? null
+      if (aOrder != null && bOrder != null) {
+        return aOrder - bOrder
       }
       // Si alguna lección no tiene order_index, ordenar por id
       return a.id.localeCompare(b.id)
