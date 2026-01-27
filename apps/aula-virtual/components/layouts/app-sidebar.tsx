@@ -62,7 +62,7 @@ export function AppSidebar() {
   }
 
   return (
-    <nav className="fixed top-0 left-0 right-0 h-16 bg-white border-b border-gray-200 flex items-center z-50">
+    <nav className="fixed top-0 left-0 right-0 h-16 bg-white rounded-2xl md:rounded-full max-w-7xl mx-auto m-5 flex items-center z-50 shadow-2xl">
       <div className="w-full max-w-7xl mx-auto px-1 md:px-6 flex items-center justify-between gap-6">
         {/* Logo y Marca */}
         <Link href={homeUrl} className="flex items-center gap-3 shrink-0">
@@ -86,8 +86,8 @@ export function AppSidebar() {
                   href={item.url}
                   className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
                     isActive
-                      ? 'bg-blue-50 text-blue-900 font-medium'
-                      : 'text-gray-700 hover:bg-gray-100'
+                      ? 'bg-orange-100 text-secondary font-medium'
+                      : 'text-secondary hover:bg-orange-100'
                   }`}
                 >
                   <Icon className="w-4 h-4" />
@@ -102,7 +102,7 @@ export function AppSidebar() {
         <div className="flex items-center gap-2 shrink-0">
           <Link
             href="/perfil"
-            className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors"
+            className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-orange-100 transition-colors"
           >
             {profile?.avatar_url ? (
               <img 
@@ -116,7 +116,7 @@ export function AppSidebar() {
               </div>
             )}
             <div className="hidden xl:block">
-              <p className="text-sm font-semibold truncate max-w-[120px]">
+              <p className="text-sm font-semibold truncate max-w-[120px] text-primary">
                 {profile?.full_name || "Usuario"}
               </p>
               <p className="text-sm text-secondary font-bold truncate">

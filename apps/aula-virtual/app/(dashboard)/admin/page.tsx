@@ -57,7 +57,7 @@ export default async function AdminDashboardPage() {
   return (
     <div className="space-y-8 pt-10 min-h-screen max-w-7xl mx-auto">
       {/* Header mejorado */}
-      <div className="relative overflow-hidden rounded-2xl bg-secondary p-8 shadow-2xl">
+      <div className="relative overflow-hidden rounded-2xl bg-secondary p-8 shadow-2xl mx-4 md:mx-0">
         <div className="absolute inset-0 bg-grid-white/10"></div>
         <div className="relative z-10">
           <div className="flex items-center gap-3 mb-2">
@@ -75,7 +75,7 @@ export default async function AdminDashboardPage() {
       </div>
 
       {/* Estadísticas principales con diseño mejorado */}
-      <div className="grid gap-6 md:grid-cols-3">
+      <div className="grid gap-6 md:grid-cols-3 mx-4 md:mx-0">
         {mainStats.map((card) => {
           return (
             <div
@@ -101,7 +101,7 @@ export default async function AdminDashboardPage() {
         })}
       </div>
 
-      <div className="grid lg:grid-cols-3 gap-6">
+      <div className="grid lg:grid-cols-3 gap-6 mx-4 md:mx-0">
         {/* Estadísticas detalladas */}
         <div className="lg:col-span-2 space-y-6">
           <div className="bg-white rounded-2xl p-6 shadow-lg border-2 border-gray-100">
