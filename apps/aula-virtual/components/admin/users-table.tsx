@@ -141,10 +141,6 @@ export function UsersTable({ users }: UsersTableProps) {
             Administra los usuarios del sistema
           </p>
         </div>
-        <Button className="gap-2">
-          <Plus className="h-4 w-4" />
-          Agregar Usuario
-        </Button>
       </div>
 
       <div className="flex gap-3">

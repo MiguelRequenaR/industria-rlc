@@ -74,14 +74,6 @@ export function LessonContent({ lesson, onMarkCompleted, isMarkingCompleted }: L
                 <ExternalLink className="h-5 w-5" />
                 Ver PDF
               </a>
-              <a
-                href={lesson.pdf_url}
-                download
-                className="inline-flex items-center gap-2 bg-white text-purple-600 border-2 border-purple-600 px-6 py-3 rounded-lg font-semibold hover:bg-purple-50 transition-colors"
-              >
-                <Download className="h-5 w-5" />
-                Descargar
-              </a>
             </div>
           </div>
         )}
