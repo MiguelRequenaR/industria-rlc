@@ -13,6 +13,7 @@ export interface Profile {
   created_at: string
   deleted_at: string | null
   is_active: boolean
+  is_owner: boolean
 }
 
 export interface Course {

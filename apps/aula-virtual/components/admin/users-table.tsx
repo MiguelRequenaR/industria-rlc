@@ -17,9 +17,10 @@ import { CertificateDocument } from "@/components/certificates/CertificateDocume
 
 interface UsersTableProps {
   users: UserWithEmail[]
+  currentUserIsOwner?: boolean
 }
 
-export function UsersTable({ users }: UsersTableProps) {
+export function UsersTable({ users, currentUserIsOwner = false }: UsersTableProps) {
   const router = useRouter()
   const [searchTerm, setSearchTerm] = useState("")
   const [roleFilter, setRoleFilter] = useState<string>("all")
@@ -52,6 +53,14 @@ export function UsersTable({ users }: UsersTableProps) {
 
   const getStatus = (user: UserWithEmail): UserStatus =>
     user.is_active && !user.deleted_at ? "activo" : "archivado"
+
+  const getRoleBadge = (user: UserWithEmail) => {
+    if (user.role === "admin" && user.is_owner === true)
+      return { variant: "super_admin" as const, label: "Superadministrador" }
+    if (user.role === "admin") return { variant: "admin" as const, label: "Administrador" }
+    if (user.role === "docente") return { variant: "docente" as const, label: "Docente" }
+    return { variant: "estudiante" as const, label: "Estudiante" }
+  }
 
   useEffect(() => {
     if (!viewModalOpen || !selectedUser) {
@@ -306,12 +315,8 @@ export function UsersTable({ users }: UsersTableProps) {
                         {user.email}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <Badge variant={user.role}>
-                          {user.role === "admin"
-                            ? "Administrador"
-                            : user.role === "docente"
-                            ? "Docente"
-                            : "Estudiante"}
+                        <Badge variant={getRoleBadge(user).variant}>
+                          {getRoleBadge(user).label}
                         </Badge>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
@@ -329,43 +334,45 @@ export function UsersTable({ users }: UsersTableProps) {
                         {formatDate(user.created_at)}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-right">
-                        <div className="flex items-center justify-end gap-2 cursor">
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="h-8 w-8 text-primary hover:bg-blue-50 cursor-pointer"
-                            title="Ver perfil"
-                            onClick={() => handleViewUser(user)}
-                          >
-                            <UserCheck className="h-4 w-4" />
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="h-8 w-8 text-primary hover:bg-blue-50 cursor-pointer"
-                            title="Editar usuario"
-                            onClick={() => handleEditUser(user)}
-                          >
-                            <Edit className="h-4 w-4" />
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className={
-                              getStatus(user) === "archivado"
-                                ? "h-8 w-8 text-green-600 hover:text-green-700 hover:bg-green-50 cursor-pointer"
-                                : "h-8 w-8 text-red-600 hover:text-red-700 hover:bg-red-50 cursor-pointer"
-                            }
-                            title={getStatus(user) === "archivado" ? "Activar usuario" : "Archivar usuario"}
-                            onClick={() => handleDeleteUser(user)}
-                          >
-                            {getStatus(user) === "archivado" ? (
-                              <RotateCcw className="h-4 w-4" />
-                            ) : (
-                              <Trash2 className="h-4 w-4" />
-                            )}
-                          </Button>
-                        </div>
+                        {(!user.is_owner || currentUserIsOwner) ? (
+                          <div className="flex items-center justify-end gap-2 cursor">
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="h-8 w-8 text-primary hover:bg-blue-50 cursor-pointer"
+                              title="Ver perfil"
+                              onClick={() => handleViewUser(user)}
+                            >
+                              <UserCheck className="h-4 w-4" />
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="h-8 w-8 text-primary hover:bg-blue-50 cursor-pointer"
+                              title="Editar usuario"
+                              onClick={() => handleEditUser(user)}
+                            >
+                              <Edit className="h-4 w-4" />
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className={
+                                getStatus(user) === "archivado"
+                                  ? "h-8 w-8 text-green-600 hover:text-green-700 hover:bg-green-50 cursor-pointer"
+                                  : "h-8 w-8 text-red-600 hover:text-red-700 hover:bg-red-50 cursor-pointer"
+                              }
+                              title={getStatus(user) === "archivado" ? "Activar usuario" : "Archivar usuario"}
+                              onClick={() => handleDeleteUser(user)}
+                            >
+                              {getStatus(user) === "archivado" ? (
+                                <RotateCcw className="h-4 w-4" />
+                              ) : (
+                                <Trash2 className="h-4 w-4" />
+                              )}
+                            </Button>
+                          </div>
+                        ) : null}
                       </td>
                     </tr>
                   )
@@ -419,12 +426,8 @@ export function UsersTable({ users }: UsersTableProps) {
                     <h3 className="text-2xl font-bold text-primary">
                       {selectedUser.full_name || "Sin nombre"}
                     </h3>
-                    <Badge variant={selectedUser.role} className="mt-1">
-                      {selectedUser.role === "admin"
-                        ? "Administrador"
-                        : selectedUser.role === "docente"
-                        ? "Docente"
-                        : "Estudiante"}
+                    <Badge variant={getRoleBadge(selectedUser).variant} className="mt-1">
+                      {getRoleBadge(selectedUser).label}
                     </Badge>
                   </div>
                 </div>
@@ -442,13 +445,7 @@ export function UsersTable({ users }: UsersTableProps) {
                     <Shield className="h-5 w-5 text-secondary mt-0.5" />
                     <div>
                       <p className="text-sm font-medium text-secondary">Rol</p>
-                      <p className="text-primary">
-                        {selectedUser.role === "admin"
-                          ? "Administrador"
-                          : selectedUser.role === "docente"
-                          ? "Docente"
-                          : "Estudiante"}
-                      </p>
+                      <p className="text-primary">{getRoleBadge(selectedUser).label}</p>
                     </div>
                   </div>
 

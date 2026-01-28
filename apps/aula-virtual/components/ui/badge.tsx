@@ -1,7 +1,7 @@
 import * as React from "react"
 
 export interface BadgeProps extends React.HTMLAttributes<HTMLDivElement> {
-  variant?: "default" | "admin" | "docente" | "estudiante"
+  variant?: "default" | "admin" | "docente" | "estudiante" | "super_admin"
 }
 
 const Badge = React.forwardRef<HTMLDivElement, BadgeProps>(
@@ -9,6 +9,7 @@ const Badge = React.forwardRef<HTMLDivElement, BadgeProps>(
     const variants = {
       default: "bg-gray-100 text-gray-800",
       admin: "bg-purple-100 text-purple-800",
+      super_admin: "bg-amber-100 text-amber-800",
       docente: "bg-blue-100 text-blue-800",
       estudiante: "bg-green-100 text-green-800",
     }
