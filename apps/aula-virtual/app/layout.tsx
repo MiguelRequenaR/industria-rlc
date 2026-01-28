@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
-import { Nunito } from "next/font/google";
+import { Comfortaa } from "next/font/google";
 import "./globals.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { QueryProvider } from "@/lib/providers/query-provider";
 
-const nunito = Nunito({
+const comfortaa = Comfortaa({
   subsets: ["latin"],
-  weight: ["200", "300", "400", "500", "600", "700", "800", "900"],
-  variable: "--font-nunito",
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-comfortaa",
   display: "swap",
 });
 
@@ -24,7 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body className={nunito.className + " pt-10"}>
+      <body className={comfortaa.className + " pt-10"}>
         <QueryProvider>
           {children}
           <ToastContainer
