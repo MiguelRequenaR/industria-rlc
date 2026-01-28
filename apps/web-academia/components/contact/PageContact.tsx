@@ -35,11 +35,11 @@ export default async function PageContact() {
           </div>
           <div className="flex items-center gap-2">
             <Mail size={26} className="text-secondary"/>
-            <a href="mailto:proyectos@industria-rlc.com" className="text-primary hover:underline font-bold text-base md:text-lg">proyectos@industria-rlc.com</a>
+            <a href="mailto:capacitaciones@industriarlc.com" className="text-primary hover:underline font-bold text-base md:text-lg">capacitaciones@industriarlc.com</a>
           </div>
           <div className="flex items-center gap-2">
             <MapPin size={26} className="text-secondary"/>
-            <span className="text-primary font-bold text-base md:text-lg">Av. de la Constitución, s/n</span>
+            <span className="text-primary font-bold text-base md:text-lg">Av. Real #S/N - Perú</span>
           </div>
           <Image src="/images/rlciconpetduda.png" alt="Mapa" width={500} height={500} />
         </div>

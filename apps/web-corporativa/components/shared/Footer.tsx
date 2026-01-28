@@ -28,8 +28,6 @@ export default function Footer() {
   const redesSociales = [
     { nombre: 'Facebook', icon: Facebook, url: 'https://facebook.com' },
     { nombre: 'Instagram', icon: Instagram, url: 'https://instagram.com' },
-    { nombre: 'LinkedIn', icon: Linkedin, url: 'https://linkedin.com' },
-    { nombre: 'Twitter', icon: Twitter, url: 'https://twitter.com' },
   ]
 
   return (

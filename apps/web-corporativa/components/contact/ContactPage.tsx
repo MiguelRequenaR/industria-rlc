@@ -24,7 +24,15 @@ export default function ContactPage() {
               </div>
               <div>
                 <h3 className="text-lg font-semibold">Llámanos</h3>
-                <p className="text-base font-light">(+51) 940 162 009</p>
+                <p className="text-base font-light">
+                  <a 
+                    href="tel:+51940162009" 
+                    className="hover:text-secondary underline transition-colors duration-500" 
+                    aria-label="Llamar al número de teléfono"
+                  >
+                    (+51) 940 162 009
+                  </a>
+                </p>
               </div>
             </div>
             <div className="flex items-start gap-4">
@@ -33,7 +41,15 @@ export default function ContactPage() {
               </div>
               <div>
                 <h3 className="text-lg font-semibold">Correo</h3>
-                <p className="text-base font-light break-all">proyectos@industriarlc.com</p>
+                <p className="text-base font-light break-all">
+                  <a
+                    href="mailto:proyectos@industriarlc.com"
+                    className="hover:text-secondary underline transition-colors duration-500"
+                    aria-label="Enviar correo a proyectos@industriarlc.com"
+                  >
+                    proyectos@industriarlc.com
+                  </a>
+                </p>
               </div>
             </div>
             <div className="flex items-start gap-4">
@@ -54,7 +70,7 @@ export default function ContactPage() {
               </div>
               <div>
                 <h3 className="text-lg font-semibold">Ubicación</h3>
-                <p className="text-base font-light">Av. de la Constitución, s/n</p>
+                <p className="text-base font-light">Av. Real #S/N - Perú</p>
               </div>
             </div>
           </div>

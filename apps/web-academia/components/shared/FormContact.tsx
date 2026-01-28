@@ -55,6 +55,7 @@ export default function FormContact({ courses }: FormContactProps) {
             type="text"
             id="nombre"
             name="nombre"
+            placeholder="Ingresa tu nombre"
             value={formData.nombre}
             onChange={handleChange}
             className="w-full px-6 py-2 border-2 border-gray-300 rounded-full focus:outline-none focus:border-secondary transition-colors"
@@ -70,6 +71,7 @@ export default function FormContact({ courses }: FormContactProps) {
             type="tel"
             id="telefono"
             name="telefono"
+            placeholder="Ingresa tu teléfono"
             value={formData.telefono}
             onChange={handleChange}
             className="w-full px-6 py-2 border-2 border-gray-300 rounded-full focus:outline-none focus:border-secondary transition-colors"
@@ -85,6 +87,7 @@ export default function FormContact({ courses }: FormContactProps) {
             type="email"
             id="email"
             name="email"
+            placeholder="Ingresa tu correo electrónico"
             value={formData.email}
             onChange={handleChange}
             className="w-full px-6 py-2 border-2 border-gray-300 rounded-full focus:outline-none focus:border-secondary transition-colors"
@@ -119,7 +122,8 @@ export default function FormContact({ courses }: FormContactProps) {
           </label>
           <textarea
             id="mensaje"
-            name="mensaje"
+            name="mensaje"  
+            placeholder="Escribe tu mensaje aquí..."
             value={formData.mensaje}
             onChange={handleChange}
             rows={5}

@@ -131,10 +131,9 @@ export default function ProductSection() {
                 Llámanos:
               </p>
             </div>
-            
+
             <div className="flex items-center gap-2 justify-center md:justify-start md:mr-10">
-              <Phone className="text-secondary" />
-              <a href="tel:+51940162009" className="text-white text-lg md:text-xl font-semibold">
+              <a href="tel:+51940162009" className="text-white text-lg md:text-xl font-semibold hover:text-secondary transition-colors duration-500">
                 +51 940 162 009
               </a>
             </div>
@@ -145,8 +144,7 @@ export default function ProductSection() {
               </p>
             </div>
             <div className="flex items-center gap-2 justify-center md:justify-start">
-              <Globe className="text-secondary" />
-              <a href="mailto:ventas@industriarlc.com" className="text-white text-lg md:text-xl font-semibold break-all">
+              <a href="mailto:ventas@industriarlc.com" className="text-white text-lg md:text-xl font-semibold break-all hover:text-secondary transition-colors duration-500">
                 ventas@industriarlc.com
               </a>
             </div>
