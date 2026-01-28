@@ -5,6 +5,7 @@ import CourseSection from "@/components/shared/CourseSection"
 import ServiceSection from "@/components/home/ServiceSection"
 import AboutSection from "@/components/home/AboutSection"
 import ContactSection from "@/components/home/ContactSection"
+import { getCoursesFromDb } from "@/lib/courses-data"
 
 export const metadata: Metadata = {
   title: 'RLC Academy - Formación Técnica en Electricidad Industrial',
@@ -17,15 +18,17 @@ export const metadata: Metadata = {
   },
 }
 
-export default function page() {
+export default async function page() {
+  const courses = await getCoursesFromDb()
+  const courseOptions = courses.map((c) => ({ id: c.id, title: c.title }))
   return (
     <div>
       <Hero />
       <StatsSection />
-      <CourseSection limit={3} showViewAllButton={true} />
+      <CourseSection courses={courses} limit={3} showViewAllButton={true} />
       <ServiceSection />
       <AboutSection />
-      <ContactSection />
+      <ContactSection courses={courseOptions} />
     </div>
   )
 }

@@ -1,19 +1,28 @@
-"use client"
+import { getBlogPostsFromDb, getBlogCategoriesFromDb } from "@/lib/blog-data"
+import HeroBlogWrapper from "@/components/blog/HeroBlogWrapper"
+import type { Metadata } from "next"
 
-import { useState } from "react"
-import HeroBlog from "@/components/blog/HeroBlog"
-import BlogSection from "@/components/blog/BlogSection"
+export const metadata: Metadata = {
+  title: "Blog | RLC Academy 360",
+  description: "Mantente al día con las últimas noticias, tutoriales y consejos profesionales para electricistas.",
+  keywords: ["blog electricidad", "tutoriales eléctricos", "noticias industriales", "consejos profesionales"],
+  openGraph: {
+    title: "Blog | RLC Academy 360",
+    description: "Mantente al día con las últimas noticias, tutoriales y consejos profesionales para electricistas.",
+    url: "https://academia.industriarlc.com/blog",
+    type: "website",
+  },
+}
 
-// Note: metadata export no funciona en client components
-// Se debe manejar con next/head o convertir a server component con client children
-
-export default function PageBlog() {
-  const [selectedCategory, setSelectedCategory] = useState("Todos")
+export default async function PageBlog() {
+  const [posts, categories] = await Promise.all([
+    getBlogPostsFromDb(),
+    getBlogCategoriesFromDb()
+  ])
 
   return (
     <main>
-      <HeroBlog onCategoryChange={setSelectedCategory} />
-      <BlogSection selectedCategory={selectedCategory} />
+      <HeroBlogWrapper initialPosts={posts} initialCategories={categories} />
     </main>
   )
 }

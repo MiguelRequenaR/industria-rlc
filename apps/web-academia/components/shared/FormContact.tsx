@@ -3,9 +3,12 @@
 import { Send } from "lucide-react";
 import { useState, FormEvent } from "react";
 import { sendWhatsAppMessage, type FormContactData } from "@/utils/whatsapp-message-academy";
-import { coursesData } from "@/lib/courses-data";
 
-export default function FormContact() {
+interface FormContactProps {
+  courses: { id: string; title: string }[];
+}
+
+export default function FormContact({ courses }: FormContactProps) {
   const [formData, setFormData] = useState<FormContactData>({
     nombre: "",
     telefono: "",
@@ -102,7 +105,7 @@ export default function FormContact() {
             required
           >
             <option value="">Selecciona un curso</option>
-            {coursesData.map((course) => (
+            {courses.map((course) => (
               <option key={course.id} value={course.title}>
                 {course.title}
               </option>

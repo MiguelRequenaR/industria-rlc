@@ -3,22 +3,15 @@
 import Image from "next/image"
 import Link from "next/link"
 import { ArrowRight, Clock, User } from "lucide-react"
-import { getBlogsByCategory } from "@/lib/blog-data"
-import { useState, useEffect } from "react"
+import type { BlogPost } from "@/lib/types"
 
 interface BlogSectionProps {
-  selectedCategory?: string
+  posts: BlogPost[]
 }
 
-export default function BlogSection({ selectedCategory = "Todos" }: BlogSectionProps) {
-  const [filteredPosts, setFilteredPosts] = useState(getBlogsByCategory(selectedCategory))
-
-  useEffect(() => {
-    setFilteredPosts(getBlogsByCategory(selectedCategory))
-  }, [selectedCategory])
-
-  const featuredBlog = filteredPosts.find(post => post.featured)
-  const regularBlogs = filteredPosts.filter(post => !post.featured).slice(0, 3)
+export default function BlogSection({ posts }: BlogSectionProps) {
+  const featuredBlog = posts.find(post => post.featured)
+  const regularBlogs = posts.filter(post => !post.featured).slice(0, 3)
 
   return (
     <section className="max-w-7xl mx-auto py-10 px-4">
@@ -60,7 +53,7 @@ export default function BlogSection({ selectedCategory = "Todos" }: BlogSectionP
                     <User className="w-5 h-5 text-primary" />
                   </div>
                   <div>
-                    <p className="font-semibold text-primary">{featuredBlog.author.name}</p>
+                    <p className="font-semibold text-primary">IndustriaRLC</p>
                     <p className="text-sm text-tertiary">{featuredBlog.date}</p>
                   </div>
                 </div>
@@ -104,7 +97,7 @@ export default function BlogSection({ selectedCategory = "Todos" }: BlogSectionP
                     <User className="w-4 h-4 text-primary" />
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-primary">{featuredBlog.author.name}</p>
+                    <p className="text-sm font-semibold text-primary">IndustriaRLC</p>
                     <p className="text-xs text-tertiary">{featuredBlog.date}</p>
                   </div>
                 </div>
@@ -162,7 +155,7 @@ export default function BlogSection({ selectedCategory = "Todos" }: BlogSectionP
                           <User className="w-4 h-4 text-primary" />
                         </div>
                         <div>
-                          <p className="text-sm font-semibold text-primary">{post.author.name}</p>
+                          <p className="text-sm font-semibold text-primary">IndustriaRLC</p>
                           <p className="text-xs text-tertiary">{post.date}</p>
                         </div>
                       </div>
@@ -176,7 +169,7 @@ export default function BlogSection({ selectedCategory = "Todos" }: BlogSectionP
         </>
       )}
 
-      {filteredPosts.length === 0 && (
+      {posts.length === 0 && (
         <div className="text-center py-20" data-aos="fade-up">
           <p className="text-2xl text-tertiary">
             No hay artículos disponibles en esta categoría.

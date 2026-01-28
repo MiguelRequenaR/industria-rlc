@@ -1,8 +1,11 @@
 import { Phone, Mail, MapPin } from "lucide-react"
 import Image from "next/image"
 import FormContact from "../shared/FormContact"
+import { getCoursesFromDb } from "@/lib/courses-data"
 
-export default function PageContact() {
+export default async function PageContact() {
+  const courses = await getCoursesFromDb()
+  const courseOptions = courses.map((c) => ({ id: c.id, title: c.title }))
   return (
     <section className='max-w-7xl mx-auto py-30'>
       <div className="flex flex-col items-center justify-center" data-aos="fade-up">
@@ -41,7 +44,7 @@ export default function PageContact() {
           <Image src="/images/rlciconpetduda.png" alt="Mapa" width={500} height={500} />
         </div>
         <div className="bg-white shadow-2xl h-fit rounded-2xl mx-4 md:mx-0" data-aos="fade-left" data-aos-delay="100">
-          <FormContact />
+          <FormContact courses={courseOptions} />
         </div>
       </div>
     </section>

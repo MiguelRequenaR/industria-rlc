@@ -1,7 +1,11 @@
 import { Mail, Phone, MapPin, Facebook, Instagram, Linkedin } from "lucide-react"
 import FormContact from "@/components/shared/FormContact"
 
-export default function ContactSection() {
+interface ContactSectionProps {
+  courses: { id: string; title: string }[]
+}
+
+export default function ContactSection({ courses }: ContactSectionProps) {
   return (
     <section
     className="max-w-5xl mx-auto py-30" data-aos="zoom-in">
@@ -35,7 +39,7 @@ export default function ContactSection() {
           </div>
         </div>
         <div>
-          <FormContact />
+          <FormContact courses={courses} />
         </div>
       </div>
     </section>

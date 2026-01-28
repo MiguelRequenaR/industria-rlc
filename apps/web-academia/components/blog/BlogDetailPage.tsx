@@ -2,14 +2,13 @@ import Image from "next/image"
 import Link from "next/link"
 import { ArrowLeft, Clock, User, Calendar, Share2 } from "lucide-react"
 import type { BlogPost } from "@/lib/types"
-import { getRegularBlogs } from "@/lib/blog-data"
 
 interface BlogDetailPageProps {
   post: BlogPost
+  relatedPosts: BlogPost[]
 }
 
-export default function BlogDetailPage({ post }: BlogDetailPageProps) {
-  const relatedPosts = getRegularBlogs(3).filter(p => p.id !== post.id)
+export default function BlogDetailPage({ post, relatedPosts }: BlogDetailPageProps) {
 
   return (
     <div className="min-h-screen bg-gray-50 pt-20">
@@ -32,7 +31,7 @@ export default function BlogDetailPage({ post }: BlogDetailPageProps) {
             <div className="flex flex-wrap items-center gap-6 text-white/90" data-aos="fade-up" data-aos-delay="100">
               <div className="flex items-center gap-2">
                 <User className="w-5 h-5" />
-                <span className="font-semibold">{post.author.name}</span>
+                <span className="font-semibold">IndustriaRLC</span>
               </div>
               <div className="flex items-center gap-2">
                 <Calendar className="w-5 h-5" />
@@ -112,21 +111,12 @@ export default function BlogDetailPage({ post }: BlogDetailPageProps) {
           <div className="mt-16 pt-8 border-t border-gray-200">
             <div className="flex items-center justify-between flex-wrap gap-4">
               <div>
-                <p className="text-sm text-tertiary mb-2">Escrito por</p>
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-full bg-secondary flex items-center justify-center">
-                    <User className="w-6 h-6 text-primary" />
-                  </div>
-                  <div>
-                    <p className="font-bold text-primary">{post.author.name}</p>
-                    <p className="text-sm text-tertiary">{post.date}</p>
-                  </div>
+                <p className="text-sm text-tertiary mb-2">Escrito por:</p>
+                <div className="flex items-center gap-2">
+                  <p className="text-lg text-primary">IndustriaRLC;</p>
+                  <p className="text-lg text-primary">{post.date}</p>
                 </div>
               </div>
-              <button className="flex items-center gap-2 bg-primary hover:bg-primary/90 transition-colors text-white px-6 py-3 rounded-xl font-semibold">
-                <Share2 className="w-5 h-5" />
-                Compartir Artículo
-              </button>
             </div>
           </div>
         </div>

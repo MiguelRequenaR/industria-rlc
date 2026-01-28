@@ -215,7 +215,5 @@ export type CourseFormData = Omit<Course, "id" | "created_at" | "slug">
 export type ModuleFormData = Omit<Module, "id" | "created_at">
 export type LessonFormData = Omit<Lesson, "id" | "order_index">
 export type GradeFormData = Omit<Grade, "id" | "created_at">
-export type BlogPostFormData = Omit<BlogPost, "id" | "created_at" | "updated_at">
-export type BlogCategoryFormData = Omit<BlogCategory, "id" | "created_at">
 
 export type TypedSupabaseClient = SupabaseClient<Database>

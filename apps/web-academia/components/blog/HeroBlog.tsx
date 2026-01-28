@@ -1,24 +1,13 @@
 "use client"
 
-import { useState } from "react"
-
 interface HeroBlogProps {
+  categories: string[]
+  activeCategory: string
   onCategoryChange?: (category: string) => void
 }
 
-export default function HeroBlog({ onCategoryChange }: HeroBlogProps) {
-  const [activeCategory, setActiveCategory] = useState("Todos")
-
-  const categories = [
-    "Todos",
-    "Seguridad Eléctrica",
-    "Certificación",
-    "Tutoriales",
-    "Noticias"
-  ]
-
+export default function HeroBlog({ categories, activeCategory, onCategoryChange }: HeroBlogProps) {
   const handleCategoryClick = (category: string) => {
-    setActiveCategory(category)
     if (onCategoryChange) {
       onCategoryChange(category)
     }

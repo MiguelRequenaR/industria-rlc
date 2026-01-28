@@ -1,17 +1,17 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'images.unsplash.com',
+        hostname: '**',
       },
       {
-        protocol: 'https',
-        hostname: 'i.ibb.co',
+        protocol: 'http',
+        hostname: '**',
       },
     ],
-    formats: ['image/avif', 'image/webp'],
   },
   compress: true,
   trailingSlash: false,

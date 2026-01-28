@@ -1,10 +1,10 @@
-import { MetadataRoute } from 'next'
-import { getAllCourseSlugs } from '@/lib/courses-data'
-import { getAllBlogSlugs } from '@/lib/blog-data'
+import { MetadataRoute } from "next"
+import { getAllCourseSlugs } from "@/lib/courses-data"
+import { getAllBlogSlugs } from "@/lib/blog-data"
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://academia.industriarlc.com'
-  
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const baseUrl = "https://academia.industriarlc.com"
+
   // Páginas estáticas principales
   const staticPages = [
     {
@@ -40,7 +40,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ]
 
   // Páginas dinámicas de cursos
-  const courseSlugs = getAllCourseSlugs()
+  const courseSlugs = await getAllCourseSlugs()
   const coursePages = courseSlugs.map((slug) => ({
     url: `${baseUrl}/cursos/${slug}`,
     lastModified: new Date(),

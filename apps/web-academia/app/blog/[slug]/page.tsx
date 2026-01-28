@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation"
-import { getBlogBySlug, getAllBlogSlugs } from "@/lib/blog-data"
+import { getBlogBySlug, getAllBlogSlugs, getRegularBlogs } from "@/lib/blog-data"
 import BlogDetailPage from "@/components/blog/BlogDetailPage"
 import BlogStructuredData from "@/components/seo/BlogStructuredData"
 import type { Metadata } from "next"
@@ -13,7 +13,7 @@ interface BlogPageProps {
 // Generar metadata dinámica
 export async function generateMetadata({ params }: BlogPageProps): Promise<Metadata> {
   const { slug } = await params
-  const post = getBlogBySlug(slug)
+  const post = await getBlogBySlug(slug)
 
   if (!post) {
     return {
@@ -58,7 +58,7 @@ export async function generateMetadata({ params }: BlogPageProps): Promise<Metad
 
 // Generar rutas estáticas en build time
 export async function generateStaticParams() {
-  const slugs = getAllBlogSlugs()
+  const slugs = await getAllBlogSlugs()
   return slugs.map((slug) => ({
     slug: slug,
   }))
@@ -66,16 +66,22 @@ export async function generateStaticParams() {
 
 export default async function BlogPage({ params }: BlogPageProps) {
   const { slug } = await params
-  const post = getBlogBySlug(slug)
+  const [post, relatedPosts] = await Promise.all([
+    getBlogBySlug(slug),
+    getRegularBlogs(3)
+  ])
 
   if (!post) {
     notFound()
   }
 
+  // Filtrar posts relacionados (excluir el actual)
+  const filteredRelatedPosts = relatedPosts.filter(p => p.id !== post.id).slice(0, 3)
+
   return (
     <>
       <BlogStructuredData post={post} />
-      <BlogDetailPage post={post} />
+      <BlogDetailPage post={post} relatedPosts={filteredRelatedPosts} />
     </>
   )
 }

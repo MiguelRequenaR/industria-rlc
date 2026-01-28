@@ -24,7 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body className={nunito.className}>
+      <body className={nunito.className + " pt-10"}>
         <QueryProvider>
           {children}
           <ToastContainer

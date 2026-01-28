@@ -12,6 +12,7 @@ import {
   Award,
   LogOut,
   Mail,
+  BookOpen,
 } from "lucide-react"
 import { useProfileQuery } from "@/hooks/use-profile-query"
 import { logoutAction } from "@/actions/auth-actions"
@@ -23,6 +24,7 @@ const menusByRole = {
       { title: "Usuarios", url: "/admin/usuarios", icon: Users },
       { title: "Cursos", url: "/admin/cursos", icon: GraduationCap },
       { title: "Invitaciones", url: "/admin/invitaciones", icon: Mail },
+      { title: "Blog", url: "/admin/blog", icon: BookOpen },
     ],
   },
   docente: {

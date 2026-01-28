@@ -1,6 +1,101 @@
 import type { BlogPost } from "./types";
+import type { BlogPost as DbBlogPost, BlogPostWithDetails } from "@/types/database";
+import { createClient } from "./supabase/server";
 
-export const blogPosts: BlogPost[] = [
+// Función para transformar un post de la BD al formato de la interfaz
+function mapDbBlogPostToBlogPost(dbPost: BlogPostWithDetails): BlogPost {
+  return {
+    id: dbPost.id,
+    title: dbPost.title,
+    slug: dbPost.slug,
+    excerpt: dbPost.excerpt || "",
+    image: dbPost.image_url || "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?q=80&w=1469&auto=format&fit=crop",
+    category: dbPost.category?.name || "Sin categoría",
+    author: {
+      name: "IndustriaRLC",
+      avatar: dbPost.author?.avatar_url || undefined,
+    },
+    date: new Date(dbPost.created_at).toLocaleDateString('es-ES', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric'
+    }),
+    readTime: dbPost.read_time,
+    content: Array.isArray(dbPost.content) ? dbPost.content : [],
+    featured: dbPost.is_featured,
+  };
+}
+
+// Obtener todos los posts publicados desde la BD
+export async function getBlogPostsFromDb(): Promise<BlogPost[]> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("blog_posts")
+    .select(`
+      *,
+      category:blog_categories(id, name, slug),
+      author:profiles(id, full_name, avatar_url)
+    `)
+    .eq("is_published", true)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("Error fetching blog posts:", error);
+    return blogPostsFallback;
+  }
+
+  if (!data || data.length === 0) {
+    return blogPostsFallback;
+  }
+
+  return data.map(mapDbBlogPostToBlogPost);
+}
+
+// Obtener un post por slug desde la BD
+export async function getBlogBySlugFromDb(slug: string): Promise<BlogPost | undefined> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("blog_posts")
+    .select(`
+      *,
+      category:blog_categories(id, name, slug),
+      author:profiles(id, full_name, avatar_url)
+    `)
+    .eq("slug", slug)
+    .eq("is_published", true)
+    .single();
+
+  if (error || !data) {
+    console.error("Error fetching blog post:", error);
+    // Fallback a los datos hardcodeados
+    return blogPostsFallback.find(post => post.slug === slug);
+  }
+
+  return mapDbBlogPostToBlogPost(data as any);
+}
+
+// Obtener categorías únicas desde la BD
+export async function getBlogCategoriesFromDb(): Promise<string[]> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("blog_categories")
+    .select("name")
+    .order("name", { ascending: true });
+
+  if (error) {
+    console.error("Error fetching blog categories:", error);
+    return blogCategories;
+  }
+
+  if (!data || data.length === 0) {
+    return blogCategories;
+  }
+
+  return ["Todos", ...data.map(cat => cat.name)];
+}
+
+// Posts de fallback (los que ya tenías hardcodeados)
+export const blogPostsFallback: BlogPost[] = [
   {
     id: "1",
     title: "Dominando el código electricista en 2025: Cambios Críticos que debes Conocer",
@@ -231,32 +326,51 @@ export const blogPosts: BlogPost[] = [
   }
 ];
 
-export function getBlogBySlug(slug: string): BlogPost | undefined {
-  return blogPosts.find(post => post.slug === slug);
+// Mantener referencia a los posts para funciones síncronas (fallback)
+export const blogPosts = blogPostsFallback;
+
+// Función asíncrona para obtener un post por slug (prioriza BD)
+export async function getBlogBySlug(slug: string): Promise<BlogPost | undefined> {
+  return await getBlogBySlugFromDb(slug);
 }
 
-export function getAllBlogSlugs(): string[] {
-  return blogPosts.map(post => post.slug);
+// Función para obtener todos los slugs (para generateStaticParams)
+export async function getAllBlogSlugs(): Promise<string[]> {
+  const posts = await getBlogPostsFromDb();
+  return posts.map(post => post.slug);
 }
 
-export function getFeaturedBlog(): BlogPost | undefined {
-  return blogPosts.find(post => post.featured);
+// Función para obtener el post destacado
+export async function getFeaturedBlog(): Promise<BlogPost | undefined> {
+  const posts = await getBlogPostsFromDb();
+  return posts.find(post => post.featured);
 }
 
-export function getRegularBlogs(limit?: number): BlogPost[] {
-  const regular = blogPosts.filter(post => !post.featured);
+// Función para obtener posts regulares (no destacados)
+export async function getRegularBlogs(limit?: number): Promise<BlogPost[]> {
+  const posts = await getBlogPostsFromDb();
+  const regular = posts.filter(post => !post.featured);
   return limit ? regular.slice(0, limit) : regular;
 }
 
-export function getBlogsByCategory(category: string): BlogPost[] {
-  if (category === "Todos") return blogPosts;
-  return blogPosts.filter(post => post.category === category);
+// Función para filtrar posts por categoría
+export async function getBlogsByCategory(category: string): Promise<BlogPost[]> {
+  const posts = await getBlogPostsFromDb();
+  if (category === "Todos") return posts;
+  return posts.filter(post => post.category === category);
 }
 
+// Obtener todas las categorías
+export async function getBlogCategories(): Promise<string[]> {
+  return await getBlogCategoriesFromDb();
+}
+
+// Categorías de fallback
 export const blogCategories = [
   "Todos",
   "Seguridad Eléctrica",
   "Certificación",
   "Tutoriales",
-  "Noticias"
+  "Noticias",
+  "Actualizaciones"
 ];

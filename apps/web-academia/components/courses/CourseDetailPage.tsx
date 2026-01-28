@@ -2,16 +2,15 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import { Check, Clock, Signal, Award, BookOpen, Users, Target, FileCheck, GraduationCap, ArrowLeft, Zap } from "lucide-react"
+import { Check, Clock, Signal, Award, BookOpen, Users, Target, FileCheck, GraduationCap, ArrowLeft, Zap, Info, ArrowRight } from "lucide-react"
 import type { Course } from "@/lib/types"
-import { getRelatedCourses } from "@/lib/courses-data"
 
 interface CourseDetailPageProps {
   course: Course
+  relatedCourses: Course[]
 }
 
-export default function CourseDetailPage({ course }: CourseDetailPageProps) {
-  const relatedCourses = getRelatedCourses(course.slug)
+export default function CourseDetailPage({ course, relatedCourses }: CourseDetailPageProps) {
 
   return (
     <div className="min-h-screen">
@@ -34,32 +33,9 @@ export default function CourseDetailPage({ course }: CourseDetailPageProps) {
               <p className="text-white/90 text-lg">
                 {course.detailedDescription}
               </p>
-              <div className="flex flex-wrap gap-4">
-                {course.badges.map((badge) => (
-                  <div key={badge.id} className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-xl text-white">
-                    <Clock className="w-5 h-5 text-secondary" />
-                    <span className="font-semibold">{badge.duration}</span>
-                  </div>
-                ))}
-                {course.badges[0] && (
-                  <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-xl text-white">
-                    <Signal className="w-5 h-5 text-secondary" />
-                    <span className="font-semibold">{course.badges[0].level}</span>
-                  </div>
-                )}
-                <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-xl text-white">
-                  <BookOpen className="w-5 h-5 text-secondary" />
-                  <span className="font-semibold">{course.modality}</span>
-                </div>
-              </div>
               <div className="pt-4">
-                <div className="text-white/80 text-sm mb-2">Precio del curso:</div>
-                <div className="flex items-baseline gap-2">
-                  <span className="text-5xl font-bold text-secondary">S/ {course.price}</span>
-                  <span className="text-white/60">+ IGV</span>
-                </div>
                 <Link 
-                  href={`/contacto?curso=${course.slug}`}
+                  href={`/contacto`}
                   className="mt-6 inline-flex items-center gap-2 bg-secondary hover:bg-secondary/90 transition-colors duration-300 text-primary rounded-xl px-8 py-4 font-bold text-lg"
                 >
                   <Users className="w-5 h-5" />
@@ -88,45 +64,6 @@ export default function CourseDetailPage({ course }: CourseDetailPageProps) {
                   </div>
                 </div>
               )}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* What You Will Learn */}
-      <section className="max-w-7xl mx-auto py-20 px-4">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-          <div data-aos="fade-up">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="bg-secondary rounded-full p-3">
-                <Target className="w-6 h-6 text-primary" />
-              </div>
-              <h2 className="text-3xl font-bold text-primary">Objetivos del Curso</h2>
-            </div>
-            <div className="space-y-4">
-              {course.objectives.map((objective, index) => (
-                <div key={index} className="flex items-start gap-3">
-                  <Check className="w-6 h-6 text-secondary shrink-0 mt-1" />
-                  <p className="text-tertiary">{objective}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div data-aos="fade-up" data-aos-delay="100">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="bg-primary rounded-full p-3">
-                <FileCheck className="w-6 h-6 text-white" />
-              </div>
-              <h2 className="text-3xl font-bold text-primary">Requisitos</h2>
-            </div>
-            <div className="space-y-4">
-              {course.requirements.map((requirement, index) => (
-                <div key={index} className="flex items-start gap-3">
-                  <div className="w-2 h-2 rounded-full bg-secondary shrink-0 mt-2"></div>
-                  <p className="text-tertiary">{requirement}</p>
-                </div>
-              ))}
             </div>
           </div>
         </div>
@@ -211,20 +148,22 @@ export default function CourseDetailPage({ course }: CourseDetailPageProps) {
             </h2>
             <hr className="w-40 border-t-3 mx-auto border-secondary rounded-full mt-4" />
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {course.includes.map((item, index) => (
-              <div 
-                key={index}
-                className="bg-white rounded-xl p-6 flex items-start gap-4 shadow-lg hover:shadow-xl transition-shadow duration-300"
-                data-aos="fade-up"
-                data-aos-delay={index * 50}
-              >
-                <div className="bg-secondary/10 rounded-full p-2 shrink-0">
-                  <Check className="w-5 h-5 text-secondary" />
-                </div>
-                <p className="text-tertiary font-medium">{item}</p>
-              </div>
-            ))}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6" data-aos="fade-up">
+            {/* Certificado de finalización */}
+            <div className="bg-white rounded-2xl shadow-lg p-8 flex flex-col items-center gap-4 cursor-pointer hover:scale-105 transition-all duration-500">
+              <h3 className="text-xl font-bold text-secondary mb-1">Certificado de Finalización</h3>
+              <p className="text-gray-600 text-center">Obtén un certificado digital al completar el curso para potenciar tu perfil profesional.</p>
+            </div>
+            {/* Material de estudio */}
+            <div className="bg-white rounded-2xl shadow-lg p-8 flex flex-col items-center gap-4 cursor-pointer hover:scale-105 transition-all duration-500" >
+              <h3 className="text-xl font-bold text-secondary mb-1">Material de Estudio</h3>
+              <p className="text-gray-600 text-center">Acceso a apuntes, PDFs y recursos descargables para que no te pierdas ningún contenido.</p>
+            </div>
+            {/* Clases en vivo */}
+            <div className="bg-white rounded-2xl shadow-lg p-8 flex flex-col items-center gap-4 cursor-pointer hover:scale-105 transition-all duration-500" >
+              <h3 className="text-xl font-bold text-secondary mb-1">Clases en Vivo</h3>
+              <p className="text-gray-600 text-center">Participa en clases en vivo y resuelve tus dudas directamente con el instructor y tus compañeros.</p>
+            </div>
           </div>
         </div>
       </section>
@@ -240,17 +179,18 @@ export default function CourseDetailPage({ course }: CourseDetailPageProps) {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link 
-              href={`/contacto?curso=${course.slug}`}
+              href={`/contacto`}
               className="flex items-center gap-2 bg-secondary hover:bg-secondary/90 transition-colors duration-300 text-primary rounded-xl px-8 py-4 font-bold text-lg"
             >
               <Users className="w-5 h-5" />
-              Inscribirme Ahora
+              Inscribirse
             </Link>
             <Link 
               href="/contacto"
               className="flex items-center gap-2 bg-white/10 hover:bg-white/20 backdrop-blur-sm transition-colors duration-300 text-white rounded-xl px-8 py-4 font-bold text-lg border-2 border-white/30"
             >
-              Solicitar Más Información
+              <Info className="w-5 h-5" />
+              Información
             </Link>
           </div>
         </div>
@@ -266,45 +206,33 @@ export default function CourseDetailPage({ course }: CourseDetailPageProps) {
             </h2>
             <hr className="w-40 border-t-3 mx-auto border-secondary rounded-full mt-4" />
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10" data-aos="fade-up">
             {relatedCourses.map((relatedCourse, index) => (
               <Link
                 key={relatedCourse.id}
                 href={`/cursos/${relatedCourse.slug}`}
-                className="group"
-                data-aos="fade-up"
-                data-aos-delay={index * 100}
+                className="rounded-2xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500 hover:-translate-y-2 flex flex-col group h-[450px]"
               >
-                <div className="rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group-hover:-translate-y-2">
-                  <div className="relative h-48">
-                    <Image
-                      src={relatedCourse.imageCard}
-                      alt={relatedCourse.title}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                  <div className="p-6 bg-white">
-                    <div className="flex items-center gap-4 mb-3 text-sm text-tertiary">
-                      {relatedCourse.badges[0] && (
-                        <>
-                          <div className="flex items-center gap-1">
-                            <Clock className="w-4 h-4" />
-                            <span>{relatedCourse.badges[0].duration}</span>
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <Signal className="w-4 h-4" />
-                            <span>{relatedCourse.badges[0].level}</span>
-                          </div>
-                        </>
-                      )}
-                    </div>
-                    <h3 className="text-xl font-bold text-primary mb-2 group-hover:text-secondary transition-colors">
-                      {relatedCourse.title}
-                    </h3>
-                    <p className="text-tertiary text-sm">
-                      {relatedCourse.description}
-                    </p>
+                <div className="relative h-64 w-full shrink-0">
+                  <Image
+                    src={relatedCourse.imageCard}
+                    alt={relatedCourse.title}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <div className="space-y-2 p-5 grow flex flex-col">
+                  <h3 className="text-primary text-xl font-bold group-hover:text-secondary transition-colors duration-300 line-clamp-2 overflow-hidden">
+                    {relatedCourse.title}
+                  </h3>
+                  <p className="text-tertiary line-clamp-3 overflow-hidden text-ellipsis">
+                    {relatedCourse.description}
+                  </p>
+                </div>
+                <div className="pb-5 px-5 shrink-0">
+                  <div className="text-primary flex items-center gap-2 font-bold">
+                    Ver Detalles
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform duration-300" />
                   </div>
                 </div>
               </Link>

@@ -1,5 +1,9 @@
 import { notFound } from "next/navigation"
-import { getCourseBySlug, getAllCourseSlugs } from "@/lib/courses-data"
+import {
+  getCourseBySlug,
+  getAllCourseSlugs,
+  getRelatedCourses,
+} from "@/lib/courses-data"
 import CourseDetailPage from "@/components/courses/CourseDetailPage"
 import CourseStructuredData from "@/components/seo/CourseStructuredData"
 import type { Metadata } from "next"
@@ -11,9 +15,11 @@ interface CoursePageProps {
 }
 
 // Generar metadata dinámica
-export async function generateMetadata({ params }: CoursePageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: CoursePageProps): Promise<Metadata> {
   const { slug } = await params
-  const course = getCourseBySlug(slug)
+  const course = await getCourseBySlug(slug)
 
   if (!course) {
     return {
@@ -28,17 +34,17 @@ export async function generateMetadata({ params }: CoursePageProps): Promise<Met
     description: course.detailedDescription,
     keywords: [
       course.title,
-      'curso electricidad',
-      'formación técnica',
-      'certificación profesional',
+      "curso electricidad",
+      "formación técnica",
+      "certificación profesional",
       course.modality,
-      course.badges[0]?.level || 'curso técnico',
+      course.badges[0]?.level || "curso técnico",
     ],
     openGraph: {
       title: `${course.title} | RLC Academy`,
       description: course.description,
       url: courseUrl,
-      type: 'website',
+      type: "website",
       images: [
         {
           url: course.imageCard,
@@ -49,7 +55,7 @@ export async function generateMetadata({ params }: CoursePageProps): Promise<Met
       ],
     },
     twitter: {
-      card: 'summary_large_image',
+      card: "summary_large_image",
       title: `${course.title} | RLC Academy`,
       description: course.description,
       images: [course.imageCard],
@@ -62,7 +68,7 @@ export async function generateMetadata({ params }: CoursePageProps): Promise<Met
 
 // Generar rutas estáticas en build time
 export async function generateStaticParams() {
-  const slugs = getAllCourseSlugs()
+  const slugs = await getAllCourseSlugs()
   return slugs.map((slug) => ({
     slug: slug,
   }))
@@ -70,7 +76,10 @@ export async function generateStaticParams() {
 
 export default async function CoursePage({ params }: CoursePageProps) {
   const { slug } = await params
-  const course = getCourseBySlug(slug)
+  const [course, relatedCourses] = await Promise.all([
+    getCourseBySlug(slug),
+    getRelatedCourses(slug, 3),
+  ])
 
   if (!course) {
     notFound()
@@ -79,7 +88,7 @@ export default async function CoursePage({ params }: CoursePageProps) {
   return (
     <>
       <CourseStructuredData course={course} />
-      <CourseDetailPage course={course} />
+      <CourseDetailPage course={course} relatedCourses={relatedCourses} />
     </>
   )
 }
