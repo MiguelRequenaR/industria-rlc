@@ -20,6 +20,7 @@ export interface Course {
   image_url: string | null
   teacher_id: string | null
   is_published: boolean
+  deleted_at: string | null
   created_at: string
 }
 

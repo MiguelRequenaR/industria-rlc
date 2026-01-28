@@ -546,7 +546,7 @@ export const servicesData: Service[] = [
         title: "Cerco Eléctrico",
         slug: "cerco-electrico",
         description: "Suministro, instalación y mantenimiento de sistemas de cercos eléctricos.",
-        image: "https://i.ibb.co/5g31Qt4b/cercoelectrico.jpg",
+        image: "https://i.ibb.co/G3QK3968/cercoselectricos.jpg",
         detailedDescription: "Los cercos eléctricos son sistemas de seguridad perimetral compuestos por alambres electrificados con pulsos de alta tensión y baja corriente que generan una barrera de protección disuasiva. Su función es proteger el perímetro de una propiedad mediante una barrera electrificada que disuade y detecta intentos de intrusión. \n\nIndustria RLC está comprometido con ofrecerte soluciones de alta calidad. Contamos con diversos servicios de cercos eléctricos para una protección perimetral efectiva de tus instalaciones.",
         benefits: [
           "Diseño e instalación de cerco eléctrico",

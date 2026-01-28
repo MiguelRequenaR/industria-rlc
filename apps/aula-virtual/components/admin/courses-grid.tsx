@@ -28,8 +28,9 @@ export function CoursesGrid({ initialCourses }: CoursesGridProps) {
       (course.description?.toLowerCase().includes(searchTerm.toLowerCase()) ?? false)
     const matchesStatus = 
       statusFilter === "all" || 
-      (statusFilter === "published" && course.is_published) ||
-      (statusFilter === "unpublished" && !course.is_published)
+      (statusFilter === "published" && course.is_published && !course.deleted_at) ||
+      (statusFilter === "unpublished" && !course.is_published && !course.deleted_at) ||
+      (statusFilter === "archived" && !!course.deleted_at)
     return matchesSearch && matchesStatus
   })
 
@@ -63,6 +64,7 @@ export function CoursesGrid({ initialCourses }: CoursesGridProps) {
           <option value="all">Todos los cursos</option>
           <option value="published">Publicados</option>
           <option value="unpublished">No publicados</option>
+          <option value="archived">Archivados</option>
         </Select>
       </div>
 
@@ -95,6 +97,23 @@ export function CoursesGrid({ initialCourses }: CoursesGridProps) {
                       </span>
                     </div>
                   )}
+                  <div className="absolute top-2 right-2">+
+                    {
+                      course.deleted_at ? (
+                        <span className="px-2 py-1 text-xs font-semibold bg-red-100 text-red-800 rounded-full">
+                          Archivado
+                        </span>
+                      ) : course.is_published ? (
+                        <span className="px-2 py-1 text-xs font-semibold bg-green-100 text-green-800 rounded-full">
+                          Publicado
+                        </span>
+                      ) : (
+                        <span className="px-2 py-1 text-xs font-semibold bg-yellow-100 text-yellow-800 rounded-full">
+                          No publicado
+                        </span>
+                      )
+                    }
+                  </div>
                 </div>
 
                 {/* Contenido de la card */}

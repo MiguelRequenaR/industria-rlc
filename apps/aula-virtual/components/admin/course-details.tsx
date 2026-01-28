@@ -13,6 +13,7 @@ interface CourseDetailsProps {
 }
 
 export function CourseDetails({ course, onEditClick, onAssignInstructorClick, isAdmin = true }: CourseDetailsProps) {
+  const isArchived = !!course.deleted_at
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
       {/* Contenido principal */}
@@ -76,7 +77,7 @@ export function CourseDetails({ course, onEditClick, onAssignInstructorClick, is
         {/* Estadísticas */}
         <div className="bg-white rounded-lg border border-gray-200 p-6 space-y-4">
           <h3 className="font-semibold text-primary">Estadísticas del Curso</h3>
-          
+
           <div className="space-y-4">
             {/* Total Students */}
             <div className="flex items-center gap-3">
@@ -98,7 +99,7 @@ export function CourseDetails({ course, onEditClick, onAssignInstructorClick, is
           <div className="flex items-center justify-between">
             <h3 className="font-semibold text-primary">Instructor</h3>
             {isAdmin && onAssignInstructorClick && (
-              <button 
+              <button
                 onClick={onAssignInstructorClick}
                 className="text-sm font-medium text-secondary hover:text-primary transition-all duration-500 cursor-pointer"
               >
@@ -133,11 +134,18 @@ export function CourseDetails({ course, onEditClick, onAssignInstructorClick, is
             </div>
           ) : (
             <div className="text-center py-8">
-              <p className="text-gray-500 text-sm mb-4">No hay instructor asignado</p>
+              <p className="text-gray-500 text-sm mb-4">
+                {isArchived ? "Curso archivado. No se puede asignar instructor." : "No hay instructor asignado"}
+              </p>
               {onAssignInstructorClick && (
-                <button 
-                  onClick={onAssignInstructorClick}
-                  className="px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-secondary"
+                <button
+                  onClick={!isArchived ? onAssignInstructorClick : undefined}
+                  disabled={isArchived}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium w-full sm:w-auto transition-all duration-500
+                    ${isArchived
+                      ? "bg-gray-200 text-gray-400 cursor-not-allowed border border-gray-300"
+                      : "bg-primary text-white hover:bg-secondary cursor-pointer"
+                    }`}
                 >
                   Asignar Instructor
                 </button>
@@ -156,13 +164,25 @@ export function CourseDetails({ course, onEditClick, onAssignInstructorClick, is
           </div>
           <div className="flex justify-between items-center">
             <span className="text-gray-500">Visibilidad</span>
-            <span className={`inline-flex items-center gap-1 px-2 py-1 rounded text-xs font-semibold ${
-              course.is_published 
-                ? "bg-green-100 text-green-700" 
-                : "bg-gray-100 text-gray-700"
-            }`}>
-              <span className="w-2 h-2 rounded-full bg-current"></span>
-              {course.is_published ? "Público" : "Privado"}
+            <span
+              className={`inline-flex items-center gap-1 px-2 py-1 rounded text-xs font-semibold ${
+                isArchived
+                  ? "bg-yellow-100 text-yellow-700"
+                  : course.is_published
+                  ? "bg-green-100 text-green-700"
+                  : "bg-gray-100 text-gray-700"
+              }`}
+            >
+              <span
+                className={`w-2 h-2 rounded-full ${
+                  isArchived
+                    ? "bg-yellow-400"
+                    : course.is_published
+                    ? "bg-green-500"
+                    : "bg-gray-400"
+                }`}
+              ></span>
+              {isArchived ? "Archivado" : course.is_published ? "Público" : "Privado"}
             </span>
           </div>
         </div>

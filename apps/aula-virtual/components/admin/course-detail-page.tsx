@@ -12,6 +12,8 @@ import { EnrollStudentsModal } from "./enroll-students-modal"
 import Link from "next/link"
 import { useCourse } from "@/hooks/use-course"
 import { useProfileQuery } from "@/hooks/use-profile-query"
+import { toast } from "react-toastify"
+import { useQueryClient } from "@tanstack/react-query"
 
 interface CourseDetailPageProps {
   initialCourse: any
@@ -21,16 +23,20 @@ interface CourseDetailPageProps {
 export function CourseDetailPage({ initialCourse, slug }: CourseDetailPageProps) {
   const [showAssignInstructor, setShowAssignInstructor] = useState(false)
   const [showEnrollStudents, setShowEnrollStudents] = useState(false)
+  const queryClient = useQueryClient()
   const { data: course } = useCourse(slug)
   const { profile } = useProfileQuery()
-  
-  // Usar el curso actualizado si existe, sino usar el inicial
+
   const currentCourse = course || initialCourse
   const isAdmin = profile?.role === "admin"
   const isTeacher = profile?.role === "docente"
+  const isArchived = !!currentCourse.deleted_at
 
   const handleAssignSuccess = () => {
-    // La query se invalida automáticamente en el hook
+    toast.success("Instructor asignado correctamente")
+    queryClient.invalidateQueries({ queryKey: ["course", slug] })
+    queryClient.invalidateQueries({ queryKey: ["courses"] })
+    queryClient.invalidateQueries({ queryKey: ["teacher-courses"] })
   }
 
   const tabs = [
@@ -38,8 +44,8 @@ export function CourseDetailPage({ initialCourse, slug }: CourseDetailPageProps)
       id: "details",
       label: "Detalles",
       icon: <BookOpen className="w-4 h-4" />,
-      content: <CourseDetails 
-        course={currentCourse} 
+      content: <CourseDetails
+        course={currentCourse}
         onAssignInstructorClick={isAdmin ? () => setShowAssignInstructor(true) : undefined}
         isAdmin={isAdmin}
       />
@@ -48,10 +54,10 @@ export function CourseDetailPage({ initialCourse, slug }: CourseDetailPageProps)
       id: "modules",
       label: "Módulos",
       icon: <Layers className="w-4 h-4" />,
-      content: <CourseModules 
-        modules={currentCourse.modules} 
+      content: <CourseModules
+        modules={currentCourse.modules}
         courseId={currentCourse.id}
-        canEdit={isAdmin || isTeacher}
+        canEdit={(isAdmin || isTeacher) && !isArchived}
       />
     },
     // Tab de Estudiantes (solo para docente)
@@ -86,12 +92,19 @@ export function CourseDetailPage({ initialCourse, slug }: CourseDetailPageProps)
               <div>
                 <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
                   <h1 className="text-xl sm:text-2xl font-bold text-gray-900 wrap-break-word">{currentCourse.title}</h1>
-                  <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded text-xs font-semibold uppercase ${
-                    currentCourse.is_published 
-                      ? "bg-green-100 text-green-700" 
-                      : "bg-gray-100 text-gray-700"
-                  }`}>
-                    {currentCourse.is_published ? "PUBLICADO" : "BORRADOR"}
+                  <span
+                    className={`inline-flex items-center gap-1 px-2.5 py-1 rounded text-xs font-semibold uppercase ${isArchived
+                      ? "bg-red-100 text-red-700"
+                      : currentCourse.is_published
+                        ? "bg-green-100 text-green-700"
+                        : "bg-gray-100 text-gray-700"
+                      }`}
+                  >
+                    {isArchived
+                      ? "ARCHIVADO"
+                      : currentCourse.is_published
+                        ? "PUBLICADO"
+                        : "BORRADOR"}
                   </span>
                 </div>
                 <p className="text-sm text-gray-500 mt-1">
@@ -104,16 +117,24 @@ export function CourseDetailPage({ initialCourse, slug }: CourseDetailPageProps)
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
               {isAdmin && (
                 <button
-                  onClick={() => setShowAssignInstructor(true)}
-                  className="px-4 py-2 bg-primary text-white rounded-lg text-base font-medium hover:bg-secondary transition-all duration-500 cursor-pointer w-full sm:w-auto"
+                  onClick={() => !isArchived && setShowAssignInstructor(true)}
+                  disabled={isArchived}
+                  className={`px-4 py-2 rounded-lg text-base font-medium w-full sm:w-auto transition-all duration-500 ${isArchived
+                      ? "bg-gray-200 text-gray-400 cursor-not-allowed border border-gray-300"
+                      : "bg-primary text-white hover:bg-secondary cursor-pointer"
+                    }`}
                 >
                   Asignar Instructor
                 </button>
               )}
               {(isAdmin || isTeacher) && (
                 <button
-                  onClick={() => setShowEnrollStudents(true)}
-                  className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg text-base font-medium hover:bg-secondary transition-all duration-500 cursor-pointer w-full sm:w-auto"
+                  onClick={() => !isArchived && setShowEnrollStudents(true)}
+                  disabled={isArchived}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg text-base font-medium w-full sm:w-auto transition-all duration-500 ${isArchived
+                      ? "bg-gray-200 text-gray-400 cursor-not-allowed border border-gray-300"
+                      : "bg-primary text-white hover:bg-secondary cursor-pointer"
+                    }`}
                 >
                   <UserPlus className="w-5 h-5" />
                   Inscribir Estudiantes
@@ -123,6 +144,15 @@ export function CourseDetailPage({ initialCourse, slug }: CourseDetailPageProps)
           </div>
         </div>
       </div>
+
+      {isArchived && (
+        <div className="max-w-7xl mx-auto px-6 mt-4">
+          <div className="rounded-lg border border-yellow-200 bg-yellow-50 px-4 py-3 text-sm text-yellow-800">
+            Este curso está <span className="font-semibold">archivado</span>.
+            No se pueden modificar módulos, inscripciones ni configuración.
+          </div>
+        </div>
+      )}
 
       {/* Content */}
       <div className="max-w-7xl mx-auto px-6 py-6">

@@ -1006,17 +1006,18 @@ export async function unenrollStudent(
 
 export async function updateCourseSettings(
   courseId: string,
-  settings: { is_published?: boolean }
+  settings: { 
+    is_published?: boolean 
+    deleted_at?: string | null
+  }
 ): Promise<{ success: boolean; error?: string }> {
   const supabase = await createClient()
 
-  // Verificar autenticación
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) {
     return { success: false, error: "No autenticado" }
   }
 
-  // Verificar permisos (admin o docente del curso)
   const { data: profile } = await supabase
     .from("profiles")
     .select("role")
@@ -1036,10 +1037,14 @@ export async function updateCourseSettings(
     return { success: false, error: "No tienes permisos para modificar este curso" }
   }
 
-  // Actualizar configuración
+  const payload = {
+    ...settings,
+    ...(settings.deleted_at ? { is_published: false } : {}),
+  }
+
   const { error } = await supabase
     .from("courses")
-    .update(settings)
+    .update(payload)
     .eq("id", courseId)
 
   if (error) {

@@ -1,7 +1,7 @@
 "use client"
 
 import { Course } from "@/types/database"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { updateCourseSettings } from "@/actions/admin-actions"
 import { toast } from "react-toastify"
 import { useQueryClient } from "@tanstack/react-query"
@@ -13,7 +13,15 @@ interface CourseSettingsProps {
 export function CourseSettings({ course }: CourseSettingsProps) {
   const [isPublished, setIsPublished] = useState(course.is_published)
   const [isSaving, setIsSaving] = useState(false)
+  const [isArchiving, setIsArchiving] = useState(false)
+  const [isUnarchiving, setIsUnarchiving] = useState(false)
   const queryClient = useQueryClient()
+  const isArchived = !!course.deleted_at
+
+  // Mantener el estado local sincronizado con el curso actual (React Query / SSR)
+  useEffect(() => {
+    setIsPublished(course.deleted_at ? false : course.is_published)
+  }, [course.is_published, course.deleted_at])
 
   const handleSave = async () => {
     setIsSaving(true)
@@ -21,13 +29,11 @@ export function CourseSettings({ course }: CourseSettingsProps) {
       const result = await updateCourseSettings(course.id, { is_published: isPublished })
       if (result.success) {
         toast.success("Configuración actualizada correctamente")
-        // Invalidar queries para refrescar los datos
         queryClient.invalidateQueries({ queryKey: ["course", course.slug] })
         queryClient.invalidateQueries({ queryKey: ["courses"] })
         queryClient.invalidateQueries({ queryKey: ["teacher-courses"] })
       } else {
         toast.error(result.error || "Error al actualizar configuración")
-        // Revertir el estado si falla
         setIsPublished(course.is_published)
       }
     } catch (error) {
@@ -45,6 +51,67 @@ export function CourseSettings({ course }: CourseSettingsProps) {
 
   const hasChanges = isPublished !== course.is_published
 
+  const handleArchiveCourse = async () => {
+    const confirmed = window.confirm(
+      "¿Seguro que quieres archivar este curso?\n\n" +
+      "El curso dejará de ser visible para los estudiantes, " +
+      "pero se conservarán matrículas, progreso, notas y certificados."
+    )
+    if (!confirmed) return
+
+    setIsArchiving(true)
+    try {
+      const result = await updateCourseSettings(course.id, {
+        is_published: false,
+        deleted_at: new Date().toISOString()
+      })
+
+      if (result.success) {
+        toast.success("Curso archivado correctamente")
+        queryClient.invalidateQueries({ queryKey: ["course", course.slug] })
+        queryClient.invalidateQueries({ queryKey: ["courses"] })
+        queryClient.invalidateQueries({ queryKey: ["teacher-courses"] })
+      } else {
+        toast.error(result.error || "No se pudo archivar el curso")
+      }
+    } catch (error) {
+      toast.error("Error al archivar el curso")
+    } finally {
+      setIsArchiving(false)
+    }
+  }
+
+  const handleUnarchiveCourse = async () => {
+    const confirmed = window.confirm(
+      "¿Seguro que quieres desarchivar este curso?\n\n" +
+      "El curso volverá a estar activo. Quedará como borrador hasta que lo publiques."
+    )
+    if (!confirmed) return
+
+    setIsUnarchiving(true)
+    try {
+      const result = await updateCourseSettings(course.id, {
+        deleted_at: null,
+        // Por seguridad, al desarchivar lo dejamos como borrador.
+        is_published: false,
+      })
+
+      if (result.success) {
+        toast.success("Curso desarchivado correctamente")
+        setIsPublished(false)
+        queryClient.invalidateQueries({ queryKey: ["course", course.slug] })
+        queryClient.invalidateQueries({ queryKey: ["courses"] })
+        queryClient.invalidateQueries({ queryKey: ["teacher-courses"] })
+      } else {
+        toast.error(result.error || "No se pudo desarchivar el curso")
+      }
+    } catch (error) {
+      toast.error("Error al desarchivar el curso")
+    } finally {
+      setIsUnarchiving(false)
+    }
+  }
+
   return (
     <div className="max-w-3xl space-y-6">
       <div>
@@ -59,7 +126,9 @@ export function CourseSettings({ course }: CourseSettingsProps) {
         <div>
           <h3 className="font-semibold text-gray-900 mb-1">Visibilidad del Curso</h3>
           <p className="text-sm text-gray-500">
-            Controla si el curso es visible para los estudiantes
+            {isArchived
+              ? "Este curso está archivado y no puede publicarse."
+              : "Controla si el curso es visible para los estudiantes"}
           </p>
         </div>
 
@@ -68,17 +137,21 @@ export function CourseSettings({ course }: CourseSettingsProps) {
             <div className="flex items-center gap-2">
               <h4 className="font-medium text-gray-900">Publicar Curso</h4>
               <span className={`text-xs px-2 py-0.5 rounded font-semibold ${
-                isPublished 
-                  ? "bg-green-100 text-green-700" 
-                  : "bg-gray-100 text-gray-700"
+                isArchived
+                  ? "bg-red-100 text-red-700"
+                  : isPublished
+                    ? "bg-green-100 text-green-700"
+                    : "bg-gray-100 text-gray-700"
               }`}>
-                {isPublished ? "Publicado" : "Borrador"}
+                {isArchived ? "Archivado" : isPublished ? "Publicado" : "Borrador"}
               </span>
             </div>
             <p className="text-sm text-gray-500 mt-1">
-              {isPublished 
-                ? "El curso es visible para todos los estudiantes" 
-                : "El curso solo es visible para administradores y docentes"}
+              {isArchived
+                ? "El curso no es visible para estudiantes y no admite cambios de visibilidad."
+                : isPublished
+                  ? "El curso es visible para todos los estudiantes"
+                  : "El curso solo es visible para administradores y docentes"}
             </p>
           </div>
           <label className="relative inline-flex items-center cursor-pointer">
@@ -86,6 +159,7 @@ export function CourseSettings({ course }: CourseSettingsProps) {
               type="checkbox"
               checked={isPublished}
               onChange={(e) => setIsPublished(e.target.checked)}
+              disabled={isArchived}
               className="sr-only peer"
             />
             <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
@@ -145,26 +219,60 @@ export function CourseSettings({ course }: CourseSettingsProps) {
       </div>
 
       {/* Acciones Peligrosas */}
-      <div className="bg-white rounded-lg border border-red-200 p-6 space-y-4">
+      <div className={`bg-white rounded-lg border p-6 space-y-4 ${isArchived ? "border-yellow-200" : "border-red-200"}`}>
         <div>
-          <h3 className="font-semibold text-red-900 mb-1">Zona de Peligro</h3>
-          <p className="text-sm text-red-600">
-            Acciones irreversibles que afectan permanentemente al curso
+          <h3 className={`font-semibold mb-1 ${isArchived ? "text-yellow-900" : "text-red-900"}`}>
+            Zona de Peligro
+          </h3>
+          <p className={`text-sm ${isArchived ? "text-yellow-700" : "text-red-600"}`}>
+            {isArchived
+              ? "Este curso está archivado. Puedes activarlo nuevamente (quedará como borrador)."
+              : "Acciones irreversibles que afectan permanentemente al curso"}
           </p>
         </div>
 
         <div className="space-y-3">
-          <div className="flex items-center justify-between p-4 border border-red-200 rounded-lg">
-            <div>
-              <h4 className="font-medium text-gray-900">Eliminar Curso</h4>
-              <p className="text-sm text-gray-500">
-                Elimina permanentemente este curso y todos sus datos
-              </p>
+          {isArchived ? (
+            <div className="flex items-center justify-between p-4 border border-yellow-200 rounded-lg">
+              <div>
+                <h4 className="font-medium text-gray-900">Desarchivar Curso</h4>
+                <p className="text-sm text-gray-500">
+                  Reactiva el curso. Luego podrás publicarlo manualmente si lo deseas.
+                </p>
+              </div>
+              <button
+                onClick={handleUnarchiveCourse}
+                disabled={isUnarchiving}
+                className={`px-4 py-2 rounded-lg text-sm font-medium ${
+                  isUnarchiving
+                    ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+                    : "bg-primary text-white hover:bg-secondary cursor-pointer"
+                }`}
+              >
+                {isUnarchiving ? "Activando..." : "Activar"}
+              </button>
             </div>
-            <button className="px-4 py-2 bg-red-600 text-white rounded-lg text-sm font-medium hover:bg-red-700">
-              Eliminar
-            </button>
-          </div>
+          ) : (
+            <div className="flex items-center justify-between p-4 border border-red-200 rounded-lg">
+              <div>
+                <h4 className="font-medium text-gray-900">Archivar Curso</h4>
+                <p className="text-sm text-gray-500">
+                  El curso dejará de ser visible para estudiantes, pero se conservará el historial.
+                </p>
+              </div>
+              <button
+                onClick={handleArchiveCourse}
+                disabled={isArchiving}
+                className={`px-4 py-2 rounded-lg text-sm font-medium ${
+                  isArchiving
+                    ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+                    : "bg-red-600 text-white hover:bg-red-700 cursor-pointer"
+                }`}
+              >
+                {isArchiving ? "Archivando..." : "Archivar"}
+              </button>
+            </div>
+          )}
         </div>
       </div>
 

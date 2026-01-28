@@ -37,7 +37,7 @@ export default function ServicesPage() {
                   <Link
                     key={subService.id}
                     href={`/servicios/${subService.slug}`}
-                    className="relative w-full h-[400px] overflow-hidden group cursor-pointer block"
+                    className="relative w-full h-100 overflow-hidden group cursor-pointer block"
                   >
                     <Image
                       src={subService.image}
@@ -59,7 +59,7 @@ export default function ServicesPage() {
                     />
 
                     {/* Contenido que se desliza hacia arriba en hover */}
-                    <div className="absolute bottom-0 left-0 w-full z-10 group-hover:-translate-y-[120px] transition-transform duration-500 ease-in-out">
+                    <div className="absolute bottom-0 left-0 w-full z-10 group-hover:-translate-y-30 transition-transform duration-500 ease-in-out">
                       {/* Título - Siempre visible */}
                       <div className="relative bg-primary/80 text-white w-full py-4 px-4">
                         <h3 className="text-xl font-semibold text-center">
