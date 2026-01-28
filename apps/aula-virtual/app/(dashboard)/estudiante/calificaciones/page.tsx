@@ -4,10 +4,13 @@ import { useState } from "react"
 import { Select } from "@/components/ui/select"
 import { Award, TrendingUp, MessageCircle, FileText, Trophy } from "lucide-react"
 import { useStudentGrades } from "@/hooks/use-student-grades"
+import { CertificateButton } from "@/components/certificates/CertificateButton"
+import { useProfileQuery } from "@/hooks/use-profile-query"
 
 export default function EstudianteCalificacionesPage() {
   const [selectedCourseId, setSelectedCourseId] = useState("")
   const { data: gradesByCourse, isLoading } = useStudentGrades()
+  const { profile } = useProfileQuery()
 
   const selectedCourse = gradesByCourse?.find(c => c.course.id === selectedCourseId)
 
@@ -43,6 +46,15 @@ export default function EstudianteCalificacionesPage() {
       {/* Contenido de calificaciones */}
       {selectedCourse && (
         <>
+          {/* Sección de Certificado */}
+          {profile?.full_name && (
+            <CertificateButton 
+              courseId={selectedCourse.course.id}
+              courseName={selectedCourse.course.title}
+              studentName={profile.full_name}
+            />
+          )}
+
           {/* Resumen del promedio */}
           <div className="bg-linear-to-br from-blue-50 to-blue-100 rounded-2xl p-8 shadow-lg border-2 border-blue-200">
             <div className="flex items-center gap-6">

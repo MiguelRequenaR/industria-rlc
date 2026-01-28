@@ -104,6 +104,23 @@ export interface BlogPostWithDetails extends BlogPost {
   author: Profile | null
 }
 
+export interface Certificate {
+  id: string
+  student_id: string
+  course_id: string
+  certificate_code: string
+  issued_at: string
+  completion_percentage: number
+  final_grade: number | null
+  pdf_url: string | null
+  created_at: string
+}
+
+export interface CertificateWithDetails extends Certificate {
+  student: Profile
+  course: Course
+}
+
 export interface CourseWithTeacher extends Course {
   teacher: Profile | null
 }
@@ -202,6 +219,11 @@ export interface Database {
         Row: BlogPost
         Insert: Omit<BlogPost, "id" | "created_at" | "updated_at"> & { id?: string }
         Update: Partial<Omit<BlogPost, "id" | "created_at" | "updated_at">>
+      }
+      certificates: {
+        Row: Certificate
+        Insert: Omit<Certificate, "id" | "created_at" | "issued_at"> & { id?: string }
+        Update: Partial<Omit<Certificate, "id" | "created_at" | "issued_at">>
       }
     }
     Enums: {

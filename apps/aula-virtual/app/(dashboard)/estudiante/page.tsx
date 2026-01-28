@@ -210,7 +210,7 @@ export default function EstudianteDashboardPage() {
                     href={`/curso/${course.slug}`}
                     className="block w-full"
                   >
-                    <button className="w-full bg-secondary text-white px-4 py-3 rounded-lg font-semibold hover:bg-secondary/90 transition-colors flex items-center justify-center gap-2 group-hover:shadow-lg">
+                    <button className="w-full bg-secondary text-white px-4 py-3 rounded-lg font-semibold hover:bg-secondary/90 transition-colors flex items-center justify-center gap-2 group-hover:shadow-lg cursor-pointer">
                       {course.progress_percentage === 0 ? (
                         <>
                           <BookOpen className="h-5 w-5" />

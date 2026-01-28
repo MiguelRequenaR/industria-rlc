@@ -1,0 +1,291 @@
+"use client"
+
+import { useState, useEffect } from "react"
+import { Download, Award, CheckCircle, AlertCircle, Loader2 } from "lucide-react"
+import { pdf } from '@react-pdf/renderer'
+import { CertificateDocument } from "./CertificateDocument"
+import { 
+  checkCertificateEligibility, 
+  generateCertificate, 
+  getStudentCertificate 
+} from "@/actions/student-actions"
+import { Button } from "@/components/ui/button"
+
+interface CertificateButtonProps {
+  courseId: string
+  courseName: string
+  studentName: string
+}
+
+export function CertificateButton({ courseId, courseName, studentName }: CertificateButtonProps) {
+  const [isChecking, setIsChecking] = useState(true)
+  const [isEligible, setIsEligible] = useState(false)
+  const [hasCertificate, setHasCertificate] = useState(false)
+  const [eligibilityInfo, setEligibilityInfo] = useState<any>(null)
+  const [isGenerating, setIsGenerating] = useState(false)
+  const [isDownloading, setIsDownloading] = useState(false)
+  const [certificate, setCertificate] = useState<any>(null)
+  const [enrollmentDate, setEnrollmentDate] = useState<string>("")
+
+  useEffect(() => {
+    checkEligibility()
+  }, [courseId])
+
+  const checkEligibility = async () => {
+    setIsChecking(true)
+    const info = await checkCertificateEligibility(courseId)
+    setEligibilityInfo(info)
+    setIsEligible(info.isEligible)
+    setHasCertificate(info.hasCertificate)
+    
+    // Si ya tiene certificado, obtenerlo
+    if (info.hasCertificate) {
+      const result = await getStudentCertificate(courseId)
+      setCertificate(result.certificate)
+      setEnrollmentDate(result.enrollmentDate || "")
+    }
+    
+    setIsChecking(false)
+  }
+
+  const calculateDurationWeeks = (enrollDate: string, issueDate: string): number => {
+    const start = new Date(enrollDate)
+    const end = new Date(issueDate)
+    const diffTime = Math.abs(end.getTime() - start.getTime())
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+    const weeks = Math.ceil(diffDays / 7)
+    return weeks
+  }
+
+  const handleGenerateCertificate = async () => {
+    setIsGenerating(true)
+    
+    const result = await generateCertificate(courseId)
+    
+    if (result.success && result.certificate) {
+      setCertificate(result.certificate)
+      setEnrollmentDate(result.enrollmentDate || "")
+      setHasCertificate(true)
+      setIsEligible(false)
+      
+      // Descargar automáticamente después de generar
+      await downloadCertificate(result.certificate, result.enrollmentDate || "")
+    } else {
+      alert(result.error || "Error al generar certificado")
+    }
+    
+    setIsGenerating(false)
+  }
+
+  const downloadCertificate = async (cert: any = certificate, enrollDate: string = enrollmentDate) => {
+    if (!cert) return
+    
+    setIsDownloading(true)
+    
+    try {
+      const issueDate = new Date(cert.issued_at).toLocaleDateString('es-ES', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+      })
+
+      // Calcular duración en semanas
+      const durationWeeks = enrollDate 
+        ? calculateDurationWeeks(enrollDate, cert.issued_at)
+        : 0
+
+      // Generar el PDF
+      const blob = await pdf(
+        <CertificateDocument
+          studentName={studentName}
+          courseName={courseName}
+          issueDate={issueDate}
+          certificateCode={cert.certificate_code}
+          durationWeeks={durationWeeks}
+        />
+      ).toBlob()
+
+      // Descargar el archivo
+      const url = URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = url
+      link.download = `Certificado-${courseName.replace(/\s+/g, '-')}-${cert.certificate_code}.pdf`
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+      URL.revokeObjectURL(url)
+    } catch (error) {
+      console.error("Error downloading certificate:", error)
+      alert("Error al descargar el certificado")
+    }
+    
+    setIsDownloading(false)
+  }
+
+  if (isChecking) {
+    return (
+      <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+        <div className="flex items-center justify-center gap-2 text-gray-500">
+          <Loader2 className="h-5 w-5 animate-spin" />
+          <span>Verificando elegibilidad...</span>
+        </div>
+      </div>
+    )
+  }
+
+  // Si ya tiene certificado
+  if (hasCertificate && certificate) {
+    return (
+      <div className="bg-linear-to-br from-green-50 to-green-100 rounded-2xl p-6 shadow-lg border-2 border-green-200">
+        <div className="flex items-center gap-4 mb-4">
+          <div className="w-14 h-14 bg-green-500 rounded-xl flex items-center justify-center shadow-lg">
+            <Award className="h-8 w-8 text-white" />
+          </div>
+          <div className="flex-1">
+            <h3 className="text-lg font-bold text-green-900">
+              ¡Certificado Obtenido!
+            </h3>
+            <p className="text-sm text-green-700">
+              Código: {certificate.certificate_code}
+            </p>
+          </div>
+        </div>
+        
+        <div className="bg-white/80 rounded-lg p-4 mb-4">
+          <div className="grid grid-cols-2 gap-4 text-sm">
+            <div>
+              <p className="text-gray-600">Emitido el:</p>
+              <p className="font-semibold text-gray-900">
+                {new Date(certificate.issued_at).toLocaleDateString('es-ES', {
+                  day: 'numeric',
+                  month: 'long',
+                  year: 'numeric'
+                })}
+              </p>
+            </div>
+            <div>
+              <p className="text-gray-600">Nota Final:</p>
+              <p className="font-semibold text-gray-900">
+                {certificate.final_grade?.toFixed(2)} / 20
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <Button
+          onClick={() => downloadCertificate()}
+          disabled={isDownloading}
+          className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-lg flex items-center justify-center gap-2 cursor-pointer"
+        >
+          {isDownloading ? (
+            <>
+              <Loader2 className="h-5 w-5 animate-spin" />
+              Descargando...
+            </>
+          ) : (
+            <>
+              <Download className="h-5 w-5" />
+              Descargar Certificado
+            </>
+          )}
+        </Button>
+      </div>
+    )
+  }
+
+  // Si es elegible para obtener certificado
+  if (isEligible) {
+    return (
+      <div className="bg-linear-to-br from-blue-50 to-blue-100 rounded-2xl p-6 shadow-lg border-2 border-blue-200">
+        <div className="flex items-center gap-4 mb-4">
+          <div className="w-14 h-14 bg-blue-500 rounded-xl flex items-center justify-center shadow-lg">
+            <CheckCircle className="h-8 w-8 text-white" />
+          </div>
+          <div className="flex-1">
+            <h3 className="text-lg font-bold text-blue-900">
+              ¡Felicidades! Puedes obtener tu certificado
+            </h3>
+            <p className="text-sm text-blue-700">
+              Has cumplido todos los requisitos
+            </p>
+          </div>
+        </div>
+        
+        <div className="bg-white/80 rounded-lg p-4 mb-4">
+          <div className="grid grid-cols-2 gap-4 text-sm">
+            <div>
+              <p className="text-gray-600">Progreso:</p>
+              <p className="font-semibold text-green-700">
+                ✓ {eligibilityInfo.completionPercentage}% Completado
+              </p>
+            </div>
+            <div>
+              <p className="text-gray-600">Promedio Final:</p>
+              <p className="font-semibold text-green-700">
+                ✓ {eligibilityInfo.finalGrade.toFixed(2)} / 20
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <Button
+          onClick={handleGenerateCertificate}
+          disabled={isGenerating}
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg flex items-center justify-center gap-2 cursor-pointer"
+        >
+          {isGenerating ? (
+            <>
+              <Loader2 className="h-5 w-5 animate-spin" />
+              Generando Certificado...
+            </>
+          ) : (
+            <>
+              <Award className="h-5 w-5" />
+              Generar Certificado
+            </>
+          )}
+        </Button>
+      </div>
+    )
+  }
+
+  // No es elegible
+  return (
+    <div className="bg-linear-to-br from-gray-50 to-gray-100 rounded-2xl p-6 shadow-lg border-2 border-gray-200">
+      <div className="flex items-center gap-4 mb-4">
+        <div className="w-14 h-14 bg-gray-400 rounded-xl flex items-center justify-center shadow-lg">
+          <AlertCircle className="h-8 w-8 text-white" />
+        </div>
+        <div className="flex-1">
+          <h3 className="text-lg font-bold text-gray-900">
+            Certificado No Disponible
+          </h3>
+          <p className="text-sm text-gray-600">
+            Debes cumplir los siguientes requisitos:
+          </p>
+        </div>
+      </div>
+      
+      <div className="bg-white/80 rounded-lg p-4 mb-4">
+        <ul className="space-y-2 text-sm">
+          {eligibilityInfo?.reasons.map((reason: string, index: number) => (
+            <li key={index} className="flex items-start gap-2 text-gray-700">
+              <span className="text-red-500 mt-0.5">●</span>
+              {reason}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div className="bg-blue-50 rounded-lg p-4">
+        <p className="text-sm text-blue-800">
+          <strong>Estado actual:</strong>
+        </p>
+        <div className="mt-2 space-y-1 text-sm text-blue-700">
+          <p>• Progreso: {eligibilityInfo?.completionPercentage}%</p>
+          <p>• Promedio: {eligibilityInfo?.finalGrade.toFixed(2)} / 20</p>
+        </div>
+      </div>
+    </div>
+  )
+}

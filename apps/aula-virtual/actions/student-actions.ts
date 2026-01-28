@@ -1,7 +1,8 @@
 "use server"
 
 import { createClient } from "@/lib/supabase/server"
-import { CourseWithTeacher, Grade, GradeWithStudent } from "@/types/database"
+import { CourseWithTeacher, Grade, GradeWithStudent, Certificate, CertificateWithDetails } from "@/types/database"
+import { nanoid } from "nanoid"
 
 // ==================== CURSOS DEL ESTUDIANTE ====================
 
@@ -389,4 +390,220 @@ export async function getStudentGradesByCourse(courseId: string): Promise<{ grad
   }
 
   return { grades: gradesList, average }
+}
+
+// ==================== CERTIFICADOS ====================
+
+interface CertificateEligibility {
+  isEligible: boolean
+  hasCertificate: boolean
+  completionPercentage: number
+  finalGrade: number
+  reasons: string[]
+}
+
+export async function checkCertificateEligibility(courseId: string): Promise<CertificateEligibility> {
+  const supabase = await createClient()
+
+  // Verificar autenticación
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) {
+    return {
+      isEligible: false,
+      hasCertificate: false,
+      completionPercentage: 0,
+      finalGrade: 0,
+      reasons: ["Usuario no autenticado"]
+    }
+  }
+
+  const reasons: string[] = []
+
+  // 1. Verificar si ya tiene certificado
+  const { data: existingCertificate } = await supabase
+    .from("certificates")
+    .select("*")
+    .eq("student_id", user.id)
+    .eq("course_id", courseId)
+    .single()
+
+  const hasCertificate = !!existingCertificate
+
+  // 2. Calcular progreso de lecciones
+  const { data: modules } = await supabase
+    .from("modules")
+    .select("id")
+    .eq("course_id", courseId)
+
+  const moduleIds = modules?.map(m => m.id) || []
+  let totalLessons = 0
+  let completedLessons = 0
+
+  if (moduleIds.length > 0) {
+    const { data: lessons } = await supabase
+      .from("lessons")
+      .select("id")
+      .in("module_id", moduleIds)
+      .eq("is_visible", true)
+
+    totalLessons = lessons?.length || 0
+    const lessonIds = lessons?.map(l => l.id) || []
+
+    if (lessonIds.length > 0) {
+      const { data: progress } = await supabase
+        .from("progress")
+        .select("lesson_id")
+        .eq("student_id", user.id)
+        .in("lesson_id", lessonIds)
+        .eq("is_completed", true)
+
+      completedLessons = progress?.length || 0
+    }
+  }
+
+  const completionPercentage = totalLessons > 0 
+    ? Math.round((completedLessons / totalLessons) * 100) 
+    : 0
+
+  // 3. Calcular promedio de notas
+  const { data: grades } = await supabase
+    .from("grades")
+    .select("score")
+    .eq("student_id", user.id)
+    .eq("course_id", courseId)
+
+  let finalGrade = 0
+  if (grades && grades.length > 0) {
+    const sum = grades.reduce((acc, grade) => acc + (grade.score || 0), 0)
+    finalGrade = parseFloat((sum / grades.length).toFixed(2))
+  }
+
+  // 4. Verificar requisitos
+  if (completionPercentage < 100) {
+    reasons.push("Debes completar el 100% de las lecciones")
+  }
+
+  if (finalGrade < 11) {
+    reasons.push("Debes tener un promedio mínimo de 11")
+  }
+
+  if (hasCertificate) {
+    reasons.push("Ya has generado el certificado para este curso")
+  }
+
+  const isEligible = completionPercentage === 100 && finalGrade >= 11 && !hasCertificate
+
+  return {
+    isEligible,
+    hasCertificate,
+    completionPercentage,
+    finalGrade,
+    reasons: isEligible ? [] : reasons
+  }
+}
+
+export async function generateCertificate(courseId: string): Promise<{ 
+  success: boolean
+  error?: string
+  certificate?: CertificateWithDetails
+  enrollmentDate?: string
+}> {
+  const supabase = await createClient()
+
+  // Verificar autenticación
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) {
+    return { success: false, error: "No autenticado" }
+  }
+
+  // Verificar elegibilidad
+  const eligibility = await checkCertificateEligibility(courseId)
+  
+  if (!eligibility.isEligible) {
+    return { 
+      success: false, 
+      error: eligibility.reasons.join(". ") 
+    }
+  }
+
+  // Obtener fecha de inscripción
+  const { data: enrollment } = await supabase
+    .from("enrollments")
+    .select("enrolled_at")
+    .eq("student_id", user.id)
+    .eq("course_id", courseId)
+    .single()
+
+  // Generar código único para el certificado
+  const certificateCode = `CERT-${new Date().getFullYear()}-${nanoid(8).toUpperCase()}`
+
+  // Crear certificado
+  const { data: certificate, error } = await supabase
+    .from("certificates")
+    .insert({
+      student_id: user.id,
+      course_id: courseId,
+      certificate_code: certificateCode,
+      completion_percentage: eligibility.completionPercentage,
+      final_grade: eligibility.finalGrade,
+      pdf_url: null // Se puede generar y subir después si quieres
+    })
+    .select(`
+      *,
+      student:profiles!student_id(*),
+      course:courses!course_id(*)
+    `)
+    .single()
+
+  if (error) {
+    console.error("Error creating certificate:", error)
+    return { success: false, error: error.message }
+  }
+
+  return { 
+    success: true, 
+    certificate: certificate as CertificateWithDetails,
+    enrollmentDate: enrollment?.enrolled_at
+  }
+}
+
+export async function getStudentCertificate(courseId: string): Promise<{
+  certificate: CertificateWithDetails | null
+  enrollmentDate?: string
+}> {
+  const supabase = await createClient()
+
+  // Verificar autenticación
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) {
+    return { certificate: null }
+  }
+
+  const { data: certificate, error } = await supabase
+    .from("certificates")
+    .select(`
+      *,
+      student:profiles!student_id(*),
+      course:courses!course_id(*)
+    `)
+    .eq("student_id", user.id)
+    .eq("course_id", courseId)
+    .single()
+
+  if (error || !certificate) {
+    return { certificate: null }
+  }
+
+  // Obtener fecha de inscripción
+  const { data: enrollment } = await supabase
+    .from("enrollments")
+    .select("enrolled_at")
+    .eq("student_id", user.id)
+    .eq("course_id", courseId)
+    .single()
+
+  return { 
+    certificate: certificate as CertificateWithDetails,
+    enrollmentDate: enrollment?.enrolled_at
+  }
 }
