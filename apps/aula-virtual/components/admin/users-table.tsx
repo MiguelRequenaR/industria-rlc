@@ -24,6 +24,9 @@ export function UsersTable({ users, currentUserIsOwner = false }: UsersTableProp
   const router = useRouter()
   const [searchTerm, setSearchTerm] = useState("")
   const [roleFilter, setRoleFilter] = useState<string>("all")
+  const [page, setPage] = useState(1)
+
+  const pageSize = 100
   
   // Modal states
   const [viewModalOpen, setViewModalOpen] = useState(false)
@@ -50,6 +53,17 @@ export function UsersTable({ users, currentUserIsOwner = false }: UsersTableProp
     const matchesRole = roleFilter === "all" || user.role === roleFilter
     return matchesSearch && matchesRole
   })
+
+  const totalPages = Math.max(1, Math.ceil(filteredUsers.length / pageSize))
+  const currentPage = Math.min(page, totalPages)
+  const startIndex = (currentPage - 1) * pageSize
+  const endIndex = startIndex + pageSize
+  const paginatedUsers = filteredUsers.slice(startIndex, endIndex)
+
+  useEffect(() => {
+    // Cuando cambian los filtros, volvemos siempre a la primera página
+    setPage(1)
+  }, [searchTerm, roleFilter])
 
   const getStatus = (user: UserWithEmail): UserStatus =>
     user.is_active && !user.deleted_at ? "activo" : "archivado"
@@ -289,7 +303,7 @@ export function UsersTable({ users, currentUserIsOwner = false }: UsersTableProp
                   </td>
                 </tr>
               ) : (
-                filteredUsers.map((user) => {
+                paginatedUsers.map((user) => {
                   const userName = user.full_name || "Sin nombre"
                   const userInitial = userName.charAt(0).toUpperCase()
                   
@@ -385,20 +399,55 @@ export function UsersTable({ users, currentUserIsOwner = false }: UsersTableProp
 
       <div className="flex items-center justify-between text-sm text-gray-500">
         <div>
-          Mostrando <span className="font-medium text-gray-900">{filteredUsers.length}</span> de{" "}
-          <span className="font-medium text-gray-900">{users.length}</span> usuarios
+          Mostrando{" "}
+          <span className="font-medium text-gray-900">
+            {filteredUsers.length === 0 ? 0 : startIndex + 1}-
+            {Math.min(endIndex, filteredUsers.length)}
+          </span>{" "}
+          de{" "}
+          <span className="font-medium text-gray-900">{filteredUsers.length}</span> usuarios
         </div>
-        {searchTerm || roleFilter !== "all" ? (
-          <button
-            onClick={() => {
-              setSearchTerm("")
-              setRoleFilter("all")
-            }}
-            className="text-blue-600 hover:text-blue-700 font-medium"
-          >
-            Limpiar filtros
-          </button>
-        ) : null}
+        <div className="flex items-center gap-4">
+          {searchTerm || roleFilter !== "all" ? (
+            <button
+              onClick={() => {
+                setSearchTerm("")
+                setRoleFilter("all")
+              }}
+              className="text-blue-600 hover:text-blue-700 font-medium"
+            >
+              Limpiar filtros
+            </button>
+          ) : null}
+          {filteredUsers.length > pageSize && (
+            <div className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setPage((prev) => Math.max(1, prev - 1))}
+                disabled={currentPage === 1}
+                className="cursor-pointer"
+              >
+                Anterior
+              </Button>
+              <span className="text-xs text-gray-600">
+                Página{" "}
+                <span className="font-medium text-gray-900">
+                  {currentPage} / {totalPages}
+                </span>
+              </span>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setPage((prev) => Math.min(totalPages, prev + 1))}
+                disabled={currentPage === totalPages}
+                className="cursor-pointer"
+              >
+                Siguiente
+              </Button>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Modal Ver Usuario */}
