@@ -49,7 +49,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }))
 
   // Páginas dinámicas de blog
-  const blogSlugs = getAllBlogSlugs()
+  const blogSlugs = await getAllBlogSlugs()
   const blogPages = blogSlugs.map((slug) => ({
     url: `${baseUrl}/blog/${slug}`,
     lastModified: new Date(),
