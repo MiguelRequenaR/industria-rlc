@@ -1,7 +1,7 @@
 "use server"
 
 import { createClient, createAdminClient } from "@/lib/supabase/server"
-import { Profile, CourseWithTeacher, Invitation, UserRole, Lesson, BlogPostWithDetails, BlogCategory, BlogPost } from "@/types/database"
+import { Profile, CourseWithTeacher, Invitation, UserRole, Lesson, BlogPostWithDetails, BlogCategory, BlogPost, CertificateWithDetails } from "@/types/database"
 import { nanoid } from "nanoid"
 
 export interface UserWithEmail extends Profile {
@@ -81,16 +81,109 @@ export async function deleteUser(userId: string): Promise<{ success: boolean; er
     return { success: false, error: "No tienes permisos para realizar esta acción" }
   }
 
-  // Usar el cliente admin para eliminar el usuario del auth
-  const adminClient = createAdminClient()
-  const { error } = await adminClient.auth.admin.deleteUser(userId)
+  const { error } = await supabase
+    .from("profiles")
+    .update({ deleted_at: new Date().toISOString() })
+    .eq("id", userId)
 
   if (error) {
-    console.error("Error deleting user:", error)
+    console.error("Error archiving user:", error)
     return { success: false, error: error.message }
   }
 
   return { success: true }
+}
+
+export async function activateUser(userId: string): Promise<{ success: boolean; error?: string }> {
+  const supabase = await createClient()
+
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) {
+    return { success: false, error: "No autenticado" }
+  }
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .single()
+
+  if (profile?.role !== "admin") {
+    return { success: false, error: "No tienes permisos para realizar esta acción" }
+  }
+
+  const { error } = await supabase
+    .from("profiles")
+    .update({ deleted_at: null })
+    .eq("id", userId)
+
+  if (error) {
+    console.error("Error activating user:", error)
+    return { success: false, error: error.message }
+  }
+
+  return { success: true }
+}
+
+export type CertificateForAdmin = CertificateWithDetails & { enrollmentDate?: string }
+
+export async function getCertificatesByStudentId(
+  studentId: string
+): Promise<{ certificates: CertificateForAdmin[]; error?: string }> {
+  const supabase = await createClient()
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+  if (!user) {
+    return { certificates: [], error: "No autenticado" }
+  }
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .single()
+
+  if (profile?.role !== "admin") {
+    return { certificates: [], error: "No tienes permisos para realizar esta acción" }
+  }
+
+  const { data: certificates, error: certError } = await supabase
+    .from("certificates")
+    .select(
+      `
+      *,
+      course:courses!course_id(*)
+    `
+    )
+    .eq("student_id", studentId)
+    .order("issued_at", { ascending: false })
+
+  if (certError) {
+    console.error("Error fetching certificates:", certError)
+    return { certificates: [], error: certError.message }
+  }
+
+  if (!certificates?.length) {
+    return { certificates: [] }
+  }
+
+  const { data: enrollments } = await supabase
+    .from("enrollments")
+    .select("course_id, enrolled_at")
+    .eq("student_id", studentId)
+
+  const enrollmentByCourse = new Map(
+    (enrollments ?? []).map((e) => [e.course_id, e.enrolled_at])
+  )
+
+  const withDates = certificates.map((c) => ({
+    ...c,
+    enrollmentDate: enrollmentByCourse.get(c.course_id) ?? undefined,
+  })) as CertificateForAdmin[]
+
+  return { certificates: withDates }
 }
 
 export async function getAllCourses(): Promise<CourseWithTeacher[]> {

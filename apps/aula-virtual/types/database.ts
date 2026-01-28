@@ -1,6 +1,7 @@
 import type { SupabaseClient } from "@supabase/supabase-js"
 
 export type UserRole = "admin" | "docente" | "estudiante"
+export type UserStatus = "activo" | "archivado"
 export type ContentType = "video" | "pdf" | "meet_link" | "quiz"
 
 export interface Profile {
@@ -10,6 +11,8 @@ export interface Profile {
   role: UserRole
   email: string
   created_at: string
+  deleted_at: string | null
+  is_active: boolean
 }
 
 export interface Course {

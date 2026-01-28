@@ -33,16 +33,27 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  // Obtener el rol del usuario si está autenticado
   if (user) {
     const { data: profile } = await supabase
       .from('profiles')
-      .select('role')
+      .select('role, is_active')
       .eq('id', user.id)
       .single();
 
+    if (profile && profile.is_active === false) {
+      response.cookies.delete('user_role');
+      const isLoginPage = request.nextUrl.pathname.startsWith('/login');
+      if (isLoginPage) return response;
+      const url = new URL(
+        `/login?error=${encodeURIComponent('Cuenta archivada. Contacte con el administrador para reactivarla.')}`,
+        request.url
+      );
+      const redirectRes = NextResponse.redirect(url);
+      redirectRes.cookies.delete('user_role');
+      return redirectRes;
+    }
+
     if (profile?.role) {
-      // Guardar el rol en una cookie para usarlo en el middleware
       response.cookies.set('user_role', profile.role, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
@@ -51,7 +62,6 @@ export async function updateSession(request: NextRequest) {
       });
     }
   } else {
-    // Si no hay usuario, eliminar la cookie de rol
     response.cookies.delete('user_role');
   }
 

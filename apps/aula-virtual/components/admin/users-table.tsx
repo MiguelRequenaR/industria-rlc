@@ -1,17 +1,19 @@
 "use client"
 
-import { useState } from "react"
-import { Search, Plus, Edit, Trash2, UserCheck, Mail, Calendar, Shield, AlertTriangle, Lock, Eye, EyeOff } from "lucide-react"
+import { useState, useEffect } from "react"
+import { Search, Plus, Edit, Trash2, UserCheck, Mail, Calendar, Shield, AlertTriangle, Lock, Eye, EyeOff, Archive, Award, Download, Loader2, RotateCcw } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogBody, DialogFooter } from "@/components/ui/dialog"
-import { UserWithEmail, updateUser, deleteUser } from "@/actions/admin-actions"
+import { UserWithEmail, updateUser, deleteUser, activateUser, getCertificatesByStudentId, type CertificateForAdmin } from "@/actions/admin-actions"
 import { changeUserPasswordAction } from "@/actions/profile-actions"
 import { useRouter } from "next/navigation"
-import { UserRole } from "@/types/database"
+import { UserRole, UserStatus } from "@/types/database"
 import { toast } from "react-toastify"
+import { pdf } from "@react-pdf/renderer"
+import { CertificateDocument } from "@/components/certificates/CertificateDocument"
 
 interface UsersTableProps {
   users: UserWithEmail[]
@@ -35,6 +37,10 @@ export function UsersTable({ users }: UsersTableProps) {
   const [showPassword, setShowPassword] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
+  const [certificates, setCertificates] = useState<CertificateForAdmin[]>([])
+  const [loadingCertificates, setLoadingCertificates] = useState(false)
+  const [downloadingCertId, setDownloadingCertId] = useState<string | null>(null)
+
   const filteredUsers = users.filter((user) => {
     const userName = user.full_name || "Sin nombre"
     const matchesSearch =
@@ -43,6 +49,78 @@ export function UsersTable({ users }: UsersTableProps) {
     const matchesRole = roleFilter === "all" || user.role === roleFilter
     return matchesSearch && matchesRole
   })
+
+  const getStatus = (user: UserWithEmail): UserStatus =>
+    user.is_active && !user.deleted_at ? "activo" : "archivado"
+
+  useEffect(() => {
+    if (!viewModalOpen || !selectedUser) {
+      setCertificates([])
+      return
+    }
+    if (selectedUser.role !== "estudiante") {
+      setCertificates([])
+      return
+    }
+    let cancelled = false
+    setLoadingCertificates(true)
+    getCertificatesByStudentId(selectedUser.id).then(({ certificates: data, error }) => {
+      if (cancelled) return
+      setLoadingCertificates(false)
+      if (error) {
+        toast.error(error)
+        setCertificates([])
+        return
+      }
+      setCertificates(data)
+    })
+    return () => {
+      cancelled = true
+    }
+  }, [viewModalOpen, selectedUser?.id, selectedUser?.role])
+
+  const durationWeeks = (enrollDate: string, issueDate: string) => {
+    const start = new Date(enrollDate)
+    const end = new Date(issueDate)
+    return Math.ceil(Math.abs(end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24 * 7))
+  }
+
+  const downloadCertificate = async (cert: CertificateForAdmin) => {
+    if (!selectedUser) return
+    setDownloadingCertId(cert.id)
+    try {
+      const issueDate = new Date(cert.issued_at).toLocaleDateString("es-ES", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      })
+      const weeks = cert.enrollmentDate ? durationWeeks(cert.enrollmentDate, cert.issued_at) : 0
+      const courseName = cert.course?.title ?? "Curso"
+      const blob = await pdf(
+        <CertificateDocument
+          studentName={selectedUser.full_name || "Estudiante"}
+          courseName={courseName}
+          issueDate={issueDate}
+          certificateCode={cert.certificate_code}
+          durationWeeks={weeks}
+        />
+      ).toBlob()
+      const url = URL.createObjectURL(blob)
+      const link = document.createElement("a")
+      link.href = url
+      link.download = `Certificado-${courseName.replace(/\s+/g, "-")}-${cert.certificate_code}.pdf`
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+      URL.revokeObjectURL(url)
+      toast.success("Certificado descargado")
+    } catch (e) {
+      console.error(e)
+      toast.error("Error al descargar el certificado")
+    } finally {
+      setDownloadingCertId(null)
+    }
+  }
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString)
@@ -110,23 +188,26 @@ export function UsersTable({ users }: UsersTableProps) {
     }
   }
 
-  const handleSubmitDelete = async () => {
+  const handleSubmitArchiveOrActivate = async () => {
     if (!selectedUser) return
-    
+
+    const isArchived = getStatus(selectedUser) === "archivado"
     setIsSubmitting(true)
     try {
-      const result = await deleteUser(selectedUser.id)
+      const result = isArchived
+        ? await activateUser(selectedUser.id)
+        : await deleteUser(selectedUser.id)
 
       if (result.success) {
-        toast.success("Usuario eliminado correctamente")
+        toast.success(isArchived ? "Usuario activado correctamente" : "Usuario archivado correctamente")
         setDeleteModalOpen(false)
         router.refresh()
       } else {
-        toast.error(result.error || "Error al eliminar el usuario")
+        toast.error(result.error || (isArchived ? "Error al activar el usuario" : "Error al archivar el usuario"))
       }
     } catch (error) {
-      console.error("Error deleting user:", error)
-      toast.error("Error al eliminar el usuario")
+      console.error(isArchived ? "Error activating user:" : "Error archiving user:", error)
+      toast.error(isArchived ? "Error al activar el usuario" : "Error al archivar el usuario")
     } finally {
       setIsSubmitting(false)
     }
@@ -181,6 +262,9 @@ export function UsersTable({ users }: UsersTableProps) {
                   Rol
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider">
+                  Estado
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider">
                   Fecha de Ingreso
                 </th>
                 <th className="px-6 py-3 text-right text-xs font-medium text-secondary uppercase tracking-wider">
@@ -191,7 +275,7 @@ export function UsersTable({ users }: UsersTableProps) {
             <tbody className="divide-y divide-gray-300">
               {filteredUsers.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="px-6 py-8 text-center text-secondary">
+                  <td colSpan={6} className="px-6 py-8 text-center text-secondary">
                     {users.length === 0 ? "No hay usuarios registrados" : "No se encontraron usuarios"}
                   </td>
                 </tr>
@@ -230,15 +314,26 @@ export function UsersTable({ users }: UsersTableProps) {
                             : "Estudiante"}
                         </Badge>
                       </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <span
+                          className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-semibold ${
+                            getStatus(user) === "activo"
+                              ? "bg-green-100 text-green-800"
+                              : "bg-gray-100 text-gray-600"
+                          }`}
+                        >
+                          {getStatus(user) === "activo" ? "Activo" : "Archivado"}
+                        </span>
+                      </td>
                       <td className="px-6 py-4 whitespace-nowrap text-primary">
                         {formatDate(user.created_at)}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-right">
-                        <div className="flex items-center justify-end gap-2">
+                        <div className="flex items-center justify-end gap-2 cursor">
                           <Button
                             variant="ghost"
                             size="icon"
-                            className="h-8 w-8 text-primary hover:bg-blue-50"
+                            className="h-8 w-8 text-primary hover:bg-blue-50 cursor-pointer"
                             title="Ver perfil"
                             onClick={() => handleViewUser(user)}
                           >
@@ -247,7 +342,7 @@ export function UsersTable({ users }: UsersTableProps) {
                           <Button
                             variant="ghost"
                             size="icon"
-                            className="h-8 w-8 text-primary hover:bg-blue-50"
+                            className="h-8 w-8 text-primary hover:bg-blue-50 cursor-pointer"
                             title="Editar usuario"
                             onClick={() => handleEditUser(user)}
                           >
@@ -256,11 +351,19 @@ export function UsersTable({ users }: UsersTableProps) {
                           <Button
                             variant="ghost"
                             size="icon"
-                            className="h-8 w-8 text-red-600 hover:text-red-700 hover:bg-red-50"
-                            title="Eliminar usuario"
+                            className={
+                              getStatus(user) === "archivado"
+                                ? "h-8 w-8 text-green-600 hover:text-green-700 hover:bg-green-50 cursor-pointer"
+                                : "h-8 w-8 text-red-600 hover:text-red-700 hover:bg-red-50 cursor-pointer"
+                            }
+                            title={getStatus(user) === "archivado" ? "Activar usuario" : "Archivar usuario"}
                             onClick={() => handleDeleteUser(user)}
                           >
-                            <Trash2 className="h-4 w-4" />
+                            {getStatus(user) === "archivado" ? (
+                              <RotateCcw className="h-4 w-4" />
+                            ) : (
+                              <Trash2 className="h-4 w-4" />
+                            )}
                           </Button>
                         </div>
                       </td>
@@ -350,6 +453,22 @@ export function UsersTable({ users }: UsersTableProps) {
                   </div>
 
                   <div className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
+                    <Archive className="h-5 w-5 text-secondary mt-0.5" />
+                    <div>
+                      <p className="text-sm font-medium text-secondary">Estado</p>
+                      <span
+                        className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-semibold ${
+                          getStatus(selectedUser) === "activo"
+                            ? "bg-green-100 text-green-800"
+                            : "bg-gray-100 text-gray-600"
+                        }`}
+                      >
+                        {getStatus(selectedUser) === "activo" ? "Activo" : "Archivado"}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
                     <Calendar className="h-5 w-5 text-secondary mt-0.5" />
                     <div>
                       <p className="text-sm font-medium text-secondary">Fecha de registro</p>
@@ -364,6 +483,65 @@ export function UsersTable({ users }: UsersTableProps) {
                       <p className="text-primary text-xs font-mono break-all">{selectedUser.id}</p>
                     </div>
                   </div>
+
+                  {selectedUser.role === "estudiante" && (
+                    <div className="pt-4 border-t border-gray-200">
+                      <div className="flex items-center gap-2 mb-3">
+                        <Award className="h-5 w-5 text-secondary" />
+                        <p className="text-sm font-medium text-secondary">Certificados</p>
+                      </div>
+                      {loadingCertificates ? (
+                        <div className="flex items-center gap-2 py-6 text-gray-500">
+                          <Loader2 className="h-5 w-5 animate-spin" />
+                          <span>Cargando certificados...</span>
+                        </div>
+                      ) : certificates.length === 0 ? (
+                        <p className="text-sm text-gray-500 py-4">No tiene certificados.</p>
+                      ) : (
+                        <div className="space-y-3">
+                          {certificates.map((cert) => {
+                            const courseName = cert.course?.title ?? "Curso"
+                            return (
+                              <div
+                                key={cert.id}
+                                className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 p-3 bg-gray-50 rounded-lg border border-gray-100"
+                              >
+                                <div className="min-w-0">
+                                  <p className="font-medium text-primary truncate">{courseName}</p>
+                                  <p className="text-xs text-gray-500">
+                                    Código: {cert.certificate_code} · Emitido{" "}
+                                    {formatDate(cert.issued_at)}
+                                    {cert.final_grade != null && (
+                                      <> · Nota {cert.final_grade.toFixed(2)} / 20</>
+                                    )}
+                                  </p>
+                                </div>
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  className="shrink-0 w-full sm:w-auto cursor-pointer"
+                                  disabled={downloadingCertId !== null}
+                                  onClick={() => downloadCertificate(cert)}
+                                >
+                                  {downloadingCertId === cert.id ? (
+                                    <>
+                                      <Loader2 className="h-4 w-4 animate-spin mr-1.5" />
+                                      Descargando...
+                                    </>
+                                  ) : (
+                                    <>
+                                      <Download className="h-4 w-4 mr-1.5" />
+                                      Descargar
+                                    </>
+                                  )}
+                                </Button>
+                              </div>
+                            )
+                          })}
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
               </div>
             )}
@@ -385,6 +563,11 @@ export function UsersTable({ users }: UsersTableProps) {
           <DialogBody>
             {selectedUser && (
               <div className="space-y-4">
+                {getStatus(selectedUser) === "archivado" && (
+                  <p className="text-sm text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
+                    No se pueden editar usuarios archivados. Reactívalo primero para modificar sus datos.
+                  </p>
+                )}
                 <div className="flex items-center gap-4 pb-4 border-b">
                   {selectedUser.avatar_url ? (
                     <img
@@ -413,7 +596,7 @@ export function UsersTable({ users }: UsersTableProps) {
                       value={editFullName}
                       onChange={(e) => setEditFullName(e.target.value)}
                       placeholder="Ingrese el nombre completo"
-                      disabled={isSubmitting}
+                      disabled={isSubmitting || getStatus(selectedUser) === "archivado"}
                     />
                   </div>
 
@@ -424,7 +607,7 @@ export function UsersTable({ users }: UsersTableProps) {
                     <Select
                       value={editRole}
                       onChange={(e) => setEditRole(e.target.value as UserRole)}
-                      disabled={isSubmitting}
+                      disabled={isSubmitting || getStatus(selectedUser) === "archivado"}
                     >
                       <option value="estudiante">Estudiante</option>
                       <option value="docente">Docente</option>
@@ -448,14 +631,14 @@ export function UsersTable({ users }: UsersTableProps) {
                         value={editPassword}
                         onChange={(e) => setEditPassword(e.target.value)}
                         placeholder="Nueva contraseña (mínimo 6 caracteres)"
-                        disabled={isSubmitting}
+                        disabled={isSubmitting || getStatus(selectedUser) === "archivado"}
                         className="pr-10"
                       />
                       <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
                         className="absolute right-3 top-1/2 -translate-y-1/2 text-orange-600 hover:text-orange-800"
-                        disabled={isSubmitting}
+                        disabled={isSubmitting || getStatus(selectedUser) === "archivado"}
                       >
                         {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                       </button>
@@ -475,7 +658,7 @@ export function UsersTable({ users }: UsersTableProps) {
             </Button>
             <Button 
               onClick={handleSubmitEdit}
-              disabled={isSubmitting}
+              disabled={isSubmitting || (!!selectedUser && getStatus(selectedUser) === "archivado")}
             >
               {isSubmitting ? "Guardando..." : "Guardar cambios"}
             </Button>
@@ -487,21 +670,45 @@ export function UsersTable({ users }: UsersTableProps) {
       <Dialog open={deleteModalOpen} onOpenChange={setDeleteModalOpen}>
         <DialogContent className="max-w-md">
           <DialogHeader onClose={() => setDeleteModalOpen(false)}>
-            <DialogTitle>Eliminar Usuario</DialogTitle>
+            <DialogTitle>
+              {selectedUser && getStatus(selectedUser) === "archivado"
+                ? "Activar Usuario"
+                : "Archivar Usuario"}
+            </DialogTitle>
           </DialogHeader>
           <DialogBody>
             {selectedUser && (
               <div className="space-y-4">
-                <div className="flex items-center justify-center p-4 bg-red-50 rounded-full w-16 h-16 mx-auto">
-                  <AlertTriangle className="h-8 w-8 text-red-600" />
+                <div
+                  className={`flex items-center justify-center p-4 rounded-full w-16 h-16 mx-auto ${
+                    getStatus(selectedUser) === "archivado"
+                      ? "bg-green-50"
+                      : "bg-red-50"
+                  }`}
+                >
+                  {getStatus(selectedUser) === "archivado" ? (
+                    <RotateCcw className="h-8 w-8 text-green-600" />
+                  ) : (
+                    <AlertTriangle className="h-8 w-8 text-red-600" />
+                  )}
                 </div>
 
                 <div className="text-center space-y-2">
                   <h3 className="text-lg font-semibold text-primary">
-                    ¿Estás seguro?
+                    {getStatus(selectedUser) === "archivado"
+                      ? "¿Activar este usuario?"
+                      : "¿Archivar este usuario?"}
                   </h3>
-                  <p className="text-red-600 font-medium">
-                    Se borrará todo el historial académico de este usuario.
+                  <p
+                    className={
+                      getStatus(selectedUser) === "archivado"
+                        ? "text-green-700 font-medium"
+                        : "text-red-600 font-medium"
+                    }
+                  >
+                    {getStatus(selectedUser) === "archivado"
+                      ? "El usuario volverá a poder acceder al sistema y recuperará el acceso a sus cursos."
+                      : "El usuario no podrá acceder al sistema, pero se conservará su historial académico."}
                   </p>
                 </div>
 
@@ -528,25 +735,38 @@ export function UsersTable({ users }: UsersTableProps) {
                 </div>
 
                 <p className="text-sm text-gray-600 text-center">
-                  Esta acción no se puede deshacer.
+                  {getStatus(selectedUser) === "archivado"
+                    ? "Podrás volver a archivarlo si lo necesitas."
+                    : "Podrás reactivarlo más adelante desde la vista de usuarios archivados."}
                 </p>
               </div>
             )}
           </DialogBody>
           <DialogFooter>
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               onClick={() => setDeleteModalOpen(false)}
               disabled={isSubmitting}
+              className="cursor-pointer"
             >
               Cancelar
             </Button>
-            <Button 
-              onClick={handleSubmitDelete}
+            <Button
+              onClick={handleSubmitArchiveOrActivate}
               disabled={isSubmitting}
-              className="bg-red-600 hover:bg-red-700 text-white"
+              className={
+                selectedUser && getStatus(selectedUser) === "archivado"
+                  ? "bg-green-600 hover:bg-green-700 text-white cursor-pointer"
+                  : "bg-red-600 hover:bg-red-700 text-white cursor-pointer"
+              }
             >
-              {isSubmitting ? "Eliminando..." : "Eliminar usuario"}
+              {selectedUser && getStatus(selectedUser) === "archivado"
+                ? isSubmitting
+                  ? "Activando..."
+                  : "Activar usuario"
+                : isSubmitting
+                  ? "Archivando..."
+                  : "Archivar usuario"}
             </Button>
           </DialogFooter>
         </DialogContent>

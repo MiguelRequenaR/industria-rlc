@@ -18,7 +18,6 @@ export function CourseSettings({ course }: CourseSettingsProps) {
   const queryClient = useQueryClient()
   const isArchived = !!course.deleted_at
 
-  // Mantener el estado local sincronizado con el curso actual (React Query / SSR)
   useEffect(() => {
     setIsPublished(course.deleted_at ? false : course.is_published)
   }, [course.is_published, course.deleted_at])
@@ -92,7 +91,6 @@ export function CourseSettings({ course }: CourseSettingsProps) {
     try {
       const result = await updateCourseSettings(course.id, {
         deleted_at: null,
-        // Por seguridad, al desarchivar lo dejamos como borrador.
         is_published: false,
       })
 
