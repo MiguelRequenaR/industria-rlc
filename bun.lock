@@ -46,6 +46,7 @@
       "name": "web-academia",
       "version": "0.1.0",
       "dependencies": {
+        "@react-pdf/renderer": "^4.3.2",
         "@supabase/ssr": "^0.8.0",
         "@supabase/supabase-js": "^2.93.2",
         "aos": "^2.3.4",

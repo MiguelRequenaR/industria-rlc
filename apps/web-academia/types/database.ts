@@ -1,6 +1,7 @@
 import type { SupabaseClient } from "@supabase/supabase-js"
 
 export type UserRole = "admin" | "docente" | "estudiante"
+export type UserStatus = "activo" | "archivado"
 export type ContentType = "video" | "pdf" | "meet_link" | "quiz"
 
 export interface Profile {
@@ -10,6 +11,9 @@ export interface Profile {
   role: UserRole
   email: string
   created_at: string
+  deleted_at: string | null
+  is_active: boolean
+  is_owner: boolean
 }
 
 export interface Course {
@@ -22,6 +26,23 @@ export interface Course {
   is_published: boolean
   deleted_at: string | null
   created_at: string
+}
+
+export interface Certificate {
+  id: string
+  student_id: string
+  course_id: string
+  certificate_code: string
+  issued_at: string
+  completion_percentage: number
+  final_grade: number | null
+  pdf_url: string | null
+  created_at: string
+}
+
+export interface CertificateWithDetails extends Certificate {
+  student: Profile
+  course: Course
 }
 
 export interface Enrollment {
@@ -204,6 +225,11 @@ export interface Database {
         Insert: Omit<BlogPost, "id" | "created_at" | "updated_at"> & { id?: string }
         Update: Partial<Omit<BlogPost, "id" | "created_at" | "updated_at">>
       }
+      certificates: {
+        Row: Certificate
+        Insert: Omit<Certificate, "id" | "created_at" | "issued_at"> & { id?: string }
+        Update: Partial<Omit<Certificate, "id" | "created_at" | "issued_at">>
+      }
     }
     Enums: {
       user_role: UserRole
@@ -216,5 +242,7 @@ export type CourseFormData = Omit<Course, "id" | "created_at" | "slug">
 export type ModuleFormData = Omit<Module, "id" | "created_at">
 export type LessonFormData = Omit<Lesson, "id" | "order_index">
 export type GradeFormData = Omit<Grade, "id" | "created_at">
+export type BlogPostFormData = Omit<BlogPost, "id" | "created_at" | "updated_at">
+export type BlogCategoryFormData = Omit<BlogCategory, "id" | "created_at">
 
 export type TypedSupabaseClient = SupabaseClient<Database>
