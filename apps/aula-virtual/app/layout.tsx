@@ -24,7 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body className={comfortaa.className + " pt-10"}>
+      <body className={comfortaa.className}>
         <QueryProvider>
           {children}
           <ToastContainer

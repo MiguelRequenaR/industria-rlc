@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { CheckCircle2, FileText, Video, ExternalLink, Download } from "lucide-react"
+import { CheckCircle2, FileText, Video, ExternalLink, Info } from "lucide-react"
 import { LessonWithProgressStatus } from "@/actions/student-actions"
 
 interface LessonContentProps {
@@ -94,17 +94,23 @@ export function LessonContent({ lesson, onMarkCompleted, isMarkingCompleted }: L
         )}
       </div>
 
-      {/* Botón de marcar como completada */}
       {!lesson.is_completed && (
         <div className="pt-6 border-t border-gray-200">
           <Button
             onClick={onMarkCompleted}
             disabled={isMarkingCompleted}
-            className="w-full md:w-auto bg-green-600 text-white hover:bg-green-700 px-8 py-3 text-lg"
+            className="w-full md:w-auto bg-green-600 text-white hover:bg-green-700 px-8 py-3 text-lg cursor-pointer"
           >
             <CheckCircle2 className="h-5 w-5 mr-2" />
             {isMarkingCompleted ? "Marcando..." : "Marcar como Completada"}
           </Button>
+        </div>
+      )}
+
+      {!lesson.is_completed && (
+        <div className="flex items-center gap-2 text-gray-600 text-secondary">
+          <Info className="h-5 w-5" />
+          Recuerda marcar la lección como completada para obtener el certificado.
         </div>
       )}
     </div>
