@@ -110,14 +110,14 @@ export default function ValidateCertificate() {
 
   return (
     <section className="max-w-7xl mx-auto py-30">
-      <div className="bg-secondary p-10 rounded-2xl space-y-5">
+      <div className="bg-secondary p-10 rounded-2xl space-y-5 mx-4 md:mx-0">
         <h2 className="text-2xl font-bold text-primary">Validar Certificado</h2>
         <p className="text-primary">
           Valida tu certificado para garantizar su autenticidad y vigencia, asegurando que fue emitido por nuestra institución. Para prevenir fraudes, y brindar confianza en el uso de documentos oficiales y transacciones digitales.
         </p>
       </div>
       <div className="mt-20 max-w-4xl mx-auto">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="mx-4 md:mx-0">
           <div>
             <label htmlFor="certificate-number" className="text-primary">
               Código de Certificado<span className="text-red-500">*</span>
