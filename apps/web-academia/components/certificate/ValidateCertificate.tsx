@@ -147,7 +147,7 @@ export default function ValidateCertificate() {
         </form>
 
         {certificate && (
-          <div className="mt-12 space-y-6">
+          <div className="mt-12 space-y-6 mx-4 md:mx-0">
             <div className="bg-secondary/20 p-6 rounded-2xl border border-secondary/40 space-y-3">
               <h3 className="text-xl font-bold text-primary">Certificado válido</h3>
               <dl className="grid gap-2 text-primary">
