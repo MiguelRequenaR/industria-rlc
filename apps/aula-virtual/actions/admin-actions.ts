@@ -431,6 +431,81 @@ export async function createCourse(
   return { success: true, slug }
 }
 
+export async function updateCourse(
+  courseId: string,
+  title: string,
+  description?: string,
+  imageUrl?: string
+): Promise<{ success: boolean; error?: string; slug?: string }> {
+  const supabase = await createClient()
+
+  // Verificar autenticación
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) {
+    return { success: false, error: "No autenticado" }
+  }
+
+  // Verificar permisos (admin o docente del curso)
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .single()
+
+  const { data: course } = await supabase
+    .from("courses")
+    .select("teacher_id")
+    .eq("id", courseId)
+    .single()
+
+  const isAdmin = profile?.role === "admin"
+  const isTeacher = course?.teacher_id === user.id
+
+  if (!isAdmin && !isTeacher) {
+    return { success: false, error: "No tienes permisos para editar este curso" }
+  }
+
+  // Generar nuevo slug del título
+  const slug = title
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "") // Eliminar acentos
+    .replace(/[^a-z0-9\s-]/g, "") // Eliminar caracteres especiales
+    .trim()
+    .replace(/\s+/g, "-") // Reemplazar espacios por guiones
+    .replace(/-+/g, "-") // Eliminar guiones múltiples
+
+  // Verificar si el slug ya existe en otro curso
+  const { data: existingCourse } = await supabase
+    .from("courses")
+    .select("id")
+    .eq("slug", slug)
+    .neq("id", courseId)
+    .single()
+
+  if (existingCourse) {
+    return { success: false, error: "Ya existe otro curso con ese nombre" }
+  }
+
+  // Actualizar el curso
+  const { error } = await supabase
+    .from("courses")
+    .update({
+      title,
+      slug,
+      description: description || null,
+      image_url: imageUrl || null,
+    })
+    .eq("id", courseId)
+
+  if (error) {
+    console.error("Error updating course:", error)
+    return { success: false, error: error.message }
+  }
+
+  return { success: true, slug }
+}
+
 export async function getCourseBySlug(slug: string) {
   const supabase = await createClient()
 

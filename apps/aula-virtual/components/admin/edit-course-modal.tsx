@@ -1,39 +1,47 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogBody, DialogFooter } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
-import { useCreateCourse } from "@/hooks/use-courses"
+import { useUpdateCourse } from "@/hooks/use-courses"
+import { CourseWithTeacher } from "@/types/database"
 
-interface AddCourseModalProps {
+interface EditCourseModalProps {
   isOpen: boolean
   onClose: () => void
+  course: CourseWithTeacher | null
 }
 
-export function AddCourseModal({ isOpen, onClose }: AddCourseModalProps) {
+export function EditCourseModal({ isOpen, onClose, course }: EditCourseModalProps) {
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
   const [imageUrl, setImageUrl] = useState("")
-  const createCourseMutation = useCreateCourse()
+  const updateCourseMutation = useUpdateCourse()
+
+  useEffect(() => {
+    if (course) {
+      setTitle(course.title)
+      setDescription(course.description || "")
+      setImageUrl(course.image_url || "")
+    }
+  }, [course])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    if (!title.trim()) {
+    if (!title.trim() || !course) {
       return
     }
 
-    createCourseMutation.mutate(
+    updateCourseMutation.mutate(
       {
+        courseId: course.id,
         title: title.trim(),
         description: description.trim() || undefined,
         imageUrl: imageUrl.trim() || undefined,
       },
       {
         onSuccess: () => {
-          setTitle("")
-          setDescription("")
-          setImageUrl("")
           onClose()
         },
       }
@@ -41,10 +49,7 @@ export function AddCourseModal({ isOpen, onClose }: AddCourseModalProps) {
   }
 
   const handleClose = () => {
-    if (!createCourseMutation.isPending) {
-      setTitle("")
-      setDescription("")
-      setImageUrl("")
+    if (!updateCourseMutation.isPending) {
       onClose()
     }
   }
@@ -54,7 +59,7 @@ export function AddCourseModal({ isOpen, onClose }: AddCourseModalProps) {
       <DialogContent className="max-w-2xl">
         <form onSubmit={handleSubmit}>
           <DialogHeader onClose={handleClose}>
-            <DialogTitle>Crear Nuevo Curso</DialogTitle>
+            <DialogTitle>Editar Curso</DialogTitle>
           </DialogHeader>
 
           <DialogBody>
@@ -70,7 +75,7 @@ export function AddCourseModal({ isOpen, onClose }: AddCourseModalProps) {
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="Ej: Electricidad Básica para Principiantes"
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                  disabled={createCourseMutation.isPending}
+                  disabled={updateCourseMutation.isPending}
                   autoFocus
                 />
                 {title && (
@@ -91,7 +96,7 @@ export function AddCourseModal({ isOpen, onClose }: AddCourseModalProps) {
                   placeholder="Describe brevemente de qué trata el curso..."
                   rows={4}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary resize-none"
-                  disabled={createCourseMutation.isPending}
+                  disabled={updateCourseMutation.isPending}
                 />
               </div>
 
@@ -106,16 +111,10 @@ export function AddCourseModal({ isOpen, onClose }: AddCourseModalProps) {
                   onChange={(e) => setImageUrl(e.target.value)}
                   placeholder="https://ejemplo.com/imagen.jpg"
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                  disabled={createCourseMutation.isPending}
+                  disabled={updateCourseMutation.isPending}
                 />
                 <p className="text-xs text-gray-500 mt-1">
                   Enlace a una imagen de portada para el curso
-                </p>
-              </div>
-
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
-                <p className="text-sm text-blue-800">
-                  <strong>Nota:</strong> El curso se creará como borrador. Podrás agregar módulos, lecciones y configurarlo antes de publicarlo.
                 </p>
               </div>
             </div>
@@ -126,20 +125,20 @@ export function AddCourseModal({ isOpen, onClose }: AddCourseModalProps) {
               type="button"
               variant="outline"
               onClick={handleClose}
-              disabled={createCourseMutation.isPending}
+              disabled={updateCourseMutation.isPending}
               className="cursor-pointer"
             >
               Cancelar
             </Button>
             <Button
               type="submit"
-              disabled={createCourseMutation.isPending || !title.trim()}
+              disabled={updateCourseMutation.isPending || !title.trim()}
               className="cursor-pointer"
             >
-              {createCourseMutation.isPending && (
+              {updateCourseMutation.isPending && (
                 <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
               )}
-              {createCourseMutation.isPending ? "Creando..." : "Crear Curso"}
+              {updateCourseMutation.isPending ? "Actualizando..." : "Actualizar Curso"}
             </Button>
           </DialogFooter>
         </form>

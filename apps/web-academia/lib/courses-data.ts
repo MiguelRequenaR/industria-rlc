@@ -84,6 +84,7 @@ export async function getCoursesFromDb(): Promise<Course[]> {
     .from("courses")
     .select("*")
     .eq("is_published", true)
+    .is("deleted_at", null)  // ← Solo cursos no archivados
     .order("created_at", { ascending: false });
 
   if (error) {
@@ -122,6 +123,7 @@ export async function getCourseBySlug(slug: string): Promise<Course | null> {
     `)
     .eq("slug", slug)
     .eq("is_published", true)
+    .is("deleted_at", null)  // ← Solo cursos no archivados
     .single();
 
   if (error || !data) {
@@ -138,7 +140,8 @@ export async function getAllCourseSlugs(): Promise<string[]> {
   const { data, error } = await supabase
     .from("courses")
     .select("slug")
-    .eq("is_published", true);
+    .eq("is_published", true)
+    .is("deleted_at", null);  // ← Solo cursos no archivados
 
   if (error) {
     console.error("Error fetching course slugs:", error);

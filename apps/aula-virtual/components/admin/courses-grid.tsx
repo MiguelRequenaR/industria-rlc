@@ -1,12 +1,13 @@
 "use client"
 
-import { useState } from "react"
-import { Search, Plus } from "lucide-react"
+import { useState, useRef, useEffect } from "react"
+import { Search, Plus, EllipsisVertical, Edit } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Select } from "@/components/ui/select"
 import { CourseWithTeacher } from "@/types/database"
 import Link from "next/link"
 import { AddCourseModal } from "./add-course-modal"
+import { EditCourseModal } from "./edit-course-modal"
 import { useCourses } from "@/hooks/use-courses"
 
 interface CoursesGridProps {
@@ -17,10 +18,37 @@ export function CoursesGrid({ initialCourses }: CoursesGridProps) {
   const [searchTerm, setSearchTerm] = useState("")
   const [statusFilter, setStatusFilter] = useState<string>("all")
   const [showAddCourse, setShowAddCourse] = useState(false)
+  const [showEditCourse, setShowEditCourse] = useState(false)
+  const [selectedCourse, setSelectedCourse] = useState<CourseWithTeacher | null>(null)
+  const [openMenuId, setOpenMenuId] = useState<string | null>(null)
+  const menuRef = useRef<HTMLDivElement>(null)
   
   // Usar React Query para obtener cursos actualizados
   const { data: courses } = useCourses()
   const currentCourses = courses || initialCourses
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setOpenMenuId(null)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
+  const handleEditCourse = (course: CourseWithTeacher) => {
+    setSelectedCourse(course)
+    setShowEditCourse(true)
+    setOpenMenuId(null)
+  }
+
+  const toggleMenu = (courseId: string, e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setOpenMenuId(openMenuId === courseId ? null : courseId)
+  }
 
   const filteredCourses = currentCourses.filter((course) => {
     const matchesSearch =
@@ -77,9 +105,8 @@ export function CoursesGrid({ initialCourses }: CoursesGridProps) {
         ) : (
           <>
             {filteredCourses.map((course) => (
-              <Link
+              <div
                 key={course.id}
-                href={`/admin/cursos/${course.slug}`}
                 className="group relative bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-200 cursor-pointer"
               >
                 {/* Imagen del curso */}
@@ -97,7 +124,7 @@ export function CoursesGrid({ initialCourses }: CoursesGridProps) {
                       </span>
                     </div>
                   )}
-                  <div className="absolute top-2 right-2">+
+                  <div className="absolute top-2 right-2 flex items-center gap-2">
                     {
                       course.deleted_at ? (
                         <span className="px-2 py-1 text-xs font-semibold bg-red-100 text-red-800 rounded-full">
@@ -113,11 +140,35 @@ export function CoursesGrid({ initialCourses }: CoursesGridProps) {
                         </span>
                       )
                     }
+                    <button
+                      onClick={(e) => toggleMenu(course.id, e)}
+                      className="p-1 rounded-full text-gray-600 bg-white transition-colors cursor-pointer"
+                    >
+                      <EllipsisVertical className="h-4 w-4" />
+                    </button>
+                    
+                    {openMenuId === course.id && (
+                      <div 
+                        ref={menuRef}
+                        className="absolute top-8 right-0 bg-white border border-gray-200 rounded-lg shadow-lg py-1 z-10 min-w-[120px]"
+                      >
+                        <button
+                          onClick={() => handleEditCourse(course)}
+                          className="w-full px-3 py-2 text-left text-sm flex items-center gap-2 cursor-pointer"
+                        >
+                          <Edit className="h-4 w-4" />
+                          Editar
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </div>
 
                 {/* Contenido de la card */}
-                <div className="p-4 space-y-2">
+                <Link
+                  href={`/admin/cursos/${course.slug}`}
+                  className="block p-4 space-y-2 group-hover:text-secondary transition-colors"
+                >
                   <h3 className="font-semibold text-lg text-primary line-clamp-2 group-hover:text-secondary transition-colors">
                     {course.title}
                   </h3>
@@ -131,8 +182,8 @@ export function CoursesGrid({ initialCourses }: CoursesGridProps) {
                       Docente: {course.teacher.full_name || "Sin nombre"}
                     </p>
                   )}
-                </div>
-              </Link>
+                </Link>
+              </div>
             ))}
             {/* Card para agregar nuevo curso */}
             <button 
@@ -172,6 +223,16 @@ export function CoursesGrid({ initialCourses }: CoursesGridProps) {
       <AddCourseModal
         isOpen={showAddCourse}
         onClose={() => setShowAddCourse(false)}
+      />
+
+      {/* Modal para editar curso */}
+      <EditCourseModal
+        isOpen={showEditCourse}
+        onClose={() => {
+          setShowEditCourse(false)
+          setSelectedCourse(null)
+        }}
+        course={selectedCourse}
       />
     </div>
   )

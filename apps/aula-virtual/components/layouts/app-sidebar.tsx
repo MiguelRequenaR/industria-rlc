@@ -64,8 +64,8 @@ export function AppSidebar() {
   }
 
   return (
-    <nav className="fixed top-0 left-0 right-0 h-16 bg-white rounded-2xl md:rounded-full max-w-7xl mx-auto flex items-center z-50 shadow-lg">
-      <div className="w-full max-w-7xl mx-auto px-1 md:px-6 flex items-center justify-between gap-6">
+    <nav className="fixed top-0 left-0 right-0 h-16 flex items-center z-50 bg-white">
+      <div className="w-full max-w-7xl mx-auto rounded-full shadow-lg bg-white px-1 md:px-6 flex items-center justify-between gap-6">
         {/* Logo y Marca */}
         <Link href={homeUrl} className="flex items-center gap-3 shrink-0">
           <div className="w-10 h-10 rounded-lg flex items-center justify-center text-white" style={{ backgroundColor: 'var(--primary)' }}>
