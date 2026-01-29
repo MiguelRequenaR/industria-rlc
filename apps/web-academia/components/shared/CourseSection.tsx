@@ -35,7 +35,7 @@ export default function CourseSection({
             <Link
               key={course.id}
               href={`/cursos/${course.slug}`}
-              className="rounded-2xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-300 hover:-translate-y-2 flex flex-col group h-[450px]"
+              className="rounded-2xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-300 hover:-translate-y-2 flex flex-col group h-[470px]"
             >
               <div className="relative h-64 w-full shrink-0">
                 <Image

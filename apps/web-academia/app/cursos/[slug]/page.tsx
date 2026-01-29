@@ -8,6 +8,9 @@ import CourseDetailPage from "@/components/courses/CourseDetailPage"
 import CourseStructuredData from "@/components/seo/CourseStructuredData"
 import type { Metadata } from "next"
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 interface CoursePageProps {
   params: Promise<{
     slug: string

@@ -2,6 +2,9 @@ import type { Metadata } from "next"
 import HeroCourses from "@/components/courses/HeroCourses"
 import CoursePage from "@/components/courses/CoursePage"
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export const metadata: Metadata = {
   title: 'Cursos',
   description: 'Explora nuestros cursos especializados: Electricidad Básica, Electricidad Industrial, Instalaciones Eléctricas, Seguridad y Riesgo Eléctrico, Sistemas UPS y más. Certificaciones profesionales reconocidas.',
