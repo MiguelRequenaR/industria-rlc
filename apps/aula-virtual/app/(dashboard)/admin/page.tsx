@@ -116,7 +116,7 @@ export default async function AdminDashboardPage() {
                 return (
                   <div
                     key={stat.label}
-                    className="flex items-center gap-3 p-4 rounded-xl bg-gray-50 border border-transparent hover:bg-secondary/5 transition-colors  hover:border-secondary/20"
+                    className="flex items-center gap-3 p-4 rounded-xl bg-blue-50 border border-blue-100 transition-colors"
                   >
                     <div className="shrink-0">
                       <Icon className="h-8 w-8 text-blue-500" />
