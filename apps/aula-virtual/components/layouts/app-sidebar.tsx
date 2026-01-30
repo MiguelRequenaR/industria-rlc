@@ -64,7 +64,7 @@ export function AppSidebar() {
   }
 
   return (
-    <nav className="fixed top-0 left-0 right-0 h-16 flex items-center z-50 bg-white">
+    <nav className="fixed top-0 left-0 right-0 h-16 flex items-center z-50 ">
       <div className="w-full max-w-7xl mx-auto rounded-full shadow-lg bg-white px-1 md:px-6 flex items-center justify-between gap-6">
         {/* Logo y Marca */}
         <Link href={homeUrl} className="flex items-center gap-3 shrink-0">

@@ -50,8 +50,8 @@ export default async function AdminDashboardPage() {
   ];
 
   const quickActions = [
-    { title: 'Crear Curso', icon: Plus, href: '/admin/cursos' },
-    { title: 'Añadir Usuario', icon: Users, href: '/admin/usuarios' },
+    { title: 'Crear Curso', icon: Plus, href: '/admin/cursos', colorIcon: 'text-blue-500' },
+    { title: 'Añadir Usuario', icon: Users, href: '/admin/invitaciones', colorIcon: 'text-green-500' },
   ];
 
   return (
@@ -116,14 +116,14 @@ export default async function AdminDashboardPage() {
                 return (
                   <div
                     key={stat.label}
-                    className="flex items-center gap-3 p-4 rounded-xl bg-gray-50 hover:bg-secondary/5 transition-colors border border-transparent hover:border-secondary/20"
+                    className="flex items-center gap-3 p-4 rounded-xl bg-gray-50 border border-transparent hover:bg-secondary/5 transition-colors  hover:border-secondary/20"
                   >
                     <div className="shrink-0">
-                      <Icon className="h-8 w-8 text-secondary" />
+                      <Icon className="h-8 w-8 text-blue-500" />
                     </div>
                     <div>
                       <p className="text-2xl font-bold text-primary">{stat.value}</p>
-                      <p className="text-xs text-secondary">{stat.label}</p>
+                      <p className="text-xs text-gray-500">{stat.label}</p>
                     </div>
                   </div>
                 );
@@ -146,8 +146,8 @@ export default async function AdminDashboardPage() {
                     href={action.href}
                     className="flex items-center gap-3 p-4 rounded-xl bg-gray-50 hover:bg-secondary/10 transition-all group border border-transparent hover:border-secondary/20"
                   >
-                    <div className="shrink-0 w-10 h-10 bg-secondary rounded-lg flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
-                      <Icon className="h-5 w-5 text-primary" />
+                    <div className="shrink-0 w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
+                      <Icon className={`h-5 w-5 ${action.colorIcon}`} />
                     </div>
                     <span className="text-sm font-semibold text-primary group-hover:text-secondary">
                       {action.title}
