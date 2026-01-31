@@ -102,12 +102,6 @@ export function UsersTable({ users, currentUserIsOwner = false }: UsersTableProp
     }
   }, [viewModalOpen, selectedUser?.id, selectedUser?.role])
 
-  const durationWeeks = (enrollDate: string, issueDate: string) => {
-    const start = new Date(enrollDate)
-    const end = new Date(issueDate)
-    return Math.ceil(Math.abs(end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24 * 7))
-  }
-
   const downloadCertificate = async (cert: CertificateForAdmin) => {
     if (!selectedUser) return
     setDownloadingCertId(cert.id)
@@ -117,7 +111,7 @@ export function UsersTable({ users, currentUserIsOwner = false }: UsersTableProp
         month: "long",
         year: "numeric",
       })
-      const weeks = cert.enrollmentDate ? durationWeeks(cert.enrollmentDate, cert.issued_at) : 0
+      const durationHours = cert.course?.duration_hours ?? 0
       const courseName = cert.course?.title ?? "Curso"
       const blob = await pdf(
         <CertificateDocument
@@ -125,7 +119,7 @@ export function UsersTable({ users, currentUserIsOwner = false }: UsersTableProp
           courseName={courseName}
           issueDate={issueDate}
           certificateCode={cert.certificate_code}
-          durationWeeks={weeks}
+          durationHours={durationHours}
         />
       ).toBlob()
       const url = URL.createObjectURL(blob)

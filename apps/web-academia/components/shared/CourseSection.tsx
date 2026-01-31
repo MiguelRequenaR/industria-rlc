@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Clock, Signal, ArrowRight, GraduationCap } from "lucide-react";
+import { Clock, Signal, Monitor, ArrowRight, GraduationCap } from "lucide-react";
 import type { Course } from "@/lib/types";
 
 interface CourseSectionProps {
@@ -35,7 +35,7 @@ export default function CourseSection({
             <Link
               key={course.id}
               href={`/cursos/${course.slug}`}
-              className="rounded-2xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-300 hover:-translate-y-2 flex flex-col group h-[470px]"
+              className="rounded-2xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-300 hover:-translate-y-2 flex flex-col group h-[480px]"
             >
               <div className="relative h-64 w-full shrink-0">
                 <Image
@@ -45,7 +45,36 @@ export default function CourseSection({
                   className="object-cover"
                 />
               </div>
-              <div className="space-y-2 p-5 grow flex flex-col">
+              <div className="flex flex-wrap gap-2 p-2">
+                {course.badges.map((badge) => (
+                  (badge.duration || badge.level || badge.modality) && (
+                    <span
+                      key={badge.id}
+                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-sm text-tertiary"
+                    >
+                      {badge.duration && (
+                        <>
+                          <Clock className="w-3.5 h-3.5" />
+                          {badge.duration}
+                        </>
+                      )}
+                      {badge.level && (
+                        <>
+                          <Signal className="w-3.5 h-3.5" />
+                          {badge.level}
+                        </>
+                      )}
+                      {badge.modality && (
+                        <>
+                          <Monitor className="w-3.5 h-3.5" />
+                          {badge.modality}
+                        </>
+                      )}
+                    </span>
+                  )
+                ))}
+              </div>
+              <div className="space-y-2 px-5 grow flex flex-col">
                 <h3 className="text-primary text-xl font-bold group-hover:text-secondary transition-colors duration-300 line-clamp-2 overflow-hidden">
                   {course.title}
                 </h3>
@@ -65,8 +94,8 @@ export default function CourseSection({
       </div>
       {showViewAllButton && (
         <div className="flex justify-center mt-12" data-aos="fade-up" data-aos-delay="200">
-          <Link 
-            href="/cursos" 
+          <Link
+            href="/cursos"
             className="flex items-center gap-2 bg-primary hover:bg-secondary transition-colors duration-500 text-white hover:text-primary rounded-full px-8 py-3 font-bold text-lg shadow-lg hover:shadow-xl group"
           >
             <GraduationCap className="w-5 h-5" />

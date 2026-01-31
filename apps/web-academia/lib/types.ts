@@ -10,6 +10,7 @@ export interface Course {
     id: string;
     duration: string;
     level: string;
+    modality?: string;
   }[];
   objectives: string[];
   requirements: string[];

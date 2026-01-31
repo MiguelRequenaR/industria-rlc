@@ -7,6 +7,17 @@ const PLACEHOLDER_IMAGE =
 
 function mapDbCourseToCourse(row: DbCourse): Course {
   const img = row.image_url || PLACEHOLDER_IMAGE;
+  const durationLabel = row.duration_hours > 0 
+    ? `${row.duration_hours} ${row.duration_hours === 1 ? 'hora' : 'horas'}` 
+    : null;
+  
+  const modalityLabel = row.modality ?? null;
+  const badges = [
+    ...(durationLabel ? [{ id: "duration", duration: durationLabel, level: "" }] : []),
+    { id: "difficulty", duration: "", level: row.difficulty ?? "Curso" },
+    ...(modalityLabel ? [{ id: "modality", duration: "", level: "", modality: modalityLabel }] : []),
+  ].filter(Boolean) as { id: string; duration: string; level: string; modality?: string }[];
+
   return {
     id: row.id,
     title: row.title,
@@ -15,11 +26,11 @@ function mapDbCourseToCourse(row: DbCourse): Course {
     imageDetail: img,
     description: row.description ?? "",
     detailedDescription: row.description ?? "",
-    badges: [{ id: "1", duration: "-", level: "Curso" }],
+    badges: badges,
+    duration: durationLabel ?? "-",
+    modality: row.modality ?? "Por definir",
     objectives: [],
     requirements: [],
-    duration: "-",
-    modality: "Por definir",
     price: 0,
     instructor: { name: "-", bio: "", experience: "" },
     syllabus: [],
