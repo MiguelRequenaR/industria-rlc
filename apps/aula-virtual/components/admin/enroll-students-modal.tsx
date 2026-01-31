@@ -211,7 +211,7 @@ export function EnrollStudentsModal({ isOpen, onClose, courseId, onSuccess }: En
                             onClick={() => handleEnroll(student.id)}
                             disabled={actionLoading === student.id}
                             size="sm"
-                            className="bg-blue-600 text-white hover:bg-blue-700"
+                            className="bg-blue-600 text-white hover:bg-blue-700 cursor-pointer"
                           >
                             {actionLoading === student.id ? (
                               "..."
@@ -239,7 +239,7 @@ export function EnrollStudentsModal({ isOpen, onClose, courseId, onSuccess }: En
         </DialogBody>
         
         <DialogFooter>
-          <Button variant="outline" onClick={onClose}>
+          <Button variant="outline" onClick={onClose} className="cursor-pointer">
             Cerrar
           </Button>
         </DialogFooter>

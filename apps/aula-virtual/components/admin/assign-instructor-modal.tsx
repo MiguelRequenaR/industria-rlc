@@ -71,7 +71,7 @@ export function AssignInstructorModal({
         <DialogHeader onClose={onClose}>
           <div>
             <DialogTitle>Asignar Instructor</DialogTitle>
-            <p className="text-sm text-gray-500 mt-1">
+            <p className="text-sm text-primary mt-1">
               Selecciona un docente para asignar al curso
             </p>
           </div>
@@ -81,13 +81,13 @@ export function AssignInstructorModal({
           {/* Search */}
           <div className="mb-4">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-secondary" />
               <input
                 type="text"
                 placeholder="Buscar por nombre o email..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full pl-10 pr-4 py-2 border border-secondary rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary text-primary"
               />
             </div>
           </div>
@@ -113,16 +113,16 @@ export function AssignInstructorModal({
                   onClick={() => setSelectedTeacherId(null)}
                   className={`w-full flex items-center gap-3 p-3 rounded-lg border-2 transition-colors ${
                     selectedTeacherId === null
-                      ? "border-blue-600 bg-blue-50"
-                      : "border-gray-200 hover:bg-gray-50"
+                      ? "border-secondary bg-secondary/10"
+                      : "border-secondary/20 hover:bg-secondary/10"
                   }`}
                 >
-                  <div className="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center shrink-0">
-                    <span className="text-gray-600 text-lg">—</span>
+                  <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center shrink-0">
+                    <span className="text-primary text-lg">—</span>
                   </div>
                   <div className="flex-1 text-left">
-                    <p className="font-medium text-gray-900">Sin instructor</p>
-                    <p className="text-sm text-gray-500">No asignar ningún instructor al curso</p>
+                    <p className="font-medium text-primary">Sin instructor</p>
+                    <p className="text-sm text-primary">No asignar ningún instructor al curso</p>
                   </div>
                 </button>
 
@@ -133,8 +133,8 @@ export function AssignInstructorModal({
                     onClick={() => setSelectedTeacherId(teacher.id)}
                     className={`w-full flex items-center gap-3 p-3 rounded-lg border-2 transition-colors ${
                       selectedTeacherId === teacher.id
-                        ? "border-blue-600 bg-blue-50"
-                        : "border-gray-200 hover:bg-gray-50"
+                        ? "border-secondary bg-secondary/10"
+                        : "border-secondary/20 hover:bg-secondary/10"
                     }`}
                   >
                     <div className="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-semibold shrink-0">

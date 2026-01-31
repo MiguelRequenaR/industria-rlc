@@ -192,6 +192,54 @@ export function CourseSettings({ course }: CourseSettingsProps) {
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
+              Código del Curso
+            </label>
+            <input
+              type="text"
+              value={course.course_code ?? "—"}
+              disabled
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-50 text-gray-500 cursor-not-allowed"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Duración (horas)
+            </label>
+            <input
+              type="text"
+              value={course.duration_hours ?? 0}
+              disabled
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-50 text-gray-500 cursor-not-allowed"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Dificultad
+            </label>
+            <input
+              type="text"
+              value={course.difficulty ?? "—"}
+              disabled
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-50 text-gray-500 cursor-not-allowed"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Modalidad
+            </label>
+            <input
+              type="text"
+              value={course.modality ?? "—"}
+              disabled
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-50 text-gray-500 cursor-not-allowed"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
               ID del Curso
             </label>
             <input

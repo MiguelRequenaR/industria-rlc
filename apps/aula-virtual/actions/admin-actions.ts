@@ -3,6 +3,7 @@
 import { createClient, createAdminClient } from "@/lib/supabase/server"
 import { Profile, CourseWithTeacher, Invitation, UserRole, Lesson, BlogPostWithDetails, BlogCategory, BlogPost, CertificateWithDetails } from "@/types/database"
 import { nanoid } from "nanoid"
+import type { CourseDifficulty, CourseModality, TypedSupabaseClient } from "@/types/database"
 
 export interface UserWithEmail extends Profile {
   email: string
@@ -29,7 +30,7 @@ export async function getAllUsers(): Promise<UserWithEmail[]> {
 }
 
 export async function updateUser(
-  userId: string, 
+  userId: string,
   updates: { full_name?: string; role?: UserRole }
 ): Promise<{ success: boolean; error?: string }> {
   const supabase = await createClient()
@@ -366,7 +367,11 @@ export async function deleteInvitation(invitationId: string): Promise<{ success:
 export async function createCourse(
   title: string,
   description?: string,
-  imageUrl?: string
+  imageUrl?: string,
+  durationHours?: number,
+  difficulty?: CourseDifficulty,
+  modality?: CourseModality,
+  courseCode?: string
 ): Promise<{ success: boolean; error?: string; slug?: string }> {
   const supabase = await createClient()
 
@@ -388,6 +393,31 @@ export async function createCourse(
 
   if (!isAdmin && !isTeacher) {
     return { success: false, error: "No tienes permisos para crear cursos" }
+  }
+  // Caracteres válidos para el sufijo (0-9, A-Z)
+  const RLC_CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+  function generateCourseCode(): string {
+    let suffix = ""
+    for (let i = 0; i < 4; i++) {
+      suffix += RLC_CHARS[Math.floor(Math.random() * RLC_CHARS.length)]
+    }
+    return `RLC-${suffix}`
+  }
+
+  async function generateUniqueCourseCode(supabase: TypedSupabaseClient): Promise<string> {
+    const maxAttempts = 50
+    for (let i = 0; i < maxAttempts; i++) {
+      const code = generateCourseCode()
+      const { data } = await supabase
+        .from("courses")
+        .select("id")
+        .eq("course_code", code)
+        .maybeSingle()
+      if (!data) return code
+    }
+    // Fallback con timestamp si hubiera mucha colisión
+    return `RLC-${Date.now().toString(36).toUpperCase().slice(-4).padStart(4, "0")}`
   }
 
   // Generar slug del título
@@ -411,6 +441,9 @@ export async function createCourse(
     return { success: false, error: "Ya existe un curso con ese nombre" }
   }
 
+  // Generar código único del curso (RLC-XXXX)
+  const course_code = await generateUniqueCourseCode(supabase)
+
   // Crear el curso
   const { error } = await supabase
     .from("courses")
@@ -420,7 +453,11 @@ export async function createCourse(
       description: description || null,
       image_url: imageUrl || null,
       teacher_id: isTeacher ? user.id : null, // Si es docente, asignarlo automáticamente
-      is_published: false
+      is_published: false,
+      duration_hours: durationHours ?? 0,
+      difficulty: difficulty ?? "Basico",
+      modality: modality ?? "Virtual",
+      course_code,
     })
 
   if (error) {
@@ -435,7 +472,11 @@ export async function updateCourse(
   courseId: string,
   title: string,
   description?: string,
-  imageUrl?: string
+  imageUrl?: string,
+  durationHours?: number,
+  difficulty?: CourseDifficulty,
+  modality?: CourseModality,
+  courseCode?: string
 ): Promise<{ success: boolean; error?: string; slug?: string }> {
   const supabase = await createClient()
 
@@ -487,7 +528,7 @@ export async function updateCourse(
     return { success: false, error: "Ya existe otro curso con ese nombre" }
   }
 
-  // Actualizar el curso
+  // Actualizar el curso (course_code no se modifica al editar)
   const { error } = await supabase
     .from("courses")
     .update({
@@ -495,6 +536,9 @@ export async function updateCourse(
       slug,
       description: description || null,
       image_url: imageUrl || null,
+      duration_hours: durationHours ?? 0,
+      difficulty: difficulty ?? "Basico",
+      modality: modality ?? "Virtual",
     })
     .eq("id", courseId)
 
@@ -770,8 +814,8 @@ export async function createLesson(
     .order("order_index", { ascending: false })
     .limit(1)
 
-  const nextOrderIndex = existingLessons && existingLessons.length > 0 
-    ? (existingLessons[0].order_index ?? -1) + 1 
+  const nextOrderIndex = existingLessons && existingLessons.length > 0
+    ? (existingLessons[0].order_index ?? -1) + 1
     : 0
 
   // Crear la lección
@@ -1174,8 +1218,8 @@ export async function unenrollStudent(
 
 export async function updateCourseSettings(
   courseId: string,
-  settings: { 
-    is_published?: boolean 
+  settings: {
+    is_published?: boolean
     deleted_at?: string | null
   }
 ): Promise<{ success: boolean; error?: string }> {

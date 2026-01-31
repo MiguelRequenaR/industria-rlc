@@ -48,15 +48,6 @@ export function CertificateButton({ courseId, courseName, studentName }: Certifi
     setIsChecking(false)
   }
 
-  const calculateDurationWeeks = (enrollDate: string, issueDate: string): number => {
-    const start = new Date(enrollDate)
-    const end = new Date(issueDate)
-    const diffTime = Math.abs(end.getTime() - start.getTime())
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
-    const weeks = Math.ceil(diffDays / 7)
-    return weeks
-  }
-
   const handleGenerateCertificate = async () => {
     setIsGenerating(true)
     
@@ -90,9 +81,7 @@ export function CertificateButton({ courseId, courseName, studentName }: Certifi
       })
 
       // Calcular duración en semanas
-      const durationWeeks = enrollDate 
-        ? calculateDurationWeeks(enrollDate, cert.issued_at)
-        : 0
+      const durationHours = cert.course?.duration_hours ?? 0
 
       // Generar el PDF
       const blob = await pdf(
@@ -101,7 +90,7 @@ export function CertificateButton({ courseId, courseName, studentName }: Certifi
           courseName={courseName}
           issueDate={issueDate}
           certificateCode={cert.certificate_code}
-          durationWeeks={durationWeeks}
+          durationHours={durationHours}
         />
       ).toBlob()
 

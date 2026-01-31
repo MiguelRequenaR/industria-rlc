@@ -190,7 +190,7 @@ export default function InvitacionesPage() {
 
       {/* Lista de invitaciones activas */}
       <div className="bg-white rounded-2xl p-6 shadow-lg border-2 border-gray-100">
-        <h2 className="text-2xl font-bold text-primary mb-6">Invitaciones Activas</h2>
+        <h2 className="text-2xl font-light text-primary mb-6">Invitaciones Activas</h2>
         
         {loading ? (
           <div className="text-center py-12">
@@ -271,7 +271,7 @@ export default function InvitacionesPage() {
       {/* Lista de invitaciones usadas */}
       {usedInvitations.length > 0 && (
         <div className="bg-white rounded-2xl p-6 shadow-lg border-2 border-gray-100">
-          <h2 className="text-2xl font-bold text-primary mb-6">Invitaciones Usadas</h2>
+          <h2 className="text-2xl font-light text-primary mb-6">Invitaciones Usadas</h2>
           <div className="space-y-3">
             {usedInvitations.map((invitation) => {
               const RoleIcon = roleIcons[invitation.role]
@@ -319,7 +319,7 @@ export default function InvitacionesPage() {
               <div className="w-12 h-12 bg-secondary rounded-xl flex items-center justify-center">
                 <Mail className="w-6 h-6 text-white" />
               </div>
-              <h2 className="text-2xl font-bold text-primary">Nueva Invitación</h2>
+              <h2 className="text-2xl font-light text-primary">Nueva Invitación</h2>
             </div>
 
             {error && (
@@ -348,7 +348,7 @@ export default function InvitacionesPage() {
                       className={`w-full flex items-center gap-4 p-4 rounded-xl border-2 transition-all ${
                         isSelected
                           ? `${roleColors[role]} border-current shadow-md`
-                          : "bg-white border-gray-200 hover:border-gray-300"
+                          : "bg-white border-secondary/20 hover:bg-secondary/10"
                       }`}
                     >
                       <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
@@ -376,7 +376,7 @@ export default function InvitacionesPage() {
                   setShowCreateModal(false)
                   setError(null)
                 }}
-                className="flex-1 px-4 py-3 border-2 border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-colors font-semibold"
+                className="flex-1 px-4 py-3 border-2 border-secondary/20 text-secondary rounded-xl hover:bg-secondary/10 transition-colors font-semibold cursor-pointer"
                 disabled={creating}
               >
                 Cancelar
@@ -384,7 +384,7 @@ export default function InvitacionesPage() {
               <button
                 onClick={handleCreateInvitation}
                 disabled={creating}
-                className="flex-1 px-4 py-3 bg-secondary text-white rounded-xl hover:bg-secondary/90 transition-colors font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex-1 px-4 py-3 bg-secondary text-white rounded-xl hover:bg-secondary/90 transition-colors font-semibold disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
               >
                 {creating ? "Creando..." : "Crear Invitación"}
               </button>

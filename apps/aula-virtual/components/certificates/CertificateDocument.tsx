@@ -13,7 +13,7 @@ interface CertificateDocumentProps {
   courseName: string
   issueDate: string
   certificateCode: string
-  durationWeeks: number
+  durationHours: number
 }
 
 // Dimensiones A4 Landscape estándar
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     right: 0,
     textAlign: 'center',
     fontSize: 14,
-    color: '#444444',
+    color: '#1a1a1a',
   },
   issueDate: {
     position: 'absolute',
@@ -98,13 +98,13 @@ export function CertificateDocument({
   courseName,
   issueDate,
   certificateCode,
-  durationWeeks,
+  durationHours,
 }: CertificateDocumentProps) {
   
   const durationText =
-    durationWeeks === 1
-      ? 'con una duración de 1 semana.'
-      : `con una duración de ${durationWeeks} semanas.`
+    durationHours === 1
+      ? 'con una duración de 1 hora.'
+      : `con una duración de ${durationHours} horas.`
 
   return (
     <Document>

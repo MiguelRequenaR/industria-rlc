@@ -4,6 +4,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import { getAllCourses, createCourse, updateCourse } from "@/actions/admin-actions"
 import { toast } from "react-toastify"
 import { useRouter } from "next/navigation"
+import type { CourseDifficulty, CourseModality } from "@/types/database"
 
 export function useCourses() {
   return useQuery({
@@ -21,17 +22,30 @@ export function useUpdateCourse() {
       title,
       description,
       imageUrl,
+      durationHours,
+      difficulty,
+      modality,
+      courseCode,
     }: {
       courseId: string
       title: string
       description?: string
       imageUrl?: string
-    }) => updateCourse(courseId, title, description, imageUrl),
+      durationHours?: number
+      difficulty?: CourseDifficulty
+      modality?: CourseModality
+      courseCode?: string
+    }) => updateCourse(courseId, title, description, imageUrl, durationHours, difficulty, modality, courseCode),
     onSuccess: (result) => {
       if (result.success) {
         toast.success("Curso actualizado correctamente")
-        // Invalidar la lista de cursos
         queryClient.invalidateQueries({ queryKey: ["courses"] })
+        queryClient.invalidateQueries({ queryKey: ["teacher-courses"] })
+        if (result.slug) {
+          queryClient.invalidateQueries({ queryKey: ["course", result.slug] })
+        } else {
+          queryClient.invalidateQueries({ queryKey: ["course"] })
+        }
       } else {
         toast.error(result.error || "Error al actualizar curso")
       }
@@ -51,11 +65,19 @@ export function useCreateCourse() {
       title,
       description,
       imageUrl,
+      durationHours,
+      difficulty,
+      modality,
+      courseCode,
     }: {
       title: string
       description?: string
       imageUrl?: string
-    }) => createCourse(title, description, imageUrl),
+      durationHours?: number
+      difficulty?: CourseDifficulty
+      modality?: CourseModality
+      courseCode?: string
+    }) => createCourse(title, description, imageUrl, durationHours, difficulty, modality, courseCode),
     onSuccess: (result) => {
       if (result.success) {
         toast.success("Curso creado correctamente")

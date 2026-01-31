@@ -3,6 +3,8 @@ import type { SupabaseClient } from "@supabase/supabase-js"
 export type UserRole = "admin" | "docente" | "estudiante"
 export type UserStatus = "activo" | "archivado"
 export type ContentType = "video" | "pdf" | "meet_link" | "quiz"
+export type CourseDifficulty = "Basico" | "Intermedio" | "Avanzado"
+export type CourseModality = "Virtual" | "Presencial" | "Semipresencial"
 
 export interface Profile {
   id: string
@@ -26,6 +28,10 @@ export interface Course {
   is_published: boolean
   deleted_at: string | null
   created_at: string
+  duration_hours: number
+  difficulty: CourseDifficulty
+  modality: CourseModality
+  course_code: string | null
 }
 
 export interface Enrollment {

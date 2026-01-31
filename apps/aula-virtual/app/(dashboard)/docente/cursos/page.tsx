@@ -1,17 +1,15 @@
 "use client"
 
 import { useState } from "react"
-import { Search, Plus } from "lucide-react"
+import { Search } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Select } from "@/components/ui/select"
 import { useTeacherCourses } from "@/hooks/use-teacher-courses"
-import { AddCourseModal } from "@/components/admin/add-course-modal"
 import Link from "next/link"
 
 export default function DocenteCursosPage() {
   const [searchTerm, setSearchTerm] = useState("")
   const [statusFilter, setStatusFilter] = useState<string>("all")
-  const [showAddCourse, setShowAddCourse] = useState(false)
   
   const { data: courses, isLoading } = useTeacherCourses()
   const currentCourses = courses || []
@@ -109,8 +107,8 @@ export default function DocenteCursosPage() {
                         Publicado
                       </span>
                     ) : (
-                      <span className="px-2 py-1 text-xs font-semibold bg-gray-100 text-gray-800 rounded-full">
-                        Borrador
+                      <span className="px-2 py-1 text-xs font-semibold bg-yellow-100 text-yellow-800 rounded-full">
+                        No publicado
                       </span>
                     )}
                   </div>
@@ -129,28 +127,10 @@ export default function DocenteCursosPage() {
                 </div>
               </Link>
               ))}
-              {/* Card para agregar nuevo curso */}
-              <button 
-                onClick={() => setShowAddCourse(true)}
-                className="group relative h-full min-h-[300px] border-2 border-dashed border-secondary rounded-lg hover:border-secondary hover:bg-secondary/10 transition-all duration-200 flex flex-col items-center justify-center gap-3 p-6 cursor-pointer"
-              >
-                <div className="w-16 h-16 rounded-full bg-gray-100 group-hover:bg-blue-100 flex items-center justify-center transition-colors">
-                  <Plus className="h-8 w-8 text-primary group-hover:text-secondary" />
-                </div>
-                <span className="text-lg font-medium text-primary group-hover:text-secondary">
-                  Agregar Curso
-                </span>
-              </button>
             </>
           )}
         </div>
       )}
-
-      {/* Modal para agregar curso */}
-      <AddCourseModal
-        isOpen={showAddCourse}
-        onClose={() => setShowAddCourse(false)}
-      />
 
       <div className="flex items-center justify-between text-sm text-gray-500">
         <div>

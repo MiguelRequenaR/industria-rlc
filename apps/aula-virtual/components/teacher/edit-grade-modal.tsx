@@ -96,7 +96,7 @@ export function EditGradeModal({ isOpen, onClose, courseId, grade, studentName }
               Retroalimentación (Opcional)
             </label>
             <textarea
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-3 py-2 border border-secondary rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent text-primary"
               rows={3}
               placeholder="Comentarios sobre el desempeño del estudiante..."
               value={feedback}
@@ -108,14 +108,14 @@ export function EditGradeModal({ isOpen, onClose, courseId, grade, studentName }
             <Button
               type="button"
               onClick={onClose}
-              className="flex-1 bg-gray-200 text-gray-700 hover:bg-gray-300"
+              className="flex-1 bg-gray-200 text-gray-700 hover:bg-gray-300 cursor-pointer"
             >
               Cancelar
             </Button>
             <Button
               type="submit"
               disabled={updateGradeMutation.isPending}
-              className="flex-1 bg-secondary text-white hover:bg-secondary/90"
+              className="flex-1 bg-secondary text-white hover:bg-secondary/90 cursor-pointer"
             >
               {updateGradeMutation.isPending ? "Guardando..." : "Guardar Cambios"}
             </Button>
