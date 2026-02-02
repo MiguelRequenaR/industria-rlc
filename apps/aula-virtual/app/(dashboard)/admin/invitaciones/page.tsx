@@ -221,11 +221,11 @@ export default function InvitacionesPage() {
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-1">
                         <p className="font-mono text-sm font-semibold text-gray-800">{invitation.token}</p>
-                        <span className={`px-3 py-1 rounded-lg text-xs font-semibold ${roleColors[invitation.role]} border`}>
+                        <span className={`px-3 py-1 rounded-lg text-xs font-semibold uppercase ${roleColors[invitation.role]} border`}>
                           {roleLabels[invitation.role]}
                         </span>
                       </div>
-                      <p className="text-xs text-gray-500">
+                      <p className="text-xs text-gray-700 uppercase">
                         Creado el {new Date(invitation.created_at).toLocaleDateString('es-ES', { 
                           day: 'numeric', 
                           month: 'long', 
@@ -239,7 +239,7 @@ export default function InvitacionesPage() {
                   <div className="flex items-start gap-2 md:items-center pt-5">
                     <button
                       onClick={() => copyToClipboard(invitation.token)}
-                      className="flex items-center gap-2 px-4 py-2 bg-secondary text-white rounded-lg hover:bg-secondary/90 transition-colors text-sm font-semibold"
+                      className="flex items-center gap-2 px-4 py-2 bg-secondary text-white rounded-lg hover:bg-secondary/90 transition-colors text-sm font-semibold uppercase cursor-pointer"
                     >
                       {copiedToken === invitation.token ? (
                         <>
@@ -255,7 +255,7 @@ export default function InvitacionesPage() {
                     </button>
                     <button
                       onClick={() => handleDeleteInvitation(invitation)}
-                      className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                      className="p-2 text-red-600 hover:bg-red-100 rounded-lg transition-colors cursor-pointer"
                       title="Eliminar invitación"
                     >
                       <Trash2 className="w-5 h-5" />
@@ -407,10 +407,10 @@ export default function InvitacionesPage() {
                 </div>
 
                 <div className="text-center space-y-2">
-                  <h3 className="text-lg font-semibold text-primary">
+                  <h3 className="text-lg font-semibold text-gray-700 uppercase">
                     ¿Estás seguro?
                   </h3>
-                  <p className="text-red-600 font-medium">
+                  <p className="text-red-600 font-medium uppercase text-sm">
                     Se eliminará esta invitación permanentemente.
                   </p>
                 </div>
@@ -424,17 +424,17 @@ export default function InvitacionesPage() {
                       })()}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="font-mono text-sm font-semibold text-primary truncate">
+                      <p className="font-mono text-sm font-semibold text-gray-700 truncate">
                         {invitationToDelete.token}
                       </p>
-                      <p className="text-sm text-gray-500">
+                      <p className="text-sm text-gray-700 uppercase">
                         {roleLabels[invitationToDelete.role]}
                       </p>
                     </div>
                   </div>
                 </div>
 
-                <p className="text-sm text-gray-600 text-center">
+                <p className="text-sm text-gray-700 text-center uppercase">
                   Esta acción no se puede deshacer.
                 </p>
               </div>
@@ -444,13 +444,14 @@ export default function InvitacionesPage() {
                 variant="outline" 
                 onClick={() => setDeleteModalOpen(false)}
                 disabled={deleting}
+                className="uppercase cursor-pointer"
               >
                 Cancelar
               </Button>
               <Button 
                 onClick={confirmDeleteInvitation}
                 disabled={deleting}
-                className="bg-red-600 hover:bg-red-700 text-white"
+                className="bg-red-600 hover:bg-red-700 text-white uppercase cursor-pointer"
               >
                 {deleting ? "Eliminando..." : "Eliminar invitación"}
               </Button>
