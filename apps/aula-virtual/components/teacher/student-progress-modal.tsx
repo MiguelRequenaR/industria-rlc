@@ -31,7 +31,7 @@ export function StudentProgressModal({
         <DialogHeader onClose={onClose}>
           <div>
             <DialogTitle>Detalle de Progreso</DialogTitle>
-            <p className="text-sm text-gray-600 mt-1">
+            <p className="text-sm text-gray-700 uppercase mt-1">
               Estudiante: <span className="font-semibold text-secondary">{studentName}</span>
             </p>
           </div>
@@ -40,9 +40,9 @@ export function StudentProgressModal({
         <DialogBody>
 
         {/* Resumen de progreso */}
-        <div className="bg-gray-50 rounded-lg p-4 mb-6">
+        <div className="bg-secondary/20 rounded-3xl p-4 mb-6">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-sm font-medium text-gray-700">
+            <span className="text-sm font-medium text-gray-700 uppercase">
               Progreso general
             </span>
             <span className="text-2xl font-bold text-secondary">
@@ -55,7 +55,7 @@ export function StudentProgressModal({
               style={{ width: `${percentage}%` }}
             />
           </div>
-          <p className="text-xs text-gray-500 mt-2">
+          <p className="text-xs text-gray-700 uppercase mt-2">
             {completedCount} de {totalCount} lecciones completadas
           </p>
         </div>
@@ -78,7 +78,7 @@ export function StudentProgressModal({
             {lessonsProgress.map((lessonProgress, index) => (
               <div
                 key={lessonProgress.lesson.id}
-                className={`flex items-start gap-3 p-3 rounded-lg transition-colors ${
+                className={`flex items-start gap-3 p-3 rounded-3xl transition-colors ${
                   lessonProgress.is_completed
                     ? "bg-green-50 border border-green-200"
                     : "bg-gray-50 border border-gray-200"
@@ -92,16 +92,16 @@ export function StudentProgressModal({
                   )}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className={`text-sm font-medium ${
+                  <p className={`text-sm font-medium uppercase ${
                     lessonProgress.is_completed ? "text-green-900" : "text-gray-900"
                   }`}>
                     {lessonProgress.lesson.title}
                   </p>
-                  <p className="text-xs text-gray-500 mt-1">
+                  <p className="text-xs text-gray-700 uppercase mt-1">
                     Módulo: {lessonProgress.lesson.module_title}
                   </p>
                   {lessonProgress.is_completed && lessonProgress.completed_at && (
-                    <p className="text-xs text-green-600 mt-1">
+                    <p className="text-xs text-green-600 uppercase mt-1">
                       Completada el {new Date(lessonProgress.completed_at).toLocaleDateString('es-ES', {
                         day: '2-digit',
                         month: 'short',

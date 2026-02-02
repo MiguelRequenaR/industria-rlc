@@ -36,71 +36,70 @@ export default function EstudianteDashboardPage() {
   }
 
   return (
-    <div className="space-y-8 pt-10 max-w-7xl mx-auto">
+    <div className="space-y-8 py-10 min-h-screen mx-5">
       {/* Header con saludo */}
-      <div className="relative overflow-hidden rounded-2xl bg-secondary p-8 shadow-2xl mx-4 md:mx-0">
+      <div className="relative overflow-hidden rounded-2xl bg-secondary p-8 shadow-lg">
         <div className="absolute inset-0 bg-grid-white/10"></div>
         <div className="relative z-10">
           <div className="flex items-center gap-3 mb-2">
-            <GraduationCap className="h-10 w-10 text-white" />
-            <h1 className="text-4xl font-bold text-white tracking-tight">
+            <GraduationCap className="w-5 h-5 md:w-10 md:h-10 text-gray-700" />
+            <h1 className="text-xl md:text-4xl font-bold text-gray-700 tracking-tight uppercase">
               {getGreeting()}, {profile?.full_name?.split(' ')[0] || 'Estudiante'}
             </h1>
           </div>
-          <p className="text-white text-lg">
+          <p className="text-gray-700 text-sm md:text-lg uppercase">
             Continúa aprendiendo y alcanza tus metas
           </p>
         </div>
-        {/* Decorative elements */}
         <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-32 -mt-32"></div>
         <div className="absolute bottom-0 right-20 w-40 h-40 bg-white/5 rounded-full"></div>
       </div>
 
       {/* Estadísticas rápidas */}
       {!isLoading && courses && courses.length > 0 && (
-        <div className="grid gap-6 md:grid-cols-3 mx-4 md:mx-0">
-          <div className="bg-white rounded-2xl p-6 shadow-lg border-2 border-gray-100">
+        <div className="grid gap-6 md:grid-cols-3">
+          <div className="bg-secondary/20 rounded-3xl p-6">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center">
                 <BookOpen className="h-6 w-6 text-blue-600" />
               </div>
               <div>
-                <p className="text-sm font-semibold text-secondary uppercase tracking-wider">
+                <p className="text-sm font-semibold text-blue-500 uppercase tracking-wider">
                   Cursos Inscritos
                 </p>
-                <p className="text-3xl font-bold text-primary">
+                <p className="text-3xl font-bold text-gray-700">
                   {courses.length}
                 </p>
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl p-6 shadow-lg border-2 border-gray-100">
+          <div className="bg-secondary/20 rounded-3xl p-6">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 bg-green-50 rounded-lg flex items-center justify-center">
                 <CheckCircle2 className="h-6 w-6 text-green-600" />
               </div>
               <div>
-                <p className="text-sm font-semibold text-secondary uppercase tracking-wider">
+                <p className="text-sm font-semibold text-green-500 uppercase tracking-wider">
                   Lecciones Completadas
                 </p>
-                <p className="text-3xl font-bold text-primary">
+                <p className="text-3xl font-bold text-gray-700">
                   {courses.reduce((acc, c) => acc + c.completed_lessons, 0)}
                 </p>
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl p-6 shadow-lg border-2 border-gray-100">
+          <div className="bg-secondary/20 rounded-3xl p-6">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 bg-purple-50 rounded-lg flex items-center justify-center">
                 <TrendingUp className="h-6 w-6 text-purple-600" />
               </div>
               <div>
-                <p className="text-sm font-semibold text-secondary uppercase tracking-wider">
+                <p className="text-sm font-semibold text-purple-500 uppercase tracking-wider">
                   Progreso Promedio
                 </p>
-                <p className="text-3xl font-bold text-primary">
+                <p className="text-3xl font-bold text-gray-700">
                   {Math.round(courses.reduce((acc, c) => acc + c.progress_percentage, 0) / courses.length)}%
                 </p>
               </div>
@@ -110,8 +109,8 @@ export default function EstudianteDashboardPage() {
       )}
 
       {/* Grid de cursos */}
-      <div className="mx-4 md:mx-0">
-        <h2 className="text-2xl font-bold text-primary mb-6">Mis Cursos</h2>
+      <div>
+        <h2 className="text-2xl font-bold text-gray-700 uppercase mb-6">Mis Cursos</h2>
         
         {isLoading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -131,7 +130,7 @@ export default function EstudianteDashboardPage() {
             {courses.map((course) => (
               <div
                 key={course.id}
-                className="group bg-white rounded-2xl shadow-lg border-2 border-gray-100 hover:border-secondary/30 hover:shadow-2xl transition-all duration-300 overflow-hidden"
+                className="group bg-white rounded-2xl shadow-lg overflow-hidden"
               >
                 {/* Imagen del curso */}
                 <div className="relative h-48 bg-gray-100 overflow-hidden">
@@ -164,7 +163,7 @@ export default function EstudianteDashboardPage() {
                 {/* Contenido */}
                 <div className="p-6 space-y-4">
                   <div>
-                    <h3 className="font-bold text-xl text-primary line-clamp-2 group-hover:text-secondary transition-colors mb-2">
+                    <h3 className="font-bold text-xl text-gray-700 uppercase line-clamp-2 group-hover:text-secondary transition-colors mb-2">
                       {course.title}
                     </h3>
                     {course.description && (
@@ -177,7 +176,7 @@ export default function EstudianteDashboardPage() {
                   {/* Barra de progreso */}
                   <div className="space-y-2">
                     <div className="flex items-center justify-between text-sm">
-                      <span className="text-gray-600 flex items-center gap-1">
+                      <span className="text-gray-700 uppercase flex items-center gap-1">
                         <CheckCircle2 className="h-4 w-4" />
                         {course.completed_lessons} de {course.total_lessons} lecciones
                       </span>
@@ -194,12 +193,12 @@ export default function EstudianteDashboardPage() {
                   <div className="flex items-center justify-between pt-2 border-t border-gray-100">
                     <div className="flex items-center gap-2 text-sm text-gray-500">
                       <Clock className="h-4 w-4" />
-                      <span>
+                      <span className="text-gray-700 uppercase">
                         {course.total_lessons} {course.total_lessons === 1 ? 'lección' : 'lecciones'}
                       </span>
                     </div>
                     {course.teacher && (
-                      <span className="text-xs text-gray-500">
+                      <span className="text-xs text-gray-700 uppercase">
                         {course.teacher.full_name?.split(' ')[0] || 'Docente'}
                       </span>
                     )}
@@ -210,7 +209,7 @@ export default function EstudianteDashboardPage() {
                     href={`/curso/${course.slug}`}
                     className="block w-full"
                   >
-                    <button className="w-full bg-secondary text-white px-4 py-3 rounded-lg font-semibold hover:bg-secondary/90 transition-colors flex items-center justify-center gap-2 group-hover:shadow-lg cursor-pointer">
+                    <button className="w-full bg-secondary text-white px-4 py-3 rounded-lg font-semibold hover:bg-secondary/90 transition-colors flex items-center justify-center gap-2 group-hover:shadow-lg cursor-pointer uppercase">
                       {course.progress_percentage === 0 ? (
                         <>
                           <BookOpen className="h-5 w-5" />

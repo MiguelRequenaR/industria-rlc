@@ -52,13 +52,13 @@ export function AddGradeModal({ isOpen, onClose, courseId, studentId, studentNam
         </DialogHeader>
         
         <DialogBody>
-          <p className="text-sm text-gray-600 mb-4">
-            Estudiante: <span className="font-semibold text-primary">{studentName}</span>
+          <p className="text-sm text-gray-700 uppercase mb-4">
+            Estudiante: <span className="font-semibold text-secondary">{studentName}</span>
           </p>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-700 uppercase mb-1">
               Concepto <span className="text-red-500">*</span>
             </label>
             <Input
@@ -71,7 +71,7 @@ export function AddGradeModal({ isOpen, onClose, courseId, studentId, studentNam
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-700 mb-1 uppercase">
               Nota <span className="text-red-500">*</span>
             </label>
             <Input
@@ -87,11 +87,11 @@ export function AddGradeModal({ isOpen, onClose, courseId, studentId, studentNam
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-700 mb-1 uppercase">
               Retroalimentación (Opcional)
             </label>
             <textarea
-              className="w-full px-3 py-2 border border-secondary rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent text-primary"
+              className="w-full px-3 py-2 border border-secondary rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent text-gray-700 text-sm"
               rows={3}
               placeholder="Comentarios sobre el desempeño del estudiante..."
               value={feedback}
@@ -103,14 +103,14 @@ export function AddGradeModal({ isOpen, onClose, courseId, studentId, studentNam
             <Button
               type="button"
               onClick={onClose}
-              className="flex-1 bg-gray-200 text-gray-700 hover:bg-gray-300 cursor-pointer"
+              className="flex-1 bg-gray-200 text-gray-700 hover:bg-gray-300 cursor-pointer uppercase"
             >
               Cancelar
             </Button>
             <Button
               type="submit"
               disabled={createGradeMutation.isPending}
-              className="flex-1 bg-secondary text-white hover:bg-secondary/90 cursor-pointer"
+              className="flex-1 bg-secondary text-white hover:bg-secondary/90 cursor-pointer uppercase"
             >
               {createGradeMutation.isPending ? "Guardando..." : "Guardar"}
             </Button>

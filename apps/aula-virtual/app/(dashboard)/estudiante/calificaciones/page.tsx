@@ -15,18 +15,28 @@ export default function EstudianteCalificacionesPage() {
   const selectedCourse = gradesByCourse?.find(c => c.course.id === selectedCourseId)
 
   return (
-    <div className="space-y-6 p-4 max-w-7xl mx-auto">
+    <div className="space-y-6 py-10 min-h-screen mx-5">
       {/* Header */}
-      <div>
-        <h2 className="text-2xl font-bold tracking-tight text-secondary">Mis Calificaciones</h2>
-        <p className="text-gray-500 text-sm mt-1">
-          Revisa tu rendimiento académico en cada curso
-        </p>
+      <div className="relative overflow-hidden rounded-2xl bg-secondary p-8 shadow-lg">
+        <div className="absolute inset-0 bg-grid-white/10"></div>
+        <div className="relative z-10">
+          <div className="flex items-center gap-3 mb-2">
+            <Award className="w-5 h-5 md:w-10 md:h-10 text-gray-700" />
+            <h1 className="text-xl md:text-4xl font-bold text-gray-700 tracking-tight uppercase">
+              Mis Calificaciones
+            </h1>
+          </div>
+          <p className="text-gray-700 text-sm md:text-lg uppercase">
+            Revisa tu rendimiento académico en cada curso
+          </p>
+        </div>
+        <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-32 -mt-32"></div>
+        <div className="absolute bottom-0 right-20 w-40 h-40 bg-white/5 rounded-full"></div>
       </div>
 
       {/* Selector de curso */}
-      <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+      <div className="bg-secondary/20 rounded-3xl p-6">
+        <label className="block text-lg font-medium text-gray-700 uppercase mb-2">
           Selecciona un curso
         </label>
         <Select
@@ -56,7 +66,7 @@ export default function EstudianteCalificacionesPage() {
           )}
 
           {/* Resumen del promedio */}
-          <div className="bg-linear-to-br from-blue-50 to-blue-100 rounded-2xl p-8 shadow-lg border-2 border-blue-200">
+          <div className="bg-linear-to-br from-blue-50 to-blue-100 rounded-3xl p-8 shadow-lg border-2 border-blue-200">
             <div className="flex items-center gap-6">
               <div className="w-20 h-20 bg-blue-500 rounded-2xl flex items-center justify-center shadow-lg">
                 <Trophy className="h-10 w-10 text-white" />
@@ -83,21 +93,21 @@ export default function EstudianteCalificacionesPage() {
 
           {/* Tabla de calificaciones */}
           {selectedCourse.grades.length > 0 ? (
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+            <div className="bg-white rounded-lg shadow-sm border-2 border-secondary overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="w-full">
-                  <thead className="bg-gray-50 border-b border-gray-200">
+                  <thead className="bg-gray-50 border-b-2 border-secondary">
                     <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider">
                         Actividad
                       </th>
-                      <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-center text-xs font-medium text-secondary uppercase tracking-wider">
                         Nota
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider">
                         Retroalimentación
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider">
                         Fecha
                       </th>
                     </tr>
@@ -111,7 +121,7 @@ export default function EstudianteCalificacionesPage() {
                               <FileText className="h-5 w-5 text-purple-600" />
                             </div>
                             <div>
-                              <p className="text-sm font-medium text-gray-900">
+                              <p className="text-sm font-medium text-gray-700 uppercase">
                                 {grade.item_name}
                               </p>
                             </div>
@@ -138,13 +148,13 @@ export default function EstudianteCalificacionesPage() {
                               </p>
                             </div>
                           ) : (
-                            <span className="text-sm text-gray-400 italic">
+                            <span className="text-sm text-gray-700 uppercase">
                               Sin comentarios
                             </span>
                           )}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <p className="text-sm text-gray-500">
+                          <p className="text-sm text-gray-700 uppercase">
                             {new Date(grade.created_at).toLocaleDateString('es-ES', {
                               day: '2-digit',
                               month: 'short',
@@ -159,12 +169,12 @@ export default function EstudianteCalificacionesPage() {
               </div>
             </div>
           ) : (
-            <div className="bg-white rounded-lg p-12 text-center shadow-sm border border-gray-200">
-              <Award className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-gray-700 mb-2">
+            <div className="bg-secondary/20 rounded-3xl p-12 text-center">
+              <Award className="h-16 w-16 text-gray-700 mx-auto mb-4" />
+              <h3 className="text-lg font-semibold text-gray-700 uppercase mb-2">
                 No hay calificaciones registradas
               </h3>
-              <p className="text-gray-500">
+              <p className="text-gray-700 uppercase">
                 Aún no tienes calificaciones en este curso
               </p>
             </div>
@@ -174,9 +184,9 @@ export default function EstudianteCalificacionesPage() {
 
       {/* Estado inicial */}
       {!selectedCourseId && !isLoading && (
-        <div className="bg-gray-50 rounded-lg p-12 text-center">
-          <Award className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-          <p className="text-gray-500 text-lg">
+        <div className="bg-secondary/20 rounded-3xl p-12 text-center">
+          <Award className="h-16 w-16 text-gray-700 mx-auto mb-4" />
+          <p className="text-gray-700 uppercase text-lg">
             Selecciona un curso para ver tus calificaciones
           </p>
         </div>
@@ -184,22 +194,22 @@ export default function EstudianteCalificacionesPage() {
 
       {/* Vista de todos los cursos (resumen) */}
       {!selectedCourseId && gradesByCourse && gradesByCourse.length > 0 && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {gradesByCourse.map((item) => (
             <button
               key={item.course.id}
               onClick={() => setSelectedCourseId(item.course.id)}
-              className="bg-white rounded-xl p-6 shadow-sm border-2 border-gray-100 hover:border-secondary/30 hover:shadow-lg transition-all text-left"
+              className="bg-secondary/20 rounded-3xl p-6 text-left"
             >
               <div className="flex items-center gap-4 mb-4">
                 <div className="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center">
                   <Award className="h-6 w-6 text-blue-600" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-semibold text-primary line-clamp-1">
+                  <h3 className="font-semibold text-gray-700 uppercase line-clamp-1">
                     {item.course.title}
                   </h3>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-gray-700 uppercase">
                     {item.grades.length} {item.grades.length === 1 ? 'nota' : 'notas'}
                   </p>
                 </div>
@@ -219,9 +229,9 @@ export default function EstudianteCalificacionesPage() {
 
       {/* Loading state */}
       {isLoading && (
-        <div className="text-center py-12">
+        <div className="text-center py-12 bg-secondary/20 rounded-3xl p-12">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-secondary mx-auto"></div>
-          <p className="text-gray-500 mt-4">Cargando calificaciones...</p>
+          <p className="text-gray-700 uppercase mt-4">Cargando calificaciones...</p>
         </div>
       )}
     </div>

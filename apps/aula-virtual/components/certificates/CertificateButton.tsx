@@ -113,10 +113,10 @@ export function CertificateButton({ courseId, courseName, studentName }: Certifi
 
   if (isChecking) {
     return (
-      <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
-        <div className="flex items-center justify-center gap-2 text-gray-500">
+      <div className="bg-secondary/20 rounded-3xl p-6">
+        <div className="flex items-center justify-center gap-2 text-gray-700 uppercase">
           <Loader2 className="h-5 w-5 animate-spin" />
-          <span>Verificando elegibilidad...</span>
+          <span className="text-gray-700 uppercase">Verificando elegibilidad...</span>
         </div>
       </div>
     )
@@ -125,26 +125,26 @@ export function CertificateButton({ courseId, courseName, studentName }: Certifi
   // Si ya tiene certificado
   if (hasCertificate && certificate) {
     return (
-      <div className="bg-linear-to-br from-green-50 to-green-100 rounded-2xl p-6 shadow-lg border-2 border-green-200">
+      <div className="bg-linear-to-br from-green-50 to-green-100 rounded-3xl p-6 shadow-lg border-2 border-green-200">
         <div className="flex items-center gap-4 mb-4">
           <div className="w-14 h-14 bg-green-500 rounded-xl flex items-center justify-center shadow-lg">
             <Award className="h-8 w-8 text-white" />
           </div>
           <div className="flex-1">
-            <h3 className="text-lg font-bold text-green-900">
+            <h3 className="text-lg font-bold text-green-900 uppercase">
               ¡Certificado Obtenido!
             </h3>
-            <p className="text-sm text-green-700">
+            <p className="text-sm text-green-700 uppercase">
               Código: {certificate.certificate_code}
             </p>
           </div>
         </div>
         
-        <div className="bg-white/80 rounded-lg p-4 mb-4">
+        <div className="bg-white/80 rounded-3xl p-4 mb-4">
           <div className="grid grid-cols-2 gap-4 text-sm">
             <div>
-              <p className="text-gray-600">Emitido el:</p>
-              <p className="font-semibold text-gray-900">
+              <p className="text-gray-700 uppercase">Emitido el:</p>
+              <p className="font-semibold text-gray-900 uppercase">
                 {new Date(certificate.issued_at).toLocaleDateString('es-ES', {
                   day: 'numeric',
                   month: 'long',
@@ -153,8 +153,8 @@ export function CertificateButton({ courseId, courseName, studentName }: Certifi
               </p>
             </div>
             <div>
-              <p className="text-gray-600">Nota Final:</p>
-              <p className="font-semibold text-gray-900">
+              <p className="text-gray-700 uppercase">Nota Final:</p>
+              <p className="font-semibold text-gray-900 uppercase">
                 {certificate.final_grade?.toFixed(2)} / 20
               </p>
             </div>
@@ -164,7 +164,7 @@ export function CertificateButton({ courseId, courseName, studentName }: Certifi
         <Button
           onClick={() => downloadCertificate()}
           disabled={isDownloading}
-          className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-lg flex items-center justify-center gap-2 cursor-pointer"
+          className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-lg flex items-center justify-center gap-2 cursor-pointer uppercase"
         >
           {isDownloading ? (
             <>
@@ -240,23 +240,23 @@ export function CertificateButton({ courseId, courseName, studentName }: Certifi
 
   // No es elegible
   return (
-    <div className="bg-linear-to-br from-gray-50 to-gray-100 rounded-2xl p-6 shadow-lg border-2 border-gray-200">
+    <div className="bg-secondary/20 rounded-3xl p-6">
       <div className="flex items-center gap-4 mb-4">
         <div className="w-14 h-14 bg-gray-400 rounded-xl flex items-center justify-center shadow-lg">
           <AlertCircle className="h-8 w-8 text-white" />
         </div>
         <div className="flex-1">
-          <h3 className="text-lg font-bold text-gray-900">
+          <h3 className="text-lg font-bold text-gray-700 uppercase">
             Certificado No Disponible
           </h3>
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-gray-700 uppercase">
             Debes cumplir los siguientes requisitos:
           </p>
         </div>
       </div>
       
-      <div className="bg-white/80 rounded-lg p-4 mb-4">
-        <ul className="space-y-2 text-sm">
+      <div className="bg-white/80 rounded-3xl p-4 mb-4">
+        <ul className="space-y-2 text-sm text-gray-700 uppercase">
           {eligibilityInfo?.reasons.map((reason: string, index: number) => (
             <li key={index} className="flex items-start gap-2 text-gray-700">
               <span className="text-red-500 mt-0.5">●</span>
@@ -266,11 +266,11 @@ export function CertificateButton({ courseId, courseName, studentName }: Certifi
         </ul>
       </div>
 
-      <div className="bg-blue-50 rounded-lg p-4">
-        <p className="text-sm text-blue-800">
+      <div className="bg-blue-50 rounded-3xl p-4">
+        <p className="text-sm text-blue-800 uppercase">
           <strong>Estado actual:</strong>
         </p>
-        <div className="mt-2 space-y-1 text-sm text-blue-700">
+        <div className="mt-2 space-y-1 text-sm text-blue-700 uppercase">
           <p>• Progreso: {eligibilityInfo?.completionPercentage}%</p>
           <p>• Promedio: {eligibilityInfo?.finalGrade.toFixed(2)} / 20</p>
         </div>

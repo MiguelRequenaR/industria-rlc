@@ -195,7 +195,7 @@ export default function InvitacionesPage() {
         {loading ? (
           <div className="text-center py-12">
             <div className="animate-spin w-8 h-8 border-4 border-secondary border-t-transparent rounded-full mx-auto"></div>
-            <p className="text-gray-500 mt-4">Cargando invitaciones...</p>
+            <p className="text-gray-700 uppercase mt-4">Cargando invitaciones...</p>
           </div>
         ) : activeInvitations.length === 0 ? (
           <div className="text-center py-12">

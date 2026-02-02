@@ -36,7 +36,7 @@ export function CourseSidebar({ modules, currentLessonId, onLessonClick }: Cours
   return (
     <div className="h-full overflow-y-auto bg-white border-r border-gray-200">
       <div className="p-4 border-b border-gray-200">
-        <h2 className="font-bold text-lg text-primary">Contenido del Curso</h2>
+        <h2 className="font-bold text-lg text-gray-700 uppercase">Contenido del Curso</h2>
       </div>
 
       <div className="divide-y divide-gray-200">
@@ -53,7 +53,7 @@ export function CourseSidebar({ modules, currentLessonId, onLessonClick }: Cours
                 ) : (
                   <ChevronRight className="h-5 w-5 text-gray-400 shrink-0" />
                 )}
-                <span className="font-semibold text-sm text-left text-primary">
+                <span className="font-semibold text-sm text-left text-gray-700 uppercase">
                   {module.title}
                 </span>
               </div>
@@ -85,7 +85,7 @@ export function CourseSidebar({ modules, currentLessonId, onLessonClick }: Cours
                     </div>
 
                     {/* Tipo de contenido */}
-                    <div className="shrink-0 text-gray-500">
+                    <div className="shrink-0 text-gray-700 uppercase">
                       {getLessonIcon(lesson)}
                     </div>
 
@@ -93,10 +93,10 @@ export function CourseSidebar({ modules, currentLessonId, onLessonClick }: Cours
                     <span
                       className={`text-sm text-left flex-1 ${
                         currentLessonId === lesson.id
-                          ? "font-semibold text-secondary"
+                          ? "font-semibold text-secondary uppercase"
                           : lesson.is_completed
-                          ? "text-gray-700"
-                          : "text-gray-600"
+                          ? "text-gray-700 uppercase"
+                          : "text-gray-700 uppercase"
                       }`}
                     >
                       {index + 1}. {lesson.title}

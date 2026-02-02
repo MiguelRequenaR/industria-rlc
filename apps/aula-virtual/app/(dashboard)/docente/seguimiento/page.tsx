@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { Select } from "@/components/ui/select"
-import { TrendingDown, TrendingUp, User, Eye } from "lucide-react"
+import { TrendingDown, TrendingUp, User, Eye, ClipboardList } from "lucide-react"
 import { useTeacherCourses } from "@/hooks/use-teacher-courses"
 import { useStudentsProgress } from "@/hooks/use-student-progress"
 import { Button } from "@/components/ui/button"
@@ -41,17 +41,27 @@ export default function DocenteSeguimientoPage() {
   }
 
   return (
-    <div className="space-y-6 p-6 max-w-7xl mx-auto">
-      <div>
-        <h2 className="text-2xl font-bold tracking-tight text-secondary">Seguimiento de Estudiantes</h2>
-        <p className="text-gray-500 text-sm mt-1">
-          Monitorea el progreso de tus estudiantes y identifica quién necesita apoyo
-        </p>
+    <div className="space-y-6 py-10 min-h-screen mx-5">
+      <div className="relative overflow-hidden rounded-2xl bg-secondary p-8 shadow-lg">
+        <div className="absolute inset-0 bg-grid-white/10"></div>
+        <div className="relative z-10">
+          <div className="flex items-center gap-3 mb-2">
+            <ClipboardList className="w-5 h-5 md:w-10 md:h-10 text-gray-700" />
+            <h1 className="text-xl md:text-4xl font-bold text-gray-700 tracking-tight uppercase">
+              Seguimiento de Estudiantes
+            </h1>
+          </div>
+          <p className="text-gray-700 text-sm md:text-lg uppercase">
+            Monitorea el progreso de tus estudiantes y identifica quién necesita apoyo
+          </p>
+        </div>
+        <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-32 -mt-32"></div>
+        <div className="absolute bottom-0 right-20 w-40 h-40 bg-white/5 rounded-full"></div>
       </div>
 
       {/* Selector de curso */}
-      <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+      <div className="bg-secondary/20 rounded-3xl p-6">
+        <label className="block text-lg font-medium text-gray-700 uppercase mb-2">
           Selecciona un curso
         </label>
         <Select
@@ -70,11 +80,11 @@ export default function DocenteSeguimientoPage() {
 
       {/* Lista de estudiantes con progreso */}
       {selectedCourseId && (
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+        <div className="rounded-lg overflow-hidden">
           {isLoading ? (
             <div className="p-8 text-center">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-secondary mx-auto"></div>
-              <p className="text-gray-500 mt-4">Cargando progreso...</p>
+              <p className="text-gray-700 uppercase mt-4">Cargando progreso...</p>
             </div>
           ) : studentsProgress && studentsProgress.length > 0 ? (
             <div className="p-6 space-y-4">
@@ -82,22 +92,22 @@ export default function DocenteSeguimientoPage() {
               <div className="flex items-center gap-6 text-xs text-gray-600 pb-4 border-b">
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                  <span>Avanzado (≥70%)</span>
+                  <span className="text-gray-700 uppercase">Avanzado (≥70%)</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                  <span>En progreso (40-69%)</span>
+                  <span className="text-gray-700 uppercase">En progreso (40-69%)</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                  <span>Rezagado (&lt;40%)</span>
+                  <span className="text-gray-700 uppercase">Rezagado (&lt;40%)</span>
                 </div>
               </div>
 
               {studentsProgress.map((studentProgress) => (
                 <div
                   key={studentProgress.student.id}
-                  className="flex flex-col sm:flex-row sm:items-center gap-4 p-4 rounded-lg border border-gray-200 hover:border-secondary/30 hover:shadow-md transition-all"
+                  className="flex flex-col sm:flex-row sm:items-center gap-4 p-4 bg-secondary/20 rounded-3xl"
                 >
                   {/* Avatar y nombre */}
                   <div className="flex items-center gap-3 flex-1 min-w-0 mb-2 sm:mb-0">
@@ -113,10 +123,10 @@ export default function DocenteSeguimientoPage() {
                       </div>
                     )}
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-gray-900 truncate">
+                      <p className="text-lg font-medium text-gray-700 uppercase truncate">
                         {studentProgress.student.full_name || "Sin nombre"}
                       </p>
-                      <p className="text-xs text-gray-500 truncate">
+                      <p className="text-xs text-gray-700 truncate">
                         {studentProgress.student.email}
                       </p>
                     </div>
@@ -125,7 +135,7 @@ export default function DocenteSeguimientoPage() {
                   {/* Barra de progreso */}
                   <div className="flex-1 max-w-full sm:max-w-md w-full mb-2 sm:mb-0">
                     <div className="flex flex-col xs:flex-row xs:items-center xs:justify-between mb-1 gap-1 xs:gap-0">
-                      <span className="text-xs text-gray-600">
+                      <span className="text-xs text-gray-700 uppercase">
                         {studentProgress.completed_lessons} de {studentProgress.total_lessons} lecciones
                       </span>
                       <div className="flex items-center gap-1">
@@ -150,7 +160,7 @@ export default function DocenteSeguimientoPage() {
                         studentProgress.student.id,
                         studentProgress.student.full_name || "Usuario"
                       )}
-                      className="bg-secondary text-white hover:bg-secondary/90 w-full sm:w-auto"
+                      className="bg-secondary text-white hover:bg-secondary/90 w-full sm:w-auto uppercase cursor-pointer"
                     >
                       <Eye className="h-4 w-4 mr-2" />
                       Ver Detalle
@@ -160,18 +170,18 @@ export default function DocenteSeguimientoPage() {
               ))}
             </div>
           ) : (
-            <div className="p-8 text-center">
-              <User className="h-12 w-12 text-gray-300 mx-auto mb-3" />
-              <p className="text-gray-500">No hay estudiantes inscritos en este curso</p>
+            <div className="p-8 text-center bg-secondary/20 rounded-3xl">
+              <User className="h-12 w-12 text-gray-700 mx-auto mb-3" />
+              <p className="text-gray-700 uppercase">No hay estudiantes inscritos en este curso</p>
             </div>
           )}
         </div>
       )}
 
       {!selectedCourseId && (
-        <div className="bg-gray-50 rounded-lg p-12 text-center">
-          <User className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-          <p className="text-gray-500 text-lg">
+        <div className="bg-secondary/20 rounded-3xl p-12 text-center">
+          <User className="h-16 w-16 text-gray-700 mx-auto mb-4" />
+          <p className="text-gray-700 uppercase text-lg">
             Selecciona un curso para ver el seguimiento de estudiantes
           </p>
         </div>

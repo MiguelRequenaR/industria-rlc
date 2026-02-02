@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { Select } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
-import { Plus, Edit, Trash2, FileText } from "lucide-react"
+import { Plus, Edit, Trash2, FileText, Award } from "lucide-react"
 import { useTeacherCourses } from "@/hooks/use-teacher-courses"
 import { useStudentsByCourse, useDeleteGrade } from "@/hooks/use-grades"
 import { AddGradeModal } from "@/components/teacher/add-grade-modal"
@@ -50,17 +50,27 @@ export default function DocenteCalificacionesPage() {
   }
 
   return (
-    <div className="space-y-6 p-6 max-w-7xl mx-auto">
-      <div>
-        <h2 className="text-2xl font-bold tracking-tight text-secondary">Calificaciones</h2>
-        <p className="text-gray-500 text-sm mt-1">
-          Gestiona las notas de tus estudiantes
-        </p>
+    <div className="space-y-6 py-10 min-h-screen mx-5">
+      <div className="relative overflow-hidden rounded-2xl bg-secondary p-8 shadow-lg">
+        <div className="absolute inset-0 bg-grid-white/10"></div>
+        <div className="relative z-10">
+          <div className="flex items-center gap-3 mb-2">
+            <h1 className="text-xl md:text-4xl font-bold text-gray-700 tracking-tight uppercase flex items-center gap-2">
+              <Award className="w-5 h-5 md:w-10 md:h-10 text-gray-700" />
+              Calificaciones
+            </h1>
+          </div>
+          <p className="text-gray-700 text-sm md:text-lg uppercase">
+            Gestiona las notas de tus estudiantes
+          </p>
+        </div>
+        <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-32 -mt-32"></div>
+        <div className="absolute bottom-0 right-20 w-40 h-40 bg-white/5 rounded-full"></div>
       </div>
 
       {/* Selector de curso */}
-      <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+      <div className="bg-secondary/20 rounded-3xl p-6">
+        <label className="block text-lg font-medium text-gray-700 uppercase mb-2">
           Selecciona un curso
         </label>
         <Select
@@ -79,27 +89,27 @@ export default function DocenteCalificacionesPage() {
 
       {/* Tabla de estudiantes con calificaciones */}
       {selectedCourseId && (
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+        <div className="bg-secondary/20 rounded-lg border-2 border-secondary overflow-hidden">
           {isLoading ? (
             <div className="p-8 text-center">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-secondary mx-auto"></div>
-              <p className="text-gray-500 mt-4">Cargando estudiantes...</p>
+              <p className="text-gray-700 uppercase mt-4">Cargando estudiantes...</p>
             </div>
           ) : studentsWithGrades && studentsWithGrades.length > 0 ? (
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto shadow-2xl">
               <table className="w-full">
-                <thead className="bg-gray-50 border-b border-gray-200">
+                <thead className="bg-gray-50 border-b-2 border-secondary">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider">
                       Estudiante
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider">
                       Calificaciones
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider">
                       Promedio
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider">
                       Acciones
                     </th>
                   </tr>
@@ -121,10 +131,10 @@ export default function DocenteCalificacionesPage() {
                             </div>
                           )}
                           <div className="ml-4">
-                            <div className="text-sm font-medium text-gray-900">
+                            <div className="text-sm font-medium text-gray-700 uppercase">
                               {item.student.full_name || "Sin nombre"}
                             </div>
-                            <div className="text-sm text-gray-500">{item.student.email}</div>
+                            <div className="text-xs text-gray-700">{item.student.email}</div>
                           </div>
                         </div>
                       </td>
@@ -134,14 +144,14 @@ export default function DocenteCalificacionesPage() {
                             {item.grades.map((grade) => (
                               <div
                                 key={grade.id}
-                                className="flex items-center justify-between gap-2 p-2 bg-gray-50 rounded-lg"
+                                className="flex items-center justify-between gap-2 p-2 bg-secondary/20 rounded-3xl px-4"
                               >
                                 <div className="flex-1">
-                                  <p className="text-sm font-medium text-gray-900">
+                                  <p className="text-sm font-medium text-gray-700 uppercase">
                                     {grade.item_name}
                                   </p>
                                   {grade.feedback && (
-                                    <p className="text-xs text-gray-500 mt-1 line-clamp-1">
+                                    <p className="text-xs text-gray-700 mt-1 line-clamp-1 uppercase">
                                       {grade.feedback}
                                     </p>
                                   )}
@@ -180,7 +190,7 @@ export default function DocenteCalificacionesPage() {
                       <td className="px-6 py-4 whitespace-nowrap">
                         <Button
                           onClick={() => handleAddGrade(item.student.id, item.student.full_name || "Usuario")}
-                          className="bg-secondary text-white hover:bg-secondary/90"
+                          className="bg-secondary text-white hover:bg-secondary/90 uppercase"
                         >
                           <Plus className="h-4 w-4 mr-2" />
                           Agregar Nota
@@ -201,9 +211,9 @@ export default function DocenteCalificacionesPage() {
       )}
 
       {!selectedCourseId && (
-        <div className="bg-gray-50 rounded-lg p-12 text-center">
-          <FileText className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-          <p className="text-gray-500 text-lg">
+        <div className="bg-secondary/20 rounded-3xl p-12 text-center">
+          <FileText className="h-16 w-16 text-gray-700 mx-auto mb-4" />
+          <p className="text-gray-700 uppercase text-lg">
             Selecciona un curso para ver las calificaciones
           </p>
         </div>

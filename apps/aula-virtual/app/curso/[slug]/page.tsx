@@ -53,10 +53,10 @@ export default function CoursePlayerPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center bg-secondary/20">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-secondary mx-auto mb-4"></div>
-          <p className="text-gray-600">Cargando curso...</p>
+          <p className="text-gray-700 uppercase">Cargando curso...</p>
         </div>
       </div>
     )
@@ -100,12 +100,12 @@ export default function CoursePlayerPage() {
               <ArrowLeft className="h-6 w-6" />
             </Link>
             <div>
-              <h1 className="font-bold text-xl text-primary line-clamp-1">
+              <h1 className="font-bold text-xl text-gray-700 uppercase line-clamp-1">
                 {courseData.course.title}
               </h1>
               {courseData.course.teacher && (
-                <p className="text-sm text-gray-500">
-                  Por {courseData.course.teacher.full_name}
+                <p className="text-sm text-gray-700 uppercase">
+                  Por: {courseData.course.teacher.full_name}
                 </p>
               )}
             </div>
@@ -146,7 +146,7 @@ export default function CoursePlayerPage() {
 
         {/* Contenido principal */}
         <main className="flex-1 overflow-y-auto">
-          <div className="max-w-4xl mx-auto p-6 md:p-8">
+          <div className="max-w-7xl mx-auto p-6 md:p-8">
             {currentLesson ? (
               <LessonContent
                 lesson={currentLesson}
@@ -154,9 +154,9 @@ export default function CoursePlayerPage() {
                 isMarkingCompleted={markCompletedMutation.isPending}
               />
             ) : (
-              <div className="text-center py-12">
-                <BookOpen className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-                <p className="text-gray-500">
+              <div className="text-center py-12 bg-secondary/20 rounded-3xl p-12">
+                <BookOpen className="h-16 w-16 text-gray-700 mx-auto mb-4" />
+                <p className="text-gray-700 uppercase">
                   Selecciona una lección del menú lateral para comenzar
                 </p>
               </div>

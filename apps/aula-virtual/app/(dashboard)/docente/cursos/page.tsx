@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Search } from "lucide-react"
+import { Search, GraduationCap } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Select } from "@/components/ui/select"
 import { useTeacherCourses } from "@/hooks/use-teacher-courses"
@@ -26,14 +26,23 @@ export default function DocenteCursosPage() {
   })
 
   return (
-    <div className="space-y-4 p-6 max-w-7xl mx-auto">
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-bold tracking-tight text-secondary">Mis Cursos</h2>
-          <p className="text-gray-500 text-sm mt-1">
+    <div className="space-y-8 py-10 min-h-screen mx-5">
+      <div className="relative overflow-hidden rounded-2xl bg-secondary p-8 shadow-lg">
+        <div className="absolute inset-0 bg-grid-white/10"></div>
+        <div className="relative z-10">
+          <div className="flex items-center gap-3 mb-2">
+            <h1 className="text-xl md:text-4xl font-bold text-gray-700 tracking-tight uppercase flex items-center gap-2">
+              <GraduationCap className="w-5 h-5 md:w-10 md:h-10 text-gray-700" />
+              Mis Cursos
+            </h1>
+          </div>
+          <p className="text-gray-700 text-sm md:text-lg uppercase">
             Gestiona tus cursos y contenido educativo
+            Aquí está un resumen de tus cursos.
           </p>
         </div>
+        <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-32 -mt-32"></div>
+        <div className="absolute bottom-0 right-20 w-40 h-40 bg-white/5 rounded-full"></div>
       </div>
 
       <div className="flex gap-3">
@@ -83,7 +92,7 @@ export default function DocenteCursosPage() {
               <Link
                 key={course.id}
                 href={`/docente/cursos/${course.slug}`}
-                className="group relative bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-200 cursor-pointer"
+                className="group relative bg-white rounded-2xl overflow-hidden shadow-lg cursor-pointer"
               >
                 {/* Imagen del curso */}
                 <div className="relative w-full h-48 bg-gray-100 overflow-hidden">
@@ -116,7 +125,7 @@ export default function DocenteCursosPage() {
 
                 {/* Contenido de la card */}
                 <div className="p-4 space-y-2">
-                  <h3 className="font-semibold text-lg text-primary line-clamp-2 group-hover:text-secondary transition-colors">
+                  <h3 className="font-semibold text-lg text-gray-700 uppercase line-clamp-2 group-hover:text-secondary transition-colors">
                     {course.title}
                   </h3>
                   {course.description && (
@@ -132,7 +141,7 @@ export default function DocenteCursosPage() {
         </div>
       )}
 
-      <div className="flex items-center justify-between text-sm text-gray-500">
+      <div className="flex items-center justify-between text-sm text-gray-700 uppercase">
         <div>
           Mostrando <span className="font-medium text-gray-900">{filteredCourses.length}</span> de{" "}
           <span className="font-medium text-gray-900">{currentCourses.length}</span> cursos

@@ -81,7 +81,7 @@ interface DialogTitleProps {
 }
 
 export function DialogTitle({ children }: DialogTitleProps) {
-  return <h2 className="text-xl font-bold text-secondary">{children}</h2>
+  return <h2 className="text-xl font-bold uppercase text-secondary">{children}</h2>
 }
 
 interface DialogBodyProps {

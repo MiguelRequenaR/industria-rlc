@@ -16,9 +16,9 @@ export function LessonContent({ lesson, onMarkCompleted, isMarkingCompleted }: L
       {/* Header */}
       <div className="flex items-start justify-between gap-4">
         <div className="flex-1">
-          <h1 className="text-3xl font-bold text-primary mb-2">{lesson.title}</h1>
+          <h1 className="text-3xl font-bold text-gray-700 uppercase mb-2">{lesson.title}</h1>
           {lesson.is_completed && (
-            <div className="flex items-center gap-2 text-green-600">
+            <div className="flex items-center gap-2 text-green-600 uppercase">
               <CheckCircle2 className="h-5 w-5" />
               <span className="font-semibold">Lección completada</span>
             </div>
@@ -30,21 +30,21 @@ export function LessonContent({ lesson, onMarkCompleted, isMarkingCompleted }: L
       <div className="space-y-6">
         {/* Video/Contenido multimedia */}
         {lesson.meeting_link && (
-          <div className="bg-linear-to-br from-blue-50 to-blue-100 rounded-2xl p-8 border-2 border-blue-200">
+          <div className="bg-linear-to-br from-blue-50 to-blue-100 rounded-3xl p-8 border-2 border-blue-200">
             <div className="flex items-center gap-4 mb-4">
               <div className="w-16 h-16 bg-blue-500 rounded-xl flex items-center justify-center">
                 <Video className="h-8 w-8 text-white" />
               </div>
               <div>
-                <h3 className="text-xl font-bold text-blue-900">Clase en Vivo</h3>
-                <p className="text-blue-700">Únete a la sesión de Google Meet</p>
+                <h3 className="text-xl font-bold text-blue-900 uppercase">Clase en Vivo</h3>
+                <p className="text-blue-700 uppercase">Únete a la sesión de Google Meet</p>
               </div>
             </div>
             <a
               href={lesson.meeting_link}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+              className="inline-flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors uppercase"
             >
               <ExternalLink className="h-5 w-5" />
               Unirse a la Reunión
@@ -54,14 +54,14 @@ export function LessonContent({ lesson, onMarkCompleted, isMarkingCompleted }: L
 
         {/* PDF/Material */}
         {lesson.pdf_url && (
-          <div className="bg-linear-to-br from-purple-50 to-purple-100 rounded-2xl p-8 border-2 border-purple-200">
+          <div className="bg-linear-to-br from-purple-50 to-purple-100 rounded-3xl p-8 border-2 border-purple-200">
             <div className="flex items-center gap-4 mb-4">
               <div className="w-16 h-16 bg-purple-500 rounded-xl flex items-center justify-center">
                 <FileText className="h-8 w-8 text-white" />
               </div>
               <div>
-                <h3 className="text-xl font-bold text-purple-900">Material de Estudio</h3>
-                <p className="text-purple-700">Descarga o visualiza el contenido</p>
+                <h3 className="text-xl font-bold text-purple-900 uppercase">Material de Estudio</h3>
+                <p className="text-purple-700 uppercase">Descarga o visualiza el contenido</p>
               </div>
             </div>
             <div className="flex gap-3">
@@ -69,7 +69,7 @@ export function LessonContent({ lesson, onMarkCompleted, isMarkingCompleted }: L
                 href={lesson.pdf_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-700 transition-colors"
+                className="inline-flex items-center gap-2 bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-700 transition-colors uppercase"
               >
                 <ExternalLink className="h-5 w-5" />
                 Ver PDF
@@ -80,14 +80,14 @@ export function LessonContent({ lesson, onMarkCompleted, isMarkingCompleted }: L
 
         {/* Si no hay contenido específico */}
         {!lesson.meeting_link && !lesson.pdf_url && (
-          <div className="bg-gray-50 rounded-2xl p-12 text-center border-2 border-gray-200">
-            <div className="w-16 h-16 bg-gray-200 rounded-xl flex items-center justify-center mx-auto mb-4">
-              <FileText className="h-8 w-8 text-gray-400" />
+          <div className="bg-secondary/20 rounded-3xl p-12 text-center">
+            <div className="w-16 h-16 flex items-center justify-center mx-auto mb-4">
+              <FileText className="h-8 w-8 text-gray-700" />
             </div>
-            <h3 className="text-lg font-semibold text-gray-700 mb-2">
+            <h3 className="text-lg font-semibold text-gray-700 uppercase mb-2">
               Contenido no disponible
             </h3>
-            <p className="text-gray-500">
+            <p className="text-gray-700 uppercase">
               El contenido de esta lección estará disponible próximamente
             </p>
           </div>
@@ -108,7 +108,7 @@ export function LessonContent({ lesson, onMarkCompleted, isMarkingCompleted }: L
       )}
 
       {!lesson.is_completed && (
-        <div className="flex items-center gap-2 text-gray-600 text-secondary">
+        <div className="flex items-center gap-2 text-secondary">
           <Info className="h-5 w-5" />
           Recuerda marcar la lección como completada para obtener el certificado.
         </div>
