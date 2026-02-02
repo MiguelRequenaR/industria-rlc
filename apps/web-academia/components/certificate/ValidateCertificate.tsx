@@ -188,7 +188,7 @@ export default function ValidateCertificate() {
                 <iframe
                   src={certificate.pdf_url}
                   title="Certificado en PDF"
-                  className="w-full aspect-[297/210]"
+                  className="w-full aspect-297/210"
                 />
               </div>
             ) : pdfGenerating ? (
@@ -213,7 +213,7 @@ export default function ValidateCertificate() {
                 <iframe
                   src={generatedPdfUrl}
                   title="Certificado en PDF"
-                  className="w-full aspect-[297/210]"
+                  className="w-full aspect-297/210"
                 />
               </div>
             ) : (

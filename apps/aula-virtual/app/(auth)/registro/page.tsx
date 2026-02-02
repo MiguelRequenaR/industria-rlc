@@ -39,10 +39,10 @@ function RegistroForm() {
           <div className="w-16 h-16 mx-auto mb-4 rounded-2xl flex items-center justify-center shadow-lg" style={{ backgroundColor: 'var(--primary)' }}>
             <UserPlus className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-3xl font-bold uppercase tracking-tight mb-2" style={{ color: 'var(--primary)' }}>
+          <h1 className="text-3xl font-bold tracking-tight mb-2 text-gray-700 uppercase">
             Crear Cuenta
           </h1>
-          <p className="text-lg font-medium" style={{ color: 'var(--secondary)' }}>
+          <p className="text-sm font-medium text-secondary uppercase">
             Completa el formulario para unirte al aula virtual
           </p>
         </div>
@@ -173,14 +173,14 @@ function RegistroForm() {
           <SubmitButton />
 
           <div className="text-center pt-4">
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-700 uppercase">
               ¿Ya tienes una cuenta?{" "}
               <Link 
                 href="/login" 
                 className="font-semibold hover:underline transition-colors"
-                style={{ color: 'var(--primary)' }}
+                style={{ color: 'var(--secondary)' }}
               >
-                Inicia sesión aquí
+                Inicia sesión aquí.
               </Link>
             </p>
           </div>
@@ -188,10 +188,10 @@ function RegistroForm() {
 
         <div className="mt-8 pt-6 border-t border-gray-200">
           <div className="bg-blue-50 rounded-xl p-4 border border-blue-100">
-            <h3 className="font-semibold text-sm mb-2" style={{ color: 'var(--primary)' }}>
+            <h3 className="font-semibold text-sm mb-2 text-gray-700 uppercase">
               ℹ️ ¿Necesitas un código de invitación?
             </h3>
-            <p className="text-xs text-gray-600">
+            <p className="text-xs text-gray-700">
               Contacta con el administrador del sistema para obtener un código de invitación válido. 
               El código determina tu rol en la plataforma (estudiante, docente o administrador).
             </p>

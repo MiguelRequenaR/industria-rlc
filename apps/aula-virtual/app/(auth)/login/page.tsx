@@ -34,12 +34,12 @@ function LoginForm() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-blue-50 via-white to-orange-50 p-4">
-      <div className="w-full max-w-lg bg-white rounded-2xl shadow-2xl border-2 border-blue-100 py-20 px-10">
+      <div className="w-full max-w-lg bg-white rounded-3xl shadow-2xl py-20 px-10">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold uppercase tracking-tight mb-2" style={{ color: 'var(--primary)' }}>
+          <h1 className="text-3xl font-bold tracking-tight mb-2 text-gray-700 uppercase">
             Bienvenido
           </h1>
-          <p className="text-lg font-medium" style={{ color: 'var(--secondary)' }}>
+          <p className="text-sm font-medium text-secondary uppercase">
             Ingresa tus credenciales para acceder al aula virtual
           </p>
         </div>
@@ -120,14 +120,14 @@ function LoginForm() {
           <SubmitButton />
 
           <div className="text-center pt-4">
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-700 uppercase">
               ¿No tienes una cuenta?{" "}
               <Link 
                 href="/registro" 
                 className="font-semibold hover:underline transition-colors"
-                style={{ color: 'var(--primary)' }}
+                style={{ color: 'var(--secondary)' }}
               >
-                Regístrate aquí
+                Regístrate aquí.
               </Link>
             </p>
           </div>
