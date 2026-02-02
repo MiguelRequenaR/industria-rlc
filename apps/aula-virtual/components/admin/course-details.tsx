@@ -1,6 +1,7 @@
 "use client"
 
 import { Course, Profile } from "@/types/database"
+import { Users } from "lucide-react"
 
 interface CourseDetailsProps {
   course: Course & {
@@ -38,13 +39,13 @@ export function CourseDetails({ course, onEditClick, onAssignInstructorClick, is
         </div>
 
         {/* Información del curso */}
-        <div className="bg-white rounded-lg border border-gray-200 p-6 space-y-6">
+        <div className="bg-secondary/20 rounded-3xl p-6 space-y-6">
           <div className="flex items-start justify-between">
             <div className="space-y-1">
-              <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">
-                TÍTULO DEL CURSO
+              <p className="text-xs font-semibold text-gray-700 uppercase tracking-wide">
+                Título del curso
               </p>
-              <h2 className="text-2xl font-bold text-primary">
+              <h2 className="text-2xl font-bold text-gray-700 uppercase">
                 {course.title}
               </h2>
             </div>
@@ -60,9 +61,9 @@ export function CourseDetails({ course, onEditClick, onAssignInstructorClick, is
         </div>
 
         {/* Descripción */}
-        <div className="bg-white rounded-lg border border-gray-200 p-6 space-y-4">
-          <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wide">
-            DESCRIPCIÓN
+        <div className="bg-secondary/20 rounded-3xl p-6 space-y-4">
+          <h3 className="text-xs font-semibold text-gray-700 uppercase tracking-wide">
+            Descripción
           </h3>
           <div className="prose prose-sm max-w-none text-gray-700">
             <p>
@@ -75,33 +76,31 @@ export function CourseDetails({ course, onEditClick, onAssignInstructorClick, is
       {/* Sidebar derecha */}
       <div className="space-y-6">
         {/* Estadísticas */}
-        <div className="bg-white rounded-lg border border-gray-200 p-6 space-y-4">
-          <h3 className="font-semibold text-primary">Estadísticas del Curso</h3>
+        <div className="bg-secondary/20 rounded-3xl p-6 space-y-4">
+          <h3 className="font-semibold text-gray-700 uppercase">Estadísticas del Curso</h3>
 
           <div className="space-y-4">
             {/* Total Students */}
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-orange-300 flex items-center justify-center">
-                <svg className="w-5 h-5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-                </svg>
+                <Users className="w-5 h-5 text-secondary" />
               </div>
               <div>
-                <p className="text-xs text-primary">Estudiantes Inscritos</p>
-                <p className="text-2xl font-bold text-primary">{course.enrollmentsCount.toLocaleString()}</p>
+                <p className="text-xs text-gray-700 uppercase">Estudiantes Inscritos</p>
+                <p className="text-2xl font-bold text-gray-700">{course.enrollmentsCount.toLocaleString()}</p>
               </div>
             </div>
           </div>
         </div>
 
         {/* Instructor */}
-        <div className="bg-white rounded-lg border border-gray-200 p-6 space-y-4">
+        <div className="bg-secondary/20 rounded-3xl p-6 space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="font-semibold text-primary">Instructor</h3>
+            <h3 className="font-semibold text-gray-700 uppercase">Instructor</h3>
             {isAdmin && onAssignInstructorClick && (
               <button
                 onClick={onAssignInstructorClick}
-                className="text-sm font-medium text-secondary hover:text-primary transition-all duration-500 cursor-pointer"
+                className="text-sm font-medium text-secondary transition-all duration-500 cursor-pointer uppercase hover:bg-secondary/10 rounded-lg px-4 py-2"
               >
                 Cambiar Instructor
               </button>
@@ -155,15 +154,15 @@ export function CourseDetails({ course, onEditClick, onAssignInstructorClick, is
         </div>
 
         {/* Metadata */}
-        <div className="bg-white rounded-lg border border-gray-200 p-6 space-y-3 text-sm">
+        <div className="bg-secondary/20 rounded-3xl p-6 space-y-3 text-sm">
           <div className="flex justify-between">
-            <span className="text-gray-500">Fecha de creación</span>
-            <span className="font-medium text-gray-900">
+            <span className="text-gray-700 uppercase">Fecha de creación</span>
+            <span className="font-medium text-gray-700 uppercase">
               {new Date(course.created_at).toLocaleDateString("es-ES")}
             </span>
           </div>
           <div className="flex justify-between items-center">
-            <span className="text-gray-500">Visibilidad</span>
+            <span className="text-gray-700 uppercase">Visibilidad</span>
             <span
               className={`inline-flex items-center gap-1 px-2 py-1 rounded text-xs font-semibold ${
                 isArchived

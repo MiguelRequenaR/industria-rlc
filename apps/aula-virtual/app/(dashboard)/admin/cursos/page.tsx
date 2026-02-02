@@ -5,7 +5,7 @@ export default async function CursosPage() {
   const courses = await getAllCourses()
 
   return (
-    <div className="p-6">
+    <div>
       <CoursesGrid initialCourses={courses} />
     </div>
   )

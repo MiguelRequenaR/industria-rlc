@@ -123,28 +123,28 @@ export default function InvitacionesPage() {
   const usedInvitations = invitations.filter(inv => inv.is_used)
 
   return (
-    <div className="space-y-8 pt-10 min-h-screen max-w-7xl mx-auto">
+    <div className="space-y-8 py-10 min-h-screen mx-5">
       {/* Header */}
-      <div className="relative overflow-hidden rounded-2xl bg-secondary p-8 shadow-2xl mx-4 md:mx-0">
+      <div className="relative overflow-hidden rounded-2xl bg-secondary p-8 shadow-lg">
         <div className="absolute inset-0 bg-grid-white/10"></div>
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between space-y-4 md:space-y-0">
           <div>
             <div className="flex items-center gap-3 mb-2">
-              <Mail className="w-10 h-10 text-white" />
-              <h1 className="text-2xl md:text-4xl font-bold text-white tracking-tight">
+              <Mail className="w-5 h-5 md:w-10 md:h-10 text-gray-700" />
+              <h1 className="text-xl md:text-4xl font-bold text-gray-700 tracking-tight uppercase">
                 Gestión de Invitaciones
               </h1>
             </div>
-            <p className="text-white text-sm md:text-lg">
+            <p className="text-gray-700 text-sm md:text-lg uppercase">
               Crea y administra códigos de invitación con roles específicos
             </p>
           </div>
           <button
             onClick={() => setShowCreateModal(true)}
-            className="flex items-center gap-2 px-6 py-3 bg-white text-secondary rounded-xl hover:bg-gray-100 transition-colors shadow-lg hover:shadow-xl font-semibold"
+            className="flex items-center gap-2 px-6 py-3 bg-white text-secondary rounded-3xl hover:bg-gray-100 transition-colors shadow-lg hover:shadow-xl font-semibold cursor-pointer"
           >
             <Plus className="w-5 h-5" />
-            Nueva Invitación
+            <p className="text-sm uppercase">Nueva Invitación</p>
           </button>
         </div>
         <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-32 -mt-32"></div>
@@ -153,44 +153,44 @@ export default function InvitacionesPage() {
 
       {/* Estadísticas rápidas */}
       <div className="grid gap-6 md:grid-cols-3">
-        <div className="bg-white rounded-2xl p-6 shadow-lg border-2 border-gray-100">
+        <div className="bg-secondary/20 rounded-2xl p-6">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
               <CheckCircle2 className="w-6 h-6 text-green-600" />
             </div>
             <div>
-              <p className="text-sm text-gray-600 font-semibold">Activas</p>
-              <p className="text-3xl font-bold text-primary">{activeInvitations.length}</p>
+              <p className="text-lg text-green-600 font-semibold uppercase">Activas</p>
+              <p className="text-3xl font-bold text-gray-700">{activeInvitations.length}</p>
             </div>
           </div>
         </div>
-        <div className="bg-white rounded-2xl p-6 shadow-lg border-2 border-gray-100">
+        <div className="bg-secondary/20 rounded-2xl p-6">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 bg-gray-100 rounded-xl flex items-center justify-center">
               <XCircle className="w-6 h-6 text-gray-600" />
             </div>
             <div>
-              <p className="text-sm text-gray-600 font-semibold">Usadas</p>
+              <p className="text-lg uppercase text-gray-600 font-semibold">Usadas</p>
               <p className="text-3xl font-bold text-primary">{usedInvitations.length}</p>
             </div>
           </div>
         </div>
-        <div className="bg-white rounded-2xl p-6 shadow-lg border-2 border-gray-100">
+        <div className="bg-secondary/20 rounded-2xl p-6">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
               <Mail className="w-6 h-6 text-blue-600" />
             </div>
             <div>
-              <p className="text-sm text-gray-600 font-semibold">Total</p>
-              <p className="text-3xl font-bold text-primary">{invitations.length}</p>
+              <p className="text-lg uppercase text-blue-600 font-semibold">Total</p>
+              <p className="text-3xl font-bold text-gray-700">{invitations.length}</p>
             </div>
           </div>
         </div>
       </div>
 
       {/* Lista de invitaciones activas */}
-      <div className="bg-white rounded-2xl p-6 shadow-lg border-2 border-gray-100">
-        <h2 className="text-2xl font-light text-primary mb-6">Invitaciones Activas</h2>
+      <div className="bg-secondary/20 rounded-2xl p-6">
+        <h2 className="text-xl uppercase text-gray-700 mb-6">Invitaciones Activas</h2>
         
         {loading ? (
           <div className="text-center py-12">
@@ -199,9 +199,9 @@ export default function InvitacionesPage() {
           </div>
         ) : activeInvitations.length === 0 ? (
           <div className="text-center py-12">
-            <Mail className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-            <p className="text-gray-500 text-lg">No hay invitaciones activas</p>
-            <p className="text-gray-400 text-sm mt-2">Crea una nueva invitación para comenzar</p>
+            <Mail className="w-16 h-16 text-gray-700 mx-auto mb-4" />
+            <p className="text-gray-700 text-lg uppercase">No hay invitaciones activas</p>
+            <p className="text-gray-700 text-sm mt-2 uppercase">Crea una nueva invitación para comenzar</p>
           </div>
         ) : (
           <div className="space-y-3">
@@ -270,8 +270,8 @@ export default function InvitacionesPage() {
 
       {/* Lista de invitaciones usadas */}
       {usedInvitations.length > 0 && (
-        <div className="bg-white rounded-2xl p-6 shadow-lg border-2 border-gray-100">
-          <h2 className="text-2xl font-light text-primary mb-6">Invitaciones Usadas</h2>
+        <div className="bg-secondary/20 rounded-2xl p-6">
+          <h2 className="text-xl uppercase text-gray-700 mb-6">Invitaciones Usadas</h2>
           <div className="space-y-3">
             {usedInvitations.map((invitation) => {
               const RoleIcon = roleIcons[invitation.role]
@@ -288,14 +288,14 @@ export default function InvitacionesPage() {
                     <div className="flex-1">
                       <div className="flex flex-col xs:flex-row xs:items-center gap-2 xs:gap-3 mb-1">
                         <p className="font-mono text-sm font-semibold text-gray-800 line-through break-all">{invitation.token}</p>
-                        <span className={`px-3 py-1 rounded-lg text-xs font-semibold ${roleColors[invitation.role]} border`}>
+                        <span className={`px-3 py-1 rounded-lg text-xs uppercase ${roleColors[invitation.role]} border`}>
                           {roleLabels[invitation.role]}
                         </span>
-                        <span className="px-3 py-1 rounded-lg text-xs font-semibold bg-gray-200 text-gray-700">
+                        <span className="px-3 py-1 rounded-lg text-xs uppercase bg-gray-200 text-gray-700">
                           Usada
                         </span>
                       </div>
-                      <p className="text-xs text-gray-500">
+                      <p className="text-xs text-gray-700 uppercase">
                         Creado el {new Date(invitation.created_at).toLocaleDateString('es-ES', { 
                           day: 'numeric', 
                           month: 'long', 
@@ -319,7 +319,7 @@ export default function InvitacionesPage() {
               <div className="w-12 h-12 bg-secondary rounded-xl flex items-center justify-center">
                 <Mail className="w-6 h-6 text-white" />
               </div>
-              <h2 className="text-2xl font-light text-primary">Nueva Invitación</h2>
+              <h2 className="text-xl text-gray-700 uppercase">Nueva Invitación</h2>
             </div>
 
             {error && (
@@ -333,7 +333,7 @@ export default function InvitacionesPage() {
             )}
 
             <div className="mb-6">
-              <label className="block text-sm font-semibold text-gray-700 mb-3">
+              <label className="block text-sm text-gray-700 mb-3 uppercase">
                 Selecciona el rol para esta invitación:
               </label>
               <div className="space-y-3">
@@ -345,7 +345,7 @@ export default function InvitacionesPage() {
                     <button
                       key={role}
                       onClick={() => setSelectedRole(role)}
-                      className={`w-full flex items-center gap-4 p-4 rounded-xl border-2 transition-all ${
+                      className={`w-full flex items-center gap-4 p-4 rounded-xl border-2 transition-all uppercase ${
                         isSelected
                           ? `${roleColors[role]} border-current shadow-md`
                           : "bg-white border-secondary/20 hover:bg-secondary/10"
@@ -376,7 +376,7 @@ export default function InvitacionesPage() {
                   setShowCreateModal(false)
                   setError(null)
                 }}
-                className="flex-1 px-4 py-3 border-2 border-secondary/20 text-secondary rounded-xl hover:bg-secondary/10 transition-colors font-semibold cursor-pointer"
+                className="flex-1 px-4 py-3 border-2 border-secondary/20 text-secondary rounded-xl hover:bg-secondary/10 transition-colors font-semibold cursor-pointer uppercase text-sm"
                 disabled={creating}
               >
                 Cancelar
@@ -384,7 +384,7 @@ export default function InvitacionesPage() {
               <button
                 onClick={handleCreateInvitation}
                 disabled={creating}
-                className="flex-1 px-4 py-3 bg-secondary text-white rounded-xl hover:bg-secondary/90 transition-colors font-semibold disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                className="flex-1 px-4 py-3 bg-secondary text-white rounded-xl hover:bg-secondary/90 transition-colors font-semibold disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer uppercase text-sm"
               >
                 {creating ? "Creando..." : "Crear Invitación"}
               </button>

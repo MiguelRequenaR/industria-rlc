@@ -19,7 +19,7 @@ export default async function UsuariosPage() {
   }
 
   return (
-    <div className="p-6">
+    <div>
       <UsersTable users={users} currentUserIsOwner={currentUserIsOwner} />
     </div>
   )

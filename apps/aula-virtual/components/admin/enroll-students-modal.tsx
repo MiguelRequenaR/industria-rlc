@@ -102,13 +102,13 @@ export function EnrollStudentsModal({ isOpen, onClose, courseId, onSuccess }: En
           <div className="space-y-4">
             {/* Buscador */}
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-secondary" />
               <Input
                 type="text"
-                placeholder="Buscar estudiante por nombre o email..."
+                placeholder="Buscar estudiante por nombre o correo electrónico..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-9"
+                className="pl-9 text-gray-700"
               />
             </div>
 
@@ -121,7 +121,7 @@ export function EnrollStudentsModal({ isOpen, onClose, courseId, onSuccess }: En
               <div className="space-y-6">
                 {/* Estudiantes inscritos */}
                 <div>
-                  <h3 className="font-semibold text-primary mb-3 flex items-center gap-2">
+                  <h3 className="font-semibold text-gray-700 uppercase mb-3 flex items-center gap-2">
                     <UserCheck className="h-5 w-5 text-green-600" />
                     Estudiantes Inscritos ({enrolledStudents.length})
                   </h3>
@@ -156,7 +156,7 @@ export function EnrollStudentsModal({ isOpen, onClose, courseId, onSuccess }: En
                             disabled={actionLoading === student.id}
                             variant="ghost"
                             size="sm"
-                            className="text-red-600 hover:bg-red-50"
+                            className="text-red-600 hover:bg-red-50 uppercase cursor-pointer"
                           >
                             {actionLoading === student.id ? (
                               "..."
@@ -177,7 +177,7 @@ export function EnrollStudentsModal({ isOpen, onClose, courseId, onSuccess }: En
 
                 {/* Estudiantes disponibles */}
                 <div>
-                  <h3 className="font-semibold text-primary mb-3 flex items-center gap-2">
+                  <h3 className="font-semibold text-gray-700 uppercase mb-3 flex items-center gap-2">
                     <UserPlus className="h-5 w-5 text-blue-600" />
                     Estudiantes Disponibles ({notEnrolledStudents.length})
                   </h3>
@@ -226,7 +226,7 @@ export function EnrollStudentsModal({ isOpen, onClose, courseId, onSuccess }: En
                       ))}
                     </div>
                   ) : (
-                    <p className="text-sm text-gray-500 italic">
+                    <p className="text-sm text-gray-700 uppercase italic">
                       {students.length === 0 
                         ? "No hay estudiantes registrados en el sistema" 
                         : "Todos los estudiantes están inscritos"}
@@ -239,7 +239,7 @@ export function EnrollStudentsModal({ isOpen, onClose, courseId, onSuccess }: En
         </DialogBody>
         
         <DialogFooter>
-          <Button variant="outline" onClick={onClose} className="cursor-pointer">
+          <Button variant="outline" onClick={onClose} className="cursor-pointer uppercase">
             Cerrar
           </Button>
         </DialogFooter>

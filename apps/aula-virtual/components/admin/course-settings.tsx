@@ -111,30 +111,30 @@ export function CourseSettings({ course }: CourseSettingsProps) {
   }
 
   return (
-    <div className="max-w-3xl space-y-6">
+    <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-bold text-gray-900">Configuración del Curso</h2>
-        <p className="text-sm text-gray-500 mt-1">
+        <h2 className="text-2xl font-bold text-gray-700 uppercase">Configuración del Curso</h2>
+        <p className="text-sm text-gray-700 uppercase mt-1">
           Administra la configuración y visibilidad del curso
         </p>
       </div>
 
       {/* Visibilidad */}
-      <div className="bg-white rounded-lg border border-gray-200 p-6 space-y-4">
+      <div className="bg-secondary/20 rounded-3xl p-6 space-y-4">
         <div>
-          <h3 className="font-semibold text-gray-900 mb-1">Visibilidad del Curso</h3>
-          <p className="text-sm text-gray-500">
+          <h3 className="font-semibold text-gray-700 uppercase mb-1">Visibilidad del Curso</h3>
+          <p className="text-sm text-gray-700 uppercase">
             {isArchived
               ? "Este curso está archivado y no puede publicarse."
               : "Controla si el curso es visible para los estudiantes"}
           </p>
         </div>
 
-        <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+        <div className="flex items-center justify-between p-4 bg-gray-50 rounded-3xl">
           <div className="flex-1">
             <div className="flex items-center gap-2">
-              <h4 className="font-medium text-gray-900">Publicar Curso</h4>
-              <span className={`text-xs px-2 py-0.5 rounded font-semibold ${
+              <h4 className="font-medium text-gray-700 uppercase">Publicar Curso</h4>
+              <span className={`text-xs px-2 py-0.5 rounded font-semibold uppercase ${
                 isArchived
                   ? "bg-red-100 text-red-700"
                   : isPublished
@@ -144,7 +144,7 @@ export function CourseSettings({ course }: CourseSettingsProps) {
                 {isArchived ? "Archivado" : isPublished ? "Publicado" : "Borrador"}
               </span>
             </div>
-            <p className="text-sm text-gray-500 mt-1">
+            <p className="text-sm text-gray-700 uppercase mt-1">
               {isArchived
                 ? "El curso no es visible para estudiantes y no admite cambios de visibilidad."
                 : isPublished
@@ -166,111 +166,111 @@ export function CourseSettings({ course }: CourseSettingsProps) {
       </div>
 
       {/* Información General */}
-      <div className="bg-white rounded-lg border border-gray-200 p-6 space-y-4">
+      <div className="bg-secondary/20 rounded-3xl p-6 space-y-4">
         <div>
-          <h3 className="font-semibold text-gray-900 mb-1">Información General</h3>
-          <p className="text-sm text-gray-500">
+          <h3 className="font-semibold text-gray-700 uppercase mb-1">Información General</h3>
+          <p className="text-sm text-gray-700 uppercase">
             Información básica del curso
           </p>
         </div>
 
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-700 mb-1 uppercase">
               Slug del Curso
             </label>
             <input
               type="text"
               value={course.slug}
               disabled
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-50 text-gray-500 cursor-not-allowed"
+              className="w-full px-3 py-2 rounded-3xl bg-gray-50 text-gray-500 cursor-not-allowed"
             />
-            <p className="text-xs text-gray-500 mt-1">
+            <p className="text-xs text-gray-700 mt-1">
               URL: /cursos/{course.slug}
             </p>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-700 mb-1 uppercase">
               Código del Curso
             </label>
             <input
               type="text"
               value={course.course_code ?? "—"}
               disabled
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-50 text-gray-500 cursor-not-allowed"
+              className="w-full px-3 py-2 rounded-3xl bg-gray-50 text-gray-500 cursor-not-allowed"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-700 mb-1 uppercase">
               Duración (horas)
             </label>
             <input
               type="text"
               value={course.duration_hours ?? 0}
               disabled
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-50 text-gray-500 cursor-not-allowed"
+              className="w-full px-3 py-2 rounded-3xl bg-gray-50 text-gray-500 cursor-not-allowed"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-700 mb-1 uppercase">
               Dificultad
             </label>
             <input
               type="text"
               value={course.difficulty ?? "—"}
               disabled
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-50 text-gray-500 cursor-not-allowed"
+              className="w-full px-3 py-2 rounded-3xl bg-gray-50 text-gray-500 cursor-not-allowed"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-700 mb-1 uppercase">
               Modalidad
             </label>
             <input
               type="text"
               value={course.modality ?? "—"}
               disabled
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-50 text-gray-500 cursor-not-allowed"
+              className="w-full px-3 py-2 rounded-3xl bg-gray-50 text-gray-500 cursor-not-allowed"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-700 mb-1 uppercase">
               ID del Curso
             </label>
             <input
               type="text"
               value={course.id}
               disabled
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-50 text-gray-500 cursor-not-allowed font-mono text-sm"
+              className="w-full px-3 py-2 rounded-3xl bg-gray-50 text-gray-500 cursor-not-allowed font-mono text-sm"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-700 mb-1 uppercase">
               Fecha de Creación
             </label>
             <input
               type="text"
               value={new Date(course.created_at).toLocaleString("es-ES")}
               disabled
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-50 text-gray-500 cursor-not-allowed"
+              className="w-full px-3 py-2 rounded-3xl bg-gray-50 text-gray-500 cursor-not-allowed"
             />
           </div>
         </div>
       </div>
 
       {/* Acciones Peligrosas */}
-      <div className={`bg-white rounded-lg border p-6 space-y-4 ${isArchived ? "border-yellow-200" : "border-red-200"}`}>
+      <div className={`bg-red-100 rounded-3xl p-6 space-y-4 ${isArchived ? "border-yellow-200" : "border-red-200"}`}>
         <div>
-          <h3 className={`font-semibold mb-1 ${isArchived ? "text-yellow-900" : "text-red-900"}`}>
+          <h3 className={`font-semibold mb-1 ${isArchived ? "text-yellow-900" : "text-red-700"} uppercase`}>
             Zona de Peligro
           </h3>
-          <p className={`text-sm ${isArchived ? "text-yellow-700" : "text-red-600"}`}>
+          <p className={`text-sm ${isArchived ? "text-yellow-700" : "text-red-600"} uppercase`}>
             {isArchived
               ? "Este curso está archivado. Puedes activarlo nuevamente (quedará como borrador)."
               : "Acciones irreversibles que afectan permanentemente al curso"}
@@ -299,17 +299,17 @@ export function CourseSettings({ course }: CourseSettingsProps) {
               </button>
             </div>
           ) : (
-            <div className="flex items-center justify-between p-4 border border-red-200 rounded-lg">
+            <div className="flex items-center justify-between p-4 border border-red-600 rounded-lg">
               <div>
-                <h4 className="font-medium text-gray-900">Archivar Curso</h4>
-                <p className="text-sm text-gray-500">
+                <h4 className="font-medium text-gray-700 uppercase">Archivar Curso</h4>
+                <p className="text-sm text-gray-700 uppercase">
                   El curso dejará de ser visible para estudiantes, pero se conservará el historial.
                 </p>
               </div>
               <button
                 onClick={handleArchiveCourse}
                 disabled={isArchiving}
-                className={`px-4 py-2 rounded-lg text-sm font-medium ${
+                className={`px-4 py-2 rounded-lg text-sm font-medium uppercase ${
                   isArchiving
                     ? "bg-gray-200 text-gray-500 cursor-not-allowed"
                     : "bg-red-600 text-white hover:bg-red-700 cursor-pointer"

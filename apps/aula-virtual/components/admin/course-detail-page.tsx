@@ -76,10 +76,10 @@ export function CourseDetailPage({ initialCourse, slug }: CourseDetailPageProps)
   ]
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 pt-10">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
+      <div className="bg-secondary rounded-3xl border-b border-gray-200 mx-5">
+        <div className=" px-4 sm:px-6 py-4">
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             {/* Info header */}
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4">
@@ -91,7 +91,7 @@ export function CourseDetailPage({ initialCourse, slug }: CourseDetailPageProps)
               </Link>
               <div>
                 <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
-                  <h1 className="text-xl sm:text-2xl font-bold text-gray-900 wrap-break-word">{currentCourse.title}</h1>
+                  <h1 className="text-xl sm:text-2xl font-bold text-gray-700 uppercase wrap-break-word">{currentCourse.title}</h1>
                   <span
                     className={`inline-flex items-center gap-1 px-2.5 py-1 rounded text-xs font-semibold uppercase ${isArchived
                       ? "bg-red-100 text-red-700"
@@ -107,7 +107,7 @@ export function CourseDetailPage({ initialCourse, slug }: CourseDetailPageProps)
                         : "BORRADOR"}
                   </span>
                 </div>
-                <p className="text-sm text-gray-500 mt-1">
+                <p className="text-sm text-gray-700 uppercase mt-1">
                   Administra el contenido, inscripciones y configuración de este curso.
                 </p>
               </div>
@@ -119,9 +119,9 @@ export function CourseDetailPage({ initialCourse, slug }: CourseDetailPageProps)
                 <button
                   onClick={() => !isArchived && setShowAssignInstructor(true)}
                   disabled={isArchived}
-                  className={`px-4 py-2 rounded-lg text-base font-medium w-full sm:w-auto transition-all duration-500 ${isArchived
+                  className={`px-4 py-2 rounded-lg text-base font-medium w-full sm:w-auto transition-all duration-500 uppercase ${isArchived
                       ? "bg-gray-200 text-gray-400 cursor-not-allowed border border-gray-300"
-                      : "bg-primary text-white hover:bg-secondary cursor-pointer"
+                      : "border border-gray-700 text-gray-700 hover:bg-secondary cursor-pointer"
                     }`}
                 >
                   Asignar Instructor
@@ -131,9 +131,9 @@ export function CourseDetailPage({ initialCourse, slug }: CourseDetailPageProps)
                 <button
                   onClick={() => !isArchived && setShowEnrollStudents(true)}
                   disabled={isArchived}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg text-base font-medium w-full sm:w-auto transition-all duration-500 ${isArchived
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg text-base font-medium w-full sm:w-auto transition-all duration-500 uppercase ${isArchived
                       ? "bg-gray-200 text-gray-400 cursor-not-allowed border border-gray-300"
-                      : "bg-primary text-white hover:bg-secondary cursor-pointer"
+                      : "border border-gray-700 text-gray-700 hover:bg-secondary cursor-pointer"
                     }`}
                 >
                   <UserPlus className="w-5 h-5" />
@@ -155,7 +155,7 @@ export function CourseDetailPage({ initialCourse, slug }: CourseDetailPageProps)
       )}
 
       {/* Content */}
-      <div className="max-w-7xl mx-auto px-6 py-6">
+      <div className=" px-6 py-6">
         <Tabs tabs={tabs} defaultTab="details" />
       </div>
 

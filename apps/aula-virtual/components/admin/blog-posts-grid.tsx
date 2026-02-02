@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Search, Plus, Eye, Edit, Trash2 } from "lucide-react"
+import { Search, Plus, Edit, Trash2, BookOpen } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Select } from "@/components/ui/select"
 import { BlogPostWithDetails, BlogCategory } from "@/types/database"
@@ -52,17 +52,25 @@ export function BlogPostsGrid({ initialPosts, categories }: BlogPostsGridProps) 
   }
 
   return (
-    <div className="space-y-4 max-w-7xl mx-auto">
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-bold tracking-tight text-secondary">Gestión de Blog</h2>
-          <p className="text-gray-500 text-sm mt-1">
-            Administra los posts del blog
+    <div className="space-y-4 mx-5 py-10">
+      <div className="relative overflow-hidden rounded-2xl bg-secondary p-8 shadow-lg">
+        <div className="absolute inset-0 bg-grid-white/10"></div>
+        <div className="relative z-10">
+          <div className="flex items-center gap-3 mb-2">
+            <BookOpen className="w-5 h-5 md:w-10 md:h-10 text-gray-700" />
+            <h1 className="text-xl md:text-4xl font-bold text-gray-700 tracking-tight uppercase">
+              Gestión de Blog
+            </h1>
+          </div>
+          <p className="text-gray-700 text-sm md:text-lg uppercase">
+            Gestiona los posts de tu blog, para la web academia
           </p>
         </div>
+        <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-32 -mt-32"></div>
+        <div className="absolute bottom-0 right-20 w-40 h-40 bg-white/5 rounded-full"></div>
       </div>
 
-      <div className="flex gap-3 flex-wrap">
+      <div className="flex gap-3 flex-wrap pt-5">
         <div className="relative flex-1 min-w-[200px]">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
           <Input
@@ -107,7 +115,7 @@ export function BlogPostsGrid({ initialPosts, categories }: BlogPostsGridProps) 
             {filteredPosts.map((post) => (
               <div
                 key={post.id}
-                className="group relative bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-200"
+                className="group relative bg-white rounded-2xl overflow-hidden shadow-xl"
               >
                 {/* Imagen del post */}
                 <div className="relative w-full h-48 bg-gray-100 overflow-hidden">
@@ -127,12 +135,12 @@ export function BlogPostsGrid({ initialPosts, categories }: BlogPostsGridProps) 
                   {/* Badges */}
                   <div className="absolute top-2 left-2 flex gap-2">
                     {post.is_published && (
-                      <span className="bg-primary text-white text-xs px-2 py-1 rounded">
+                      <span className="bg-blue-50 text-gray-700 border border-blue-500 text-xs px-2 py-1 rounded uppercase">
                         Publicado
                       </span>
                     )}
                     {post.is_featured && (
-                      <span className="bg-secondary text-white text-xs px-2 py-1 rounded">
+                      <span className="bg-orange-50 text-gray-700 border border-secondary text-xs px-2 py-1 rounded uppercase">
                         Destacado
                       </span>
                     )}
@@ -143,13 +151,13 @@ export function BlogPostsGrid({ initialPosts, categories }: BlogPostsGridProps) 
                 <div className="p-4 space-y-2">
                   <div className="flex items-center gap-2 text-xs text-gray-500">
                     {post.category && (
-                      <span className="bg-gray-100 px-2 py-1 rounded">
+                      <span className="bg-blue-50 text-blue-700 border border-blue-500 text-xs px-2 py-1 rounded uppercase">
                         {post.category.name}
                       </span>
                     )}
-                    <span>{post.read_time}</span>
+                    <span className="text-xs text-gray-700 uppercase">{post.read_time}</span>
                   </div>
-                  <h3 className="font-semibold text-lg text-primary line-clamp-2">
+                  <h3 className="font-semibold text-lg text-gray-700 line-clamp-2 uppercase">
                     {post.title}
                   </h3>
                   {post.excerpt && (
@@ -158,7 +166,7 @@ export function BlogPostsGrid({ initialPosts, categories }: BlogPostsGridProps) 
                     </p>
                   )}
                   {post.author && (
-                    <p className="text-xs text-gray-500 mt-2">
+                    <p className="text-xs text-blue-500 mt-2 uppercase">
                       Autor: {post.author.full_name || "Sin nombre"}
                     </p>
                   )}
@@ -168,7 +176,7 @@ export function BlogPostsGrid({ initialPosts, categories }: BlogPostsGridProps) 
                 <div className="p-4 border-t flex gap-2">
                   <button
                     onClick={() => setEditingPost(post)}
-                    className="flex-1 flex items-center cursor-pointer justify-center gap-2 px-3 py-2 text-sm bg-blue-50 text-blue-600 hover:bg-blue-100 rounded transition-colors"
+                    className="flex-1 flex items-center cursor-pointer justify-center gap-2 px-3 py-2 text-sm bg-blue-50 text-blue-600 hover:bg-blue-100 rounded transition-colors uppercase"
                   >
                     <Edit className="w-4 h-4" />
                     Editar
@@ -190,7 +198,7 @@ export function BlogPostsGrid({ initialPosts, categories }: BlogPostsGridProps) 
               <div className="w-16 h-16 rounded-full bg-gray-100 group-hover:bg-orange-100 flex items-center justify-center transition-colors">
                 <Plus className="h-8 w-8 text-primary group-hover:text-secondary" />
               </div>
-              <span className="text-lg font-medium text-primary group-hover:text-secondary">
+              <span className="text-lg font-medium text-gray-700 uppercase group-hover:text-secondary">
                 Agregar Post
               </span>
             </button>
@@ -198,7 +206,7 @@ export function BlogPostsGrid({ initialPosts, categories }: BlogPostsGridProps) 
         )}
       </div>
 
-      <div className="flex items-center justify-between text-sm text-gray-500">
+      <div className="flex items-center justify-between text-sm text-gray-500 uppercase">
         <div>
           Mostrando <span className="font-medium text-gray-900">{filteredPosts.length}</span> de{" "}
           <span className="font-medium text-gray-900">{posts.length}</span> posts

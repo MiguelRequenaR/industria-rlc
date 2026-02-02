@@ -67,8 +67,8 @@ export function ProfileEditForm({
     <div className="bg-white rounded-xl shadow-sm border border-gray-200">
       {/* Header */}
       <div className="px-8 py-6 border-b border-gray-200">
-        <h2 className="text-2xl font-bold text-gray-900">Editar Perfil</h2>
-        <p className="text-gray-600 mt-1">
+        <h2 className="text-2xl font-bold text-gray-700 uppercase">Editar Perfil</h2>
+        <p className="text-secondary mt-1 uppercase">
           Actualiza tu información personal
         </p>
       </div>
@@ -76,7 +76,7 @@ export function ProfileEditForm({
       <form onSubmit={handleSubmit} className="px-8 py-6">
         {/* Avatar */}
         <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-3">
+          <label className="block text-sm font-medium text-secondary mb-3 uppercase">
             Foto de Perfil
           </label>
           <div className="flex items-start gap-6">
@@ -87,7 +87,6 @@ export function ProfileEditForm({
                   alt="Preview"
                   className="w-24 h-24 rounded-xl object-cover border-2 border-gray-200"
                   onError={(e) => {
-                    // Si la imagen falla al cargar, mostrar el placeholder
                     e.currentTarget.style.display = "none"
                     const placeholder = e.currentTarget.nextElementSibling
                     if (placeholder) {
@@ -111,7 +110,7 @@ export function ProfileEditForm({
                 placeholder="https://ejemplo.com/mi-foto.jpg"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
               />
-              <p className="text-xs text-gray-500 mt-2">
+              <p className="text-xs text-gray-700 mt-2 uppercase">
                 Ingresa la URL de tu foto de perfil
               </p>
             </div>
@@ -122,7 +121,7 @@ export function ProfileEditForm({
         <div className="mb-6">
           <label
             htmlFor="full_name"
-            className="block text-sm font-medium text-gray-700 mb-2"
+            className="block text-sm font-medium text-secondary mb-2 uppercase"
           >
             Nombre Completo
           </label>
@@ -163,14 +162,14 @@ export function ProfileEditForm({
             type="button"
             onClick={onCancel}
             disabled={mutation.isPending}
-            className="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer uppercase"
           >
             Cancelar
           </button>
           <button
             type="submit"
             disabled={mutation.isPending}
-            className="flex items-center gap-2 px-6 py-2 bg-primary text-white rounded-lg hover:bg-secondary transition-colors duration-500 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex items-center gap-2 px-6 py-2 bg-primary text-white rounded-lg hover:bg-secondary transition-colors duration-500 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer uppercase"
           >
             {mutation.isPending ? (
               <>

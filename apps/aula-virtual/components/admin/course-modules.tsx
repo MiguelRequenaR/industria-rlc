@@ -127,8 +127,8 @@ export function CourseModules({ modules, courseId, canEdit = false }: CourseModu
     <div className="space-y-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-primary">Módulos y Lecciones</h2>
-          <p className="text-sm text-gray-500 mt-1">
+          <h2 className="text-2xl font-bold text-gray-700 uppercase">Módulos y Lecciones</h2>
+          <p className="text-sm text-gray-700 uppercase mt-1">
             {modules.length} módulos • {modules.reduce((acc, m) => acc + m.lessons.length, 0)} lecciones
           </p>
         </div>
@@ -136,10 +136,10 @@ export function CourseModules({ modules, courseId, canEdit = false }: CourseModu
           type="button"
           onClick={() => canEdit && setShowAddModule(true)}
           disabled={!canEdit}
-          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-500 w-full sm:w-auto justify-center ${
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-500 w-full sm:w-auto justify-center uppercase ${
             canEdit
-              ? "bg-primary text-white hover:bg-secondary cursor-pointer"
-              : "bg-gray-200 text-gray-500 cursor-not-allowed"
+              ? "text-gray-700 border border-gray-700 hover:bg-secondary/20 cursor-pointer"
+              : "text-gray-700 border border-gray-700 cursor-not-allowed"
           }`}
         >
           <Plus className="w-4 h-4" />
@@ -152,8 +152,8 @@ export function CourseModules({ modules, courseId, canEdit = false }: CourseModu
           <div className="w-16 h-16 rounded-full bg-gray-100 mx-auto mb-4 flex items-center justify-center">
             <FileText className="w-8 h-8 text-gray-400" />
           </div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">No hay módulos todavía</h3>
-          <p className="text-gray-500 mb-6">
+          <h3 className="text-lg font-semibold text-gray-700 uppercase mb-2">No hay módulos todavía</h3>
+          <p className="text-gray-700 uppercase mb-6">
             {canEdit
               ? "Comienza agregando el primer módulo a este curso"
               : "Este curso aún no tiene módulos"
@@ -163,10 +163,10 @@ export function CourseModules({ modules, courseId, canEdit = false }: CourseModu
             type="button"
             onClick={() => canEdit && setShowAddModule(true)}
             disabled={!canEdit}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-500 ${
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-500 uppercase ${
               canEdit
-                ? "bg-primary text-white hover:bg-secondary cursor-pointer"
-                : "bg-gray-200 text-gray-500 cursor-not-allowed"
+                ? "text-gray-700 border border-gray-700 hover:bg-secondary/20 cursor-pointer"
+                : "text-gray-700 border border-gray-700 cursor-not-allowed"
             }`}
           >
             Agregar Primer Módulo

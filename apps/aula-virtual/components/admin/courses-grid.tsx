@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useRef, useEffect } from "react"
-import { Search, Plus, EllipsisVertical, Edit } from "lucide-react"
+import { Search, Plus, EllipsisVertical, Edit, GraduationCap } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Select } from "@/components/ui/select"
 import { CourseWithTeacher } from "@/types/database"
@@ -63,14 +63,23 @@ export function CoursesGrid({ initialCourses }: CoursesGridProps) {
   })
 
   return (
-    <div className="space-y-4 max-w-7xl mx-auto">
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-bold tracking-tight text-secondary">Gestión de Cursos</h2>
-          <p className="text-gray-500 text-sm mt-1">
-            Administra los cursos del sistema
+    <div className="space-y-8 min-h-screen mx-5 py-10">
+      <div className="relative overflow-hidden rounded-2xl bg-secondary p-8 shadow-lg">
+        <div className="absolute inset-0 bg-grid-white/10"></div>
+        <div className="relative z-10">
+          <div className="flex items-center gap-3 mb-2">
+            <GraduationCap className="w-5 h-5 md:w-10 md:h-10 text-gray-700" />
+            <h1 className="text-xl md:text-4xl font-bold text-gray-700 tracking-tight uppercase">
+              Gestión de Cursos
+            </h1>
+          </div>
+          <p className="text-gray-700 text-sm md:text-lg uppercase">
+            Gestiona los cursos de tu plataforma
           </p>
         </div>
+        {/* Decorative elements */}
+        <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-32 -mt-32"></div>
+        <div className="absolute bottom-0 right-20 w-40 h-40 bg-white/5 rounded-full"></div>
       </div>
 
       <div className="flex gap-3">
@@ -107,7 +116,7 @@ export function CoursesGrid({ initialCourses }: CoursesGridProps) {
             {filteredCourses.map((course) => (
               <div
                 key={course.id}
-                className="group relative bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-200 cursor-pointer"
+                className="group relative bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-lg transition-shadow duration-200 cursor-pointer"
               >
                 {/* Imagen del curso */}
                 <div className="relative w-full h-48 bg-gray-100 overflow-hidden">
@@ -169,11 +178,11 @@ export function CoursesGrid({ initialCourses }: CoursesGridProps) {
                   href={`/admin/cursos/${course.slug}`}
                   className="block p-4 space-y-2 group-hover:text-secondary transition-colors"
                 >
-                  <h3 className="font-semibold text-lg text-primary line-clamp-2 group-hover:text-secondary transition-colors">
+                  <h3 className="font-semibold text-lg text-gray-700 uppercase line-clamp-2 group-hover:text-secondary transition-colors">
                     {course.title}
                   </h3>
                   {course.description && (
-                    <p className="text-sm text-gray-600 line-clamp-3">
+                    <p className="text-sm text-gray-700 line-clamp-3">
                       {course.description}
                     </p>
                   )}
@@ -202,7 +211,7 @@ export function CoursesGrid({ initialCourses }: CoursesGridProps) {
       </div>
 
       <div className="flex items-center justify-between text-sm text-gray-500">
-        <div>
+        <div className="uppercase">
           Mostrando <span className="font-medium text-gray-900">{filteredCourses.length}</span> de{" "}
           <span className="font-medium text-gray-900">{currentCourses.length}</span> cursos
         </div>

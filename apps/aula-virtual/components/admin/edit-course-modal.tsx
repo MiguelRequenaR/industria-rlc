@@ -80,7 +80,7 @@ export function EditCourseModal({ isOpen, onClose, course }: EditCourseModalProp
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="max-w-2xl">
+      <DialogContent className="max-w-2xl uppercase">
         <form onSubmit={handleSubmit}>
           <DialogHeader onClose={handleClose}>
             <DialogTitle>Editar Curso</DialogTitle>
@@ -222,14 +222,14 @@ export function EditCourseModal({ isOpen, onClose, course }: EditCourseModalProp
               variant="outline"
               onClick={handleClose}
               disabled={updateCourseMutation.isPending}
-              className="cursor-pointer"
+              className="cursor-pointer uppercase"
             >
               Cancelar
             </Button>
             <Button
               type="submit"
               disabled={updateCourseMutation.isPending || !title.trim()}
-              className="cursor-pointer"
+              className="cursor-pointer uppercase"
             >
               {updateCourseMutation.isPending && (
                 <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>

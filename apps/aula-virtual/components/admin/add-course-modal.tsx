@@ -93,7 +93,7 @@ export function AddCourseModal({ isOpen, onClose }: AddCourseModalProps) {
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="max-w-2xl">
+      <DialogContent className="max-w-2xl uppercase">
         <form onSubmit={handleSubmit}>
           <DialogHeader onClose={handleClose}>
             <DialogTitle>Crear Nuevo Curso</DialogTitle>
@@ -241,14 +241,14 @@ export function AddCourseModal({ isOpen, onClose }: AddCourseModalProps) {
               variant="outline"
               onClick={handleClose}
               disabled={createCourseMutation.isPending}
-              className="cursor-pointer"
+              className="cursor-pointer uppercase"
             >
               Cancelar
             </Button>
             <Button
               type="submit"
               disabled={createCourseMutation.isPending || !title.trim()}
-              className="cursor-pointer"
+              className="cursor-pointer uppercase"
             >
               {createCourseMutation.isPending && (
                 <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>

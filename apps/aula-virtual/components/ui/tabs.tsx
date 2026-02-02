@@ -33,8 +33,8 @@ export function Tabs({ tabs, defaultTab }: TabsProps) {
                 border-b-2 -mb-px
                 whitespace-nowrap
                 ${activeTab === tab.id
-                  ? "border-primary text-primary bg-primary/10"
-                  : "border-transparent text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+                  ? "border-secondary text-gray-700 bg-secondary/10 uppercase"
+                  : "text-gray-700 hover:text-secondary hover:bg-gray-50 uppercase"
                 }
               `}
             >

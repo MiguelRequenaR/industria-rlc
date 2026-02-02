@@ -110,7 +110,7 @@ export function AddBlogPostModal({ isOpen, onClose, categories, onSuccess }: Add
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto uppercase">
         <form onSubmit={handleSubmit}>
           <DialogHeader onClose={handleClose}>
             <DialogTitle>Crear Nuevo Post</DialogTitle>
@@ -129,7 +129,7 @@ export function AddBlogPostModal({ isOpen, onClose, categories, onSuccess }: Add
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="Ej: Dominando el código electricista en 2025"
-                  className="w-full px-3 py-2 border border-secondary rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary text-primary"
+                  className="w-full px-3 py-2 border border-secondary rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary text-gray-700"
                   disabled={isSubmitting}
                   autoFocus
                 />
@@ -151,7 +151,7 @@ export function AddBlogPostModal({ isOpen, onClose, categories, onSuccess }: Add
                   onChange={(e) => setExcerpt(e.target.value)}
                   placeholder="Breve descripción del post que se mostrará en las tarjetas..."
                   rows={3}
-                  className="w-full px-3 py-2 border border-secondary rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary text-primary resize-none"
+                  className="w-full px-3 py-2 border border-secondary rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary text-gray-700 resize-none"
                   disabled={isSubmitting}
                 />
               </div>
@@ -168,7 +168,7 @@ export function AddBlogPostModal({ isOpen, onClose, categories, onSuccess }: Add
                     value={imageUrl}
                     onChange={(e) => setImageUrl(e.target.value)}
                     placeholder="https://ejemplo.com/imagen.jpg"
-                    className="w-full px-3 py-2 border border-secondary rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary text-primary"
+                    className="w-full px-3 py-2 border border-secondary rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary text-gray-700"
                     disabled={isSubmitting}
                   />
                 </div>
@@ -181,7 +181,7 @@ export function AddBlogPostModal({ isOpen, onClose, categories, onSuccess }: Add
                     id="category"
                     value={categoryId}
                     onChange={(e) => setCategoryId(e.target.value)}
-                    className="w-full px-3 py-2 border border-secondary rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary text-primary"
+                    className="w-full px-3 py-2 border border-secondary rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary text-gray-700"
                     disabled={isSubmitting}
                   >
                     <option value="">Sin categoría</option>
@@ -205,7 +205,7 @@ export function AddBlogPostModal({ isOpen, onClose, categories, onSuccess }: Add
                   value={readTime}
                   onChange={(e) => setReadTime(e.target.value)}
                   placeholder="5 min de Lectura"
-                  className="w-full px-3 py-2 border border-secondary rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary text-primary"
+                  className="w-full px-3 py-2 border border-secondary rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary text-gray-700"
                   disabled={isSubmitting}
                 />
               </div>
@@ -257,7 +257,7 @@ export function AddBlogPostModal({ isOpen, onClose, categories, onSuccess }: Add
                             onChange={(e) => updateContentBlock(index, e.target.value)}
                             placeholder="Escribe el contenido del párrafo..."
                             rows={3}
-                            className="w-full px-3 py-2 border border-secondary rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary text-primary resize-none text-sm"
+                            className="w-full px-3 py-2 border border-secondary rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary text-gray-700 resize-none text-sm"
                             disabled={isSubmitting}
                           />
                         ) : (
@@ -266,7 +266,7 @@ export function AddBlogPostModal({ isOpen, onClose, categories, onSuccess }: Add
                             value={block.value}
                             onChange={(e) => updateContentBlock(index, e.target.value)}
                             placeholder={block.type === "heading" ? "Título de la sección" : "URL de la imagen"}
-                            className="w-full px-3 py-2 border border-secondary rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary text-primary text-sm"
+                            className="w-full px-3 py-2 border border-secondary rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary text-gray-700 text-sm"
                             disabled={isSubmitting}
                           />
                         )}

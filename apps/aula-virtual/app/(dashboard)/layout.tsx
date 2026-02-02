@@ -10,7 +10,7 @@ export default function DashboardLayout({
     <div className="min-h-screen bg-gray-50">
       <AppSidebar />
       
-      <main className="pt-16">
+      <main className="pt-16 md:pt-0 md:ml-64">
         {children}
       </main>
     </div>

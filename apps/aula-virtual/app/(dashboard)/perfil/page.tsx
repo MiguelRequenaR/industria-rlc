@@ -32,7 +32,7 @@ export default function PerfilPage() {
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
-      <h1 className="text-3xl font-bold text-primary mb-8">Mi Perfil</h1>
+      <h1 className="text-3xl font-bold text-gray-700 mb-8 uppercase">Mi Perfil</h1>
       <ProfileView profile={profile} />
     </div>
   )

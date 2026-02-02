@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Search, Plus, Edit, Trash2, UserCheck, Mail, Calendar, Shield, AlertTriangle, Lock, Eye, EyeOff, Archive, Award, Download, Loader2, RotateCcw } from "lucide-react"
+import { Search, Edit, Trash2, UserCheck, Mail, Calendar, Shield, AlertTriangle, Lock, Eye, EyeOff, Archive, Award, Download, Loader2, RotateCcw, Users } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select } from "@/components/ui/select"
@@ -27,13 +27,13 @@ export function UsersTable({ users, currentUserIsOwner = false }: UsersTableProp
   const [page, setPage] = useState(1)
 
   const pageSize = 100
-  
+
   // Modal states
   const [viewModalOpen, setViewModalOpen] = useState(false)
   const [editModalOpen, setEditModalOpen] = useState(false)
   const [deleteModalOpen, setDeleteModalOpen] = useState(false)
   const [selectedUser, setSelectedUser] = useState<UserWithEmail | null>(null)
-  
+
   // Edit form states
   const [editFullName, setEditFullName] = useState("")
   const [editRole, setEditRole] = useState<UserRole>("estudiante")
@@ -169,7 +169,7 @@ export function UsersTable({ users, currentUserIsOwner = false }: UsersTableProp
 
   const handleSubmitEdit = async () => {
     if (!selectedUser) return
-    
+
     setIsSubmitting(true)
     try {
       // Si hay una nueva contraseña, cambiarla primero
@@ -231,17 +231,25 @@ export function UsersTable({ users, currentUserIsOwner = false }: UsersTableProp
   }
 
   return (
-    <div className="space-y-4 max-w-7xl mx-auto">
-      <div className="flex flex-col md:flex-row md:items-center justify-between space-y-4 md:space-y-0">
-        <div>
-          <h2 className="text-2xl font-bold tracking-tight text-secondary">Gestión de Usuarios</h2>
-          <p className="text-gray-500 text-sm mt-1">
-            Administra los usuarios del sistema
+    <div className="space-y-4 mx-5 py-10">
+      <div className="relative overflow-hidden rounded-2xl bg-secondary p-8 shadow-lg">
+        <div className="absolute inset-0 bg-grid-white/10"></div>
+        <div className="relative z-10">
+          <div className="flex items-center gap-3 mb-2">
+            <Users className="w-5 h-5 md:w-10 md:h-10 text-gray-700" />
+            <h1 className="text-xl md:text-4xl font-bold text-gray-700 tracking-tight uppercase">
+              Gestión de Usuarios
+            </h1>
+          </div>
+          <p className="text-gray-700 text-sm md:text-lg uppercase">
+            Gestiona los usuarios de tu plataforma
           </p>
         </div>
+        <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-32 -mt-32"></div>
+        <div className="absolute bottom-0 right-20 w-40 h-40 bg-white/5 rounded-full"></div>
       </div>
 
-      <div className="flex gap-3">
+      <div className="flex gap-3 pt-5">
         <div className="relative flex-3">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
           <Input
@@ -300,7 +308,7 @@ export function UsersTable({ users, currentUserIsOwner = false }: UsersTableProp
                 paginatedUsers.map((user) => {
                   const userName = user.full_name || "Sin nombre"
                   const userInitial = userName.charAt(0).toUpperCase()
-                  
+
                   return (
                     <tr key={user.id} className="hover:bg-gray-50 transition-colors">
                       <td className="px-6 py-4 whitespace-nowrap">
@@ -316,10 +324,10 @@ export function UsersTable({ users, currentUserIsOwner = false }: UsersTableProp
                               {userInitial}
                             </div>
                           )}
-                          <div className="font-medium text-primary">{userName}</div>
+                          <div className="font-medium text-gray-700 uppercase text-sm">{userName}</div>
                         </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-primary">
+                      <td className="px-6 py-4 whitespace-nowrap text-gray-700 text-sm">
                         {user.email}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
@@ -329,16 +337,15 @@ export function UsersTable({ users, currentUserIsOwner = false }: UsersTableProp
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <span
-                          className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-semibold ${
-                            getStatus(user) === "activo"
+                          className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-semibold ${getStatus(user) === "activo"
                               ? "bg-green-100 text-green-800"
                               : "bg-gray-100 text-gray-600"
-                          }`}
+                            }`}
                         >
                           {getStatus(user) === "activo" ? "Activo" : "Archivado"}
                         </span>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-primary">
+                      <td className="px-6 py-4 whitespace-nowrap text-gray-700 text-sm">
                         {formatDate(user.created_at)}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-right">
@@ -392,7 +399,7 @@ export function UsersTable({ users, currentUserIsOwner = false }: UsersTableProp
       </div>
 
       <div className="flex items-center justify-between text-sm text-gray-500">
-        <div>
+        <div className="uppercase">
           Mostrando{" "}
           <span className="font-medium text-gray-900">
             {filteredUsers.length === 0 ? 0 : startIndex + 1}-
@@ -466,69 +473,68 @@ export function UsersTable({ users, currentUserIsOwner = false }: UsersTableProp
                     </div>
                   )}
                   <div>
-                    <h3 className="text-2xl font-bold text-primary">
+                    <h3 className="text-2xl font-bold text-gray-700 uppercase">
                       {selectedUser.full_name || "Sin nombre"}
                     </h3>
-                    <Badge variant={getRoleBadge(selectedUser).variant} className="mt-1">
+                    <Badge variant={getRoleBadge(selectedUser).variant} className="mt-1 uppercase">
                       {getRoleBadge(selectedUser).label}
                     </Badge>
                   </div>
                 </div>
 
                 <div className="space-y-4">
-                  <div className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
+                  <div className="flex items-start gap-3 p-3 bg-secondary/20 rounded-3xl">
                     <Mail className="h-5 w-5 text-secondary mt-0.5" />
                     <div>
-                      <p className="text-sm font-medium text-secondary">Email</p>
-                      <p className="text-primary">{selectedUser.email}</p>
+                      <p className="text-sm font-medium text-secondary uppercase">Email</p>
+                      <p className="text-gray-700">{selectedUser.email}</p>
                     </div>
                   </div>
 
-                  <div className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
+                  <div className="flex items-start gap-3 p-3 bg-secondary/20 rounded-3xl">
                     <Shield className="h-5 w-5 text-secondary mt-0.5" />
                     <div>
-                      <p className="text-sm font-medium text-secondary">Rol</p>
-                      <p className="text-primary">{getRoleBadge(selectedUser).label}</p>
+                      <p className="text-sm font-medium text-secondary uppercase">Rol</p>
+                      <p className="text-gray-700">{getRoleBadge(selectedUser).label}</p>
                     </div>
                   </div>
 
-                  <div className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
+                  <div className="flex items-start gap-3 p-3 bg-secondary/20 rounded-3xl">
                     <Archive className="h-5 w-5 text-secondary mt-0.5" />
                     <div>
-                      <p className="text-sm font-medium text-secondary">Estado</p>
+                      <p className="text-sm font-medium text-secondary uppercase">Estado</p>
                       <span
-                        className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-semibold ${
-                          getStatus(selectedUser) === "activo"
+                        className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-semibold uppercase ${getStatus(selectedUser) === "activo"
                             ? "bg-green-100 text-green-800"
                             : "bg-gray-100 text-gray-600"
-                        }`}
+                          }`}
                       >
                         {getStatus(selectedUser) === "activo" ? "Activo" : "Archivado"}
                       </span>
                     </div>
                   </div>
 
-                  <div className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
+                  <div className="flex items-start gap-3 p-3 bg-secondary/20 rounded-3xl">
                     <Calendar className="h-5 w-5 text-secondary mt-0.5" />
                     <div>
-                      <p className="text-sm font-medium text-secondary">Fecha de registro</p>
-                      <p className="text-primary">{formatDate(selectedUser.created_at)}</p>
+                      <p className="text-sm font-medium text-secondary uppercase">Fecha de registro</p>
+                      <p className="text-gray-700">{formatDate(selectedUser.created_at)}</p>
                     </div>
                   </div>
 
-                  <div className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
+                  <div className="flex items-start gap-3 p-3 bg-secondary/20 rounded-3xl">
                     <UserCheck className="h-5 w-5 text-secondary mt-0.5" />
                     <div>
-                      <p className="text-sm font-medium text-secondary">ID de Usuario</p>
-                      <p className="text-primary text-xs font-mono break-all">{selectedUser.id}</p>
+                      <p className="text-sm font-medium text-secondary uppercase">ID de Usuario</p>
+                      <p className="text-gray-700 text-xs font-mono break-all">{selectedUser.id}</p>
                     </div>
                   </div>
 
                   {selectedUser.role === "estudiante" && (
-                    <div className="pt-4 border-t border-gray-200">
+                    <div className="pt-4 border-t border-gray-700">
                       <div className="flex items-center gap-2 mb-3">
                         <Award className="h-5 w-5 text-secondary" />
-                        <p className="text-sm font-medium text-secondary">Certificados</p>
+                        <p className="text-sm font-medium text-secondary uppercase">Certificados</p>
                       </div>
                       {loadingCertificates ? (
                         <div className="flex items-center gap-2 py-6 text-gray-500">
@@ -544,11 +550,11 @@ export function UsersTable({ users, currentUserIsOwner = false }: UsersTableProp
                             return (
                               <div
                                 key={cert.id}
-                                className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 p-3 bg-gray-50 rounded-lg border border-gray-100"
+                                className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 p-3 bg-secondary/20 rounded-3xl border border-gray-100"
                               >
                                 <div className="min-w-0">
-                                  <p className="font-medium text-primary truncate">{courseName}</p>
-                                  <p className="text-xs text-gray-500">
+                                  <p className="font-medium text-gray-700 uppercase truncate">{courseName}</p>
+                                  <p className="text-xs text-blue-500">
                                     Código: {cert.certificate_code} · Emitido{" "}
                                     {formatDate(cert.issued_at)}
                                     {cert.final_grade != null && (
@@ -559,7 +565,7 @@ export function UsersTable({ users, currentUserIsOwner = false }: UsersTableProp
                                 <Button
                                   variant="outline"
                                   size="sm"
-                                  className="shrink-0 w-full sm:w-auto cursor-pointer"
+                                  className="shrink-0 w-full sm:w-auto cursor-pointer uppercase text-blue-500"
                                   disabled={downloadingCertId !== null}
                                   onClick={() => downloadCertificate(cert)}
                                 >
@@ -587,7 +593,7 @@ export function UsersTable({ users, currentUserIsOwner = false }: UsersTableProp
             )}
           </DialogBody>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setViewModalOpen(false)}>
+            <Button variant="outline" onClick={() => setViewModalOpen(false)} className="cursor-pointer uppercase">
               Cerrar
             </Button>
           </DialogFooter>
@@ -621,14 +627,14 @@ export function UsersTable({ users, currentUserIsOwner = false }: UsersTableProp
                     </div>
                   )}
                   <div>
-                    <p className="text-sm text-gray-500">Editando a</p>
+                    <p className="text-sm text-gray-700 uppercase">Editando a</p>
                     <p className="font-medium text-primary">{selectedUser.email}</p>
                   </div>
                 </div>
 
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium text-secondary mb-2">
+                    <label className="block text-sm font-medium text-secondary mb-2 uppercase">
                       Nombre completo
                     </label>
                     <Input
@@ -641,7 +647,7 @@ export function UsersTable({ users, currentUserIsOwner = false }: UsersTableProp
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-secondary mb-2">
+                    <label className="block text-sm font-medium text-secondary mb-2 uppercase">
                       Rol
                     </label>
                     <Select
@@ -658,11 +664,11 @@ export function UsersTable({ users, currentUserIsOwner = false }: UsersTableProp
                   <div className="p-4 border-2 border-orange-200 bg-orange-50 rounded-lg">
                     <div className="flex items-center gap-2 mb-2">
                       <Lock className="w-5 h-5 text-orange-600" />
-                      <label className="block text-sm font-semibold text-orange-900">
+                      <label className="block text-sm font-semibold text-orange-900 uppercase">
                         Cambiar Contraseña (Opcional)
                       </label>
                     </div>
-                    <p className="text-xs text-orange-700 mb-3">
+                    <p className="text-xs text-orange-700 mb-3 uppercase">
                       Deja este campo vacío si no deseas cambiar la contraseña del usuario.
                     </p>
                     <div className="relative">
@@ -689,16 +695,18 @@ export function UsersTable({ users, currentUserIsOwner = false }: UsersTableProp
             )}
           </DialogBody>
           <DialogFooter>
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               onClick={() => setEditModalOpen(false)}
               disabled={isSubmitting}
+              className="cursor-pointer uppercase"
             >
               Cancelar
             </Button>
-            <Button 
+            <Button
               onClick={handleSubmitEdit}
               disabled={isSubmitting || (!!selectedUser && getStatus(selectedUser) === "archivado")}
+              className="cursor-pointer uppercase"
             >
               {isSubmitting ? "Guardando..." : "Guardar cambios"}
             </Button>
@@ -720,11 +728,10 @@ export function UsersTable({ users, currentUserIsOwner = false }: UsersTableProp
             {selectedUser && (
               <div className="space-y-4">
                 <div
-                  className={`flex items-center justify-center p-4 rounded-full w-16 h-16 mx-auto ${
-                    getStatus(selectedUser) === "archivado"
+                  className={`flex items-center justify-center p-4 rounded-full w-16 h-16 mx-auto ${getStatus(selectedUser) === "archivado"
                       ? "bg-green-50"
                       : "bg-red-50"
-                  }`}
+                    }`}
                 >
                   {getStatus(selectedUser) === "archivado" ? (
                     <RotateCcw className="h-8 w-8 text-green-600" />
@@ -734,7 +741,7 @@ export function UsersTable({ users, currentUserIsOwner = false }: UsersTableProp
                 </div>
 
                 <div className="text-center space-y-2">
-                  <h3 className="text-lg font-semibold text-primary">
+                  <h3 className="text-lg font-semibold text-gray-700 uppercase">
                     {getStatus(selectedUser) === "archivado"
                       ? "¿Activar este usuario?"
                       : "¿Archivar este usuario?"}
@@ -742,8 +749,8 @@ export function UsersTable({ users, currentUserIsOwner = false }: UsersTableProp
                   <p
                     className={
                       getStatus(selectedUser) === "archivado"
-                        ? "text-green-700 font-medium"
-                        : "text-red-600 font-medium"
+                        ? "text-green-700 font-medium uppercase text-sm"
+                        : "text-red-600 font-medium uppercase text-sm"
                     }
                   >
                     {getStatus(selectedUser) === "archivado"
@@ -752,7 +759,7 @@ export function UsersTable({ users, currentUserIsOwner = false }: UsersTableProp
                   </p>
                 </div>
 
-                <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                <div className="bg-secondary/20 p-4 rounded-lg">
                   <div className="flex items-center gap-3">
                     {selectedUser.avatar_url ? (
                       <img
@@ -774,7 +781,7 @@ export function UsersTable({ users, currentUserIsOwner = false }: UsersTableProp
                   </div>
                 </div>
 
-                <p className="text-sm text-gray-600 text-center">
+                <p className="text-sm text-gray-700 uppercase text-center">
                   {getStatus(selectedUser) === "archivado"
                     ? "Podrás volver a archivarlo si lo necesitas."
                     : "Podrás reactivarlo más adelante desde la vista de usuarios archivados."}
@@ -787,7 +794,7 @@ export function UsersTable({ users, currentUserIsOwner = false }: UsersTableProp
               variant="outline"
               onClick={() => setDeleteModalOpen(false)}
               disabled={isSubmitting}
-              className="cursor-pointer"
+              className="cursor-pointer uppercase"
             >
               Cancelar
             </Button>
@@ -796,8 +803,8 @@ export function UsersTable({ users, currentUserIsOwner = false }: UsersTableProp
               disabled={isSubmitting}
               className={
                 selectedUser && getStatus(selectedUser) === "archivado"
-                  ? "bg-green-600 hover:bg-green-700 text-white cursor-pointer"
-                  : "bg-red-600 hover:bg-red-700 text-white cursor-pointer"
+                  ? "bg-green-600 hover:bg-green-700 text-white cursor-pointer uppercase"
+                  : "bg-red-600 hover:bg-red-700 text-white cursor-pointer uppercase"
               }
             >
               {selectedUser && getStatus(selectedUser) === "archivado"

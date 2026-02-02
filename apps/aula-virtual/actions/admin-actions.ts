@@ -187,6 +187,53 @@ export async function getCertificatesByStudentId(
   return { certificates: withDates }
 }
 
+export async function getLatestCertificates(
+  limit = 4
+): Promise<CertificateForAdmin[]> {
+  const supabase = await createClient()
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+  if (!user) {
+    return []
+  }
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .single()
+
+  if (profile?.role !== "admin") {
+    return []
+  }
+
+  const { data: certificates, error: certError } = await supabase
+    .from("certificates")
+    .select(
+      `
+      *,
+      student:profiles!student_id(id, full_name, avatar_url),
+      course:courses!course_id(id, title, duration_hours)
+    `
+    )
+    .order("issued_at", { ascending: false })
+    .limit(limit)
+
+  if (certError || !certificates?.length) {
+    return []
+  }
+
+  const normalized = certificates.map((c) => ({
+    ...c,
+    student: Array.isArray(c.student) ? c.student[0] ?? null : c.student,
+    course: Array.isArray(c.course) ? c.course[0] ?? null : c.course,
+  })) as CertificateForAdmin[]
+
+  return normalized
+}
+
 export async function getAllCourses(): Promise<CourseWithTeacher[]> {
   const supabase = await createClient()
 
@@ -223,6 +270,7 @@ export interface DashboardStats {
   totalEnrollments: number
   totalModules: number
   totalLessons: number
+  totalTrainingHoursDelivered: number
 }
 
 export async function getDashboardStats(): Promise<DashboardStats> {
@@ -256,6 +304,16 @@ export async function getDashboardStats(): Promise<DashboardStats> {
     .from("lessons")
     .select("*", { count: "exact", head: true })
 
+  const { data: certificates } = await supabase
+    .from("certificates")
+    .select("course:courses!course_id(duration_hours)")
+
+  const totalTrainingHoursDelivered =
+    certificates?.reduce((acc, c) => {
+      const course = Array.isArray(c.course) ? c.course[0] : c.course
+      return acc + (course?.duration_hours ?? 0)
+    }, 0) ?? 0
+
   return {
     totalUsers,
     totalStudents,
@@ -265,7 +323,8 @@ export async function getDashboardStats(): Promise<DashboardStats> {
     publishedCourses,
     totalEnrollments: enrollments || 0,
     totalModules: modules || 0,
-    totalLessons: lessons || 0
+    totalLessons: lessons || 0,
+    totalTrainingHoursDelivered,
   }
 }
 
@@ -582,10 +641,6 @@ export async function getCourseBySlug(slug: string) {
     return null
   }
 
-  // Verificar permisos según RLS:
-  // - Admin puede ver todos los cursos
-  // - Teacher puede ver sus propios cursos
-  // - Estudiantes solo pueden ver cursos publicados
   const isAdmin = profile?.role === "admin"
   const isTeacher = profile?.role === "docente" && course.teacher_id === user.id
   const isPublished = course.is_published
@@ -595,7 +650,6 @@ export async function getCourseBySlug(slug: string) {
     return null
   }
 
-  // Obtener módulos con lecciones
   const { data: modules, error: modulesError } = await supabase
     .from("modules")
     .select(`
@@ -609,7 +663,6 @@ export async function getCourseBySlug(slug: string) {
     console.error("Error fetching modules:", modulesError)
   }
 
-  // Ordenar las lecciones de cada módulo por order_index
   const modulesWithSortedLessons = modules?.map(module => ({
     ...module,
     lessons: ((module.lessons || []) as Lesson[]).sort((a, b) => {
@@ -698,6 +751,73 @@ export async function assignTeacherToCourse(
   }
 
   return { success: true }
+}
+
+export interface MostViewedCourse {
+  id: string
+  title: string
+  duration_hours: number
+  enrollmentsCount: number
+  certificatesCount: number
+}
+
+export interface MostViewedCourse {
+  id: string
+  title: string
+  duration_hours: number
+  enrollmentsCount: number
+  certificatesCount: number
+}
+
+export async function getMostViewedCourses(limit = 3): Promise<MostViewedCourse[]> {
+  const supabase = await createClient()
+
+  const { data: enrollments } = await supabase
+    .from("enrollments")
+    .select("course_id")
+
+  if (!enrollments?.length) return []
+
+  const countByCourse = new Map<string, number>()
+  for (const e of enrollments) {
+    countByCourse.set(e.course_id, (countByCourse.get(e.course_id) ?? 0) + 1)
+  }
+
+  const topCourseIds = Array.from(countByCourse.entries())
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, limit)
+    .map(([id]) => id)
+
+  if (topCourseIds.length === 0) return []
+
+  const { data: courses, error: coursesError } = await supabase
+    .from("courses")
+    .select("id, title, duration_hours")
+    .in("id", topCourseIds)
+
+  if (coursesError || !courses?.length) return []
+
+  const { data: certificates } = await supabase
+    .from("certificates")
+    .select("course_id")
+    .in("course_id", topCourseIds)
+
+  const certsByCourse = new Map<string, number>()
+  for (const c of certificates ?? []) {
+    certsByCourse.set(c.course_id, (certsByCourse.get(c.course_id) ?? 0) + 1)
+  }
+
+  return topCourseIds.map(courseId => {
+    const course = courses.find(c => c.id === courseId)
+    if (!course) return null
+    return {
+      id: course.id,
+      title: course.title,
+      duration_hours: course.duration_hours ?? 0,
+      enrollmentsCount: countByCourse.get(courseId) ?? 0,
+      certificatesCount: certsByCourse.get(courseId) ?? 0
+    }
+  }).filter(Boolean) as MostViewedCourse[]
 }
 
 // ==================== MÓDULOS ====================

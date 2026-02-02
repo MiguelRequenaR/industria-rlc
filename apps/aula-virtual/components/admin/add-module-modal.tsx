@@ -55,7 +55,7 @@ export function AddModuleModal({
           <DialogBody>
             <div className="space-y-4">
               <div>
-                <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1 uppercase">
                   Título del Módulo <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -70,8 +70,8 @@ export function AddModuleModal({
                 />
               </div>
 
-              <p className="text-sm text-gray-500">
-                El módulo se agregará al final de la lista. Podrás reordenarlo después.
+              <p className="text-sm text-gray-700 uppercase">
+                El módulo se agregará a la lista del curso.
               </p>
             </div>
           </DialogBody>
@@ -82,12 +82,14 @@ export function AddModuleModal({
               variant="outline"
               onClick={handleClose}
               disabled={createModuleMutation.isPending}
+              className="cursor-pointer uppercase"
             >
               Cancelar
             </Button>
             <Button
               type="submit"
               disabled={createModuleMutation.isPending || !title.trim()}
+              className="cursor-pointer uppercase"
             >
               {createModuleMutation.isPending && (
                 <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>

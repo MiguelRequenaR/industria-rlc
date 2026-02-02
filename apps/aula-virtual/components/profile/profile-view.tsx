@@ -68,12 +68,12 @@ export function ProfileView({ profile }: ProfileViewProps) {
       <div className="pt-20 px-8 pb-8">
         <div className="flex justify-between items-start mb-6">
           <div>
-            <h2 className="text-2xl font-bold text-gray-900">
+            <h2 className="text-2xl font-bold text-gray-700 uppercase">
               {profile.full_name || "Sin nombre"}
             </h2>
             <div className="flex items-center gap-2 mt-2">
-              <Shield className="w-4 h-4 text-primary" />
-              <span className="text-sm font-medium text-primary">
+              <Shield className="w-4 h-4 text-gray-700" />
+              <span className="text-sm font-medium text-gray-700 uppercase">
                 {roleLabels[profile.role]}
               </span>
             </div>
@@ -83,7 +83,7 @@ export function ProfileView({ profile }: ProfileViewProps) {
             className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg hover:bg-secondary transition-colors duration-500 cursor-pointer"
           >
             <Edit2 className="w-4 h-4" />
-            <span>Editar Perfil</span>
+            <span className="uppercase">Editar Perfil</span>
           </button>
         </div>
 
@@ -91,39 +91,39 @@ export function ProfileView({ profile }: ProfileViewProps) {
         <div className="grid gap-6 md:grid-cols-2">
           {/* Email */}
           {profile.email && (
-            <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg">
-              <div className="p-2 bg-white rounded-lg">
-                <Mail className="w-5 h-5 text-gray-600" />
+            <div className="flex items-start gap-3 p-4 bg-secondary/20 rounded-lg">
+              <div className="p-2 bg-blue-50 rounded-lg">
+                <Mail className="w-5 h-5 text-blue-500" />
               </div>
               <div>
-                <p className="text-sm font-medium text-gray-500">
+                <p className="text-sm font-medium text-blue-500 uppercase">
                   Correo Electrónico
                 </p>
-                <p className="text-base text-gray-900 mt-1">{profile.email}</p>
+                <p className="text-base text-gray-700 mt-1">{profile.email}</p>
               </div>
             </div>
           )}
 
           {/* Rol */}
-          <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg">
-            <div className="p-2 bg-white rounded-lg">
-              <Shield className="w-5 h-5 text-gray-600" />
+          <div className="flex items-start gap-3 p-4 bg-secondary/20 rounded-lg">
+            <div className="p-2 bg-blue-50 rounded-lg">
+              <Shield className="w-5 h-5 text-blue-500" />
             </div>
             <div>
-              <p className="text-sm font-medium text-gray-500">Rol</p>
-              <p className="text-base text-gray-900 mt-1">
+              <p className="text-sm font-medium text-blue-500 uppercase">Rol</p>
+              <p className="text-base text-gray-700 mt-1">
                 {roleLabels[profile.role]}
               </p>
             </div>
           </div>
 
           {/* Fecha de Registro */}
-          <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg">
-            <div className="p-2 bg-white rounded-lg">
-              <Calendar className="w-5 h-5 text-gray-600" />
+          <div className="flex items-start gap-3 p-4 bg-secondary/20 rounded-lg">
+            <div className="p-2 bg-blue-50 rounded-lg">
+              <Calendar className="w-5 h-5 text-blue-500" />
             </div>
             <div>
-              <p className="text-sm font-medium text-gray-500">
+              <p className="text-sm font-medium text-blue-500 uppercase">
                 Miembro desde
               </p>
               <p className="text-base text-gray-900 mt-1">
@@ -133,12 +133,12 @@ export function ProfileView({ profile }: ProfileViewProps) {
           </div>
 
           {/* ID de Usuario */}
-          <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg">
+          <div className="flex items-start gap-3 p-4 bg-secondary/20 rounded-lg">
             <div className="p-2 bg-white rounded-lg">
-              <User className="w-5 h-5 text-gray-600" />
+              <User className="w-5 h-5 text-blue-500" />
             </div>
               <div>
-                <p className="text-sm font-medium text-gray-500">ID de Usuario</p>
+                <p className="text-sm font-medium text-blue-500 uppercase">ID de Usuario</p>
                 <p className="text-xs text-gray-900 mt-1 font-mono">
                   {profile.id}
                 </p>
