@@ -35,6 +35,12 @@ export function ProfileView({ profile }: ProfileViewProps) {
     })
   }
 
+  const avatarUrl = profile.avatar_url
+    ? profile.avatar_url.includes("?")
+      ? profile.avatar_url
+      : `${profile.avatar_url}?t=${new Date(profile.created_at).getTime()}`
+    : null;
+
   if (isEditing) {
     return (
       <ProfileEditForm
@@ -47,24 +53,23 @@ export function ProfileView({ profile }: ProfileViewProps) {
 
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-      {/* Header con Avatar */}
       <div className="relative h-32 bg-linear-to-r from-primary to-secondary rounded-t-xl">
         <div className="absolute -bottom-16 left-8">
-          {profile.avatar_url ? (
+          {avatarUrl ? (
             <img
-              src={profile.avatar_url}
+              src={avatarUrl}
               alt={profile.full_name || "Usuario"}
-              className="w-32 h-32 rounded-xl border-4 border-white object-cover shadow-lg"
+              key={avatarUrl}
+              className="w-32 h-32 rounded-xl border-4 border-white object-cover shadow-lg bg-white"
             />
-            ) : (
-              <div className="w-32 h-32 rounded-xl border-4 border-white bg-primary flex items-center justify-center shadow-lg">
-                <User className="w-16 h-16 text-white" />
-              </div>
-            )}
+          ) : (
+            <div className="w-32 h-32 rounded-xl border-4 border-white bg-gray-100 flex items-center justify-center shadow-lg">
+              <User className="w-16 h-16 text-gray-400" />
+            </div>
+          )}
         </div>
       </div>
 
-      {/* Contenido del Perfil */}
       <div className="pt-20 px-8 pb-8">
         <div className="flex justify-between items-start mb-6">
           <div>
@@ -87,9 +92,7 @@ export function ProfileView({ profile }: ProfileViewProps) {
           </button>
         </div>
 
-        {/* Información del Perfil */}
         <div className="grid gap-6 md:grid-cols-2">
-          {/* Email */}
           {profile.email && (
             <div className="flex items-start gap-3 p-4 bg-secondary/20 rounded-lg">
               <div className="p-2 bg-blue-50 rounded-lg">
@@ -104,7 +107,6 @@ export function ProfileView({ profile }: ProfileViewProps) {
             </div>
           )}
 
-          {/* Rol */}
           <div className="flex items-start gap-3 p-4 bg-secondary/20 rounded-lg">
             <div className="p-2 bg-blue-50 rounded-lg">
               <Shield className="w-5 h-5 text-blue-500" />
@@ -117,7 +119,6 @@ export function ProfileView({ profile }: ProfileViewProps) {
             </div>
           </div>
 
-          {/* Fecha de Registro */}
           <div className="flex items-start gap-3 p-4 bg-secondary/20 rounded-lg">
             <div className="p-2 bg-blue-50 rounded-lg">
               <Calendar className="w-5 h-5 text-blue-500" />
@@ -132,17 +133,16 @@ export function ProfileView({ profile }: ProfileViewProps) {
             </div>
           </div>
 
-          {/* ID de Usuario */}
           <div className="flex items-start gap-3 p-4 bg-secondary/20 rounded-lg">
             <div className="p-2 bg-white rounded-lg">
               <User className="w-5 h-5 text-blue-500" />
             </div>
-              <div>
-                <p className="text-sm font-medium text-blue-500 uppercase">ID de Usuario</p>
-                <p className="text-xs text-gray-900 mt-1 font-mono">
-                  {profile.id}
-                </p>
-              </div>
+            <div>
+              <p className="text-sm font-medium text-blue-500 uppercase">ID de Usuario</p>
+              <p className="text-xs text-gray-900 mt-1 font-mono">
+                {profile.id}
+              </p>
+            </div>
           </div>
         </div>
       </div>

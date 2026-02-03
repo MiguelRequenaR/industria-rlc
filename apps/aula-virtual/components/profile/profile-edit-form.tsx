@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { User, Loader2, X, Check } from "lucide-react"
 import { useProfileMutation } from "@/hooks/use-profile-mutation"
+import AvatarUpload from "./AvatarUpload"
 
 interface Profile {
   id: string
@@ -26,14 +27,14 @@ export function ProfileEditForm({
 }: ProfileEditFormProps) {
   const mutation = useProfileMutation()
   const [localError, setLocalError] = useState<string | null>(null)
-  
+
   const [formData, setFormData] = useState({
     full_name: profile.full_name || "",
     avatar_url: profile.avatar_url || "",
   })
 
-  const handleAvatarUrlChange = (url: string) => {
-    setFormData({ ...formData, avatar_url: url })
+  const handleUploadComplete = (url: string) => {
+    setFormData((prev) => ({ ...prev, avatar_url: url }))
     setLocalError(null)
   }
 
@@ -51,7 +52,6 @@ export function ProfileEditForm({
       },
       {
         onSuccess: () => {
-          // Esperar un momento para mostrar el toast de éxito
           setTimeout(() => {
             onSuccess()
           }, 500)
@@ -65,7 +65,6 @@ export function ProfileEditForm({
 
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-      {/* Header */}
       <div className="px-8 py-6 border-b border-gray-200">
         <h2 className="text-2xl font-bold text-gray-700 uppercase">Editar Perfil</h2>
         <p className="text-secondary mt-1 uppercase">
@@ -74,50 +73,29 @@ export function ProfileEditForm({
       </div>
 
       <form onSubmit={handleSubmit} className="px-8 py-6">
-        {/* Avatar */}
         <div className="mb-6">
           <label className="block text-sm font-medium text-secondary mb-3 uppercase">
             Foto de Perfil
           </label>
-          <div className="flex items-start gap-6">
-            <div className="relative shrink-0">
-              {formData.avatar_url ? (
-                <img
-                  src={formData.avatar_url}
-                  alt="Preview"
-                  className="w-24 h-24 rounded-xl object-cover border-2 border-gray-200"
-                  onError={(e) => {
-                    e.currentTarget.style.display = "none"
-                    const placeholder = e.currentTarget.nextElementSibling
-                    if (placeholder) {
-                      (placeholder as HTMLElement).style.display = "flex"
-                    }
-                  }}
-                />
-              ) : null}
-              <div
-                className="w-24 h-24 rounded-xl bg-primary flex items-center justify-center border-2 border-gray-200"
-                style={{ display: formData.avatar_url ? "none" : "flex" }}
-              >
-                <User className="w-12 h-12 text-white" />
-              </div>
-            </div>
-            <div className="flex-1">
-              <input
-                type="url"
-                value={formData.avatar_url}
-                onChange={(e) => handleAvatarUrlChange(e.target.value)}
-                placeholder="https://ejemplo.com/mi-foto.jpg"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-              />
-              <p className="text-xs text-gray-700 mt-2 uppercase">
-                Ingresa la URL de tu foto de perfil
+          <div className="flex flex-col sm:flex-row items-center gap-8 w-full">
+            <AvatarUpload
+              userId={profile.id}
+              currentUrl={formData.avatar_url}
+              onUploadComplete={handleUploadComplete}
+            />
+
+            <div className="text-center sm:text-left">
+              <p className="text-sm font-medium text-gray-700 uppercase mb-1">
+                Sube una nueva foto
+              </p>
+              <p className="text-xs text-gray-700 uppercase max-w-xs">
+                Se recomienda una imagen cuadrada de al menos 400x400px.
+                Formatos permitidos: JPG, PNG o WebP.
               </p>
             </div>
           </div>
         </div>
 
-        {/* Nombre Completo */}
         <div className="mb-6">
           <label
             htmlFor="full_name"
@@ -132,12 +110,11 @@ export function ProfileEditForm({
             onChange={(e) =>
               setFormData({ ...formData, full_name: e.target.value })
             }
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full px-4 py-2 border border-secondary rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary"
             placeholder="Ingresa tu nombre completo"
           />
         </div>
 
-        {/* Mensajes de Error */}
         {(localError || mutation.isError) && (
           <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-start gap-3">
             <X className="w-5 h-5 text-red-600 shrink-0 mt-0.5" />
@@ -156,7 +133,6 @@ export function ProfileEditForm({
           </div>
         )}
 
-        {/* Botones */}
         <div className="flex gap-3 justify-end pt-4 border-t border-gray-200">
           <button
             type="button"

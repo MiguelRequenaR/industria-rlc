@@ -28,7 +28,6 @@ export function useProfileMutation() {
       return result
     },
     onSuccess: () => {
-      // Invalidar las queries del perfil
       queryClient.invalidateQueries({ queryKey: profileKeys.current() })
       queryClient.invalidateQueries({ queryKey: profileKeys.all })
       
