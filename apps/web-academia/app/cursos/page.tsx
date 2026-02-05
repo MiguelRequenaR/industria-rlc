@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
-import HeroCourses from "@/components/courses/HeroCourses"
-import CoursePage from "@/components/courses/CoursePage"
+import CoursesWithSearch from "@/components/courses/CoursesWithSearch"
+import { getCoursesFromDb } from "@/lib/courses-data"
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -17,11 +17,11 @@ export const metadata: Metadata = {
   },
 }
 
-export default function Courses() {
+export default async function Courses() {
+  const courses = await getCoursesFromDb()
   return (
     <main>
-      <HeroCourses />
-      <CoursePage />
+      <CoursesWithSearch courses={courses} />
     </main>
   )
 }

@@ -2,7 +2,12 @@
 import Image from 'next/image'
 import { Search, Check, Zap } from 'lucide-react'
 
-export default function HeroCourses() {
+interface HeroCoursesProps {
+  searchTerm: string
+  onSearchChange: (value: string) => void
+}
+
+export default function HeroCourses({ searchTerm, onSearchChange }: HeroCoursesProps) {
   return (
     <section className='bg-primary min-h-screen flex items-center justify-center pt-20 md:pt-0'>
       <div className='max-w-7xl mx-auto'>
@@ -25,10 +30,15 @@ export default function HeroCourses() {
               Únete a la comunidad de expertos de RLC Academy 360.
             </p>
             <div>
-              <form className="flex items-center gap-2 bg-white rounded-xl px-4 py-2 w-full md:w-[90%]">
+              <form
+                onSubmit={(e) => e.preventDefault()}
+                className="flex items-center gap-2 bg-white rounded-xl px-4 py-2 w-full md:w-[90%]"
+              >
                 <input
                   type="text"
                   placeholder="¿Qué quieres aprender hoy?"
+                  value={searchTerm}
+                  onChange={(e) => onSearchChange(e.target.value)}
                   className="flex-1 bg-transparent px-2 py-2 outline-none text-tertiary placeholder:text-gray-400 text-sm md:text-base"
                 />
                 <button
@@ -42,7 +52,6 @@ export default function HeroCourses() {
             </div>
           </div>
           <div className="flex items-center justify-center relative" data-aos="zoom-in">
-            {/* Badge Certificación Oficial - Top Right */}
             <div className="absolute top-0 right-0 md:top-10 md:right-10 bg-white rounded-2xl px-6 py-3 shadow-xl z-10 animate-bounce-slow">
               <div className="flex items-center gap-3">
                 <div className="bg-green-500 rounded-full p-2 shrink-0">
@@ -55,7 +64,6 @@ export default function HeroCourses() {
               </div>
             </div>
 
-            {/* Badge Prácticas Reales - Bottom Left */}
             <div className="absolute bottom-0 left-0 md:bottom-10 md:left-10 bg-white rounded-2xl px-6 py-3 shadow-xl z-10 animate-bounce-slow">
               <div className="flex items-center gap-3">
                 <div className="bg-yellow-400 rounded-full p-2 shrink-0">
