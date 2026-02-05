@@ -371,7 +371,7 @@ export default function NavBar() {
           </div>
         </nav>
         <div className="flex flex-col gap-4 justify-center pb-8 px-5">
-          <a href="https://industria-rlc-web-academia.vercel.app/" target="_blank" rel="noopener noreferrer">
+          <a href="https://academia.industriarlc.com/" target="_blank" rel="noopener noreferrer">
             <button
               className="relative overflow-hidden bg-white text-primary px-8 py-3 uppercase cursor-pointer group transition-colors duration-500 hover:text-white text-base rounded-full w-full"
             >
