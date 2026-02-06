@@ -4,6 +4,9 @@ import BlogDetailPage from "@/components/blog/BlogDetailPage"
 import BlogStructuredData from "@/components/seo/BlogStructuredData"
 import type { Metadata } from "next"
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 interface BlogPageProps {
   params: Promise<{
     slug: string

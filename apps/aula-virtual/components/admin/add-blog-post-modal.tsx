@@ -7,6 +7,7 @@ import { BlogCategory } from "@/types/database"
 import { createBlogPost } from "@/actions/admin-actions"
 import { useProfileQuery } from "@/hooks/use-profile-query"
 import { Plus, Trash2 } from "lucide-react"
+import { toast } from "react-toastify"
 
 interface AddBlogPostModalProps {
   isOpen: boolean
@@ -87,6 +88,7 @@ export function AddBlogPostModal({ isOpen, onClose, categories, onSuccess }: Add
     setIsSubmitting(false)
 
     if (result.success) {
+      toast.success("Post creado")
       setTitle("")
       setExcerpt("")
       setImageUrl("")
@@ -98,7 +100,7 @@ export function AddBlogPostModal({ isOpen, onClose, categories, onSuccess }: Add
       onSuccess()
       onClose()
     } else {
-      alert(result.error || "Error al crear el post")
+      toast.error(result.error || "Error al crear el post")
     }
   }
 

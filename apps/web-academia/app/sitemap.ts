@@ -2,10 +2,12 @@ import { MetadataRoute } from "next"
 import { getAllCourseSlugs } from "@/lib/courses-data"
 import { getAllBlogSlugs } from "@/lib/blog-data"
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = "https://academia.industriarlc.com"
 
-  // Páginas estáticas principales
   const staticPages = [
     {
       url: baseUrl,
@@ -39,7 +41,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ]
 
-  // Páginas dinámicas de cursos
   const courseSlugs = await getAllCourseSlugs()
   const coursePages = courseSlugs.map((slug) => ({
     url: `${baseUrl}/cursos/${slug}`,
@@ -48,7 +49,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }))
 
-  // Páginas dinámicas de blog
   const blogSlugs = await getAllBlogSlugs()
   const blogPages = blogSlugs.map((slug) => ({
     url: `${baseUrl}/blog/${slug}`,

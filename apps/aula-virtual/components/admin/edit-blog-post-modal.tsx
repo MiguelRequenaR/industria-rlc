@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { BlogCategory, BlogPostWithDetails } from "@/types/database"
 import { updateBlogPost } from "@/actions/admin-actions"
 import { Trash2 } from "lucide-react"
+import { toast } from "react-toastify"
 
 interface EditBlogPostModalProps {
   isOpen: boolean
@@ -83,9 +84,10 @@ export function EditBlogPostModal({ isOpen, onClose, post, categories, onSuccess
     setIsSubmitting(false)
 
     if (result.success) {
+      toast.success("Post editado")
       onSuccess()
     } else {
-      alert(result.error || "Error al actualizar el post")
+      toast.error(result.error || "Error al actualizar el post")
     }
   }
 
@@ -97,7 +99,7 @@ export function EditBlogPostModal({ isOpen, onClose, post, categories, onSuccess
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto uppercase">
         <form onSubmit={handleSubmit}>
           <DialogHeader onClose={handleClose}>
             <DialogTitle>Editar Post</DialogTitle>
@@ -297,14 +299,14 @@ export function EditBlogPostModal({ isOpen, onClose, post, categories, onSuccess
               variant="outline"
               onClick={handleClose}
               disabled={isSubmitting}
-              className="cursor-pointer"
+              className="cursor-pointer uppercase"
             >
               Cancelar
             </Button>
             <Button
               type="submit"
               disabled={isSubmitting || !title.trim()}
-              className="cursor-pointer"
+              className="cursor-pointer uppercase"
             >
               {isSubmitting && (
                 <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>

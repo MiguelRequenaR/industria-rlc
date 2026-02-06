@@ -279,23 +279,23 @@ export function CourseSettings({ course }: CourseSettingsProps) {
 
         <div className="space-y-3">
           {isArchived ? (
-            <div className="flex items-center justify-between p-4 border border-yellow-200 rounded-lg">
+            <div className="flex items-center justify-between p-4 border border-red-500 rounded-lg">
               <div>
-                <h4 className="font-medium text-gray-900">Desarchivar Curso</h4>
-                <p className="text-sm text-gray-500">
+                <h4 className="font-medium text-red-700 uppercase">Desarchivar Curso</h4>
+                <p className="text-sm text-gray-700 uppercase">
                   Reactiva el curso. Luego podrás publicarlo manualmente si lo deseas.
                 </p>
               </div>
               <button
                 onClick={handleUnarchiveCourse}
                 disabled={isUnarchiving}
-                className={`px-4 py-2 rounded-lg text-sm font-medium ${
+                className={`px-4 py-2 rounded-lg text-sm font-medium uppercase ${
                   isUnarchiving
                     ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                    : "bg-primary text-white hover:bg-secondary cursor-pointer"
+                    : "bg-red-600 text-white hover:bg-red-700 cursor-pointer"
                 }`}
               >
-                {isUnarchiving ? "Activando..." : "Activar"}
+                {isUnarchiving ? "Activando..." : "Activar Curso"}
               </button>
             </div>
           ) : (

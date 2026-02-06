@@ -8,7 +8,8 @@ import { BlogPostWithDetails, BlogCategory } from "@/types/database"
 import { AddBlogPostModal } from "./add-blog-post-modal"
 import { EditBlogPostModal } from "./edit-blog-post-modal"
 import { deleteBlogPost } from "@/actions/admin-actions"
-import { useRouter } from "next/navigation"
+import { useBlogPosts, useInvalidateBlogPosts } from "@/hooks/use-blog-posts"
+import { toast } from "react-toastify"
 
 interface BlogPostsGridProps {
   initialPosts: BlogPostWithDetails[]
@@ -16,13 +17,20 @@ interface BlogPostsGridProps {
 }
 
 export function BlogPostsGrid({ initialPosts, categories }: BlogPostsGridProps) {
-  const router = useRouter()
+  const { data } = useBlogPosts({ posts: initialPosts, categories })
+  const invalidateBlogPosts = useInvalidateBlogPosts()
   const [searchTerm, setSearchTerm] = useState("")
   const [statusFilter, setStatusFilter] = useState<string>("all")
   const [categoryFilter, setCategoryFilter] = useState<string>("all")
   const [showAddPost, setShowAddPost] = useState(false)
   const [editingPost, setEditingPost] = useState<BlogPostWithDetails | null>(null)
-  const [posts, setPosts] = useState(initialPosts)
+
+  const posts = data?.posts ?? initialPosts
+  const categoriesList = data?.categories ?? categories
+
+  const handleInvalidate = () => {
+    invalidateBlogPosts()
+  }
 
   const filteredPosts = posts.filter((post) => {
     const matchesSearch =
@@ -44,10 +52,10 @@ export function BlogPostsGrid({ initialPosts, categories }: BlogPostsGridProps) 
 
     const result = await deleteBlogPost(postId)
     if (result.success) {
-      setPosts(posts.filter(p => p.id !== postId))
-      router.refresh()
+      toast.success("Post eliminado")
+      handleInvalidate()
     } else {
-      alert(result.error || "Error al eliminar el post")
+      toast.error(result.error || "Error al eliminar el post")
     }
   }
 
@@ -97,7 +105,7 @@ export function BlogPostsGrid({ initialPosts, categories }: BlogPostsGridProps) 
           className="flex-1 max-w-48"
         >
           <option value="all">Todas las categorías</option>
-          {categories.map((cat) => (
+          {categoriesList.map((cat) => (
             <option key={cat.id} value={cat.id}>
               {cat.name}
             </option>
@@ -229,8 +237,8 @@ export function BlogPostsGrid({ initialPosts, categories }: BlogPostsGridProps) 
       <AddBlogPostModal
         isOpen={showAddPost}
         onClose={() => setShowAddPost(false)}
-        categories={categories}
-        onSuccess={() => router.refresh()}
+        categories={categoriesList}
+        onSuccess={handleInvalidate}
       />
 
       {editingPost && (
@@ -238,10 +246,10 @@ export function BlogPostsGrid({ initialPosts, categories }: BlogPostsGridProps) 
           isOpen={true}
           onClose={() => setEditingPost(null)}
           post={editingPost}
-          categories={categories}
+          categories={categoriesList}
           onSuccess={() => {
             setEditingPost(null)
-            router.refresh()
+            handleInvalidate()
           }}
         />
       )}

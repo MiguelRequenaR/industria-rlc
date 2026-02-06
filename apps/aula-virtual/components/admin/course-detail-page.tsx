@@ -147,7 +147,7 @@ export function CourseDetailPage({ initialCourse, slug }: CourseDetailPageProps)
 
       {isArchived && (
         <div className="max-w-7xl mx-auto px-6 mt-4">
-          <div className="rounded-lg border border-yellow-200 bg-yellow-50 px-4 py-3 text-sm text-yellow-800">
+          <div className="rounded-lg border border-red-500 bg-red-100 uppercase px-4 py-3 text-sm text-red-800 text-center">
             Este curso está <span className="font-semibold">archivado</span>.
             No se pueden modificar módulos, inscripciones ni configuración.
           </div>
