@@ -133,17 +133,17 @@ export function CourseDetails({ course, onEditClick, onAssignInstructorClick, is
             </div>
           ) : (
             <div className="text-center py-8">
-              <p className="text-gray-500 text-sm mb-4">
+              <p className="text-gray-700 uppercase text-sm mb-4">
                 {isArchived ? "Curso archivado. No se puede asignar instructor." : "No hay instructor asignado"}
               </p>
               {onAssignInstructorClick && (
                 <button
                   onClick={!isArchived ? onAssignInstructorClick : undefined}
                   disabled={isArchived}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium w-full sm:w-auto transition-all duration-500
+                  className={`px-4 py-2 rounded-lg text-sm font-medium w-full sm:w-auto transition-all duration-500 uppercase
                     ${isArchived
                       ? "bg-gray-200 text-gray-400 cursor-not-allowed border border-gray-300"
-                      : "bg-primary text-white hover:bg-secondary cursor-pointer"
+                      : "text-gray-700 border border-gray-700 cursor-pointer"
                     }`}
                 >
                   Asignar Instructor

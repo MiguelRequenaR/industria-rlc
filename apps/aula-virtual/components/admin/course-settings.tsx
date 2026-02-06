@@ -325,21 +325,21 @@ export function CourseSettings({ course }: CourseSettingsProps) {
       {/* Botón de Guardar */}
       {hasChanges && (
         <div className="flex items-center justify-between p-4 bg-blue-50 border border-blue-200 rounded-lg">
-          <p className="text-sm text-blue-700 font-medium">
+          <p className="text-sm text-blue-700 font-medium uppercase">
             Tienes cambios sin guardar
           </p>
           <div className="flex items-center gap-3">
             <button 
               onClick={handleCancel}
               disabled={isSaving}
-              className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed uppercase cursor-pointer"
             >
               Cancelar
             </button>
             <button 
               onClick={handleSave}
               disabled={isSaving}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 uppercase cursor-pointer"
             >
               {isSaving ? (
                 <>

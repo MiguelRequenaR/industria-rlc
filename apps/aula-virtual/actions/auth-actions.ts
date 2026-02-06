@@ -38,7 +38,11 @@ export async function loginAction(prevState: FormState, formData: FormData): Pro
   })
 
   if (error) {
-    return { error: error.message }
+    const message =
+      error.message === "Invalid login credentials"
+        ? "Email o contraseña incorrectos"
+        : error.message
+    return { error: message }
   }
 
   redirect("/");

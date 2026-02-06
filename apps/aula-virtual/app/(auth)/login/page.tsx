@@ -111,7 +111,7 @@ function LoginForm() {
 
           {state?.error && (
             <div className="p-3 rounded-md bg-red-50 border border-red-200">
-              <p className="text-sm text-red-600 font-semibold text-center">
+              <p className="text-sm text-red-600 font-semibold text-center uppercase">
                 {state.error}
               </p>
             </div>

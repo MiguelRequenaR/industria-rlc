@@ -330,14 +330,14 @@ export function UsersTable({ users, currentUserIsOwner = false }: UsersTableProp
                       <td className="px-6 py-4 whitespace-nowrap text-gray-700 text-sm">
                         {user.email}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
+                      <td className="px-6 py-4 whitespace-nowrap uppercase">
                         <Badge variant={getRoleBadge(user).variant}>
                           {getRoleBadge(user).label}
                         </Badge>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <span
-                          className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-semibold ${getStatus(user) === "activo"
+                          className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-semibold uppercase ${getStatus(user) === "activo"
                               ? "bg-green-100 text-green-800"
                               : "bg-gray-100 text-gray-600"
                             }`}
@@ -354,7 +354,7 @@ export function UsersTable({ users, currentUserIsOwner = false }: UsersTableProp
                             <Button
                               variant="ghost"
                               size="icon"
-                              className="h-8 w-8 text-primary hover:bg-blue-50 cursor-pointer"
+                              className="h-8 w-8 text-blue-600 hover:bg-blue-100 cursor-pointer"
                               title="Ver perfil"
                               onClick={() => handleViewUser(user)}
                             >
@@ -363,7 +363,7 @@ export function UsersTable({ users, currentUserIsOwner = false }: UsersTableProp
                             <Button
                               variant="ghost"
                               size="icon"
-                              className="h-8 w-8 text-primary hover:bg-blue-50 cursor-pointer"
+                              className="h-8 w-8 text-green-600 hover:bg-green-100 cursor-pointer"
                               title="Editar usuario"
                               onClick={() => handleEditUser(user)}
                             >
