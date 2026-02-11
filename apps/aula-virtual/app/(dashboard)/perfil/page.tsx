@@ -2,21 +2,21 @@
 
 import { useProfileQuery } from "@/hooks/use-profile-query"
 import { ProfileView } from "@/components/profile/profile-view"
-import { Loader2 } from "lucide-react"
+import Image from "next/image"
 
 export default function PerfilPage() {
   const { profile, loading } = useProfileQuery()
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[60vh]">
-        <div className="text-center flex flex-col items-center">
-          <h2 className="text-2xl font-bold text-gray-700 uppercase mb-2">Cargando perfil...</h2>
-          <p className="text-gray-700 uppercase">Por favor, espere un momento</p>
-          <div className="flex justify-center mt-6">
-            <Loader2 className="w-8 h-8 animate-spin text-secondary" />
-          </div>
-        </div>
+      <div
+        className="min-h-screen flex flex-col items-center justify-center gap-4 bg-linear-to-br from-blue-50 via-white to-orange-50"
+        style={{ fontFamily: "var(--font-comfortaa)" }}
+      >
+        <Image src="/rlciconpetplano.png" alt="logo" width={300} height={300} className="animate-pulse" />
+        <p className="text-xl font-semibold uppercase text-gray-700">
+          Cargando perfil...
+        </p>
       </div>
     )
   }

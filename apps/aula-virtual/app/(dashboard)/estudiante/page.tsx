@@ -233,12 +233,12 @@ export default function EstudianteDashboardPage() {
             ))}
           </div>
         ) : (
-          <div className="bg-white rounded-2xl p-12 text-center shadow-lg border-2 border-gray-100">
-            <BookOpen className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-gray-700 mb-2">
+          <div className="p-12 text-center bg-secondary/20 rounded-3xl">
+            <BookOpen className="h-16 w-16 text-gray-700 mx-auto mb-4" />
+            <h3 className="text-xl font-semibold text-gray-700 mb-2 uppercase">
               No tienes cursos inscritos
             </h3>
-            <p className="text-gray-500">
+            <p className="text-gray-700 uppercase">
               Contacta con el administrador para inscribirte en un curso
             </p>
           </div>
