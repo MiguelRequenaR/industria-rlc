@@ -60,8 +60,7 @@ export function CourseDetailPage({ initialCourse, slug }: CourseDetailPageProps)
         canEdit={(isAdmin || isTeacher) && !isArchived}
       />
     },
-    // Tab de Estudiantes (solo para docente)
-    ...(isTeacher ? [{
+    ...((isTeacher || isAdmin) ? [{
       id: "students",
       label: "Estudiantes",
       icon: <Users className="w-4 h-4" />,

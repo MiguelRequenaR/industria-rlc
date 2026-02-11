@@ -130,7 +130,7 @@ export function EnrollStudentsModal({ isOpen, onClose, courseId, onSuccess }: En
                       {enrolledStudents.map((student) => (
                         <div
                           key={student.id}
-                          className="flex items-center justify-between p-3 bg-green-50 border border-green-200 rounded-lg"
+                          className="flex items-center justify-between p-3 bg-green-50 border border-green-200 rounded-3xl"
                         >
                           <div className="flex items-center gap-3 flex-1 min-w-0">
                             {student.avatar_url ? (
@@ -145,7 +145,7 @@ export function EnrollStudentsModal({ isOpen, onClose, courseId, onSuccess }: En
                               </div>
                             )}
                             <div className="flex-1 min-w-0">
-                              <p className="text-sm font-medium text-gray-900 truncate">
+                              <p className="text-sm font-medium text-gray-700 truncate uppercase">
                                 {student.full_name || "Sin nombre"}
                               </p>
                               <p className="text-xs text-gray-500 truncate">{student.email}</p>
@@ -186,7 +186,7 @@ export function EnrollStudentsModal({ isOpen, onClose, courseId, onSuccess }: En
                       {notEnrolledStudents.map((student) => (
                         <div
                           key={student.id}
-                          className="flex items-center justify-between p-3 bg-gray-50 border border-gray-200 rounded-lg hover:border-blue-300 transition-colors"
+                          className="flex items-center justify-between p-3 bg-blue-50 border border-blue-200 rounded-3xl hover:border-blue-500 transition-colors duration-500"
                         >
                           <div className="flex items-center gap-3 flex-1 min-w-0">
                             {student.avatar_url ? (
@@ -201,7 +201,7 @@ export function EnrollStudentsModal({ isOpen, onClose, courseId, onSuccess }: En
                               </div>
                             )}
                             <div className="flex-1 min-w-0">
-                              <p className="text-sm font-medium text-gray-900 truncate">
+                              <p className="text-sm font-medium text-gray-900 truncate uppercase">
                                 {student.full_name || "Sin nombre"}
                               </p>
                               <p className="text-xs text-gray-500 truncate">{student.email}</p>
@@ -211,7 +211,7 @@ export function EnrollStudentsModal({ isOpen, onClose, courseId, onSuccess }: En
                             onClick={() => handleEnroll(student.id)}
                             disabled={actionLoading === student.id}
                             size="sm"
-                            className="bg-blue-600 text-white hover:bg-blue-700 cursor-pointer"
+                            className="bg-blue-600 text-white hover:bg-blue-700 uppercase cursor-pointer"
                           >
                             {actionLoading === student.id ? (
                               "..."
