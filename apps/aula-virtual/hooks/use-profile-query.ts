@@ -3,25 +3,14 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { createClient } from "@/lib/supabase/client"
 import { useEffect } from "react"
-
-type UserRole = "admin" | "docente" | "estudiante"
-
-interface UserProfile {
-  id: string
-  full_name: string | null
-  avatar_url: string | null
-  role: UserRole
-  email: string
-  created_at: string
-  cargo: string | null
-}
+import type { Profile } from "@/types/database"
 
 export const profileKeys = {
   all: ["profile"] as const,
   current: () => [...profileKeys.all, "current"] as const,
 }
 
-async function fetchProfile(): Promise<UserProfile | null> {
+async function fetchProfile(): Promise<Profile | null> {
   const supabase = createClient()
 
   const { data: { user }, error: userError } = await supabase.auth.getUser()
@@ -36,14 +25,14 @@ async function fetchProfile(): Promise<UserProfile | null> {
     .eq("id", user.id)
     .single()
 
-  if (profileError) {
-    throw new Error(profileError.message)
+  if (profileError || !data) {
+    throw new Error(profileError?.message || "Error al obtener el perfil")
   }
 
   return {
     ...data,
     email: user.email || "",
-  }
+  } as Profile
 }
 
 export function useProfileQuery() {
