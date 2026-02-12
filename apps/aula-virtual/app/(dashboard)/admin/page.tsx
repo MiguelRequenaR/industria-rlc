@@ -29,7 +29,7 @@ export default async function AdminDashboardPage() {
   const quickActions = [
     { title: 'Crear Curso', icon: Plus, href: '/admin/cursos', colorIcon: 'text-blue-500', bgAction: 'bg-blue-50' },
     { title: 'Añadir Usuario', icon: Users, href: '/admin/invitaciones', colorIcon: 'text-green-500', bgAction: 'bg-green-50' },
-    { title: 'Crear Blog', icon: FileText, href: '/admin/blogs', colorIcon: 'text-yellow-500', bgAction: 'bg-yellow-50' },
+    { title: 'Crear Blog', icon: FileText, href: '/admin/blog', colorIcon: 'text-yellow-500', bgAction: 'bg-yellow-50' },
     { title: 'Ver Usuarios', icon: Users, href: '/admin/usuarios', colorIcon: 'text-red-500', bgAction: 'bg-red-50' },
   ];
 

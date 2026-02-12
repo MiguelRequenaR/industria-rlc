@@ -62,7 +62,7 @@ export function EditModuleModal({
           <DialogBody>
             <div className="space-y-4">
               <div>
-                <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="title" className="block text-sm uppercase font-medium text-gray-700 mb-1">
                   Título del Módulo <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -71,7 +71,7 @@ export function EditModuleModal({
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="Ej: Introducción a la Electricidad"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="w-full px-3 py-2 border border-secondary rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary"
                   disabled={updateModuleMutation.isPending}
                   autoFocus
                 />
@@ -85,12 +85,14 @@ export function EditModuleModal({
               variant="outline"
               onClick={handleClose}
               disabled={updateModuleMutation.isPending}
+              className="uppercase cursor-pointer"
             >
               Cancelar
             </Button>
             <Button
               type="submit"
               disabled={updateModuleMutation.isPending || !title.trim()}
+              className="uppercase cursor-pointer"
             >
               {updateModuleMutation.isPending && (
                 <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>

@@ -13,7 +13,7 @@ export function CourseStudents({ courseId }: CourseStudentsProps) {
   if (isLoading) {
     return (
       <div className="w-full">
-        <div className="bg-white rounded-lg border border-gray-200 p-6">
+        <div className="bg-secondary/20 rounded-3xl p-6">
           <div className="text-center py-8">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-secondary mx-auto"></div>
             <p className="text-gray-700 uppercase mt-4">Cargando estudiantes...</p>
@@ -26,15 +26,15 @@ export function CourseStudents({ courseId }: CourseStudentsProps) {
   if (!students || students.length === 0) {
     return (
       <div className="w-full">
-        <div className="bg-white rounded-lg border border-gray-200 p-12">
+        <div className="bg-secondary/20 rounded-3xl p-12">
           <div className="text-center">
-            <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-4">
-              <User className="h-8 w-8 text-gray-400" />
+            <div className="w-16 h-16 flex items-center bg-secondary/20 rounded-full justify-center mx-auto mb-4">
+              <User className="h-8 w-8 text-gray-700" />
             </div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">
+            <h3 className="text-lg font-semibold text-gray-700 uppercase mb-2">
               No hay estudiantes inscritos
             </h3>
-            <p className="text-gray-500">
+            <p className="text-gray-700 uppercase">
               Este curso aún no tiene estudiantes inscritos. Usa el botón "Inscribir Estudiantes" para agregar estudiantes.
             </p>
           </div>

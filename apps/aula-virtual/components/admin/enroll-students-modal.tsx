@@ -115,7 +115,7 @@ export function EnrollStudentsModal({ isOpen, onClose, courseId, onSuccess }: En
             {loading ? (
               <div className="text-center py-8">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-secondary mx-auto"></div>
-                <p className="text-gray-500 mt-4">Cargando estudiantes...</p>
+                <p className="text-gray-700 uppercase mt-4">Cargando estudiantes...</p>
               </div>
             ) : (
               <div className="space-y-6">

@@ -64,7 +64,7 @@ export function AddLessonModal({
           <DialogHeader onClose={handleClose}>
             <div>
               <DialogTitle>Agregar Nueva Lección</DialogTitle>
-              <p className="text-sm text-gray-500 mt-1">
+              <p className="text-sm text-gray-700 uppercase mt-1">
                 Módulo: {moduleName}
               </p>
             </div>
@@ -73,7 +73,7 @@ export function AddLessonModal({
           <DialogBody>
             <div className="space-y-4">
               <div>
-                <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="title" className="block text-sm uppercase font-medium text-gray-700 mb-1">
                   Título de la Lección <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -89,7 +89,7 @@ export function AddLessonModal({
               </div>
 
               <div>
-                <label htmlFor="meetingLink" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="meetingLink" className="block text-sm uppercase font-medium text-gray-700 mb-1">
                   Enlace de Reunión (Opcional)
                 </label>
                 <input
@@ -107,7 +107,7 @@ export function AddLessonModal({
               </div>
 
               <div>
-                <label htmlFor="pdfUrl" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="pdfUrl" className="block text-sm uppercase font-medium text-gray-700 mb-1">
                   URL del PDF (Opcional)
                 </label>
                 <input
@@ -119,7 +119,7 @@ export function AddLessonModal({
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                   disabled={createLessonMutation.isPending}
                 />
-                <p className="text-xs text-gray-500 mt-1">
+                <p className="text-xs text-gray-700 uppercase mt-1">
                   Enlace al material de lectura en PDF
                 </p>
               </div>

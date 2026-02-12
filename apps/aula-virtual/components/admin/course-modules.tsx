@@ -148,8 +148,8 @@ export function CourseModules({ modules, courseId, canEdit = false }: CourseModu
       </div>
 
       {modules.length === 0 ? (
-        <div className="bg-white rounded-lg border border-gray-200 p-12 text-center">
-          <div className="w-16 h-16 rounded-full bg-gray-100 mx-auto mb-4 flex items-center justify-center">
+        <div className="bg-secondary/20 rounded-3xl p-12 text-center">
+          <div className="w-16 h-16 flex items-center bg-secondary/20 rounded-full mx-auto mb-4 justify-center">
             <FileText className="w-8 h-8 text-gray-400" />
           </div>
           <h3 className="text-lg font-semibold text-gray-700 uppercase mb-2">No hay módulos todavía</h3>
@@ -178,9 +178,9 @@ export function CourseModules({ modules, courseId, canEdit = false }: CourseModu
             const isExpanded = expandedModules.has(module.id)
 
             return (
-              <div key={module.id} className="bg-white rounded-lg border border-gray-200">
+              <div key={module.id} className="bg-secondary/20 rounded-3xl">
                 {/* Module Header */}
-                <div className={`flex items-center gap-3 p-4 hover:bg-gray-50 transition-colors ${isExpanded ? 'rounded-t-lg' : 'rounded-lg'}`}>
+                <div className={`flex items-center gap-3 p-4 transition-colors ${isExpanded ? 'rounded-t-3xl' : 'rounded-3xl'}`}>
                   <button
                     onClick={() => toggleModule(module.id)}
                     className="flex items-center gap-3 flex-1"
@@ -190,8 +190,8 @@ export function CourseModules({ modules, courseId, canEdit = false }: CourseModu
                     </div>
 
                     <div className="flex-1 text-left">
-                      <h3 className="font-semibold text-primary">{module.title}</h3>
-                      <p className="text-sm text-primary">
+                      <h3 className="font-semibold text-gray-700 uppercase">{module.title}</h3>
+                      <p className="text-sm text-gray-700 uppercase">
                         {module.lessons.length} {module.lessons.length === 1 ? "lección" : "lecciones"}
                       </p>
                     </div>
@@ -222,7 +222,7 @@ export function CourseModules({ modules, courseId, canEdit = false }: CourseModu
                               e.stopPropagation()
                               handleEditModule(module.id, module.title)
                             }}
-                            className="w-full flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                            className="w-full flex items-center gap-2 px-4 py-2 text-sm text-gray-700 uppercase hover:bg-secondary/20 rounded-lg transition-colors"
                           >
                             <Pencil className="w-4 h-4" />
                             Editar
@@ -232,7 +232,7 @@ export function CourseModules({ modules, courseId, canEdit = false }: CourseModu
                               e.stopPropagation()
                               handleDeleteModule(module.id)
                             }}
-                            className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
+                            className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 uppercase hover:bg-red-50 rounded-lg transition-colors"
                           >
                             <Trash2 className="w-4 h-4" />
                             Eliminar
@@ -252,7 +252,7 @@ export function CourseModules({ modules, courseId, canEdit = false }: CourseModu
                         {canEdit && (
                           <button
                             onClick={() => handleAddLesson(module.id, module.title)}
-                            className="px-3 py-1.5 bg-primary text-white rounded text-xs font-medium hover:bg-secondary transition-all duration-500 cursor-pointer"
+                            className="px-3 py-1.5 text-gray-700 uppercase hover:bg-secondary/20 rounded-lg transition-colors text-sm font-medium border border-gray-700 cursor-pointer"
                           >
                             Agregar Lección
                           </button>
@@ -274,10 +274,10 @@ export function CourseModules({ modules, courseId, canEdit = false }: CourseModu
                             </div>
 
                             <div className="flex-1">
-                              <h4 className="font-medium text-gray-900">{lesson.title}</h4>
+                              <h4 className="font-medium text-gray-700 uppercase">{lesson.title}</h4>
                               <div className="flex items-center gap-2 mt-1">
                                 {lesson.meeting_link && (
-                                  <span className="text-xs text-blue-600 bg-blue-50 px-2 py-0.5 rounded">
+                                  <span className="text-xs text-blue-600 uppercase bg-blue-50 px-2 py-0.5 rounded">
                                     Meet Link
                                   </span>
                                 )}
@@ -318,7 +318,7 @@ export function CourseModules({ modules, courseId, canEdit = false }: CourseModu
                                           isVisible: lesson.is_visible,
                                         })
                                       }}
-                                      className="w-full flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                                      className="w-full flex items-center gap-2 px-4 py-2 text-sm text-gray-700 uppercase hover:bg-secondary/20 rounded-lg transition-colors"
                                     >
                                       <Pencil className="w-4 h-4" />
                                       Editar
@@ -328,7 +328,7 @@ export function CourseModules({ modules, courseId, canEdit = false }: CourseModu
                                         e.stopPropagation()
                                         handleDeleteLesson(lesson.id)
                                       }}
-                                      className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
+                                      className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 uppercase hover:bg-red-50 rounded-lg transition-colors"
                                     >
                                       <Trash2 className="w-4 h-4" />
                                       Eliminar
@@ -344,7 +344,7 @@ export function CourseModules({ modules, courseId, canEdit = false }: CourseModu
                           <div className="p-3">
                             <button
                               onClick={() => handleAddLesson(module.id, module.title)}
-                              className="w-full flex items-center justify-center gap-2 py-2 text-primary hover:bg-blue-50 rounded-lg transition-colors text-sm font-medium"
+                              className="w-fit mx-auto flex items-center justify-center gap-2 py-2 px-4 text-gray-700 uppercase hover:bg-secondary/20 rounded-lg transition-colors text-sm font-medium border border-gray-700 cursor-pointer"
                             >
                               <Plus className="w-4 h-4" />
                               Agregar Lección

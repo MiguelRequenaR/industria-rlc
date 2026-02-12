@@ -100,7 +100,7 @@ export function CourseDetails({ course, onEditClick, onAssignInstructorClick, is
             {isAdmin && onAssignInstructorClick && (
               <button
                 onClick={onAssignInstructorClick}
-                className="text-sm font-medium text-secondary transition-all duration-500 cursor-pointer uppercase hover:bg-secondary/10 rounded-lg px-4 py-2"
+                className="text-sm font-medium text-gray-700 uppercase border border-gray-700 rounded-lg px-4 py-2 cursor-pointer"
               >
                 Cambiar Instructor
               </button>

@@ -1,13 +1,25 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { CheckCircle2, FileText, Video, ExternalLink, Info } from "lucide-react"
+import { CheckCircle2, FileText, Video, ExternalLink, Info, Download } from "lucide-react"
 import { LessonWithProgressStatus } from "@/actions/student-actions"
 
 interface LessonContentProps {
   lesson: LessonWithProgressStatus
   onMarkCompleted: () => void
   isMarkingCompleted: boolean
+}
+
+function getDriveFileId(url: string): string | null {
+  const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/)
+  return match ? match[1] : null
+}
+
+function getDriveDownloadUrl(pdfUrl: string): string {
+  const fileId = getDriveFileId(pdfUrl)
+  return fileId
+    ? `https://drive.google.com/uc?export=download&id=${fileId}`
+    : pdfUrl
 }
 
 export function LessonContent({ lesson, onMarkCompleted, isMarkingCompleted }: LessonContentProps) {
@@ -73,6 +85,15 @@ export function LessonContent({ lesson, onMarkCompleted, isMarkingCompleted }: L
               >
                 <ExternalLink className="h-5 w-5" />
                 Ver PDF
+              </a>
+              <a
+                href={getDriveDownloadUrl(lesson.pdf_url)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-700 transition-colors uppercase"
+              >
+                <Download className="h-5 w-5" />
+                Descargar PDF
               </a>
             </div>
           </div>
