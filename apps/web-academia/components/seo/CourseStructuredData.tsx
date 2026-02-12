@@ -28,8 +28,7 @@ export default function CourseStructuredData({ course }: CourseStructuredDataPro
       "duration": `PT${course.duration}`,
       "instructor": {
         "@type": "Person",
-        "name": course.instructor.name,
-        "description": course.instructor.bio
+        "name": course.instructor.name
       }
     },
     "educationalLevel": course.badges[0]?.level || "Intermediate",

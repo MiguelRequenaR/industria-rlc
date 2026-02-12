@@ -19,8 +19,8 @@ export interface Course {
   price: number;
   instructor: {
     name: string;
-    bio: string;
-    experience: string;
+    cargo?: string;
+    avatar?: string;
   };
   syllabus: {
     id: string;

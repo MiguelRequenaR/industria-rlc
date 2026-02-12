@@ -13,6 +13,7 @@ interface UserProfile {
   role: UserRole
   email: string
   created_at: string
+  cargo: string | null
 }
 
 export const profileKeys = {

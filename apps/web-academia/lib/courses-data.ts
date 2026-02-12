@@ -32,7 +32,7 @@ function mapDbCourseToCourse(row: DbCourse): Course {
     objectives: [],
     requirements: [],
     price: 0,
-    instructor: { name: "-", bio: "", experience: "" },
+    instructor: { name: "-", cargo: undefined },
     syllabus: [],
     certificate: true,
     includes: [],
@@ -42,7 +42,6 @@ function mapDbCourseToCourse(row: DbCourse): Course {
 function mapDbCourseToCourseWithDetails(row: any): Course {
   const img = row.image_url || PLACEHOLDER_IMAGE;
   
-  // Mapear módulos con lecciones
   const syllabus = (row.modules || [])
     .sort((a: any, b: any) => a.order_index - b.order_index)
     .map((module: any) => {
@@ -58,14 +57,13 @@ function mapDbCourseToCourseWithDetails(row: any): Course {
       };
     });
 
-  // Mapear instructor
   const instructor = row.teacher
     ? {
         name: row.teacher.full_name || "Por asignar",
-        bio: "Instructor certificado con amplia experiencia en el área.",
-        experience: "Profesional especializado",
+        cargo: row.teacher.cargo || undefined,
+        avatar: row.teacher.avatar_url || undefined,
       }
-    : { name: "Por asignar", bio: "", experience: "" };
+    : { name: "Por asignar", cargo: undefined };
 
   return {
     id: row.id,
@@ -95,7 +93,7 @@ export async function getCoursesFromDb(): Promise<Course[]> {
     .from("courses")
     .select("*")
     .eq("is_published", true)
-    .is("deleted_at", null)  // ← Solo cursos no archivados
+    .is("deleted_at", null)
     .order("created_at", { ascending: false });
 
   if (error) {
@@ -116,7 +114,8 @@ export async function getCourseBySlug(slug: string): Promise<Course | null> {
       teacher:profiles!courses_teacher_id_fkey(
         id,
         full_name,
-        avatar_url
+        avatar_url,
+        cargo
       ),
       modules(
         id,
@@ -134,7 +133,7 @@ export async function getCourseBySlug(slug: string): Promise<Course | null> {
     `)
     .eq("slug", slug)
     .eq("is_published", true)
-    .is("deleted_at", null)  // ← Solo cursos no archivados
+    .is("deleted_at", null)
     .single();
 
   if (error || !data) {
@@ -152,7 +151,7 @@ export async function getAllCourseSlugs(): Promise<string[]> {
     .from("courses")
     .select("slug")
     .eq("is_published", true)
-    .is("deleted_at", null);  // ← Solo cursos no archivados
+    .is("deleted_at", null);
 
   if (error) {
     console.error("Error fetching course slugs:", error);
@@ -162,9 +161,6 @@ export async function getAllCourseSlugs(): Promise<string[]> {
   return (data ?? []).map((r: { slug: string }) => r.slug);
 }
 
-/**
- * Obtiene cursos relacionados (excluye el curso actual).
- */
 export async function getRelatedCourses(
   currentSlug: string,
   limit: number = 3

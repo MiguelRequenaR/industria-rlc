@@ -8,6 +8,7 @@ import { toast } from "react-toastify"
 interface UpdateProfileData {
   full_name: string | null
   avatar_url: string | null
+  cargo: string | null
 }
 
 export function useProfileMutation() {

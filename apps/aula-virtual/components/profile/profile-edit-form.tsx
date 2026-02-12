@@ -1,18 +1,10 @@
 "use client"
 
 import { useState } from "react"
-import { User, Loader2, X, Check } from "lucide-react"
+import { Loader2, X, Check } from "lucide-react"
 import { useProfileMutation } from "@/hooks/use-profile-mutation"
 import AvatarUpload from "./AvatarUpload"
-
-interface Profile {
-  id: string
-  full_name: string | null
-  avatar_url: string | null
-  role: "admin" | "docente" | "estudiante"
-  email?: string
-  created_at: string
-}
+import { Profile } from "@/types/database"
 
 interface ProfileEditFormProps {
   profile: Profile
@@ -31,6 +23,7 @@ export function ProfileEditForm({
   const [formData, setFormData] = useState({
     full_name: profile.full_name || "",
     avatar_url: profile.avatar_url || "",
+    cargo: profile.cargo || "",
   })
 
   const handleUploadComplete = (url: string) => {
@@ -48,6 +41,8 @@ export function ProfileEditForm({
         data: {
           full_name: formData.full_name || null,
           avatar_url: formData.avatar_url || null,
+          cargo:
+            profile.role === "admin" || profile.role === "docente" ? formData.cargo || null : null,
         },
       },
       {
@@ -115,6 +110,27 @@ export function ProfileEditForm({
           />
         </div>
 
+        {(profile.role === "admin" || profile.role === "docente") && (
+          <div className="mb-6">
+            <label
+              htmlFor="cargo"
+              className="block text-sm font-medium text-secondary mb-2 uppercase"
+            >
+              Cargo
+            </label>
+            <input
+              type="text"
+              id="cargo"
+              value={formData.cargo}
+              onChange={(e) =>
+                setFormData({ ...formData, cargo: e.target.value })
+              }
+              className="w-full px-4 py-2 border border-secondary rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary"
+              placeholder="Ingresa tu cargo"
+            />
+          </div>
+        )}
+
         {(localError || mutation.isError) && (
           <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-start gap-3">
             <X className="w-5 h-5 text-red-600 shrink-0 mt-0.5" />
@@ -133,7 +149,7 @@ export function ProfileEditForm({
           </div>
         )}
 
-        <div className="flex gap-3 justify-end pt-4 border-t border-gray-200">
+        <div className="flex flex-col md:flex-row gap-3 justify-end pt-4 border-t border-gray-200">
           <button
             type="button"
             onClick={onCancel}
@@ -145,7 +161,7 @@ export function ProfileEditForm({
           <button
             type="submit"
             disabled={mutation.isPending}
-            className="flex items-center gap-2 px-6 py-2 bg-primary text-white rounded-lg hover:bg-secondary transition-colors duration-500 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer uppercase"
+            className="flex items-center gap-2 px-6 py-2 bg-primary text-white rounded-lg hover:bg-secondary transition-colors duration-500 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer uppercase justify-center w-full md:w-auto text-center"
           >
             {mutation.isPending ? (
               <>

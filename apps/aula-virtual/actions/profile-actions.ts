@@ -6,6 +6,7 @@ import { revalidatePath } from "next/cache"
 interface UpdateProfileData {
   full_name: string | null
   avatar_url: string | null
+  cargo: string | null
 }
 
 export async function updateProfileAction(
@@ -44,6 +45,7 @@ export async function updateProfileAction(
       .update({
         full_name: data.full_name,
         avatar_url: data.avatar_url,
+        cargo: data.cargo,
       })
       .eq("id", profileId)
 

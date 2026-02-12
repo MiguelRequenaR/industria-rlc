@@ -16,6 +16,7 @@ export interface Profile {
   deleted_at: string | null
   is_active: boolean
   is_owner: boolean
+  cargo: string | null
 }
 
 export interface Course {

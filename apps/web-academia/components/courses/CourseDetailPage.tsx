@@ -2,7 +2,7 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import { Check, Clock, Signal, Award, BookOpen, Users, Target, FileCheck, GraduationCap, ArrowLeft, Zap, Info, ArrowRight } from "lucide-react"
+import { Clock, Award, Users, GraduationCap, ArrowLeft, Zap, Info, ArrowRight } from "lucide-react"
 import type { Course } from "@/lib/types"
 
 interface CourseDetailPageProps {
@@ -34,7 +34,7 @@ export default function CourseDetailPage({ course, relatedCourses }: CourseDetai
                 {course.detailedDescription}
               </p>
               <div className="pt-4">
-                <Link 
+                <Link
                   href={`/contacto`}
                   className="mt-6 inline-flex items-center gap-2 bg-secondary hover:bg-secondary/90 transition-colors duration-300 text-primary rounded-xl px-8 py-4 font-bold text-lg"
                 >
@@ -44,10 +44,10 @@ export default function CourseDetailPage({ course, relatedCourses }: CourseDetai
               </div>
             </div>
             <div className="relative" data-aos="fade-left">
-              <Image 
-                src={course.imageDetail} 
-                alt={course.title} 
-                width={600} 
+              <Image
+                src={course.imageDetail}
+                alt={course.title}
+                width={600}
                 height={400}
                 className="rounded-2xl shadow-2xl"
               />
@@ -81,8 +81,8 @@ export default function CourseDetailPage({ course, relatedCourses }: CourseDetai
           </div>
           <div className="space-y-6">
             {course.syllabus.map((module, index) => (
-              <div 
-                key={module.id} 
+              <div
+                key={module.id}
                 className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow duration-300"
                 data-aos="fade-up"
                 data-aos-delay={index * 50}
@@ -120,19 +120,30 @@ export default function CourseDetailPage({ course, relatedCourses }: CourseDetai
         <div className="bg-linear-to-br from-primary to-primary/90 rounded-3xl p-10 text-white" data-aos="fade-up">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
             <div className="md:col-span-1">
-              <div className="bg-secondary rounded-full w-40 h-40 mx-auto flex items-center justify-center">
-                <Users className="w-20 h-20 text-primary" />
+              <div className="bg-secondary rounded-full w-40 h-40 mx-auto flex items-center justify-center overflow-hidden">
+                {course.instructor.avatar ? (
+                  <Image
+                    src={course.instructor.avatar}
+                    alt={course.instructor.name}
+                    width={160}
+                    height={160}
+                    className="w-40 h-40 object-cover"
+                  />
+                ) : (
+                  <Users className="w-20 h-20 text-primary" />
+                )}
               </div>
             </div>
             <div className="md:col-span-2 space-y-4">
               <div>
                 <span className="text-secondary uppercase font-bold text-sm">Tu Instructor</span>
                 <h2 className="text-3xl font-bold mt-2">{course.instructor.name}</h2>
-                <p className="text-white/80 mt-1">{course.instructor.experience}</p>
+                {course.instructor.cargo && (
+                  <p className="text-white/80 mt-1 text-xl">
+                    {course.instructor.cargo}
+                  </p>
+                )}
               </div>
-              <p className="text-white/90 text-lg">
-                {course.instructor.bio}
-              </p>
             </div>
           </div>
         </div>
@@ -178,14 +189,14 @@ export default function CourseDetailPage({ course, relatedCourses }: CourseDetai
             Únete a cientos de profesionales que han potenciado su carrera con RLC Academy 360
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Link 
+            <Link
               href={`/contacto`}
               className="flex items-center gap-2 bg-secondary hover:bg-secondary/90 transition-colors duration-300 text-primary rounded-xl px-8 py-4 font-bold text-lg"
             >
               <Users className="w-5 h-5" />
               Inscribirse
             </Link>
-            <Link 
+            <Link
               href="/contacto"
               className="flex items-center gap-2 bg-white/10 hover:bg-white/20 backdrop-blur-sm transition-colors duration-300 text-white rounded-xl px-8 py-4 font-bold text-lg border-2 border-white/30"
             >
