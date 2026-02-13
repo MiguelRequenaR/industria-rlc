@@ -137,7 +137,7 @@ export function CertificateDocument({
             {" "}el:
           </Text>
 
-          <Text style={styles.courseName}>{courseName}</Text>
+          <Text style={styles.courseName}>Programa de Capacitación de {courseName}</Text>
 
           <Text style={styles.periodText}>
             Desarrollado del {periodStartDate} al {periodEndDate},{"\n"}

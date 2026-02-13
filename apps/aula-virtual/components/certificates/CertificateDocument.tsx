@@ -150,7 +150,7 @@ export function CertificateDocument({
           </Text>
 
           <Text style={styles.courseName}>
-            {courseName}
+            Programa de Capacitación de {courseName}
           </Text>
 
           <Text style={styles.periodText}>
