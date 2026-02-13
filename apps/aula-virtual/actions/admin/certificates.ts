@@ -102,11 +102,25 @@ export async function getLatestCertificates(
     return []
   }
 
-  const normalized = certificates.map((c) => ({
-    ...c,
-    student: Array.isArray(c.student) ? c.student[0] ?? null : c.student,
-    course: Array.isArray(c.course) ? c.course[0] ?? null : c.course,
-  })) as CertificateForAdmin[]
+  const studentIds = Array.from(new Set(certificates.map((c) => c.student_id)))
+  const { data: enrollments } = await supabase
+    .from("enrollments")
+    .select("student_id, course_id, enrolled_at")
+    .in("student_id", studentIds)
+
+  const enrollmentByStudentAndCourse = new Map(
+    (enrollments ?? []).map((e) => [`${e.student_id}-${e.course_id}`, e.enrolled_at])
+  )
+
+  const normalized = certificates.map((c) => {
+    const enrollmentDate = enrollmentByStudentAndCourse.get(`${c.student_id}-${c.course_id}`)
+    return {
+      ...c,
+      student: Array.isArray(c.student) ? c.student[0] ?? null : c.student,
+      course: Array.isArray(c.course) ? c.course[0] ?? null : c.course,
+      enrollmentDate: enrollmentDate ?? undefined,
+    }
+  }) as CertificateForAdmin[]
 
   return normalized
 }

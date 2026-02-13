@@ -27,6 +27,7 @@ export default function ValidateCertificate() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [certificate, setCertificate] = useState<CertificateWithDetails | null>(null)
+  const [enrollmentDate, setEnrollmentDate] = useState<string | null>(null)
   const [generatedPdfUrl, setGeneratedPdfUrl] = useState<string | null>(null)
   const [pdfGenerating, setPdfGenerating] = useState(false)
   const blobUrlRef = useRef<string | null>(null)
@@ -35,6 +36,7 @@ export default function ValidateCertificate() {
     e.preventDefault()
     setError(null)
     setCertificate(null)
+    setEnrollmentDate(null)
     if (blobUrlRef.current) {
       URL.revokeObjectURL(blobUrlRef.current)
       blobUrlRef.current = null
@@ -45,6 +47,7 @@ export default function ValidateCertificate() {
       const result = await validateCertificateByCode(code)
       if (result.success) {
         setCertificate(result.certificate)
+        setEnrollmentDate(result.enrollmentDate ?? null)
       } else {
         setError(result.error)
       }
@@ -64,15 +67,23 @@ export default function ValidateCertificate() {
     setPdfGenerating(true)
     setGeneratedPdfUrl(null)
     const issueDateFormatted = formatIssueDateForPdf(certificate.issued_at)
+    const periodStartDate = enrollmentDate
+      ? formatIssueDateForPdf(enrollmentDate)
+      : issueDateFormatted
     const studentName = certificate.student.full_name ?? "—"
     const courseName = certificate.course.title
+    const durationHours = certificate.course.duration_hours ?? 0
+    const note = certificate.final_grade ?? 0
     pdf(
       <CertificateDocument
         studentName={studentName}
         courseName={courseName}
         issueDate={issueDateFormatted}
         certificateCode={certificate.certificate_code}
-        durationWeeks={1}
+        durationHours={durationHours}
+        note={note}
+        periodStartDate={periodStartDate}
+        periodEndDate={issueDateFormatted}
       />
     )
       .toBlob()
@@ -96,7 +107,7 @@ export default function ValidateCertificate() {
         blobUrlRef.current = null
       }
     }
-  }, [certificate])
+  }, [certificate, enrollmentDate])
 
   function handleDownloadGeneratedPdf() {
     if (!generatedPdfUrl || !certificate) return

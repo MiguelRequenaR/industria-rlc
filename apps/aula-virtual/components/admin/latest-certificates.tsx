@@ -38,6 +38,13 @@ export function LatestCertificates({ certificates }: LatestCertificatesProps) {
         month: "long",
         year: "numeric",
       })
+      const periodStartDate = cert.enrollmentDate
+        ? new Date(cert.enrollmentDate).toLocaleDateString("es-ES", {
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+          })
+        : issueDate
       const durationHours = cert.course?.duration_hours ?? 0
       const courseName = cert.course?.title ?? "Curso"
       const studentName = cert.student?.full_name || "Estudiante"
@@ -49,6 +56,9 @@ export function LatestCertificates({ certificates }: LatestCertificatesProps) {
           issueDate={issueDate}
           certificateCode={cert.certificate_code}
           durationHours={durationHours}
+          note={cert.final_grade ?? 0}
+          periodStartDate={periodStartDate}
+          periodEndDate={issueDate}
         />
       ).toBlob()
 

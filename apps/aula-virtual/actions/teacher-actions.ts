@@ -275,6 +275,9 @@ export async function createGrade(
     return { success: false, error: error.message }
   }
 
+  const { updateCertificateFinalGrade } = await import("@/actions/student-actions")
+  await updateCertificateFinalGrade(courseId, studentId)
+
   return { success: true }
 }
 
@@ -297,7 +300,7 @@ export async function updateGrade(
   // Obtener la calificación para verificar permisos
   const { data: grade } = await supabase
     .from("grades")
-    .select("course_id")
+    .select("course_id, student_id")
     .eq("id", gradeId)
     .single()
 
@@ -326,6 +329,9 @@ export async function updateGrade(
     return { success: false, error: error.message }
   }
 
+  const { updateCertificateFinalGrade } = await import("@/actions/student-actions")
+  await updateCertificateFinalGrade(grade.course_id, grade.student_id)
+
   return { success: true }
 }
 
@@ -341,7 +347,7 @@ export async function deleteGrade(gradeId: string): Promise<{ success: boolean; 
   // Obtener la calificación para verificar permisos
   const { data: grade } = await supabase
     .from("grades")
-    .select("course_id")
+    .select("course_id, student_id")
     .eq("id", gradeId)
     .single()
 
@@ -369,6 +375,9 @@ export async function deleteGrade(gradeId: string): Promise<{ success: boolean; 
     console.error("Error deleting grade:", error)
     return { success: false, error: error.message }
   }
+
+  const { updateCertificateFinalGrade } = await import("@/actions/student-actions")
+  await updateCertificateFinalGrade(grade.course_id, grade.student_id)
 
   return { success: true }
 }

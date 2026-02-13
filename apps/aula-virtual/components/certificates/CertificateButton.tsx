@@ -80,10 +80,16 @@ export function CertificateButton({ courseId, courseName, studentName }: Certifi
         year: 'numeric'
       })
 
-      // Calcular duración en semanas
+      const periodStartDate = enrollDate
+        ? new Date(enrollDate).toLocaleDateString('es-ES', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric'
+          })
+        : issueDate
+
       const durationHours = cert.course?.duration_hours ?? 0
 
-      // Generar el PDF
       const blob = await pdf(
         <CertificateDocument
           studentName={studentName}
@@ -91,6 +97,9 @@ export function CertificateButton({ courseId, courseName, studentName }: Certifi
           issueDate={issueDate}
           certificateCode={cert.certificate_code}
           durationHours={durationHours}
+          note={cert.final_grade ?? 0}
+          periodStartDate={periodStartDate}
+          periodEndDate={issueDate}
         />
       ).toBlob()
 

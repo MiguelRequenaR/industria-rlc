@@ -1,12 +1,6 @@
 "use client"
 
 import { Document, Page, Text, View, StyleSheet, Image } from '@react-pdf/renderer'
-import { Font } from '@react-pdf/renderer'
-
-Font.register({
-  family: 'Eyesome Script',
-  src: '/fonts/Eyesome Script.otf',
-})
 
 interface CertificateDocumentProps {
   studentName: string
@@ -14,11 +8,23 @@ interface CertificateDocumentProps {
   issueDate: string
   certificateCode: string
   durationHours: number
+  note: number
+  periodStartDate: string
+  periodEndDate: string
 }
 
-// Dimensiones A4 Landscape estándar
 const PAGE_WIDTH = 842
 const PAGE_HEIGHT = 595
+
+/** Convierte un número entero (0-20) a su representación en texto en español */
+function notaEnTexto(valor: number): string {
+  const n = Math.round(valor)
+  const unidades = [
+    'cero', 'uno', 'dos', 'tres', 'cuatro', 'cinco', 'seis', 'siete', 'ocho', 'nueve',
+    'diez', 'once', 'doce', 'trece', 'catorce', 'quince', 'dieciséis', 'diecisiete', 'dieciocho', 'diecinueve', 'veinte'
+  ]
+  return unidades[n] ?? String(n)
+}
 
 const styles = StyleSheet.create({
   page: {
@@ -45,47 +51,59 @@ const styles = StyleSheet.create({
   },
   studentName: {
     position: 'absolute',
-    top: 225,
-    left: 0,
+    top: 230,
+    left: 50,
     right: 0,
     textAlign: 'center',
-    fontSize: 50,
-    fontFamily: 'Eyesome Script',
+    fontSize: 19,
     color: '#000000',
+    fontWeight: 'bold',
+  },
+  noteText: {
+    position: 'absolute',
+    top: 270,
+    left: 50,
+    right: 40,
+    textAlign: 'center',
+    fontSize: 14,
+    color: '#1a1a1a',
+  },
+  noteTextBold: {
+    fontWeight: 'bold',
   },
   courseName: {
     position: 'absolute',
-    top: 350,
-    left: 40,
+    top: 305,
+    left: 110,
     right: 40,
     textAlign: 'center',
-    fontSize: 24,
-    fontFamily: 'Eyesome Script',
+    fontSize: 18,
     color: '#1a1a1a',
+    fontWeight: 'bold',
   },
-  durationText: {
+
+  periodText: {
     position: 'absolute',
-    top: 400,
-    left: 0,
-    right: 0,
+    top: 350,
+    left: 110,
+    right: 40,
     textAlign: 'center',
     fontSize: 14,
     color: '#1a1a1a',
   },
   issueDate: {
     position: 'absolute',
-    top: 550,
-    left: 0,
+    top: 405,
+    left: 80,
     right: 0,
     textAlign: 'center',
     fontSize: 12,
     fontFamily: 'Helvetica',
-    textTransform: 'uppercase',
   },
   certificateCode: {
     position: 'absolute',
-    top: 526,
-    left: 486,
+    top: 558,
+    left: 525,
     width: 200,
     textAlign: 'center',
     fontSize: 8,
@@ -99,6 +117,9 @@ export function CertificateDocument({
   issueDate,
   certificateCode,
   durationHours,
+  note,
+  periodStartDate,
+  periodEndDate,
 }: CertificateDocumentProps) {
   
   const durationText =
@@ -122,22 +143,28 @@ export function CertificateDocument({
             {studentName}
           </Text>
 
+          <Text style={styles.noteText}>
+            Por haber participado y culminado satisfactoriamente, con una nota de{' '}
+            <Text style={styles.noteTextBold}>{Math.round(note)} ({notaEnTexto(note)})</Text>
+            {' '}el:
+          </Text>
+
           <Text style={styles.courseName}>
             {courseName}
           </Text>
 
-          <Text style={styles.durationText}>
+          <Text style={styles.periodText}>
+            Desarrollado del {periodStartDate} al {periodEndDate},{'\n'}
             {durationText}
           </Text>
 
           <Text style={styles.issueDate}>
-            {issueDate}
+            Lima, {issueDate}
           </Text>
 
           <Text style={styles.certificateCode}>
-            ID: {certificateCode}
+            {certificateCode}
           </Text>
-
         </View>
       </Page>
     </Document>

@@ -546,7 +546,7 @@ export async function generateCertificate(courseId: string): Promise<{
       certificate_code: certificateCode,
       completion_percentage: eligibility.completionPercentage,
       final_grade: eligibility.finalGrade,
-      pdf_url: null // Se puede generar y subir después si quieres
+      pdf_url: null 
     })
     .select(`
       *,
@@ -567,13 +567,37 @@ export async function generateCertificate(courseId: string): Promise<{
   }
 }
 
+export async function updateCertificateFinalGrade(
+  courseId: string,
+  studentId: string
+): Promise<void> {
+  const supabase = await createClient()
+
+  const { data: grades } = await supabase
+    .from("grades")
+    .select("score")
+    .eq("student_id", studentId)
+    .eq("course_id", courseId)
+
+  let finalGrade = 0
+  if (grades && grades.length > 0) {
+    const sum = grades.reduce((acc, g) => acc + (g.score ?? 0), 0)
+    finalGrade = parseFloat((sum / grades.length).toFixed(2))
+  }
+
+  await supabase
+    .from("certificates")
+    .update({ final_grade: finalGrade })
+    .eq("student_id", studentId)
+    .eq("course_id", courseId)
+}
+
 export async function getStudentCertificate(courseId: string): Promise<{
   certificate: CertificateWithDetails | null
   enrollmentDate?: string
 }> {
   const supabase = await createClient()
 
-  // Verificar autenticación
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) {
     return { certificate: null }
@@ -594,7 +618,6 @@ export async function getStudentCertificate(courseId: string): Promise<{
     return { certificate: null }
   }
 
-  // Obtener fecha de inscripción
   const { data: enrollment } = await supabase
     .from("enrollments")
     .select("enrolled_at")

@@ -111,6 +111,13 @@ export function UsersTable({ users, currentUserIsOwner = false }: UsersTableProp
         month: "long",
         year: "numeric",
       })
+      const periodStartDate = cert.enrollmentDate
+        ? new Date(cert.enrollmentDate).toLocaleDateString("es-ES", {
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+          })
+        : issueDate
       const durationHours = cert.course?.duration_hours ?? 0
       const courseName = cert.course?.title ?? "Curso"
       const blob = await pdf(
@@ -120,6 +127,9 @@ export function UsersTable({ users, currentUserIsOwner = false }: UsersTableProp
           issueDate={issueDate}
           certificateCode={cert.certificate_code}
           durationHours={durationHours}
+          note={cert.final_grade ?? 0}
+          periodStartDate={periodStartDate}
+          periodEndDate={issueDate}
         />
       ).toBlob()
       const url = URL.createObjectURL(blob)
@@ -537,7 +547,7 @@ export function UsersTable({ users, currentUserIsOwner = false }: UsersTableProp
                         <p className="text-sm font-medium text-secondary uppercase">Certificados</p>
                       </div>
                       {loadingCertificates ? (
-                        <div className="flex items-center gap-2 py-6 text-gray-500">
+                        <div className="flex items-center gap-2 py-6 text-gray-700 uppercase">
                           <Loader2 className="h-5 w-5 animate-spin" />
                           <span>Cargando certificados...</span>
                         </div>

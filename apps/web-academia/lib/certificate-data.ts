@@ -1,10 +1,10 @@
 "use server"
 
 import type { CertificateWithDetails } from "@/types/database"
-import { createClient } from "./supabase/server"
+import { createClient, createAdminClient } from "./supabase/server"
 
 export type ValidateCertificateResult =
-  | { success: true; certificate: CertificateWithDetails }
+  | { success: true; certificate: CertificateWithDetails; enrollmentDate?: string }
   | { success: false; error: string }
 
 export async function validateCertificateByCode(
@@ -49,5 +49,20 @@ export async function validateCertificateByCode(
     course: raw.course as CertificateWithDetails["course"],
   }
 
-  return { success: true, certificate }
+  let enrollmentDate: string | undefined
+  try {
+    const admin = createAdminClient()
+    const { data } = await admin
+      .from("enrollments")
+      .select("enrolled_at")
+      .eq("student_id", certificate.student_id)
+      .eq("course_id", certificate.course_id)
+      .single()
+    const row = data as { enrolled_at?: string } | null
+    enrollmentDate = row?.enrolled_at
+  } catch {
+    enrollmentDate = undefined
+  }
+
+  return { success: true, certificate, enrollmentDate }
 }
