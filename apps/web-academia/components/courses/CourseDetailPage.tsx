@@ -21,7 +21,7 @@ export default function CourseDetailPage({ course, relatedCourses }: CourseDetai
             <ArrowLeft className="w-5 h-5" />
             Volver a Cursos
           </Link>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
             <div className="space-y-6" data-aos="fade-right">
               <div className="inline-flex items-center gap-2 bg-secondary text-primary px-4 py-2 rounded-xl font-bold">
                 <GraduationCap className="w-5 h-5" />
@@ -43,7 +43,7 @@ export default function CourseDetailPage({ course, relatedCourses }: CourseDetai
                 </Link>
               </div>
             </div>
-            <div className="relative" data-aos="fade-left">
+            <div className="relative mx-4 md:mx-0" data-aos="zoom-in">
               <Image
                 src={course.imageDetail}
                 alt={course.title}

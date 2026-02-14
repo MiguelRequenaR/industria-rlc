@@ -23,7 +23,6 @@ export default function page() {
       <StatsAboutSection />
       <AboutSection />
       <HistorySection />
-      <TeamSection />
     </main>
   )
 }

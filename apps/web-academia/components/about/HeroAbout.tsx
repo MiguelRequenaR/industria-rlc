@@ -21,13 +21,13 @@ export default function HeroAbout() {
                 style={{ transform: 'rotate(-1deg)', display: 'inline-block' }}
               >Energía</span> que te <br /> impulsa
             </h1>
-            <p className='text-tertiary text-lg'>
+            <p className='text-tertiary text-lg text-center md:text-left'>
               En RLC Academy 360, no solo enseñamos electricidad y tecnología; formamos líderes técnicos del mañana con una metodología práctica, moderna y 100% online.
             </p>
             <div>
-            <div className="flex gap-4 mt-4">
+            <div className="flex gap-4 mt-4 justify-center md:justify-start">
               <a
-                href="/nosotros"
+                href="/cursos"
                 className="relative overflow-hidden bg-primary text-white hover:text-primary px-6 py-2 rounded-xl font-bold hover:bg-primary/90 transition-colors duration-300 shadow text-center w-40 group"
               >
                 <span
@@ -40,11 +40,11 @@ export default function HeroAbout() {
                   "
                 />
                 <span className="relative z-10 transition-colors duration-500">
-                  Nosotros
+                  Cursos
                 </span>
               </a>
               <a
-                href="/trayectoria"
+                href="#historia"
                 className="relative overflow-hidden bg-secondary text-primary hover:text-secondary px-6 py-2 rounded-xl font-bold border border-primary hover:bg-secondary/80 transition-colors duration-300 shadow text-center w-40 group"
               >
                 <span
@@ -57,13 +57,13 @@ export default function HeroAbout() {
                   "
                 />
                 <span className="relative z-10 transition-colors duration-500">
-                  Trayectoria
+                  Historia
                 </span>
               </a>
             </div>
             </div>
           </div>
-          <div className="flex items-center justify-center relative" data-aos="zoom-in">
+          <div className="flex items-center justify-center relative mx-4 md:mx-0" data-aos="zoom-in">
             {/* Badge Certificación Oficial - Top Right */}
             <div className="absolute top-0 right-0 md:top-10 md:right-10 bg-white rounded-2xl px-6 py-3 shadow-xl z-10 animate-bounce-slow">
               <div className="flex items-center gap-3">

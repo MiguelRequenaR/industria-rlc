@@ -51,7 +51,7 @@ export default function HeroCourses({ searchTerm, onSearchChange }: HeroCoursesP
               </form>
             </div>
           </div>
-          <div className="flex items-center justify-center relative" data-aos="zoom-in">
+          <div className="flex items-center justify-center relative mx-4 md:mx-0" data-aos="zoom-in">
             <div className="absolute top-0 right-0 md:top-10 md:right-10 bg-white rounded-2xl px-6 py-3 shadow-xl z-10 animate-bounce-slow">
               <div className="flex items-center gap-3">
                 <div className="bg-green-500 rounded-full p-2 shrink-0">
