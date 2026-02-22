@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
   noteText: {
     position: "absolute",
     top: 270,
-    left: 50,
+    left: 100,
     right: 40,
     textAlign: "center",
     fontSize: 14,
