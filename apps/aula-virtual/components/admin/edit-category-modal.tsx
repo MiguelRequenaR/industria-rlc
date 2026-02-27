@@ -1,0 +1,142 @@
+"use client"
+
+import { useState, useEffect } from "react"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogBody, DialogFooter } from "@/components/ui/dialog"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { updateCategory } from "@/actions/admin-actions"
+import type { Category } from "@/types/database"
+import { toast } from "react-toastify"
+
+interface EditCategoryModalProps {
+  isOpen: boolean
+  onClose: () => void
+  category: Category
+  onSuccess: () => void
+}
+
+export function EditCategoryModal({
+  isOpen,
+  onClose,
+  category,
+  onSuccess,
+}: EditCategoryModalProps) {
+  const [name, setName] = useState(category.name)
+  const [slug, setSlug] = useState(category.slug)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [slugManuallyEdited, setSlugManuallyEdited] = useState(false)
+
+  useEffect(() => {
+    setName(category.name)
+    setSlug(category.slug)
+    setSlugManuallyEdited(false)
+  }, [category])
+
+  const generateSlug = (text: string) => {
+    return text
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-z0-9\s-]/g, "")
+      .trim()
+      .replace(/\s+/g, "-")
+      .replace(/-+/g, "-")
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    const cleanName = name.trim()
+    const cleanSlug = (slug || generateSlug(name)).trim()
+
+    if (!cleanName || !cleanSlug) return
+
+    setIsSubmitting(true)
+    const result = await updateCategory(category.id, {
+      name: cleanName,
+      slug: cleanSlug,
+    })
+    setIsSubmitting(false)
+
+    if (result.success) {
+      toast.success("Categoría actualizada")
+      onSuccess()
+    } else {
+      toast.error(result.error || "Error al actualizar la categoría")
+    }
+  }
+
+  const handleClose = () => {
+    if (!isSubmitting) {
+      onClose()
+    }
+  }
+
+  const handleNameChange = (value: string) => {
+    setName(value)
+    if (!slugManuallyEdited) {
+      setSlug(generateSlug(value))
+    }
+  }
+
+  const handleSlugChange = (value: string) => {
+    setSlug(value)
+    setSlugManuallyEdited(true)
+  }
+
+  return (
+    <Dialog open={isOpen} onOpenChange={handleClose}>
+      <DialogContent className="max-w-md">
+        <form onSubmit={handleSubmit}>
+          <DialogHeader onClose={handleClose}>
+            <DialogTitle>Editar categoría</DialogTitle>
+          </DialogHeader>
+          <DialogBody>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-secondary mb-1 uppercase">
+                  Nombre <span className="text-red-500">*</span>
+                </label>
+                <Input
+                  type="text"
+                  value={name}
+                  onChange={(e) => handleNameChange(e.target.value)}
+                  disabled={isSubmitting}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-secondary mb-1 uppercase">
+                  Slug
+                </label>
+                <Input
+                  type="text"
+                  value={slug}
+                  onChange={(e) => handleSlugChange(e.target.value)}
+                  disabled={isSubmitting}
+                />
+              </div>
+            </div>
+          </DialogBody>
+          <DialogFooter>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={handleClose}
+              disabled={isSubmitting}
+              className="cursor-pointer uppercase"
+            >
+              Cancelar
+            </Button>
+            <Button
+              type="submit"
+              disabled={isSubmitting || !name.trim()}
+              className="cursor-pointer uppercase"
+            >
+              {isSubmitting ? "Guardando..." : "Guardar cambios"}
+            </Button>
+          </DialogFooter>
+        </form>
+      </DialogContent>
+    </Dialog>
+  )
+}
+

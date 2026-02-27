@@ -56,3 +56,10 @@ export {
   updateBlogPost,
   deleteBlogPost,
 } from "./admin/blog"
+
+export {
+  getAllCategories,
+  createCategory,
+  updateCategory,
+  deleteCategory,
+} from "./admin/categories"

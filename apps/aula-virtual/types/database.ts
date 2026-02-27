@@ -5,6 +5,7 @@ export type UserStatus = "activo" | "archivado"
 export type ContentType = "video" | "pdf" | "meet_link" | "quiz"
 export type CourseDifficulty = "Basico" | "Intermedio" | "Avanzado"
 export type CourseModality = "Virtual" | "Presencial" | "Semipresencial"
+export type OrderStatus = "pendiente" | "completado" | "cancelado"
 
 export interface Profile {
   id: string
@@ -109,6 +110,48 @@ export interface BlogPost {
   is_published: boolean
   created_at: string
   updated_at: string
+}
+
+export interface Category {
+  id: string
+  name: string
+  slug: string
+  created_at: string
+}
+
+export interface Product {
+  id: string
+  sku: string | null
+  category_id: string | null
+  name: string
+  brand: string | null
+  unit_measure: string | null
+  location: string | null
+  stock: number
+  min_stock: number
+  price: number
+  image_url: string | null
+  is_active: boolean
+  created_at: string
+  category?: Category
+}
+
+export interface OrderItem {
+  id: string
+  name: string
+  qty: number
+  price: number
+}
+
+export interface Order {
+  id: string
+  customer_name: string
+  customer_phone: string
+  customer_address: string | null
+  total_amount: number
+  status: OrderStatus
+  items: OrderItem[]
+  created_at: string
 }
 
 export interface BlogPostWithDetails extends BlogPost {
@@ -236,6 +279,11 @@ export interface Database {
         Row: Certificate
         Insert: Omit<Certificate, "id" | "created_at" | "issued_at"> & { id?: string }
         Update: Partial<Omit<Certificate, "id" | "created_at" | "issued_at">>
+      }
+      categories: {
+        Row: Category
+        Insert: Omit<Category, "id" | "created_at"> & { id?: string }
+        Update: Partial<Omit<Category, "id" | "created_at">>
       }
     }
     Enums: {

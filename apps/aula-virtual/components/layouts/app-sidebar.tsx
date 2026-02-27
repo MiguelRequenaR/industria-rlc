@@ -12,6 +12,10 @@ import {
   LogOut,
   Mail,
   BookOpen,
+  Box,
+  Tag,
+  ShoppingCart,
+  CreditCard,
 } from "lucide-react"
 import { useProfileQuery } from "@/hooks/use-profile-query"
 import { logoutAction } from "@/actions/auth-actions"
@@ -24,6 +28,10 @@ const menusByRole = {
       { title: "Cursos", url: "/admin/cursos", icon: GraduationCap },
       { title: "Invitaciones", url: "/admin/invitaciones", icon: Mail },
       { title: "Blog", url: "/admin/blog", icon: BookOpen },
+      { title: "Productos", url: "/admin/productos", icon: Box },
+      { title: "Categorías", url: "/admin/categorias", icon: Tag },
+      { title: "Pedidos", url: "/admin/pedidos", icon: ShoppingCart },
+      { title: "Ventas", url: "/admin/ventas", icon: CreditCard },
     ],
   },
   docente: {

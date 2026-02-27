@@ -31,10 +31,12 @@ export function Dialog({ open, onOpenChange, children }: DialogProps) {
     >
       <div className="fixed inset-0 bg-black/50 backdrop-blur-sm" />
       <div
-        className="relative z-50 w-full max-w-2xl mx-4"
+        className="relative z-50 w-full max-w-2xl mx-4 flex justify-center" 
         onClick={(e) => e.stopPropagation()}
       >
-        {children}
+        <div className="w-full flex justify-center">
+          {children}
+        </div>
       </div>
     </div>
   )
@@ -67,7 +69,7 @@ export function DialogHeader({ children, onClose }: DialogHeaderProps) {
           variant="ghost"
           size="icon"
           onClick={onClose}
-          className="h-8 w-8 rounded-full"
+          className="h-8 w-8 rounded-full cursor-pointer"
         >
           <X className="h-4 w-4" />
         </Button>
