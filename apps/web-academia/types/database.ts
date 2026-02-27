@@ -49,7 +49,7 @@ export interface Certificate {
 
 export interface CertificateWithDetails extends Certificate {
   student: Profile
-  course: Course
+  course: Course & { modules?: Pick<Module, "title" | "order_index">[] }
 }
 
 export interface Enrollment {

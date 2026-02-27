@@ -551,7 +551,7 @@ export async function generateCertificate(courseId: string): Promise<{
     .select(`
       *,
       student:profiles!student_id(*),
-      course:courses!course_id(*)
+      course:courses!course_id(*, modules(title, order_index))
     `)
     .single()
 
@@ -608,7 +608,7 @@ export async function getStudentCertificate(courseId: string): Promise<{
     .select(`
       *,
       student:profiles!student_id(*),
-      course:courses!course_id(*)
+      course:courses!course_id(*, modules(title, order_index))
     `)
     .eq("student_id", user.id)
     .eq("course_id", courseId)

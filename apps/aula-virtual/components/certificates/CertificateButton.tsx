@@ -9,6 +9,7 @@ import {
   generateCertificate, 
   getStudentCertificate 
 } from "@/actions/student-actions"
+import { formatModulesDescription } from "@/lib/certificate-utils"
 import { Button } from "@/components/ui/button"
 
 interface CertificateButtonProps {
@@ -89,6 +90,9 @@ export function CertificateButton({ courseId, courseName, studentName }: Certifi
         : issueDate
 
       const durationHours = cert.course?.duration_hours ?? 0
+      const courseWithModules = cert.course as { modality?: string; modules?: unknown } | undefined
+      const modality = courseWithModules?.modality ?? "Virtual"
+      const modulesDescription = formatModulesDescription(courseWithModules?.modules)
 
       const blob = await pdf(
         <CertificateDocument
@@ -100,6 +104,8 @@ export function CertificateButton({ courseId, courseName, studentName }: Certifi
           note={cert.final_grade ?? 0}
           periodStartDate={periodStartDate}
           periodEndDate={issueDate}
+          modality={modality}
+          modulesDescription={modulesDescription}
         />
       ).toBlob()
 

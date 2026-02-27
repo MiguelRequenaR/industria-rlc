@@ -35,6 +35,36 @@ export async function validateCertificateByCode(
     return { success: false, error: "Datos del certificado incompletos." }
   }
 
+  const courseRaw = raw.course as CertificateWithDetails["course"]
+
+  let enrollmentDate: string | undefined
+  let modules: CertificateWithDetails["course"]["modules"] = []
+
+  try {
+    const admin = createAdminClient()
+
+    const [enrollmentResult, modulesResult] = await Promise.all([
+      admin
+        .from("enrollments")
+        .select("enrolled_at")
+        .eq("student_id", raw.student_id as string)
+        .eq("course_id", raw.course_id as string)
+        .single(),
+      admin
+        .from("modules")
+        .select("title, order_index")
+        .eq("course_id", raw.course_id as string)
+        .order("order_index", { ascending: true }),
+    ])
+
+    const row = enrollmentResult.data as { enrolled_at?: string } | null
+    enrollmentDate = row?.enrolled_at
+    modules = (modulesResult.data ?? []) as CertificateWithDetails["course"]["modules"]
+  } catch {
+    enrollmentDate = undefined
+    modules = []
+  }
+
   const certificate: CertificateWithDetails = {
     id: raw.id as string,
     student_id: raw.student_id as string,
@@ -46,22 +76,7 @@ export async function validateCertificateByCode(
     pdf_url: raw.pdf_url as string | null,
     created_at: raw.created_at as string,
     student: raw.student as CertificateWithDetails["student"],
-    course: raw.course as CertificateWithDetails["course"],
-  }
-
-  let enrollmentDate: string | undefined
-  try {
-    const admin = createAdminClient()
-    const { data } = await admin
-      .from("enrollments")
-      .select("enrolled_at")
-      .eq("student_id", certificate.student_id)
-      .eq("course_id", certificate.course_id)
-      .single()
-    const row = data as { enrolled_at?: string } | null
-    enrollmentDate = row?.enrolled_at
-  } catch {
-    enrollmentDate = undefined
+    course: { ...courseRaw, modules },
   }
 
   return { success: true, certificate, enrollmentDate }

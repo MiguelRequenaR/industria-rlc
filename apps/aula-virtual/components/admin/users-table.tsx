@@ -14,6 +14,7 @@ import { UserRole, UserStatus } from "@/types/database"
 import { toast } from "react-toastify"
 import { pdf } from "@react-pdf/renderer"
 import { CertificateDocument } from "@/components/certificates/CertificateDocument"
+import { formatModulesDescription } from "@/lib/certificate-utils"
 
 interface UsersTableProps {
   users: UserWithEmail[]
@@ -120,6 +121,10 @@ export function UsersTable({ users, currentUserIsOwner = false }: UsersTableProp
         : issueDate
       const durationHours = cert.course?.duration_hours ?? 0
       const courseName = cert.course?.title ?? "Curso"
+      const courseWithModules = cert.course as { modality?: string; modules?: unknown } | null
+      const modality = courseWithModules?.modality ?? "Virtual"
+      const modulesDescription = formatModulesDescription(courseWithModules?.modules)
+
       const blob = await pdf(
         <CertificateDocument
           studentName={selectedUser.full_name || "Estudiante"}
@@ -130,6 +135,8 @@ export function UsersTable({ users, currentUserIsOwner = false }: UsersTableProp
           note={cert.final_grade ?? 0}
           periodStartDate={periodStartDate}
           periodEndDate={issueDate}
+          modality={modality}
+          modulesDescription={modulesDescription}
         />
       ).toBlob()
       const url = URL.createObjectURL(blob)

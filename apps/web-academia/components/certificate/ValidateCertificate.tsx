@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from "react"
 import { pdf } from "@react-pdf/renderer"
 import { validateCertificateByCode } from "@/lib/certificate-data"
 import { CertificateDocument } from "./CertificateDocument"
+import { formatModulesDescription } from "@/lib/certificate-utils"
 import type { CertificateWithDetails } from "@/types/database"
 
 function formatIssueDate(isoDate: string): string {
@@ -74,6 +75,8 @@ export default function ValidateCertificate() {
     const courseName = certificate.course.title
     const durationHours = certificate.course.duration_hours ?? 0
     const note = certificate.final_grade ?? 0
+    const modality = certificate.course.modality ?? "Virtual"
+    const modulesDescription = formatModulesDescription(certificate.course.modules)
     pdf(
       <CertificateDocument
         studentName={studentName}
@@ -84,6 +87,8 @@ export default function ValidateCertificate() {
         note={note}
         periodStartDate={periodStartDate}
         periodEndDate={issueDateFormatted}
+        modality={modality}
+        modulesDescription={modulesDescription}
       />
     )
       .toBlob()

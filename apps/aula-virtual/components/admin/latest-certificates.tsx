@@ -7,6 +7,7 @@ import { CertificateDocument } from "@/components/certificates/CertificateDocume
 import { type CertificateForAdmin } from "@/actions/admin-actions"
 import { toast } from "react-toastify"
 import { Button } from "@/components/ui/button"
+import { formatModulesDescription } from "@/lib/certificate-utils"
 
 function getTimeAgo(date: Date): string {
   const now = new Date()
@@ -48,6 +49,9 @@ export function LatestCertificates({ certificates }: LatestCertificatesProps) {
       const durationHours = cert.course?.duration_hours ?? 0
       const courseName = cert.course?.title ?? "Curso"
       const studentName = cert.student?.full_name || "Estudiante"
+      const courseWithModules = cert.course as { modality?: string; modules?: unknown } | null
+      const modality = courseWithModules?.modality ?? "Virtual"
+      const modulesDescription = formatModulesDescription(courseWithModules?.modules)
 
       const blob = await pdf(
         <CertificateDocument
@@ -59,6 +63,8 @@ export function LatestCertificates({ certificates }: LatestCertificatesProps) {
           note={cert.final_grade ?? 0}
           periodStartDate={periodStartDate}
           periodEndDate={issueDate}
+          modality={modality}
+          modulesDescription={modulesDescription}
         />
       ).toBlob()
 
