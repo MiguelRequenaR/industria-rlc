@@ -20,9 +20,6 @@ interface CertificateDocumentProps {
   modulesDescription?: string
 }
 
-const PAGE_WIDTH = 595
-const PAGE_HEIGHT = 842
-
 function notaEnTexto(valor: number): string {
   const n = Math.round(valor)
   const unidades = [
@@ -34,8 +31,8 @@ function notaEnTexto(valor: number): string {
 
 const styles = StyleSheet.create({
   page: {
-    width: PAGE_WIDTH,
-    height: PAGE_HEIGHT,
+    width: '100%',
+    height: '100%',
     backgroundColor: '#FFFFFF',
     fontFamily: 'Times New Roman',
     position: 'relative',
@@ -44,15 +41,15 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     left: 0,
-    width: PAGE_WIDTH,
-    height: PAGE_HEIGHT,
+    width: '100%',
+    height: '100%',
   },
   textOverlay: {
     position: 'absolute',
     top: 0,
     left: 0,
-    width: PAGE_WIDTH,
-    height: PAGE_HEIGHT,
+    width: '100%',
+    height: '100%',
     backgroundColor: 'transparent',
   },
   studentName: {
