@@ -8,6 +8,7 @@ import { Select } from "@/components/ui/select"
 import { updateProduct } from "@/actions/admin-actions"
 import type { Product, Category } from "@/types/database"
 import { toast } from "react-toastify"
+import { ProductImageUpload } from "./ProductImageUpload"
 
 interface EditProductModalProps {
   isOpen: boolean
@@ -28,7 +29,7 @@ export function EditProductModal({ isOpen, onClose, product, categories, onSucce
   const [stock, setStock] = useState(String(product.stock))
   const [minStock, setMinStock] = useState(String(product.min_stock))
   const [price, setPrice] = useState(String(product.price))
-  const [imageUrl, setImageUrl] = useState(product.image_url || "")
+  const [imageUrls, setImageUrls] = useState<string[]>(product.image_urls ?? [])
   const [isActive, setIsActive] = useState(product.is_active)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -43,7 +44,7 @@ export function EditProductModal({ isOpen, onClose, product, categories, onSucce
     setStock(String(product.stock))
     setMinStock(String(product.min_stock))
     setPrice(String(product.price))
-    setImageUrl(product.image_url || "")
+    setImageUrls(product.image_urls ?? [])
     setIsActive(product.is_active)
   }, [product])
 
@@ -68,7 +69,7 @@ export function EditProductModal({ isOpen, onClose, product, categories, onSucce
       stock: parseInt(stock, 10) || 0,
       min_stock: parseInt(minStock, 10) || 0,
       price: priceNum,
-      image_url: imageUrl.trim() || null,
+      image_urls: imageUrls,
       is_active: isActive,
     })
     setIsSubmitting(false)
@@ -205,15 +206,12 @@ export function EditProductModal({ isOpen, onClose, product, categories, onSucce
                   />
                 </div>
               </div>
-              <div>
-                <label className="block text-sm font-medium text-secondary mb-1 uppercase">URL imagen</label>
-                <Input
-                  type="url"
-                  value={imageUrl}
-                  onChange={(e) => setImageUrl(e.target.value)}
-                  disabled={isSubmitting}
-                />
-              </div>
+              <ProductImageUpload
+                productId={product.id}
+                currentUrls={imageUrls}
+                onUrlsChange={setImageUrls}
+                disabled={isSubmitting}
+              />
               <div className="flex items-center gap-2">
                 <input
                   type="checkbox"

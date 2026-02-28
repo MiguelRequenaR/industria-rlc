@@ -131,7 +131,7 @@ export interface Product {
   stock: number
   min_stock: number
   price: number
-  image_url: string | null
+  image_urls: string[]
   is_active: boolean
   created_at: string
   category?: Category

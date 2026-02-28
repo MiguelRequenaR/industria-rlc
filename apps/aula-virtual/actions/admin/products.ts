@@ -14,7 +14,7 @@ export interface ProductCreateData {
   stock?: number
   min_stock?: number
   price: number
-  image_url?: string | null
+  image_urls?: string[]
   is_active?: boolean
 }
 
@@ -80,7 +80,7 @@ export async function createProduct(
     stock: data.stock ?? 0,
     min_stock: data.min_stock ?? 0,
     price: data.price ?? 0,
-    image_url: data.image_url || null,
+    image_urls: data.image_urls ?? [],
     is_active: data.is_active ?? true,
   })
 
@@ -113,7 +113,7 @@ export async function updateProduct(
   if (data.stock !== undefined) updatePayload.stock = data.stock
   if (data.min_stock !== undefined) updatePayload.min_stock = data.min_stock
   if (data.price !== undefined) updatePayload.price = data.price
-  if (data.image_url !== undefined) updatePayload.image_url = data.image_url
+  if (data.image_urls !== undefined) updatePayload.image_urls = data.image_urls
   if (data.is_active !== undefined) updatePayload.is_active = data.is_active
 
   const { error: updateError } = await supabase

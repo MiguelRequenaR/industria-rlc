@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogBody, DialogFoo
 import { Badge } from "@/components/ui/badge"
 import { type Product, type Category } from "@/types/database"
 import { deleteProduct } from "@/actions/admin-actions"
+import Image from "next/image"
 import { useProducts, useInvalidateProducts } from "@/hooks/use-products"
 import { AddProductModal } from "./add-product-modal"
 import { EditProductModal } from "./edit-product-modal"
@@ -38,10 +39,6 @@ export function ProductsTable({ initialProducts, categories }: ProductsTableProp
 
   const handleDeleted = async () => {
     if (!deletingProduct) return
-
-    if (!confirm("¿Estás seguro de eliminar este producto? Esta acción no se puede deshacer.")) {
-      return
-    }
 
     setIsDeleting(true)
     const result = await deleteProduct(deletingProduct.id)
@@ -121,6 +118,9 @@ export function ProductsTable({ initialProducts, categories }: ProductsTableProp
                   Stock
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider">
+                  Stock mín
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider">
                   Precio
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider">
@@ -147,10 +147,12 @@ export function ProductsTable({ initialProducts, categories }: ProductsTableProp
                 filtered.map((p) => (
                   <tr key={p.id} className="hover:bg-gray-50 transition-colors">
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {p.image_url ? (
-                        <img
-                          src={p.image_url}
+                      {p.image_urls?.length ? (
+                        <Image
+                          src={p.image_urls[0]}
                           alt={p.name}
+                          width={48}
+                          height={48}
                           className="h-12 w-12 object-cover rounded-lg border border-gray-200"
                         />
                       ) : (
@@ -173,11 +175,14 @@ export function ProductsTable({ initialProducts, categories }: ProductsTableProp
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {p.category?.name ?? "—"}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
                       {p.stock}
                       {p.stock <= p.min_stock && (
                         <span className="text-red-600 text-xs ml-1">(bajo)</span>
                       )}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
+                      {p.min_stock}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
                       S/ {Number(p.price).toFixed(2)}

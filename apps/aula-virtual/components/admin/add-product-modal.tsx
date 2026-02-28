@@ -8,6 +8,7 @@ import { Select } from "@/components/ui/select"
 import { createProduct } from "@/actions/admin-actions"
 import type { Category } from "@/types/database"
 import { toast } from "react-toastify"
+import { ProductImageUpload } from "./ProductImageUpload"
 
 interface AddProductModalProps {
   isOpen: boolean
@@ -27,7 +28,7 @@ export function AddProductModal({ isOpen, onClose, onSuccess, categories }: AddP
   const [stock, setStock] = useState("0")
   const [minStock, setMinStock] = useState("0")
   const [price, setPrice] = useState("")
-  const [imageUrl, setImageUrl] = useState("")
+  const [imageUrls, setImageUrls] = useState<string[]>([])
   const [isActive, setIsActive] = useState(true)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -52,7 +53,7 @@ export function AddProductModal({ isOpen, onClose, onSuccess, categories }: AddP
       stock: parseInt(stock, 10) || 0,
       min_stock: parseInt(minStock, 10) || 0,
       price: priceNum,
-      image_url: imageUrl.trim() || null,
+      image_urls: imageUrls,
       is_active: isActive,
     })
     setIsSubmitting(false)
@@ -69,7 +70,7 @@ export function AddProductModal({ isOpen, onClose, onSuccess, categories }: AddP
       setStock("0")
       setMinStock("0")
       setPrice("")
-      setImageUrl("")
+      setImageUrls([])
       setIsActive(true)
       onSuccess()
       onClose()
@@ -210,16 +211,12 @@ export function AddProductModal({ isOpen, onClose, onSuccess, categories }: AddP
                   />
                 </div>
               </div>
-              <div>
-                <label className="block text-sm font-medium text-secondary mb-1 uppercase">URL imagen</label>
-                <Input
-                  type="url"
-                  value={imageUrl}
-                  onChange={(e) => setImageUrl(e.target.value)}
-                  placeholder="https://..."
-                  disabled={isSubmitting}
-                />
-              </div>
+              <ProductImageUpload
+                productId={null}
+                currentUrls={imageUrls}
+                onUrlsChange={setImageUrls}
+                disabled={isSubmitting}
+              />
               <div className="flex items-center gap-2">
                 <input
                   type="checkbox"

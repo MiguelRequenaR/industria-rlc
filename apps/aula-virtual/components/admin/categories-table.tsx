@@ -34,10 +34,6 @@ export function CategoriesTable({ initialCategories }: CategoriesTableProps) {
   const handleDeleted = async () => {
     if (!deletingCategory) return
 
-    if (!confirm("¿Estás seguro de eliminar esta categoría? Esta acción no se puede deshacer.")) {
-      return
-    }
-
     setIsDeleting(true)
     const result = await deleteCategory(deletingCategory.id)
     setIsDeleting(false)
