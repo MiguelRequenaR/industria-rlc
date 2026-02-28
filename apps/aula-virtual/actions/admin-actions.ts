@@ -63,3 +63,10 @@ export {
   updateCategory,
   deleteCategory,
 } from "./admin/categories"
+
+export {
+  getAllProducts,
+  createProduct,
+  updateProduct,
+  deleteProduct,
+} from "./admin/products"

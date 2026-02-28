@@ -122,6 +122,7 @@ export interface Category {
 export interface Product {
   id: string
   sku: string | null
+  description: string | null
   category_id: string | null
   name: string
   brand: string | null
