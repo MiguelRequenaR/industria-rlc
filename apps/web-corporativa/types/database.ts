@@ -26,6 +26,24 @@ export interface Product {
   category?: Category
 }
 
+export type OrderStatus = "pendiente" | "completado" | "cancelado"
+
+export interface OrderItemRow {
+  id: string
+  qty: number
+}
+
+export interface Order {
+  id: string
+  customer_name: string
+  customer_phone: string
+  customer_address: string | null
+  total_amount: number
+  items: OrderItemRow[]
+  status: OrderStatus
+  created_at: string
+}
+
 export interface Database {
   public: {
     Tables: {
@@ -38,6 +56,23 @@ export interface Database {
         Row: Category
         Insert: Omit<Category, "id" | "created_at"> & { id?: string }
         Update: Partial<Omit<Category, "id" | "created_at">>
+      }
+      orders: {
+        Row: Order
+        Insert: Omit<Order, "id" | "created_at"> & { id?: string }
+        Update: Partial<Omit<Order, "id" | "created_at">>
+      }
+    }
+    Functions: {
+      process_checkout: {
+        Args: {
+          p_customer_name: string
+          p_customer_phone: string
+          p_customer_address: string
+          p_total_amount: number
+          p_items: { id: string; qty: number }[]
+        }
+        Returns: string
       }
     }
   }

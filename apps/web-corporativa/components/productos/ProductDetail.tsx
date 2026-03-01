@@ -5,15 +5,14 @@ import Image from "next/image"
 import Link from "next/link"
 import type { Product } from "@/types/database"
 import {
-  Star,
   ShoppingCart,
   Truck,
   ShieldCheck,
   Minus,
   Plus,
-  ChevronRight,
 } from "lucide-react"
 import { formatPrice } from "./ProductCard"
+import { useCartStore } from "@/store/cart-store"
 
 interface ProductDetailProps {
   product: Product
@@ -23,6 +22,7 @@ interface ProductDetailProps {
 export default function ProductDetail({ product, relatedProducts }: ProductDetailProps) {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0)
   const [quantity, setQuantity] = useState(1)
+  const addItem = useCartStore((s) => s.addItem)
 
   const images = product.image_urls ?? []
   const mainImage = images[selectedImageIndex] ?? images[0]
@@ -157,6 +157,15 @@ export default function ProductDetail({ product, relatedProducts }: ProductDetai
             <button
               type="button"
               disabled={!inStock}
+              onClick={() =>
+                addItem({
+                  productId: product.id,
+                  name: product.name,
+                  price: product.price,
+                  imageUrl: product.image_urls?.[0] ?? null,
+                  qty: quantity,
+                })
+              }
               className="flex items-center justify-center gap-2 px-8 py-4 bg-secondary text-white font-medium rounded-xl hover:bg-secondary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer uppercase"
             >
               <ShoppingCart className="w-5 h-5" />

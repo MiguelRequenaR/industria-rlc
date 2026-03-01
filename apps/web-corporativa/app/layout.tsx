@@ -7,6 +7,7 @@ import Footer from "@/components/shared/Footer";
 import WhatsAppButton from "@/components/shared/WhatsAppButton";
 import AOSProvider from "@/components/shared/AOSProvider";
 import StructuredData from "@/components/shared/StructuredData";
+import QueryProvider from "@/components/providers/QueryProvider";
 
 const nunito = Nunito({
   subsets: ["latin"],
@@ -79,12 +80,14 @@ export default function RootLayout({
     <html lang="es">
       <body className={nunito.className}>
         <StructuredData />
-        <AOSProvider />
-        <NavBar />
-        {children}
+        <QueryProvider>
+          <AOSProvider />
+          <NavBar />
+          {children}
         <CallToAction />
-        <Footer />
-        <WhatsAppButton />
+          <Footer />
+          <WhatsAppButton />
+        </QueryProvider>
       </body>
     </html>
   );

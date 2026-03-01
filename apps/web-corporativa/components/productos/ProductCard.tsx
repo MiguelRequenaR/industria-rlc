@@ -1,7 +1,10 @@
+"use client"
+
 import Link from "next/link"
 import type { Product } from "@/types/database"
 import { Tag, ShoppingCart } from "lucide-react"
 import { ProductImageHover } from "./ProductImageHover"
+import { useCartStore } from "@/store/cart-store"
 
 interface ProductCardProps {
   product: Product
@@ -12,6 +15,22 @@ export function formatPrice(price: number) {
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
+  const addItem = useCartStore((s) => s.addItem)
+  const inStock = product.stock > 0
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    if (!inStock) return
+    addItem({
+      productId: product.id,
+      name: product.name,
+      price: product.price,
+      imageUrl: product.image_urls?.[0] ?? null,
+      qty: 1,
+    })
+  }
+
   return (
     <div className="relative p-5 rounded-3xl border border-secondary bg-white">
       <Link
@@ -39,10 +58,15 @@ export default function ProductCard({ product }: ProductCardProps) {
           S/. {formatPrice(product.price)}
         </h3>
       </div>
-      <div className="relative z-10 w-full h-12 rounded-xl text-secondary border border-secondary hover:bg-secondary/20 flex items-center justify-center gap-2 transition-colors font-medium pointer-events-none">
+      <button
+        type="button"
+        onClick={handleAddToCart}
+        disabled={!inStock}
+        className="relative z-10 w-full h-12 rounded-xl text-secondary border border-secondary hover:bg-secondary/20 flex items-center justify-center gap-2 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+      >
         <ShoppingCart className="w-5 h-5" />
         Añadir al carrito
-      </div>
+      </button>
     </div>
   )
 }

@@ -1,11 +1,12 @@
 "use client"
 import { useState } from "react"
-import { Menu, X, Mail, Phone, Search } from "lucide-react"
+import { Menu, X, Mail, Phone, Search, ShoppingCart } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { servicesData } from "@/lib/services-data"
 import { experienceData } from "@/lib/experience-data"
+import { useCartStore } from "@/store/cart-store"
 
 interface SearchResult {
   type: 'service' | 'experience';
@@ -21,6 +22,7 @@ export default function NavBar() {
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [showResults, setShowResults] = useState(false);
   const router = useRouter();
+  const cartCount = useCartStore((s) => s.totalItems());
 
   // Función para cerrar los resultados con un pequeño delay
   const handleBlur = () => {
@@ -227,6 +229,18 @@ export default function NavBar() {
             </ul>
           </nav>
           <div className="hidden md:flex ml-16 gap-4 items-center">
+            <Link
+              href="/checkout"
+              className="relative flex items-center justify-center w-10 h-10 rounded-full border-2 border-secondary text-secondary hover:bg-secondary/10 transition-colors"
+              aria-label={`Carrito: ${cartCount} producto(s)`}
+            >
+              <ShoppingCart className="w-5 h-5" />
+              {cartCount > 0 && (
+                <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] flex items-center justify-center bg-secondary text-white text-xs font-bold rounded-full px-1">
+                  {cartCount > 99 ? "99+" : cartCount}
+                </span>
+              )}
+            </Link>
             <a href="https://academia.industriarlc.com/" target="_blank" rel="noopener noreferrer">
               <span className="inline-block relative overflow-hidden bg-white text-primary border-2 border-secondary px-6 py-2 rounded-full font-semibold uppercase transition-all duration-300 hover:text-white hover:shadow-md cursor-pointer group">
                 <span
@@ -335,6 +349,14 @@ export default function NavBar() {
             </div>
           </div>
 
+          <Link
+              href="/checkout"
+              onClick={() => setMenuOpen(false)}
+              className="flex items-center justify-center gap-2 py-3 px-4 rounded-full border border-white text-white hover:bg-white/10 mb-4"
+            >
+              <ShoppingCart className="w-5 h-5" />
+              Carrito {cartCount > 0 && `(${cartCount})`}
+            </Link>
           <ul className="flex flex-col gap-8 text-white text-lg font-semibold">
             {links.map((item) => (
               <li key={item.label}>

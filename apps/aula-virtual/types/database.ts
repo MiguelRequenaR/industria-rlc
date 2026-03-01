@@ -145,6 +145,12 @@ export interface OrderItem {
   price: number
 }
 
+/** Formato bruto de items en la BD (JSONB) */
+export interface OrderItemRow {
+  id: string
+  qty: number
+}
+
 export interface Order {
   id: string
   customer_name: string
@@ -154,6 +160,11 @@ export interface Order {
   status: OrderStatus
   items: OrderItem[]
   created_at: string
+}
+
+/** Row de la tabla orders (items vienen como { id, qty } desde JSONB) */
+export interface OrderRow extends Omit<Order, "items"> {
+  items: OrderItemRow[]
 }
 
 export interface BlogPostWithDetails extends BlogPost {
@@ -286,6 +297,16 @@ export interface Database {
         Row: Category
         Insert: Omit<Category, "id" | "created_at"> & { id?: string }
         Update: Partial<Omit<Category, "id" | "created_at">>
+      }
+      products: {
+        Row: Product
+        Insert: Omit<Product, "id" | "created_at"> & { id?: string }
+        Update: Partial<Omit<Product, "id" | "created_at">>
+      }
+      orders: {
+        Row: OrderRow
+        Insert: Omit<OrderRow, "id" | "created_at"> & { id?: string }
+        Update: Partial<Omit<OrderRow, "id" | "created_at">>
       }
     }
     Enums: {
