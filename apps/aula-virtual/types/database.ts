@@ -117,6 +117,7 @@ export interface Category {
   name: string
   slug: string
   created_at: string
+  image_url: string | null
 }
 
 export interface Product {

@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { createCategory } from "@/actions/admin-actions"
 import { toast } from "react-toastify"
+import { CategoryImageUpload } from "./CategoryImageUpload"
 
 interface AddCategoryModalProps {
   isOpen: boolean
@@ -16,6 +17,7 @@ interface AddCategoryModalProps {
 export function AddCategoryModal({ isOpen, onClose, onSuccess }: AddCategoryModalProps) {
   const [name, setName] = useState("")
   const [slug, setSlug] = useState("")
+  const [imageUrl, setImageUrl] = useState<string | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [slugManuallyEdited, setSlugManuallyEdited] = useState(false)
 
@@ -50,13 +52,14 @@ export function AddCategoryModal({ isOpen, onClose, onSuccess }: AddCategoryModa
     if (!cleanName || !cleanSlug) return
 
     setIsSubmitting(true)
-    const result = await createCategory(cleanName, cleanSlug)
+    const result = await createCategory(cleanName, cleanSlug, imageUrl)
     setIsSubmitting(false)
 
     if (result.success) {
       toast.success("Categoría creada")
       setName("")
       setSlug("")
+      setImageUrl(null)
       onSuccess()
       onClose()
     } else {
@@ -109,6 +112,12 @@ export function AddCategoryModal({ isOpen, onClose, onSuccess }: AddCategoryModa
                   </p>
                 )}
               </div>
+              <CategoryImageUpload
+                categoryId={null}
+                currentUrl={imageUrl}
+                onUrlChange={setImageUrl}
+                disabled={isSubmitting}
+              />
             </div>
           </DialogBody>
           <DialogFooter>

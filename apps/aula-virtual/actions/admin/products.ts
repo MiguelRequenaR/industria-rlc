@@ -129,11 +129,52 @@ export async function updateProduct(
   return { success: true }
 }
 
+function getStoragePathFromUrl(url: string, bucket: string): string | null {
+  try {
+    const match = url.match(new RegExp(`/storage/v1/object/public/${bucket}/([^?]+)`))
+    return match ? match[1] : null
+  } catch {
+    return null
+  }
+}
+
 export async function deleteProduct(id: string): Promise<{ success: boolean; error?: string }> {
   const { supabase, error } = await ensureAdmin()
 
   if (error) {
     return { success: false, error }
+  }
+
+  const BUCKET = "products"
+  const PRODUCTS_FOLDER = "products"
+
+  const { data: product } = await supabase
+    .from("products")
+    .select("image_urls")
+    .eq("id", id)
+    .single()
+
+  if (product?.image_urls?.length) {
+    const pathsToRemove: string[] = []
+    for (const url of product.image_urls) {
+      const path = getStoragePathFromUrl(url, BUCKET)
+      if (path) pathsToRemove.push(path)
+    }
+    if (pathsToRemove.length > 0) {
+      const { error: storageError } = await supabase.storage.from(BUCKET).remove(pathsToRemove)
+      if (storageError) {
+        console.error("Error deleting product images from storage:", storageError)
+      }
+    }
+  }
+
+  const { data: folderFiles } = await supabase.storage
+    .from(BUCKET)
+    .list(`${PRODUCTS_FOLDER}/${id}`)
+
+  if (folderFiles?.length) {
+    const folderPaths = folderFiles.map((f) => `${PRODUCTS_FOLDER}/${id}/${f.name}`)
+    await supabase.storage.from(BUCKET).remove(folderPaths)
   }
 
   const { error: deleteError } = await supabase.from("products").delete().eq("id", id)

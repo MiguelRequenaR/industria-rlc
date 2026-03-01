@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input"
 import { updateCategory } from "@/actions/admin-actions"
 import type { Category } from "@/types/database"
 import { toast } from "react-toastify"
+import { CategoryImageUpload } from "./CategoryImageUpload"
 
 interface EditCategoryModalProps {
   isOpen: boolean
@@ -23,12 +24,14 @@ export function EditCategoryModal({
 }: EditCategoryModalProps) {
   const [name, setName] = useState(category.name)
   const [slug, setSlug] = useState(category.slug)
+  const [imageUrl, setImageUrl] = useState<string | null>(category.image_url ?? null)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [slugManuallyEdited, setSlugManuallyEdited] = useState(false)
 
   useEffect(() => {
     setName(category.name)
     setSlug(category.slug)
+    setImageUrl(category.image_url ?? null)
     setSlugManuallyEdited(false)
   }, [category])
 
@@ -54,6 +57,7 @@ export function EditCategoryModal({
     const result = await updateCategory(category.id, {
       name: cleanName,
       slug: cleanSlug,
+      image_url: imageUrl,
     })
     setIsSubmitting(false)
 
@@ -114,6 +118,12 @@ export function EditCategoryModal({
                   disabled={isSubmitting}
                 />
               </div>
+              <CategoryImageUpload
+                categoryId={category.id}
+                currentUrl={imageUrl}
+                onUrlChange={setImageUrl}
+                disabled={isSubmitting}
+              />
             </div>
           </DialogBody>
           <DialogFooter>

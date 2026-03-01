@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import Image from "next/image"
 import { Search, Plus, Edit, Trash2, Tags } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -96,6 +97,9 @@ export function CategoriesTable({ initialCategories }: CategoriesTableProps) {
             <thead className="bg-gray-50 border-b-2 border-secondary">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider">
+                  Imagen
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider">
                   Nombre
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider">
@@ -113,7 +117,7 @@ export function CategoriesTable({ initialCategories }: CategoriesTableProps) {
               {filtered.length === 0 ? (
                 <tr>
                   <td
-                    colSpan={4}
+                    colSpan={5}
                     className="px-6 py-8 text-center text-secondary uppercase"
                   >
                     {categories.length === 0
@@ -124,6 +128,22 @@ export function CategoriesTable({ initialCategories }: CategoriesTableProps) {
               ) : (
                 filtered.map((cat) => (
                   <tr key={cat.id} className="hover:bg-gray-50 transition-colors">
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {cat.image_url ? (
+                        <div className="relative h-12 w-12 rounded-lg border border-gray-200 overflow-hidden bg-gray-100">
+                          <Image
+                            src={cat.image_url}
+                            alt={cat.name}
+                            fill
+                            className="object-cover"
+                          />
+                        </div>
+                      ) : (
+                        <div className="h-12 w-12 rounded-lg border border-gray-200 bg-gray-100 flex items-center justify-center">
+                          <Tags className="h-5 w-5 text-gray-400" />
+                        </div>
+                      )}
+                    </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 uppercase">
                       {cat.name}
                     </td>

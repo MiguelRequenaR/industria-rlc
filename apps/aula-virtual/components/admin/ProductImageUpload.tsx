@@ -8,6 +8,7 @@ import { toast } from "react-toastify"
 import { nanoid } from "nanoid"
 
 const BUCKET = "products"
+const FOLDER = "products"
 const MAX_SIZE_MB = 5
 const MAX_SIZE = MAX_SIZE_MB * 1024 * 1024
 
@@ -52,8 +53,8 @@ export function ProductImageUpload({
         const fileExt = file.name.split(".").pop() || "jpg"
         const uniqueId = nanoid(10)
         const filePath = productId
-          ? `${productId}/${uniqueId}.${fileExt}`
-          : `temp/${uniqueId}.${fileExt}`
+          ? `${FOLDER}/${productId}/${uniqueId}.${fileExt}`
+          : `${FOLDER}/temp/${uniqueId}.${fileExt}`
 
         const { error: uploadError } = await supabase.storage
           .from(BUCKET)
