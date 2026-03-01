@@ -22,7 +22,7 @@ import {
   ResponsiveContainer,
 } from "recharts"
 import type { SalesDataPoint, TopProduct } from "@/actions/admin-actions"
-import { getSalesTrends, getSalesByMonth } from "@/actions/admin-actions"
+import { getSalesByMonth } from "@/actions/admin-actions"
 
 interface SalesDashboardProps {
   initialTrends: SalesDataPoint[]
@@ -44,7 +44,6 @@ export function SalesDashboard({
   const [trends, setTrends] = useState(initialTrends)
   const [topProducts, setTopProducts] = useState(initialTopProducts)
   const [lowStockCount, setLowStockCount] = useState(initialLowStockCount)
-  const [range, setRange] = useState<"7" | "30" | "month">("30")
   const [selectedMonth, setSelectedMonth] = useState(() => {
     const now = new Date()
     return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`
@@ -62,20 +61,6 @@ export function SalesDashboard({
     }
     return opts
   })()
-
-  const handleRangeChange = (r: "7" | "30" | "month") => {
-    setRange(r)
-    startTransition(async () => {
-      if (r === "month") {
-        const [y, m] = selectedMonth.split("-").map(Number)
-        const data = await getSalesByMonth(y, m)
-        setTrends(data)
-      } else {
-        const data = await getSalesTrends(r === "7" ? 7 : 30)
-        setTrends(data)
-      }
-    })
-  }
 
   const handleMonthChange = (value: string) => {
     setSelectedMonth(value)
@@ -109,61 +94,24 @@ export function SalesDashboard({
         <div className="xl:col-span-2 bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
             <div>
-              <h2 className="text-lg font-bold text-gray-800">
+              <h2 className="text-lg font-bold text-gray-700 uppercase">
                 Tendencias de ventas en el tiempo
               </h2>
               <p className="text-sm text-gray-500 mt-0.5">
                 Distribución de ingresos por período
               </p>
             </div>
-            <div className="flex flex-wrap items-center gap-2">
-              <button
-                type="button"
-                onClick={() => handleRangeChange("7")}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  range === "7"
-                    ? "bg-secondary text-white"
-                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                }`}
-              >
-                7 días
-              </button>
-              <button
-                type="button"
-                onClick={() => handleRangeChange("30")}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  range === "30"
-                    ? "bg-secondary text-white"
-                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                }`}
-              >
-                30 días
-              </button>
-              <button
-                type="button"
-                onClick={() => handleRangeChange("month")}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  range === "month"
-                    ? "bg-secondary text-white"
-                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                }`}
-              >
-                Por mes
-              </button>
-              {range === "month" && (
-                <select
-                  value={selectedMonth}
-                  onChange={(e) => handleMonthChange(e.target.value)}
-                  className="ml-2 px-4 py-2 rounded-lg text-sm font-medium border border-gray-200 bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-secondary"
-                >
-                  {monthOptions.map((opt) => (
-                    <option key={opt.value} value={opt.value}>
-                      {opt.label}
-                    </option>
-                  ))}
-                </select>
-              )}
-            </div>
+            <select
+              value={selectedMonth}
+              onChange={(e) => handleMonthChange(e.target.value)}
+              className="px-4 py-2 rounded-lg text-sm font-medium border border-gray-200 bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-secondary"
+            >
+              {monthOptions.map((opt) => (
+                <option key={opt.value} value={opt.value}>
+                  {opt.label}
+                </option>
+              ))}
+            </select>
           </div>
 
           <div className="h-[320px]">
@@ -195,7 +143,7 @@ export function SalesDashboard({
                       border: "1px solid #e5e7eb",
                       borderRadius: "8px",
                     }}
-                    formatter={(value: number) => [formatPrice(value), "Ingresos"]}
+                    formatter={(value) => [typeof value === "number" ? formatPrice(value) : "—", "Ingresos"]}
                     labelFormatter={(label) => `Período: ${label}`}
                   />
                   <Area
@@ -220,7 +168,7 @@ export function SalesDashboard({
         {/* Card derecha: Productos más vendidos */}
         <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 flex flex-col">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-lg font-bold text-gray-800">
+            <h2 className="text-lg font-bold text-gray-700 uppercase">
               Productos más vendidos
             </h2>
             <Link

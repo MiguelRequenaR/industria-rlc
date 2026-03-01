@@ -1,6 +1,6 @@
 import { createClient } from "@/lib/supabase/server"
 import {
-  getSalesTrends,
+  getSalesByMonth,
   getTopSellingProducts,
 } from "@/actions/admin-actions"
 import { SalesDashboard } from "@/components/admin/sales-dashboard"
@@ -14,8 +14,9 @@ export default async function VentasPage() {
     redirect("/login")
   }
 
+  const now = new Date()
   const [salesTrends, { products: topProducts, lowStockCount }] = await Promise.all([
-    getSalesTrends(30),
+    getSalesByMonth(now.getFullYear(), now.getMonth() + 1),
     getTopSellingProducts(4),
   ])
 
