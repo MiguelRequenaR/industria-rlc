@@ -17,7 +17,7 @@ export async function POST(request: Request) {
       parsed.data
 
     const supabase = createAdminClient()
-    const { data: orderId, error } = await supabase.rpc("process_checkout", {
+    const { data: orderId, error } = await (supabase as any).rpc("process_checkout", {
       p_customer_name: customer_name,
       p_customer_phone: customer_phone,
       p_customer_address: customer_address,
