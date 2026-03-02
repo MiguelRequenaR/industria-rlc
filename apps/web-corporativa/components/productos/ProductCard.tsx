@@ -45,7 +45,7 @@ export default function ProductCard({ product }: ProductCardProps) {
   return (
     <div className="relative p-5 rounded-3xl border border-secondary bg-white">
       <Link
-        href={`/productos/${product.id}`}
+        href={`/productos/${encodeURIComponent(product.slug)}`}
         className="absolute inset-0 z-0"
         aria-label={`Ver ${product.name}`}
       />

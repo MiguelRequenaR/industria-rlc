@@ -155,7 +155,19 @@ export async function deleteCategory(id: string): Promise<{ success: boolean; er
 
   if (deleteError) {
     console.error("Error deleting category:", deleteError)
-    return { success: false, error: deleteError.message }
+
+    const message = deleteError.message.toLowerCase()
+    const code = (deleteError as { code?: string }).code
+
+    if (code === "23503" || message.includes("foreign key") || message.includes("violates foreign key")) {
+      return {
+        success: false,
+        error:
+          "No se puede eliminar esta categoría porque contiene productos. Elimina o reasigna los productos primero.",
+      }
+    }
+
+    return { success: false, error: "Error al eliminar la categoría" }
   }
 
   return { success: true }

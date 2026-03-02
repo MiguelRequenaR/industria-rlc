@@ -105,7 +105,7 @@ export interface BlogPost {
   category_id: string | null
   author_id: string | null
   read_time: string
-  content: any // JSONB
+  content: any
   is_featured: boolean
   is_published: boolean
   created_at: string
@@ -136,6 +136,7 @@ export interface Product {
   is_active: boolean
   created_at: string
   category?: Category
+  slug: string
 }
 
 export interface OrderItem {

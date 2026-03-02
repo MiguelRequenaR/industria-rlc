@@ -19,7 +19,6 @@ export function AddCategoryModal({ isOpen, onClose, onSuccess }: AddCategoryModa
   const [slug, setSlug] = useState("")
   const [imageUrl, setImageUrl] = useState<string | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [slugManuallyEdited, setSlugManuallyEdited] = useState(false)
 
   const generateSlug = (text: string) => {
     return text
@@ -34,14 +33,7 @@ export function AddCategoryModal({ isOpen, onClose, onSuccess }: AddCategoryModa
 
   const handleNameChange = (value: string) => {
     setName(value)
-    if (!slugManuallyEdited) {
-      setSlug(generateSlug(value))
-    }
-  }
-
-  const handleSlugChange = (value: string) => {
-    setSlug(value)
-    setSlugManuallyEdited(true)
+    setSlug(generateSlug(value))
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -102,9 +94,8 @@ export function AddCategoryModal({ isOpen, onClose, onSuccess }: AddCategoryModa
                 <Input
                   type="text"
                   value={slug}
-                  onChange={(e) => handleSlugChange(e.target.value)}
                   placeholder="herramientas-manuales"
-                  disabled={isSubmitting}
+                  disabled
                 />
 
               </div>

@@ -19,6 +19,7 @@ interface AddProductModalProps {
 
 export function AddProductModal({ isOpen, onClose, onSuccess, categories }: AddProductModalProps) {
   const [name, setName] = useState("")
+  const [slug, setSlug] = useState("")
   const [sku, setSku] = useState("")
   const [description, setDescription] = useState("")
   const [categoryId, setCategoryId] = useState<string>("")
@@ -32,10 +33,28 @@ export function AddProductModal({ isOpen, onClose, onSuccess, categories }: AddP
   const [isActive, setIsActive] = useState(true)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
+  const generateSlug = (text: string) => {
+    return text
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-z0-9\s-]/g, "")
+      .trim()
+      .replace(/\s+/g, "-")
+      .replace(/-+/g, "-")
+  }
+
+  const handleNameChange = (value: string) => {
+    setName(value)
+    setSlug(generateSlug(value))
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     const priceNum = parseFloat(price)
-    if (!name.trim()) return
+    const cleanName = name.trim()
+    const cleanSlug = (slug || generateSlug(name)).trim()
+    if (!cleanName || !cleanSlug) return
     if (isNaN(priceNum) || priceNum < 0) {
       toast.error("El precio debe ser un número válido mayor o igual a 0")
       return
@@ -43,7 +62,8 @@ export function AddProductModal({ isOpen, onClose, onSuccess, categories }: AddP
 
     setIsSubmitting(true)
     const result = await createProduct({
-      name: name.trim(),
+      name: cleanName,
+      slug: cleanSlug,
       sku: sku.trim() || null,
       description: description.trim() || null,
       category_id: categoryId || null,
@@ -61,6 +81,7 @@ export function AddProductModal({ isOpen, onClose, onSuccess, categories }: AddP
     if (result.success) {
       toast.success("Producto creado")
       setName("")
+      setSlug("")
       setSku("")
       setDescription("")
       setCategoryId("")
@@ -99,10 +120,19 @@ export function AddProductModal({ isOpen, onClose, onSuccess, categories }: AddP
                 <Input
                   type="text"
                   value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  onChange={(e) => handleNameChange(e.target.value)}
                   placeholder="Ej: Cable THW 2.5mm"
                   disabled={isSubmitting}
                   autoFocus
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-secondary mb-1 uppercase">Slug</label>
+                <Input
+                  type="text"
+                  value={slug}
+                  placeholder="cable-thw-25mm"
+                  disabled
                 />
               </div>
               <div>

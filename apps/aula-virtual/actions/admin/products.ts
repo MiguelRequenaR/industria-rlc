@@ -5,6 +5,7 @@ import { type Product } from "@/types/database"
 
 export interface ProductCreateData {
   name: string
+  slug?: string | null
   sku?: string | null
   description?: string | null
   category_id?: string | null
@@ -19,6 +20,17 @@ export interface ProductCreateData {
 }
 
 export interface ProductUpdateData extends Partial<ProductCreateData> {}
+
+function generateSlug(text: string) {
+  return text
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9\s-]/g, "")
+    .trim()
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-")
+}
 
 export async function getAllProducts(): Promise<Product[]> {
   const supabase = await createClient()
@@ -69,8 +81,24 @@ export async function createProduct(
     return { success: false, error }
   }
 
+  const cleanSlug = (data.slug || generateSlug(data.name)).trim()
+  if (!cleanSlug) {
+    return { success: false, error: "El slug es obligatorio" }
+  }
+
+  const { data: existing } = await supabase
+    .from("products")
+    .select("id")
+    .eq("slug", cleanSlug)
+    .single()
+
+  if (existing) {
+    return { success: false, error: "Ya existe un producto con ese slug" }
+  }
+
   const { error: insertError } = await supabase.from("products").insert({
     name: data.name,
+    slug: cleanSlug,
     sku: data.sku || null,
     description: data.description || null,
     category_id: data.category_id || null,
@@ -104,6 +132,7 @@ export async function updateProduct(
 
   const updatePayload: Record<string, unknown> = {}
   if (data.name !== undefined) updatePayload.name = data.name
+  if (data.slug !== undefined) updatePayload.slug = data.slug
   if (data.sku !== undefined) updatePayload.sku = data.sku
   if (data.description !== undefined) updatePayload.description = data.description
   if (data.category_id !== undefined) updatePayload.category_id = data.category_id

@@ -26,13 +26,11 @@ export function EditCategoryModal({
   const [slug, setSlug] = useState(category.slug)
   const [imageUrl, setImageUrl] = useState<string | null>(category.image_url ?? null)
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [slugManuallyEdited, setSlugManuallyEdited] = useState(false)
 
   useEffect(() => {
     setName(category.name)
     setSlug(category.slug)
     setImageUrl(category.image_url ?? null)
-    setSlugManuallyEdited(false)
   }, [category])
 
   const generateSlug = (text: string) => {
@@ -77,14 +75,7 @@ export function EditCategoryModal({
 
   const handleNameChange = (value: string) => {
     setName(value)
-    if (!slugManuallyEdited) {
-      setSlug(generateSlug(value))
-    }
-  }
-
-  const handleSlugChange = (value: string) => {
-    setSlug(value)
-    setSlugManuallyEdited(true)
+    setSlug(generateSlug(value))
   }
 
   return (
@@ -114,8 +105,7 @@ export function EditCategoryModal({
                 <Input
                   type="text"
                   value={slug}
-                  onChange={(e) => handleSlugChange(e.target.value)}
-                  disabled={isSubmitting}
+                  disabled
                 />
               </div>
               <CategoryImageUpload

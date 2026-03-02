@@ -20,6 +20,7 @@ interface EditProductModalProps {
 
 export function EditProductModal({ isOpen, onClose, product, categories, onSuccess }: EditProductModalProps) {
   const [name, setName] = useState(product.name)
+  const [slug, setSlug] = useState(product.slug || "")
   const [sku, setSku] = useState(product.sku || "")
   const [description, setDescription] = useState(product.description || "")
   const [categoryId, setCategoryId] = useState(product.category_id || "")
@@ -33,8 +34,25 @@ export function EditProductModal({ isOpen, onClose, product, categories, onSucce
   const [isActive, setIsActive] = useState(product.is_active)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
+  const generateSlug = (text: string) => {
+    return text
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-z0-9\s-]/g, "")
+      .trim()
+      .replace(/\s+/g, "-")
+      .replace(/-+/g, "-")
+  }
+
+  const handleNameChange = (value: string) => {
+    setName(value)
+    setSlug(generateSlug(value))
+  }
+
   useEffect(() => {
     setName(product.name)
+    setSlug(product.slug || "")
     setSku(product.sku || "")
     setDescription(product.description || "")
     setCategoryId(product.category_id || "")
@@ -51,7 +69,9 @@ export function EditProductModal({ isOpen, onClose, product, categories, onSucce
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     const priceNum = parseFloat(price)
-    if (!name.trim()) return
+    const cleanName = name.trim()
+    const cleanSlug = (slug || generateSlug(name)).trim()
+    if (!cleanName || !cleanSlug) return
     if (isNaN(priceNum) || priceNum < 0) {
       toast.error("El precio debe ser un número válido mayor o igual a 0")
       return
@@ -59,7 +79,8 @@ export function EditProductModal({ isOpen, onClose, product, categories, onSucce
 
     setIsSubmitting(true)
     const result = await updateProduct(product.id, {
-      name: name.trim(),
+      name: cleanName,
+      slug: cleanSlug,
       sku: sku.trim() || null,
       description: description.trim() || null,
       category_id: categoryId || null,
@@ -102,8 +123,17 @@ export function EditProductModal({ isOpen, onClose, product, categories, onSucce
                 <Input
                   type="text"
                   value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  onChange={(e) => handleNameChange(e.target.value)}
                   disabled={isSubmitting}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-secondary mb-1 uppercase">Slug</label>
+                <Input
+                  type="text"
+                  value={slug}
+                  placeholder="cable-thw-25mm"
+                  disabled
                 />
               </div>
               <div>

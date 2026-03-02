@@ -37,7 +37,7 @@ export default function ProductDetail({ product, relatedProducts }: ProductDetai
   ]
 
   return (
-    <div className="max-w-7xl mx-auto px-4 pt-15 md:pt-40 pb-10">
+    <div className="max-w-7xl mx-auto px-4 pt-25 md:pt-45 pb-10">
       <div className="flex flex-col lg:flex-row gap-20">
         <div className="lg:w-1/2" data-aos="fade-up">
           <div className="bg-white rounded-2xl overflow-hidden shadow-2xl">
@@ -258,7 +258,7 @@ export default function ProductDetail({ product, relatedProducts }: ProductDetai
               {relatedProducts.map((p) => (
                 <Link
                   key={p.id}
-                  href={`/productos/${p.id}`}
+                  href={`/productos/${encodeURIComponent(p.slug)}`}
                   className="flex gap-4 group hover:bg-secondary/10 rounded-xl p-4"
                 >
                   <div className="relative w-16 h-16 rounded-lg overflow-hidden bg-gray-100 shrink-0">

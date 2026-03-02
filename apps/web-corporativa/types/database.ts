@@ -24,6 +24,7 @@ export interface Product {
   is_active: boolean
   created_at: string
   category?: Category
+  slug: string
 }
 
 export type OrderStatus = "pendiente" | "completado" | "cancelado"

@@ -52,6 +52,24 @@ export async function getProductById(id: string): Promise<Product | null> {
   return data as Product
 }
 
+export async function getProductBySlug(slug: string): Promise<Product | null> {
+  const supabase = createClient()
+
+  const { data, error } = await supabase
+    .from("products")
+    .select("*, category:categories(id, name, slug, image_url)")
+    .eq("slug", slug)
+    .eq("is_active", true)
+    .single()
+
+  if (error || !data) {
+    console.error("Error fetching product by slug:", error)
+    return null
+  }
+
+  return data as Product
+}
+
 export async function getRelatedProducts(
   productId: string,
   categoryId: string | null,
