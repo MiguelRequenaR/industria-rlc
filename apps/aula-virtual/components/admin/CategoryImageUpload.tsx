@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { createClient } from "@/lib/supabase/client"
 import Image from "next/image"
-import { Camera, Loader2, Tags } from "lucide-react"
+import { Camera, Loader2, Pencil, X } from "lucide-react"
 import { toast } from "react-toastify"
 import { nanoid } from "nanoid"
 
@@ -31,6 +31,11 @@ export function CategoryImageUpload({
   useEffect(() => {
     setPreview(currentUrl || null)
   }, [currentUrl])
+
+  const handleRemoveImage = () => {
+    setPreview(null)
+    onUrlChange(null)
+  }
 
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     try {
@@ -85,13 +90,23 @@ export function CategoryImageUpload({
       </label>
       <div className="flex flex-wrap gap-3">
         {preview && (
-          <div className="relative h-24 w-24 rounded-lg border border-gray-200 overflow-hidden bg-gray-100">
+          <div className="relative h-24 w-24 rounded-lg border border-gray-200 overflow-hidden bg-gray-100 group">
             <Image
               src={preview}
               alt="Categoría"
               fill
               className="object-cover"
             />
+            {!disabled && (
+              <button
+                type="button"
+                onClick={handleRemoveImage}
+                className="absolute top-1 right-1 h-6 w-6 rounded-full bg-red-500 text-white flex items-center justify-center cursor-pointer hover:bg-red-600 opacity-0 group-hover:opacity-100 transition-opacity"
+                aria-label="Quitar imagen"
+              >
+                <X className="h-3 w-3" />
+              </button>
+            )}
           </div>
         )}
         {!disabled && (
@@ -100,7 +115,11 @@ export function CategoryImageUpload({
               <Loader2 className="h-8 w-8 animate-spin text-gray-500" />
             ) : (
               <>
-                <Camera className="h-8 w-8 text-gray-400" />
+                {preview ? (
+                  <Pencil className="h-8 w-8 text-gray-400" />
+                ) : (
+                  <Camera className="h-8 w-8 text-gray-400" />
+                )}
                 <span className="text-xs text-gray-500 mt-1 uppercase">
                   {preview ? "Cambiar" : "Añadir"}
                 </span>

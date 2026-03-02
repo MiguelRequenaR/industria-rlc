@@ -67,12 +67,12 @@ export default function CheckoutPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 pt-50 pb-16">
-      <h1 className="text-2xl font-bold text-primary uppercase mb-8">
+      <h1 className="text-2xl font-bold text-primary uppercase mb-8" data-aos="fade-up">
         Checkout — Confirmar pedido
       </h1>
 
       <div className="grid md:grid-cols-2 gap-10">
-        <section>
+        <section data-aos="fade-up">
           <h2 className="text-lg font-semibold text-primary uppercase mb-4">
             Tus datos
           </h2>
@@ -126,7 +126,7 @@ export default function CheckoutPage() {
               <button
                 type="submit"
                 disabled={mutation.isPending}
-                className="flex items-center justify-center gap-2 px-6 py-3 bg-secondary text-white font-semibold rounded-xl hover:bg-white hover:text-primary border border-transparent hover:border-secondary transition-all duration-300 disabled:opacity-60 uppercase cursor-pointer"
+                className="flex items-center justify-center gap-2 px-6 py-3 bg-secondary text-white font-semibold rounded-xl hover:bg-white hover:text-secondary border border-transparent hover:border-secondary transition-all duration-300 disabled:opacity-60 uppercase cursor-pointer"
               >
                 {mutation.isPending ? (
                   <Loader2 className="w-5 h-5 animate-spin" />
@@ -152,11 +152,11 @@ export default function CheckoutPage() {
           </form>
         </section>
 
-        <section>
+        <section data-aos="fade-up" data-aos-delay="100">
           <h2 className="text-lg font-semibold text-primary uppercase mb-4">
             Resumen del carrito
           </h2>
-          <div className="border border-gray-200 rounded-xl overflow-hidden bg-white">
+          <div className="shadow-2xl rounded-2xl overflow-hidden bg-white">
             <ul className="divide-y divide-gray-200">
               {items.map((item) => (
                 <li key={item.productId} className="flex gap-4 p-4">
@@ -183,7 +183,7 @@ export default function CheckoutPage() {
                       <button
                         type="button"
                         onClick={() => setQty(item.productId, item.qty - 1)}
-                        className="p-1 rounded border border-gray-300 hover:bg-gray-100"
+                        className="p-1 rounded border border-gray-300 hover:bg-gray-100 cursor-pointer"
                         aria-label="Menos"
                       >
                         <Minus className="w-3 h-3" />
@@ -194,7 +194,7 @@ export default function CheckoutPage() {
                       <button
                         type="button"
                         onClick={() => setQty(item.productId, item.qty + 1)}
-                        className="p-1 rounded border border-gray-300 hover:bg-gray-100"
+                        className="p-1 rounded border border-gray-300 hover:bg-gray-100 cursor-pointer"
                         aria-label="Más"
                       >
                         <Plus className="w-3 h-3" />
@@ -202,7 +202,7 @@ export default function CheckoutPage() {
                       <button
                         type="button"
                         onClick={() => removeItem(item.productId)}
-                        className="p-1 text-red-600 hover:bg-red-50 rounded ml-2"
+                        className="p-1 text-red-600 hover:bg-red-50 rounded ml-2 cursor-pointer"
                         aria-label="Eliminar"
                       >
                         <Trash2 className="w-4 h-4" />
@@ -224,7 +224,7 @@ export default function CheckoutPage() {
               </span>
             </div>
           </div>
-          <p className="text-sm text-gray-600 mt-3">
+          <p className="text-sm text-primary mt-5 mx-5">
             Al solicitar el pedido se reservará el stock y serás redirigido a
             WhatsApp para confirmar con nosotros.
           </p>

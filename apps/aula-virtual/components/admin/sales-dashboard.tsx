@@ -71,6 +71,16 @@ export function SalesDashboard({
     })
   }
 
+  const totalRevenue = trends.reduce((sum, d) => sum + d.revenue, 0)
+  const averageRevenue = trends.length > 0 ? totalRevenue / trends.length : 0
+  const daysWithSales = trends.filter((d) => d.revenue > 0).length
+  const bestDay = trends.reduce<SalesDataPoint | null>(
+    (best, d) => (best == null || d.revenue > best.revenue ? d : best),
+    null
+  )
+  const selectedMonthLabel =
+    monthOptions.find((m) => m.value === selectedMonth)?.label ?? ""
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -87,11 +97,13 @@ export function SalesDashboard({
             Tendencias de ventas y productos más vendidos
           </p>
         </div>
+        <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-32 -mt-32"></div>
+        <div className="absolute bottom-0 right-20 w-40 h-40 bg-white/5 rounded-full"></div>
       </div>
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
         {/* Card izquierda: Tendencias de ventas */}
-        <div className="xl:col-span-2 bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
+        <div className="xl:col-span-2 bg-secondary/20 rounded-3xl p-6">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
             <div>
               <h2 className="text-lg font-bold text-gray-700 uppercase">
@@ -166,17 +178,11 @@ export function SalesDashboard({
         </div>
 
         {/* Card derecha: Productos más vendidos */}
-        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 flex flex-col">
+        <div className="bg-secondary/20 rounded-3xl p-6 flex flex-col">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-lg font-bold text-gray-700 uppercase">
               Productos más vendidos
             </h2>
-            <Link
-              href="/admin/productos"
-              className="text-sm font-medium text-secondary hover:underline"
-            >
-              Ver todos
-            </Link>
           </div>
 
           <div className="space-y-4 flex-1">
@@ -218,8 +224,8 @@ export function SalesDashboard({
                 )
               })
             ) : (
-              <div className="py-8 text-center text-gray-500">
-                <p className="text-sm">No hay ventas registradas aún</p>
+              <div className="py-8 text-center text-gray-700">
+                <p className="text-sm uppercase">No hay ventas registradas aún</p>
               </div>
             )}
           </div>
@@ -246,6 +252,88 @@ export function SalesDashboard({
             </div>
           )}
         </div>
+      </div>
+
+      {/* Resumen de ventas */}
+      <div className="bg-secondary/20 rounded-3xl p-6">
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <h2 className="text-lg font-bold text-gray-700 uppercase">
+              Resumen de ventas del período
+            </h2>
+            {selectedMonthLabel && (
+              <p className="text-sm text-gray-700 mt-0.5 uppercase">
+                {selectedMonthLabel}
+              </p>
+            )}
+          </div>
+          {isPending && (
+            <span className="text-xs font-medium text-gray-700">
+              Actualizando datos...
+            </span>
+          )}
+        </div>
+
+        {trends.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="rounded-3xl bg-blue-50 border border-blue-500 p-4">
+              <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">
+                Ingresos totales
+              </p>
+              <p className="mt-2 text-2xl font-bold text-gray-900">
+                {formatPrice(totalRevenue)}
+              </p>
+            </div>
+
+            <div className="rounded-3xl bg-green-50 border border-green-500 p-4">
+              <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">
+                Promedio diario
+              </p>
+              <p className="mt-2 text-2xl font-bold text-gray-900">
+                {formatPrice(averageRevenue)}
+              </p>
+              <p className="mt-1 text-xs text-gray-500">
+                Basado en {trends.length} día{trends.length !== 1 ? "s" : ""}
+              </p>
+            </div>
+
+            <div className="rounded-3xl bg-yellow-50 border border-yellow-500 p-4">
+              <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">
+                Días con ventas
+              </p>
+              <p className="mt-2 text-2xl font-bold text-gray-900">
+                {daysWithSales}
+              </p>
+              <p className="mt-1 text-xs text-gray-500">
+                De {trends.length} día{trends.length !== 1 ? "s" : ""} en el período
+              </p>
+            </div>
+
+            <div className="rounded-3xl bg-indigo-50 border border-indigo-500 p-4">
+              <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">
+                Mejor día
+              </p>
+              {bestDay ? (
+                <>
+                  <p className="mt-2 text-sm font-medium text-gray-900">
+                    {bestDay.month}
+                  </p>
+                  <p className="mt-1 text-xl font-bold text-gray-900">
+                    {formatPrice(bestDay.revenue)}
+                  </p>
+                </>
+              ) : (
+                <p className="mt-2 text-sm text-gray-500">
+                  Sin datos disponibles
+                </p>
+              )}
+            </div>
+          </div>
+        ) : (
+          <p className="text-sm text-gray-500">
+            No hay datos suficientes para mostrar el resumen en este período.
+          </p>
+        )}
       </div>
     </div>
   )

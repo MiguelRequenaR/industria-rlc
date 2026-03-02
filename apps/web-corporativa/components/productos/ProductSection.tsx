@@ -33,6 +33,9 @@ export default function ProductSection({ products }: ProductSectionProps) {
           <ProductCard key={product.id} product={product} />
         ))}
       </div>
+      {products.length === 0 && (
+        <p className="text-tertiary col-span-full text-gray-700 uppercase text-center" data-aos="fade-up" data-aos-delay="200">No hay productos disponibles.</p>
+      )}
     </section>
   )
 }

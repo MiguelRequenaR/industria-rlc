@@ -1,5 +1,5 @@
 "use client"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Menu, X, Mail, Phone, Search, ShoppingCart } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
@@ -23,6 +23,13 @@ export default function NavBar() {
   const [showResults, setShowResults] = useState(false);
   const router = useRouter();
   const cartCount = useCartStore((s) => s.totalItems());
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const displayCartCount = mounted ? cartCount : 0;
 
   // Función para cerrar los resultados con un pequeño delay
   const handleBlur = () => {
@@ -232,12 +239,12 @@ export default function NavBar() {
             <Link
               href="/checkout"
               className="relative flex items-center justify-center w-10 h-10 rounded-full border-2 border-secondary text-secondary hover:bg-secondary/10 transition-colors"
-              aria-label={`Carrito: ${cartCount} producto(s)`}
+              aria-label={`Carrito: ${displayCartCount} producto(s)`}
             >
               <ShoppingCart className="w-5 h-5" />
-              {cartCount > 0 && (
+              {displayCartCount > 0 && (
                 <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] flex items-center justify-center bg-secondary text-white text-xs font-bold rounded-full px-1">
-                  {cartCount > 99 ? "99+" : cartCount}
+                  {displayCartCount > 99 ? "99+" : displayCartCount}
                 </span>
               )}
             </Link>
@@ -350,13 +357,13 @@ export default function NavBar() {
           </div>
 
           <Link
-              href="/checkout"
-              onClick={() => setMenuOpen(false)}
-              className="flex items-center justify-center gap-2 py-3 px-4 rounded-full border border-white text-white hover:bg-white/10 mb-4"
-            >
-              <ShoppingCart className="w-5 h-5" />
-              Carrito {cartCount > 0 && `(${cartCount})`}
-            </Link>
+            href="/checkout"
+            onClick={() => setMenuOpen(false)}
+            className="flex items-center justify-center gap-2 py-3 px-4 rounded-full border border-white text-white hover:bg-white/10 mb-4"
+          >
+            <ShoppingCart className="w-5 h-5" />
+            Carrito {displayCartCount > 0 && `(${displayCartCount})`}
+          </Link>
           <ul className="flex flex-col gap-8 text-white text-lg font-semibold">
             {links.map((item) => (
               <li key={item.label}>

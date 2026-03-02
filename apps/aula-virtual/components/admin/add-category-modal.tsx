@@ -106,11 +106,7 @@ export function AddCategoryModal({ isOpen, onClose, onSuccess }: AddCategoryModa
                   placeholder="herramientas-manuales"
                   disabled={isSubmitting}
                 />
-                {name && (
-                  <p className="text-xs text-gray-500 mt-1">
-                    URL sugerida: /categorias/{generateSlug(name) || "slug"}
-                  </p>
-                )}
+
               </div>
               <CategoryImageUpload
                 categoryId={null}

@@ -147,10 +147,10 @@ export function CategoriesTable({ initialCategories }: CategoriesTableProps) {
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 uppercase">
                       {cat.name}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
                       {cat.slug}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
                       {new Date(cat.created_at).toLocaleDateString("es-ES", {
                         day: "2-digit",
                         month: "long",
@@ -239,7 +239,7 @@ export function CategoriesTable({ initialCategories }: CategoriesTableProps) {
                   ¿Estás seguro de que quieres eliminar la categoría{" "}
                   <span className="font-semibold">{deletingCategory.name}</span>?
                 </p>
-                <p className="text-xs text-red-600 uppercase">
+                <p className="text-xs text-red-600 uppercase bg-red-100 p-2 rounded-lg">
                   Esta acción es permanente. Asegúrate de que no existan productos usando esta categoría.
                 </p>
               </div>

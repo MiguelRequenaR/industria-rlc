@@ -31,7 +31,7 @@ export default function CategorySection({ products, categories }: CategorySectio
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-6" data-aos="fade-up" data-aos-delay="200">
         {categories.length === 0 ? (
-          <p className="text-tertiary col-span-full">No hay categorías disponibles.</p>
+          <p className="text-tertiary col-span-full text-gray-700 uppercase text-center">No hay categorías disponibles.</p>
         ) : (
           categories.map((cat) => (
             <Link

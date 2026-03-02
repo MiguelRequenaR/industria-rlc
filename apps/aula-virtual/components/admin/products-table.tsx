@@ -164,31 +164,31 @@ export function ProductsTable({ initialProducts, categories }: ProductsTableProp
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 uppercase">
                       {p.name}
                     </td>
-                    <td className="px-6 py-4 max-w-[200px] text-sm text-gray-500" title={p.description || undefined}>
+                    <td className="px-6 py-4 max-w-[200px] text-sm text-gray-700" title={p.description || undefined}>
                       {p.description ? (
                         p.description.length > 80 ? `${p.description.slice(0, 80)}...` : p.description
                       ) : "—"}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
                       {p.sku || "—"}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
                       {p.category?.name ?? "—"}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 text-center">
                       {p.stock}
                       {p.stock <= p.min_stock && (
                         <span className="text-red-600 text-xs ml-1">(bajo)</span>
                       )}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 text-center">
                       {p.min_stock}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
                       S/ {Number(p.price).toFixed(2)}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <Badge variant={p.is_active ? "estudiante" : "default"}>
+                    <td className="px-6 py-4 whitespace-nowrap uppercase">
+                      <Badge variant={p.is_active ? "estudiante" : "super_admin"}>
                         {p.is_active ? "Activo" : "Inactivo"}
                       </Badge>
                     </td>

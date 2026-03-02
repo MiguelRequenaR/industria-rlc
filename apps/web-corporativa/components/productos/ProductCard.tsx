@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import Link from "next/link"
 import type { Product } from "@/types/database"
 import { Tag, ShoppingCart } from "lucide-react"
@@ -16,17 +17,27 @@ export function formatPrice(price: number) {
 
 export default function ProductCard({ product }: ProductCardProps) {
   const addItem = useCartStore((s) => s.addItem)
+  const items = useCartStore((s) => s.items)
+  const [maxReached, setMaxReached] = useState(false)
   const inStock = product.stock > 0
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
     if (!inStock) return
+    const existing = items.find((i) => i.productId === product.id)
+    const currentQty = existing?.qty ?? 0
+    if (currentQty >= product.stock) {
+      setMaxReached(true)
+      setTimeout(() => setMaxReached(false), 5000)
+      return
+    }
     addItem({
       productId: product.id,
       name: product.name,
       price: product.price,
       imageUrl: product.image_urls?.[0] ?? null,
+      stock: product.stock,
       qty: 1,
     })
   }
@@ -58,15 +69,22 @@ export default function ProductCard({ product }: ProductCardProps) {
           S/. {formatPrice(product.price)}
         </h3>
       </div>
-      <button
-        type="button"
-        onClick={handleAddToCart}
-        disabled={!inStock}
-        className="relative z-10 w-full h-12 rounded-xl text-secondary border border-secondary hover:bg-secondary/20 flex items-center justify-center gap-2 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
-      >
-        <ShoppingCart className="w-5 h-5" />
-        Añadir al carrito
-      </button>
+      <div className="space-y-1">
+        <button
+          type="button"
+          onClick={handleAddToCart}
+          disabled={!inStock}
+          className="relative z-10 w-full h-12 rounded-xl text-secondary border border-secondary hover:bg-secondary/20 flex items-center justify-center gap-2 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+        >
+          <ShoppingCart className="w-5 h-5" />
+          Añadir al carrito
+        </button>
+        {maxReached && (
+          <p className="text-[11px] text-red-600 text-center uppercase mt-2">
+            Stock máximo alcanzado ({product.stock} unidades)
+          </p>
+        )}
+      </div>
     </div>
   )
 }

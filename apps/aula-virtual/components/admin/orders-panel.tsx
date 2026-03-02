@@ -125,11 +125,13 @@ export function OrdersPanel({
             Administra las órdenes de la web corporativa
           </p>
         </div>
+        <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-32 -mt-32"></div>
+        <div className="absolute bottom-0 right-20 w-40 h-40 bg-white/5 rounded-full"></div>
       </div>
 
       <div className="flex flex-col lg:flex-row gap-6 flex-1 min-h-0">
         {/* Panel izquierdo: Órdenes recientes */}
-        <div className="flex-1 lg:min-w-0 lg:flex-3 flex flex-col bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden min-h-0">
+        <div className="flex-1 lg:min-w-0 lg:flex-3 flex flex-col bg-secondary/20 rounded-3xl overflow-hidden min-h-0">
           <div className="p-4 border-b border-gray-200 flex items-center justify-between shrink-0">
             <h2 className="text-lg font-bold text-gray-800 uppercase">
               Órdenes Recientes
@@ -145,21 +147,21 @@ export function OrdersPanel({
 
           <div className="flex-1 min-h-0 overflow-auto">
             <table className="w-full">
-              <thead className="bg-gray-50">
+              <thead className="bg-secondary/20">
                 <tr>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                     Order ID
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                     Cliente
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                     Fecha
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                     Total
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                     Estado
                   </th>
                 </tr>
@@ -225,36 +227,29 @@ export function OrdersPanel({
         </div>
 
         {/* Panel derecho: Detalles de la orden */}
-        <div className="lg:w-[400px] bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden flex flex-col">
+        <div className="lg:w-[400px] bg-secondary/20 rounded-3xl overflow-hidden flex flex-col">
           {selectedOrder ? (
             <>
-              <div className="p-6 border-b border-gray-200">
-                <p className="text-xs font-semibold text-gray-400 uppercase mb-1">
+              <div className="p-6 border-b border-gray-700/50">
+                <p className="text-xs font-semibold text-gray-700 uppercase mb-1">
                   Detalles de la orden
                 </p>
                 <div className="flex items-start justify-between gap-2">
                   <h3 className="text-xl font-bold text-gray-900">
                     {formatOrderId(selectedOrder.id)}
                   </h3>
-                  <button
-                    type="button"
-                    className="p-2 rounded-lg hover:bg-gray-100 text-gray-500"
-                    aria-label="Imprimir"
-                  >
-                    <Printer className="w-5 h-5" />
-                  </button>
                 </div>
-                <p className="text-sm text-gray-500 mt-1">
+                <p className="text-sm text-gray-700 mt-1 uppercase">
                   Realizado el {formatDateTime(selectedOrder.created_at)}
                 </p>
               </div>
 
-              <div className="p-6 border-b border-gray-200">
-                <p className="text-xs font-semibold text-gray-400 uppercase mb-3">
+              <div className="p-6 border-b border-gray-700/50">
+                <p className="text-xs font-semibold text-gray-700 uppercase mb-3">
                   Información del cliente
                 </p>
                 <div className="flex gap-3">
-                  <User className="w-5 h-5 text-gray-400 shrink-0 mt-0.5" />
+                  <User className="w-5 h-5 text-gray-700 shrink-0 mt-0.5" />
                   <div className="space-y-1">
                     <p className="font-medium text-gray-900">
                       {selectedOrder.customer_name}
@@ -269,8 +264,8 @@ export function OrdersPanel({
                 </div>
               </div>
 
-              <div className="p-6 border-b border-gray-200 flex-1">
-                <p className="text-xs font-semibold text-gray-400 uppercase mb-3">
+              <div className="p-6 flex-1">
+                <p className="text-xs font-semibold text-gray-700 uppercase mb-3">
                   Resumen del pedido
                 </p>
                 <div className="space-y-3">
@@ -280,27 +275,27 @@ export function OrdersPanel({
                       className="flex justify-between items-start gap-2"
                     >
                       <div>
-                        <p className="font-medium text-gray-900">{item.name}</p>
-                        <p className="text-sm text-gray-500">
+                        <p className="font-medium text-gray-700">{item.name}</p>
+                        <p className="text-sm text-gray-700 uppercase">
                           Cant: {item.qty} x S/. {item.price.toFixed(2)}
                         </p>
                       </div>
-                      <p className="font-semibold text-gray-900 shrink-0">
+                      <p className="font-semibold text-gray-700 shrink-0">
                         S/. {(item.qty * item.price).toFixed(2)}
                       </p>
                     </div>
                   ))}
-                  <div className="pt-3 space-y-1 border-t border-gray-200">
+                  <div className="pt-3 space-y-1 border-t border-gray-700/50">
                     <div className="flex justify-between text-sm">
-                      <span className="text-gray-600">Subtotal</span>
+                      <span className="text-gray-700 uppercase">Subtotal</span>
                       <span>S/. {selectedOrder.total_amount.toFixed(2)}</span>
                     </div>
                     <div className="flex justify-between text-sm text-green-600 font-medium">
-                      <span>Envío</span>
-                      <span>Consultar</span>
+                      <span className="text-gray-700 uppercase">Envío</span>
+                      <span className="uppercase">Consultar</span>
                     </div>
                     <div className="flex justify-between font-bold text-lg pt-1">
-                      <span>Total</span>
+                      <span className="text-gray-700 uppercase">Total</span>
                       <span>S/. {selectedOrder.total_amount.toFixed(2)}</span>
                     </div>
                   </div>
