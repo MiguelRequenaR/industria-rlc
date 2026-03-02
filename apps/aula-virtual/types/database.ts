@@ -5,6 +5,7 @@ export type UserStatus = "activo" | "archivado"
 export type ContentType = "video" | "pdf" | "meet_link" | "quiz"
 export type CourseDifficulty = "Basico" | "Intermedio" | "Avanzado"
 export type CourseModality = "Virtual" | "Presencial" | "Semipresencial"
+export type OrderStatus = "pendiente" | "completado" | "cancelado"
 
 export interface Profile {
   id: string
@@ -104,11 +105,67 @@ export interface BlogPost {
   category_id: string | null
   author_id: string | null
   read_time: string
-  content: any // JSONB
+  content: any
   is_featured: boolean
   is_published: boolean
   created_at: string
   updated_at: string
+}
+
+export interface Category {
+  id: string
+  name: string
+  slug: string
+  created_at: string
+  image_url: string | null
+}
+
+export interface Product {
+  id: string
+  sku: string | null
+  description: string | null
+  category_id: string | null
+  name: string
+  brand: string | null
+  unit_measure: string | null
+  location: string | null
+  stock: number
+  min_stock: number
+  price: number
+  image_urls: string[]
+  is_active: boolean
+  created_at: string
+  category?: Category
+  slug: string
+}
+
+export interface OrderItem {
+  id: string
+  name: string
+  qty: number
+  price: number
+}
+
+/** Formato bruto de items en la BD (JSONB) */
+export interface OrderItemRow {
+  id: string
+  qty: number
+}
+
+export interface Order {
+  id: string
+  customer_name: string
+  customer_phone: string
+  customer_address: string | null
+  total_amount: number
+  status: OrderStatus
+  items: OrderItem[]
+  created_at: string
+}
+
+/** Row de la tabla orders (items vienen como { id, qty } desde JSONB) */
+export interface OrderRow extends Omit<Order, "items"> {
+  items: OrderItemRow[]
 }
 
 export interface BlogPostWithDetails extends BlogPost {
@@ -236,6 +293,21 @@ export interface Database {
         Row: Certificate
         Insert: Omit<Certificate, "id" | "created_at" | "issued_at"> & { id?: string }
         Update: Partial<Omit<Certificate, "id" | "created_at" | "issued_at">>
+      }
+      categories: {
+        Row: Category
+        Insert: Omit<Category, "id" | "created_at"> & { id?: string }
+        Update: Partial<Omit<Category, "id" | "created_at">>
+      }
+      products: {
+        Row: Product
+        Insert: Omit<Product, "id" | "created_at"> & { id?: string }
+        Update: Partial<Omit<Product, "id" | "created_at">>
+      }
+      orders: {
+        Row: OrderRow
+        Insert: Omit<OrderRow, "id" | "created_at"> & { id?: string }
+        Update: Partial<Omit<OrderRow, "id" | "created_at">>
       }
     }
     Enums: {

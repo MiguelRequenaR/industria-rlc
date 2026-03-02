@@ -12,6 +12,10 @@ import {
   LogOut,
   Mail,
   BookOpen,
+  Box,
+  Tag,
+  ShoppingCart,
+  CreditCard,
 } from "lucide-react"
 import { useProfileQuery } from "@/hooks/use-profile-query"
 import { logoutAction } from "@/actions/auth-actions"
@@ -24,6 +28,10 @@ const menusByRole = {
       { title: "Cursos", url: "/admin/cursos", icon: GraduationCap },
       { title: "Invitaciones", url: "/admin/invitaciones", icon: Mail },
       { title: "Blog", url: "/admin/blog", icon: BookOpen },
+      { title: "Productos", url: "/admin/productos", icon: Box },
+      { title: "Categorías", url: "/admin/categorias", icon: Tag },
+      { title: "Pedidos", url: "/admin/pedidos", icon: ShoppingCart },
+      { title: "Ventas", url: "/admin/ventas", icon: CreditCard },
     ],
   },
   docente: {
@@ -71,8 +79,8 @@ export function AppSidebar() {
 
   return (
     <>
-      <nav className="md:hidden fixed top-0 left-0 right-0 h-16 flex items-center z-50">
-        <div className="w-full max-w-7xl mx-auto rounded-xl shadow-lg bg-white px-1 md:px-6 flex items-center justify-between gap-1">
+      <nav className="md:hidden fixed top-0 left-0 right-0 h-16 flex items-center z-50 mx-4">
+        <div className="w-full max-w-7xl mx-auto rounded-xl shadow-lg bg-white px-2 md:px-6 flex items-center justify-between gap-1">
           <Link href={homeUrl} className="flex items-center gap-3 shrink-0">
             <div className="w-10 h-10 rounded-lg flex items-center justify-center text-white" style={{ backgroundColor: 'var(--primary)' }}>
               <GraduationCap className="w-5 h-5" />
@@ -82,25 +90,27 @@ export function AppSidebar() {
               <p className="text-xs leading-tight" style={{ color: 'var(--secondary)' }}>Industrial RLC</p>
             </div>
           </Link>
-          <ul className="flex items-center flex-1 justify-center">
-            {menu.main.map((item) => {
-              const Icon = item.icon
-              const isActive = pathname === item.url
-              return (
-                <li key={item.title}>
-                  <Link
-                    href={item.url}
-                    className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-colors ${
-                      isActive ? 'bg-orange-100 text-secondary font-medium' : 'text-secondary hover:bg-orange-100'
-                    }`}
-                  >
-                    <Icon className="w-4 h-4" />
-                    <span className="text-sm hidden lg:inline">{item.title}</span>
-                  </Link>
-                </li>
-              )
-            })}
-          </ul>
+          <div className="flex-1 overflow-x-auto">
+            <ul className="flex items-center gap-1 flex-nowrap px-1">
+              {menu.main.map((item) => {
+                const Icon = item.icon
+                const isActive = pathname === item.url
+                return (
+                  <li key={item.title} className="shrink-0">
+                    <Link
+                      href={item.url}
+                      className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-colors ${
+                        isActive ? 'bg-orange-100 text-secondary font-medium' : 'text-secondary hover:bg-orange-100'
+                      }`}
+                    >
+                      <Icon className="w-4 h-4 shrink-0" />
+                      <span className="text-sm hidden lg:inline">{item.title}</span>
+                    </Link>
+                  </li>
+                )
+              })}
+            </ul>
+          </div>
           <div className="flex items-center gap-2 shrink-0">
             <Link href="/perfil" className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-orange-100 transition-colors">
               {profile?.avatar_url ? (

@@ -26,7 +26,7 @@ export default function Footer() {
   ]
 
   const redesSociales = [
-    { nombre: 'Facebook', icon: Facebook, url: 'https://facebook.com' },
+    { nombre: 'Facebook', icon: Facebook, url: 'https://www.facebook.com/profile.php?id=61564936627769' },
     { nombre: 'Instagram', icon: Instagram, url: 'https://instagram.com' },
   ]
 

@@ -1,9 +1,10 @@
-import { MetadataRoute } from 'next'
-import { servicesData } from '@/lib/services-data'
-import { experienceData } from '@/lib/experience-data'
+import { MetadataRoute } from "next"
+import { servicesData } from "@/lib/services-data"
+import { experienceData } from "@/lib/experience-data"
+import { getProductsFromDb } from "@/lib/products-data"
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://industriarlc.com'
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const baseUrl = "https://industriarlc.com"
   
   const staticPages = [
     {
@@ -42,6 +43,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'yearly' as const,
       priority: 0.5,
     },
+    {
+      url: `${baseUrl}/productos`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/productos/catalogo`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.9,
+    },
   ]
 
   const servicePages = servicesData.flatMap(service => 
@@ -60,5 +73,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }))
 
-  return [...staticPages, ...servicePages, ...experiencePages]
+  const products = await getProductsFromDb()
+  const productPages = products
+    .filter((p) => p.slug)
+    .map((p) => ({
+      url: `${baseUrl}/productos/${p.slug}`,
+      lastModified: new Date(p.created_at),
+      changeFrequency: "weekly" as const,
+      priority: 0.6,
+    }))
+
+  return [...staticPages, ...servicePages, ...experiencePages, ...productPages]
 }

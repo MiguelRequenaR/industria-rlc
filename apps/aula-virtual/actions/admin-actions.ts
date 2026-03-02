@@ -56,3 +56,31 @@ export {
   updateBlogPost,
   deleteBlogPost,
 } from "./admin/blog"
+
+export {
+  getAllCategories,
+  createCategory,
+  updateCategory,
+  deleteCategory,
+} from "./admin/categories"
+
+export {
+  getAllProducts,
+  createProduct,
+  updateProduct,
+  deleteProduct,
+} from "./admin/products"
+
+export {
+  getOrders,
+  updateOrderStatus,
+  type OrderWithItemDetails,
+} from "./admin/orders"
+
+export {
+  getSalesTrends,
+  getSalesByMonth,
+  getTopSellingProducts,
+  type SalesDataPoint,
+  type TopProduct,
+} from "./admin/sales"

@@ -1,11 +1,12 @@
 "use client"
-import { useState } from "react"
-import { Menu, X, Mail, Phone, Search } from "lucide-react"
+import { useEffect, useState } from "react"
+import { Menu, X, Mail, Phone, Search, ShoppingCart } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { servicesData } from "@/lib/services-data"
 import { experienceData } from "@/lib/experience-data"
+import { useCartStore } from "@/store/cart-store"
 
 interface SearchResult {
   type: 'service' | 'experience';
@@ -21,15 +22,21 @@ export default function NavBar() {
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [showResults, setShowResults] = useState(false);
   const router = useRouter();
+  const cartCount = useCartStore((s) => s.totalItems());
+  const [mounted, setMounted] = useState(false);
 
-  // Función para cerrar los resultados con un pequeño delay
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const displayCartCount = mounted ? cartCount : 0;
+
   const handleBlur = () => {
     setTimeout(() => {
       setShowResults(false);
     }, 200);
   };
 
-  // Función de búsqueda
   const handleSearch = (query: string) => {
     setSearchQuery(query);
 
@@ -42,7 +49,6 @@ export default function NavBar() {
     const results: SearchResult[] = [];
     const lowerQuery = query.toLowerCase();
 
-    // Buscar en servicios
     servicesData.forEach(service => {
       service.subServices.forEach(subService => {
         if (
@@ -61,7 +67,6 @@ export default function NavBar() {
       });
     });
 
-    // Buscar en experiencias
     experienceData.forEach(experience => {
       if (
         experience.title.toLowerCase().includes(lowerQuery) ||
@@ -82,7 +87,6 @@ export default function NavBar() {
     setShowResults(results.length > 0);
   };
 
-  // Navegar al resultado seleccionado
   const handleResultClick = (result: SearchResult) => {
     if (result.type === 'service') {
       router.push(`/servicios/${result.slug}`);
@@ -227,6 +231,18 @@ export default function NavBar() {
             </ul>
           </nav>
           <div className="hidden md:flex ml-16 gap-4 items-center">
+            <Link
+              href="/checkout"
+              className="relative flex items-center justify-center w-10 h-10 rounded-full border-2 border-secondary text-secondary hover:bg-secondary/10 transition-colors"
+              aria-label={`Carrito: ${displayCartCount} producto(s)`}
+            >
+              <ShoppingCart className="w-5 h-5" />
+              {displayCartCount > 0 && (
+                <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] flex items-center justify-center bg-secondary text-white text-xs font-bold rounded-full px-1">
+                  {displayCartCount > 99 ? "99+" : displayCartCount}
+                </span>
+              )}
+            </Link>
             <a href="https://academia.industriarlc.com/" target="_blank" rel="noopener noreferrer">
               <span className="inline-block relative overflow-hidden bg-white text-primary border-2 border-secondary px-6 py-2 rounded-full font-semibold uppercase transition-all duration-300 hover:text-white hover:shadow-md cursor-pointer group">
                 <span
@@ -371,6 +387,27 @@ export default function NavBar() {
           </div>
         </nav>
         <div className="flex flex-col gap-4 justify-center pb-8 px-5">
+          <Link href="/checkout" onClick={() => setMenuOpen(false)}>
+            <button
+              type="button"
+              className="relative overflow-hidden bg-white text-primary px-8 py-3 uppercase cursor-pointer group transition-colors duration-500 hover:text-white text-base rounded-full w-full border-2 border-secondary"
+              aria-label={`Carrito: ${displayCartCount} producto(s)`}
+            >
+              <span
+                className="
+                  absolute inset-0 
+                  bg-secondary
+                  translate-y-full
+                  group-hover:translate-y-0
+                  transition-transform duration-500 ease-in-out pointer-events-none
+                "
+              />
+              <span className="relative z-10 transition-colors duration-500 font-semibold flex items-center justify-center gap-2">
+                <ShoppingCart className="w-5 h-5" />
+                Carrito {displayCartCount > 0 && `(${displayCartCount})`}
+              </span>
+            </button>
+          </Link>
           <a href="https://academia.industriarlc.com/" target="_blank" rel="noopener noreferrer">
             <button
               className="relative overflow-hidden bg-white text-primary px-8 py-3 uppercase cursor-pointer group transition-colors duration-500 hover:text-white text-base rounded-full w-full"
