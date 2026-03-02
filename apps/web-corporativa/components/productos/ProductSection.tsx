@@ -10,25 +10,27 @@ interface ProductSectionProps {
 export default function ProductSection({ products }: ProductSectionProps) {
   return (
     <section className="max-w-7xl mx-auto px-4 pb-20">
-      <div className="mb-8 flex justify-between items-center" data-aos="fade-up" data-aos-delay="100">
+      <div className="mb-10 flex flex-col md:flex-row md:justify-between md:items-center gap-6" data-aos="fade-up" data-aos-delay="100">
         <div>
           <div className="flex items-center gap-2">
             <Tags className="w-12 h-12 text-secondary" />
             <h2 className="text-2xl text-primary uppercase">Últimos Productos</h2>
           </div>
-          <p className="text-primary mt-2 max-w-2xl">
+          <p className="text-primary mt-2 max-w-2xl text-justify">
             Encuentra nuestros últimos productos agregados a nuestro catálogo. Con ofertas especiales y descuentos.
           </p>
         </div>
-        <Link
-          href="/productos/catalogo"
-          className="inline-flex items-center gap-2 mt-4 text-secondary font-medium hover:underline"
-        >
-          Ver Todos los Productos
-          <ArrowRight className="w-4 h-4" />
-        </Link>
+        <div className="self-center md:self-auto">
+          <Link
+            href="/productos/catalogo"
+            className="inline-flex items-center gap-2 mt-4 md:mt-0 text-secondary font-medium hover:underline"
+          >
+            Ver Todos los Productos
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+        </div>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6" data-aos="fade-up" data-aos-delay="200">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-6" data-aos="fade-up" data-aos-delay="200">
         {products.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}

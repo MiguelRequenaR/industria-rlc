@@ -66,7 +66,7 @@ export default function CheckoutPage() {
   const total = totalAmount()
 
   return (
-    <div className="max-w-7xl mx-auto px-4 pt-50 pb-16">
+    <div className="max-w-7xl mx-auto px-4 pt-25 md:pt-50 pb-16">
       <h1 className="text-2xl font-bold text-primary uppercase mb-8" data-aos="fade-up">
         Checkout — Confirmar pedido
       </h1>
@@ -122,7 +122,7 @@ export default function CheckoutPage() {
                 placeholder="Dirección completa para el envío"
               />
             </div>
-            <div className="flex gap-3 pt-2">
+            <div className="flex flex-col md:flex-row gap-3 pt-2">
               <button
                 type="submit"
                 disabled={mutation.isPending}
@@ -137,7 +137,7 @@ export default function CheckoutPage() {
               </button>
               <Link
                 href="/productos/catalogo"
-                className="px-6 py-3 border border-secondary text-primary font-semibold rounded-xl hover:bg-gray-50 uppercase"
+                className="px-6 py-3 border border-secondary text-primary font-semibold rounded-xl hover:bg-gray-50 uppercase text-center"
               >
                 Seguir comprando
               </Link>

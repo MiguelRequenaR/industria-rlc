@@ -111,7 +111,7 @@ export function OrdersPanel({
   const to = total === 0 ? 0 : Math.min(page * pageSize, total)
 
   return (
-    <div className="flex flex-col gap-4 min-h-0" style={{ height: "calc(100vh - 12rem)" }}>
+    <div className="flex flex-col gap-4 min-h-0">
       <div className="relative overflow-hidden rounded-2xl bg-secondary p-8 shadow-lg shrink-0">
         <div className="absolute inset-0 bg-grid-white/10" />
         <div className="relative z-10">

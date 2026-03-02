@@ -145,8 +145,8 @@ export default function ProductsCatalog({ products, categories }: ProductsCatalo
     searchTerm
 
   return (
-    <div className="flex gap-8 max-w-7xl mx-auto py-30 px-4">
-      <aside className="w-64 shrink-0 space-y-6" data-aos="fade-right" data-aos-delay="100">
+    <div className="flex flex-col md:flex-row gap-4 md:gap-8 max-w-7xl mx-auto py-12 md:py-30 px-2 md:px-4">
+      <aside className="w-full md:w-64 shrink-0 space-y-6 mb-8 md:mb-0 mx-1 md:mx-0" data-aos="fade-right" data-aos-delay="100">
         <div className="flex items-center justify-between">
           <h3 className="font-bold text-primary uppercase flex items-center gap-2">
             <Filter className="w-4 h-4" />
@@ -258,17 +258,17 @@ export default function ProductsCatalog({ products, categories }: ProductsCatalo
       </aside>
 
       <main className="flex-1 min-w-0" data-aos="fade-up" data-aos-delay="200">
-        <p className="text-sm text-primary mb-4 ml-4 uppercase">
+        <p className="text-sm text-primary mb-4 ml-2 md:ml-4 uppercase">
           {filteredProducts.length} producto{filteredProducts.length !== 1 ? "s" : ""} encontrado
           {filteredProducts.length !== 1 ? "s" : ""}
         </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
           {filteredProducts.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
         </div>
         {filteredProducts.length === 0 && (
-          <p className="text-center text-primary py-12 uppercase">
+          <p className="text-center text-primary py-8 md:py-12 uppercase">
             No se encontraron productos con los filtros seleccionados.
           </p>
         )}

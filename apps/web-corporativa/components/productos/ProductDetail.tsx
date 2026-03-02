@@ -37,7 +37,7 @@ export default function ProductDetail({ product, relatedProducts }: ProductDetai
   ]
 
   return (
-    <div className="max-w-7xl mx-auto px-4 pt-40 pb-10">
+    <div className="max-w-7xl mx-auto px-4 pt-15 md:pt-40 pb-10">
       <div className="flex flex-col lg:flex-row gap-20">
         <div className="lg:w-1/2" data-aos="fade-up">
           <div className="bg-white rounded-2xl overflow-hidden shadow-2xl">
@@ -193,7 +193,7 @@ export default function ProductDetail({ product, relatedProducts }: ProductDetai
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="bg-gray-50 rounded-2xl p-4 shadow-2xl">
               <p className="text-xs font-bold text-gray-700 uppercase mb-1">Marca</p>
               <p className="text-lg font-bold text-secondary">{product.brand ?? "—"}</p>

@@ -60,12 +60,12 @@ export default function ProductCard({ product }: ProductCardProps) {
       </div>
       <div className="py-5">
         <p className="text-sm text-secondary mt-1">{product.category?.name}</p>
-        <h3 className="text-xl text-primary uppercase">{product.name}</h3>
+        <h3 className="text-sm md:text-xl text-primary uppercase">{product.name}</h3>
         <div className="flex justify-between items-center gap-2">
-          <p className="text-sm text-primary mt-1">Marca: {product.brand ?? "—"}</p>
+          <p className="text-xs md:text-sm text-primary mt-1">Marca: {product.brand ?? "—"}</p>
           <p className="text-sm text-green-500 mt-1">({product.stock})</p>
         </div>
-        <h3 className="text-xl font-bold text-secondary mt-1">
+        <h3 className="text-lg md:text-xl font-bold text-secondary mt-1">
           S/. {formatPrice(product.price)}
         </h3>
       </div>
@@ -77,7 +77,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           className="relative z-10 w-full h-12 rounded-xl text-secondary border border-secondary hover:bg-secondary/20 flex items-center justify-center gap-2 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
         >
           <ShoppingCart className="w-5 h-5" />
-          Añadir al carrito
+          <span className="hidden md:block">Añadir al carrito</span>
         </button>
         {maxReached && (
           <p className="text-[11px] text-red-600 text-center uppercase mt-2">
