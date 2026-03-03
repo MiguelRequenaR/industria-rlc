@@ -90,7 +90,7 @@ export function SalesDashboard({
           <div className="flex items-center gap-3 mb-2">
             <CreditCard className="w-5 h-5 md:w-10 md:h-10 text-gray-700" />
             <h1 className="text-xl md:text-4xl font-bold text-gray-700 tracking-tight uppercase">
-              Ventas
+              Gestión de Ventas
             </h1>
           </div>
           <p className="text-gray-700 text-sm md:text-lg uppercase">
