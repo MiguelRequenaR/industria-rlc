@@ -150,6 +150,7 @@ export function UsersTable({ users, currentUserIsOwner = false }: UsersTableProp
         modules?: unknown
         start_date?: string | null
         end_date?: string | null
+        title?: string | null
       } | null
 
       const periodStartDate =
