@@ -231,21 +231,21 @@ export function SalesDashboard({
           </div>
 
           {lowStockCount > 0 && (
-            <div className="mt-6 p-4 rounded-xl bg-blue-50 border border-blue-100">
+            <div className="mt-6 p-4 rounded-3xl bg-blue-50">
               <div className="flex gap-3">
                 <div className="w-8 h-8 rounded-full bg-secondary/20 flex items-center justify-center shrink-0">
                   <Info className="w-4 h-4 text-secondary" />
                 </div>
                 <div className="flex-1">
-                  <p className="text-sm text-gray-700">
+                  <p className="text-sm text-gray-700 uppercase">
                     {lowStockCount} producto{lowStockCount !== 1 ? "s" : ""} de los más vendidos
                     {" "}tiene{lowStockCount === 1 ? "" : "n"} bajo stock. Considera reponer.
                   </p>
                   <Link href="/admin/productos">
-                    <Button className="mt-3 gap-2 cursor-pointer">
+                    <button className="flex items-center gap-2 cursor-pointer bg-secondary text-white px-4 py-2 rounded-3xl uppercase mt-5 border border-transparent hover:border-secondary hover:bg-blue-50 hover:text-secondary transition-all duration-500">
                       Gestionar stock
                       <ChevronRight className="w-4 h-4" />
-                    </Button>
+                    </button>
                   </Link>
                 </div>
               </div>

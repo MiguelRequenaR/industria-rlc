@@ -149,7 +149,6 @@ export interface OrderItem {
   price: number
 }
 
-/** Formato bruto de items en la BD (JSONB) */
 export interface OrderItemRow {
   id: string
   qty: number
@@ -160,6 +159,8 @@ export interface Order {
   customer_name: string
   customer_phone: string
   customer_address: string | null
+  ruc: string | null
+  company_name: string | null
   total_amount: number
   status: OrderStatus
   items: OrderItem[]

@@ -9,65 +9,65 @@ import { experienceData } from "@/lib/experience-data"
 import { useCartStore } from "@/store/cart-store"
 
 interface SearchResult {
-  type: 'service' | 'experience';
-  title: string;
-  description: string;
-  slug: string;
-  parentSlug?: string;
+  type: "service" | "experience" | "product"
+  title: string
+  description: string
+  slug: string
+  parentSlug?: string
 }
 
 export default function NavBar() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
-  const [showResults, setShowResults] = useState(false);
-  const router = useRouter();
-  const cartCount = useCartStore((s) => s.totalItems());
-  const [mounted, setMounted] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [searchQuery, setSearchQuery] = useState("")
+  const [searchResults, setSearchResults] = useState<SearchResult[]>([])
+  const [showResults, setShowResults] = useState(false)
+  const router = useRouter()
+  const cartCount = useCartStore((s) => s.totalItems())
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    setMounted(true);
-  }, []);
+    setMounted(true)
+  }, [])
 
-  const displayCartCount = mounted ? cartCount : 0;
+  const displayCartCount = mounted ? cartCount : 0
 
   const handleBlur = () => {
     setTimeout(() => {
-      setShowResults(false);
-    }, 200);
-  };
+      setShowResults(false)
+    }, 200)
+  }
 
-  const handleSearch = (query: string) => {
-    setSearchQuery(query);
+  const handleSearch = async (query: string) => {
+    setSearchQuery(query)
 
     if (query.trim().length < 2) {
-      setSearchResults([]);
-      setShowResults(false);
-      return;
+      setSearchResults([])
+      setShowResults(false)
+      return
     }
 
-    const results: SearchResult[] = [];
-    const lowerQuery = query.toLowerCase();
+    const results: SearchResult[] = []
+    const lowerQuery = query.toLowerCase()
 
-    servicesData.forEach(service => {
-      service.subServices.forEach(subService => {
+    servicesData.forEach((service) => {
+      service.subServices.forEach((subService) => {
         if (
           subService.title.toLowerCase().includes(lowerQuery) ||
           subService.description.toLowerCase().includes(lowerQuery) ||
           subService.detailedDescription?.toLowerCase().includes(lowerQuery)
         ) {
           results.push({
-            type: 'service',
+            type: "service",
             title: subService.title,
             description: subService.description,
             slug: subService.slug,
-            parentSlug: service.slug
-          });
+            parentSlug: service.slug,
+          })
         }
-      });
-    });
+      })
+    })
 
-    experienceData.forEach(experience => {
+    experienceData.forEach((experience) => {
       if (
         experience.title.toLowerCase().includes(lowerQuery) ||
         experience.description.toLowerCase().includes(lowerQuery) ||
@@ -75,28 +75,56 @@ export default function NavBar() {
         experience.location.toLowerCase().includes(lowerQuery)
       ) {
         results.push({
-          type: 'experience',
+          type: "experience",
           title: experience.title,
           description: experience.description,
-          slug: experience.slug
-        });
+          slug: experience.slug,
+        })
       }
-    });
+    })
 
-    setSearchResults(results);
-    setShowResults(results.length > 0);
-  };
+    try {
+      const res = await fetch(
+        `/api/search-products?q=${encodeURIComponent(query)}`,
+        { method: "GET" }
+      )
+      if (res.ok) {
+        const data = await res.json()
+        const products = (data.products || []) as {
+          id: string
+          name: string
+          description: string | null
+          slug: string
+        }[]
+        for (const p of products) {
+          results.push({
+            type: "product",
+            title: p.name,
+            description: p.description ?? "",
+            slug: p.slug,
+          })
+        }
+      }
+    } catch (e) {
+      console.error("Error buscando productos:", e)
+    }
+
+    setSearchResults(results)
+    setShowResults(results.length > 0)
+  }
 
   const handleResultClick = (result: SearchResult) => {
-    if (result.type === 'service') {
-      router.push(`/servicios/${result.slug}`);
+    if (result.type === "service") {
+      router.push(`/servicios/${result.slug}`)
+    } else if (result.type === "experience") {
+      router.push(`/experiencia/${result.slug}`)
     } else {
-      router.push(`/experiencia/${result.slug}`);
+      router.push(`/productos/${result.slug}`)
     }
-    setSearchQuery("");
-    setSearchResults([]);
-    setShowResults(false);
-  };
+    setSearchQuery("")
+    setSearchResults([])
+    setShowResults(false)
+  }
 
   const links = [
     {
@@ -113,13 +141,13 @@ export default function NavBar() {
     },
     {
       label: "Experiencia",
-      link: "/experiencia"
+      link: "/experiencia",
     },
     {
       label: "Productos",
       link: "/productos",
     },
-  ];
+  ]
 
   return (
     <header className="bg-white fixed top-0 left-0 right-0 z-50 shadow-lg">
@@ -154,9 +182,9 @@ export default function NavBar() {
                 <Search className="w-4 h-4 text-secondary mx-3" />
                 <input
                   type="text"
-                  placeholder="Buscar servicios o experiencias..."
+                  placeholder="Buscar servicios, experiencias o productos..."
                   value={searchQuery}
-                  onChange={(e) => handleSearch(e.target.value)}
+                  onChange={(e) => void handleSearch(e.target.value)}
                   onFocus={() => searchResults.length > 0 && setShowResults(true)}
                   onBlur={handleBlur}
                   className="w-80  h-10 rounded-fullpx-3 text-secondary focus:outline-none"
@@ -173,11 +201,20 @@ export default function NavBar() {
                       className="p-4 hover:bg-gray-100 cursor-pointer border-b border-gray-100 last:border-b-0 transition-colors"
                     >
                       <div className="flex items-start gap-3">
-                        <span className={`text-xs font-semibold px-2 py-1 rounded-full ${result.type === 'service'
-                            ? 'bg-blue-100 text-blue-700'
-                            : 'bg-green-100 text-green-700'
-                          }`}>
-                          {result.type === 'service' ? 'Servicio' : 'Experiencia'}
+                        <span
+                          className={`text-xs font-semibold px-2 py-1 rounded-full ${
+                            result.type === "service"
+                              ? "bg-blue-100 text-blue-700"
+                              : result.type === "experience"
+                              ? "bg-green-100 text-green-700"
+                              : "bg-purple-100 text-purple-700"
+                          }`}
+                        >
+                          {result.type === "service"
+                            ? "Servicio"
+                            : result.type === "experience"
+                            ? "Experiencia"
+                            : "Producto"}
                         </span>
                         <div className="flex-1">
                           <h3 className="font-semibold text-secondary text-sm mb-1">
@@ -309,7 +346,7 @@ export default function NavBar() {
                   type="text"
                   placeholder="Buscar..."
                   value={searchQuery}
-                  onChange={(e) => handleSearch(e.target.value)}
+                  onChange={(e) => void handleSearch(e.target.value)}
                   onFocus={() => searchResults.length > 0 && setShowResults(true)}
                   onBlur={handleBlur}
                   className="w-full bg-white h-10 rounded-full px-3 text-secondary focus:outline-none"
@@ -329,11 +366,20 @@ export default function NavBar() {
                       className="p-4 hover:bg-gray-100 cursor-pointer border-b border-gray-100 last:border-b-0 transition-colors"
                     >
                       <div className="flex items-start gap-3">
-                        <span className={`text-xs font-semibold px-2 py-1 rounded-full ${result.type === 'service'
-                            ? 'bg-blue-100 text-blue-700'
-                            : 'bg-green-100 text-green-700'
-                          }`}>
-                          {result.type === 'service' ? 'Servicio' : 'Experiencia'}
+                        <span
+                          className={`text-xs font-semibold px-2 py-1 rounded-full ${
+                            result.type === "service"
+                              ? "bg-blue-100 text-blue-700"
+                              : result.type === "experience"
+                              ? "bg-green-100 text-green-700"
+                              : "bg-purple-100 text-purple-700"
+                          }`}
+                        >
+                          {result.type === "service"
+                            ? "Servicio"
+                            : result.type === "experience"
+                            ? "Experiencia"
+                            : "Producto"}
                         </span>
                         <div className="flex-1">
                           <h3 className="font-semibold text-secondary text-sm mb-1">

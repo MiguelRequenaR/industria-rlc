@@ -13,8 +13,15 @@ export async function POST(request: Request) {
       )
     }
 
-    const { customer_name, customer_phone, customer_address, total_amount, items } =
-      parsed.data
+    const {
+      customer_name,
+      customer_phone,
+      customer_address,
+      ruc,
+      company_name,
+      total_amount,
+      items,
+    } = parsed.data
 
     const supabase = createAdminClient()
     const { data: orderId, error } = await (supabase as any).rpc("process_checkout", {
@@ -23,6 +30,8 @@ export async function POST(request: Request) {
       p_customer_address: customer_address,
       p_total_amount: total_amount,
       p_items: items,
+      p_ruc: ruc ?? null,
+      p_company_name: company_name ?? null,
     })
 
     if (error) {

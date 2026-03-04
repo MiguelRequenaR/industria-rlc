@@ -8,7 +8,7 @@ export default function HeroProducts() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
           <div className="p-10 space-y-10">
             <span className="text-xs text-secondary border border-secondary px-2 py-1 rounded-full">Nuestro Catálogo de Productos</span>
-            <h1 className="text-white text-5xl font-regular pt-10 uppercase">
+            <h1 className="text-white text-3xl md:text-5xl font-regular pt-10 uppercase">
               Potencia tu Siguiente <br /> <span className="text-secondary font-bold">Gran Proyecto</span> 
             </h1>
             <p className="text-white text-lg">
@@ -16,7 +16,7 @@ export default function HeroProducts() {
             </p>
             <div className="flex flex-col md:flex-row gap-4">
               <Link
-                href="/contacto"
+                href="/productos/catalogo"
                 className="relative w-fit overflow-hidden bg-primary text-white px-6 py-2 rounded-full cursor-pointer border border-white group transition-colors duration-500 hover:text-white"
               >
                 <span
@@ -27,7 +27,7 @@ export default function HeroProducts() {
                 </span>
               </Link>
               <Link
-                href="/servicios"
+                href="/productos/catalogo"
                 className="relative w-fit overflow-hidden bg-secondary text-white px-6 py-2 rounded-full cursor-pointer border border-white group transition-colors duration-500 hover:text-primary"
               >
                 <span

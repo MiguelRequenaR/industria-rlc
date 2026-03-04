@@ -17,9 +17,22 @@ export default function CheckoutPage() {
   const [name, setName] = useState("")
   const [phone, setPhone] = useState("")
   const [address, setAddress] = useState("")
+  const [ruc, setRuc] = useState("")
+  const [companyName, setCompanyName] = useState("")
+  const [fieldErrors, setFieldErrors] = useState<
+    Partial<
+      Record<
+        "customer_name" | "customer_phone" | "customer_address" | "ruc" | "company_name",
+        string
+      >
+    >
+  >({})
+  const [generalError, setGeneralError] = useState<string | null>(null)
 
   const mutation = useMutation({
     mutationFn: async () => {
+      setFieldErrors({})
+      setGeneralError(null)
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -27,12 +40,38 @@ export default function CheckoutPage() {
           customer_name: name,
           customer_phone: phone,
           customer_address: address,
+          ruc: ruc || null,
+          company_name: companyName || null,
           total_amount: totalAmount(),
           items: getItemsForCheckout(),
         }),
       })
       const data = await res.json()
-      if (!res.ok) throw new Error(data.error || "Error al procesar el pedido")
+      if (res.status === 400 && data?.details?.fieldErrors) {
+        const apiFieldErrors = data.details.fieldErrors as Record<string, string[]>
+        const mappedErrors: Partial<
+          Record<
+            "customer_name" | "customer_phone" | "customer_address" | "ruc" | "company_name",
+            string
+          >
+        > = {}
+
+          ;["customer_name", "customer_phone", "customer_address", "ruc", "company_name"].forEach(
+            (key) => {
+              const msgs = apiFieldErrors[key]
+              if (msgs && msgs.length > 0) {
+                mappedErrors[key as keyof typeof mappedErrors] = msgs[0]
+              }
+            }
+          )
+
+        setFieldErrors(mappedErrors)
+        throw new Error("VALIDATION_ERROR")
+      }
+
+      if (!res.ok) {
+        throw new Error(data.error || "Error al procesar el pedido")
+      }
       return data.orderId as string
     },
     onSuccess: (orderId) => {
@@ -41,11 +80,21 @@ export default function CheckoutPage() {
         customerName: name,
         customerPhone: phone,
         customerAddress: address,
+        ruc: ruc || null,
+        companyName: companyName || null,
         totalAmount: totalAmount(),
         items,
       })
       clear()
       window.location.href = getCheckoutWhatsAppUrl(message)
+    },
+    onError: (error) => {
+      if (error instanceof Error && error.message === "VALIDATION_ERROR") {
+        return
+      }
+      setGeneralError(
+        error instanceof Error ? error.message : "Error al procesar el pedido"
+      )
     },
   })
 
@@ -95,6 +144,9 @@ export default function CheckoutPage() {
                 className="w-full px-4 py-2 border border-secondary rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary"
                 placeholder="Ej. Juan Pérez"
               />
+              {fieldErrors.customer_name && (
+                <p className="text-red-600 text-xs mt-1 uppercase">{fieldErrors.customer_name}</p>
+              )}
             </div>
             <div>
               <label className="block text-sm font-medium text-primary mb-1 uppercase">
@@ -108,20 +160,63 @@ export default function CheckoutPage() {
                 className="w-full px-4 py-2 border border-secondary rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary"
                 placeholder="Ej. 940 162 009"
               />
+              {fieldErrors.customer_phone && (
+                <p className="text-red-600 text-xs mt-1 uppercase">{fieldErrors.customer_phone}</p>
+              )}
             </div>
             <div>
               <label className="block text-sm font-medium text-primary mb-1 uppercase">
                 Dirección de envío
               </label>
-              <textarea
+              <input
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
                 required
-                rows={3}
-                className="w-full px-4 py-2 border border-secondary rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary resize-none"
+                className="w-full px-4 py-2 border border-secondary rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary"
                 placeholder="Dirección completa para el envío"
               />
+              {fieldErrors.customer_address && (
+                <p className="text-red-600 text-xs mt-1 uppercase">
+                  {fieldErrors.customer_address}
+                </p>
+              )}
             </div>
+            <div>
+              <label className="block text-sm font-medium text-primary mb-1 uppercase">
+                Razón social (opcional)
+              </label>
+              <input
+                type="text"
+                value={companyName}
+                onChange={(e) => setCompanyName(e.target.value)}
+                className="w-full px-4 py-2 border border-secondary rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary"
+                placeholder="Nombre de la empresa"
+              />
+              {fieldErrors.company_name && (
+                <p className="text-red-600 text-xs mt-1 uppercase">
+                  {fieldErrors.company_name}
+                </p>
+              )}
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-primary mb-1 uppercase">
+                RUC (opcional)
+              </label>
+              <input
+                type="text"
+                inputMode="numeric"
+                pattern="\d*"
+                maxLength={11}
+                value={ruc}
+                onChange={(e) => setRuc(e.target.value)}
+                className="w-full px-4 py-2 border border-secondary rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary"
+                placeholder="Ej. 20481234567"
+              />
+              {fieldErrors.ruc && (
+                <p className="text-red-600 text-xs mt-1 uppercase">{fieldErrors.ruc}</p>
+              )}
+            </div>
+
             <div className="flex flex-col md:flex-row gap-3 pt-2">
               <button
                 type="submit"
@@ -142,12 +237,8 @@ export default function CheckoutPage() {
                 Seguir comprando
               </Link>
             </div>
-            {mutation.isError && (
-              <p className="text-red-600 text-sm">
-                {mutation.error instanceof Error
-                  ? mutation.error.message
-                  : "Error al procesar el pedido"}
-              </p>
+            {generalError && (
+              <p className="text-red-600 text-sm mt-2 uppercase">{generalError}</p>
             )}
           </form>
         </section>

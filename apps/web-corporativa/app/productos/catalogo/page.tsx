@@ -24,7 +24,6 @@ export default async function CatalogoPage() {
 
   return (
     <main>
-      <HeroProducts />
       <ProductsCatalog products={products} categories={categories} />
     </main>
   )

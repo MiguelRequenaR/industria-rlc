@@ -39,6 +39,8 @@ export interface Order {
   customer_name: string
   customer_phone: string
   customer_address: string | null
+  ruc: string | null
+  company_name: string | null
   total_amount: number
   items: OrderItemRow[]
   status: OrderStatus
@@ -72,6 +74,8 @@ export interface Database {
           p_customer_address: string
           p_total_amount: number
           p_items: { id: string; qty: number }[]
+          p_ruc: string | null
+          p_company_name: string | null
         }
         Returns: string
       }

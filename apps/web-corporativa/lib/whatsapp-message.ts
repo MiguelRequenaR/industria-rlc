@@ -8,6 +8,8 @@ export interface OrderSummary {
   customerName: string
   customerPhone: string
   customerAddress: string
+  ruc: string | null
+  companyName: string | null
   totalAmount: number
   items: CartItem[]
 }
@@ -20,6 +22,8 @@ export function buildOrderWhatsAppMessage(summary: OrderSummary): string {
     `*Cliente:* ${summary.customerName}`,
     `*Teléfono:* ${summary.customerPhone}`,
     `*Dirección:* ${summary.customerAddress}`,
+    summary.ruc ? `*RUC:* ${summary.ruc}` : "",
+    summary.companyName ? `*Razón social:* ${summary.companyName}` : "",
     "",
     "*Productos:*",
     ...summary.items.map(

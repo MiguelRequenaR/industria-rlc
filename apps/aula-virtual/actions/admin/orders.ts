@@ -80,6 +80,57 @@ export async function updateOrderStatus(
   status: OrderStatus
 ): Promise<{ success: boolean; error?: string }> {
   const supabase = createAdminClient()
+
+  const { data: order, error: fetchError } = await (supabase as any)
+    .from("orders")
+    .select("status, items")
+    .eq("id", orderId)
+    .single()
+
+  if (fetchError || !order) {
+    console.error("Error fetching order before status update:", fetchError)
+    return { success: false, error: "No se pudo obtener la orden" }
+  }
+
+  if (order.status === "pendiente" && status === "cancelado") {
+    const items = (order.items ?? []) as { id: string; qty: number }[]
+    const qtyByProduct: Record<string, number> = {}
+
+    for (const item of items) {
+      if (!qtyByProduct[item.id]) qtyByProduct[item.id] = 0
+      qtyByProduct[item.id] += item.qty
+    }
+
+    const productIds = Object.keys(qtyByProduct)
+    if (productIds.length > 0) {
+      const { data: products, error: productsError } = await (supabase as any)
+        .from("products")
+        .select("id, stock")
+        .in("id", productIds)
+
+      if (productsError) {
+        console.error("Error fetching products for restock:", productsError)
+        return { success: false, error: "No se pudo actualizar el stock de los productos" }
+      }
+
+      for (const p of products as { id: string; stock: number }[]) {
+        const newStock = (p.stock ?? 0) + (qtyByProduct[p.id] ?? 0)
+        const { error: updateStockError } = await (supabase as any)
+          .from("products")
+          .update({ stock: newStock })
+          .eq("id", p.id)
+
+        if (updateStockError) {
+          console.error("Error updating product stock:", updateStockError)
+          return {
+            success: false,
+            error: "Ocurrió un error al devolver el stock de un producto",
+          }
+        }
+      }
+    }
+  }
+
   const { error } = await (supabase as any).from("orders").update({ status }).eq("id", orderId)
 
   if (error) {

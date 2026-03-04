@@ -227,7 +227,7 @@ export function OrdersPanel({
         </div>
 
         {/* Panel derecho: Detalles de la orden */}
-        <div className="lg:w-[400px] bg-secondary/20 rounded-3xl overflow-hidden flex flex-col">
+        <div className="lg:w-[400px] bg-secondary/20 rounded-3xl overflow-hidden flex flex-col h-fit">
           {selectedOrder ? (
             <>
               <div className="p-6 border-b border-gray-700/50">
@@ -260,6 +260,20 @@ export function OrdersPanel({
                     <p className="text-sm text-gray-600">
                       {selectedOrder.customer_address ?? "—"}
                     </p>
+                    {(selectedOrder.ruc || selectedOrder.company_name) && (
+                      <div className="pt-1 space-y-0.5">
+                        {selectedOrder.ruc && (
+                          <p className="text-xs text-gray-700 uppercase">
+                            RUC: {selectedOrder.ruc}
+                          </p>
+                        )}
+                        {selectedOrder.company_name && (
+                          <p className="text-xs text-gray-700 uppercase">
+                            Empresa: {selectedOrder.company_name}
+                          </p>
+                        )}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>

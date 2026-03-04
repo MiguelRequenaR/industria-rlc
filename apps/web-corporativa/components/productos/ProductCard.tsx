@@ -65,6 +65,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           <p className="text-xs md:text-sm text-primary mt-1">Marca: {product.brand ?? "—"}</p>
           <p className="text-sm text-green-500 mt-1">({product.stock})</p>
         </div>
+        <p className="text-xs md:text-sm text-primary mt-1">Código: {product.sku}</p>
         <h3 className="text-lg md:text-xl font-bold text-secondary mt-1">
           S/. {formatPrice(product.price)}
         </h3>
