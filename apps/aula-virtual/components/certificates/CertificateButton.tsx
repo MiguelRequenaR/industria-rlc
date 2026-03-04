@@ -39,7 +39,6 @@ export function CertificateButton({ courseId, courseName, studentName }: Certifi
     setIsEligible(info.isEligible)
     setHasCertificate(info.hasCertificate)
     
-    // Si ya tiene certificado, obtenerlo
     if (info.hasCertificate) {
       const result = await getStudentCertificate(courseId)
       setCertificate(result.certificate)

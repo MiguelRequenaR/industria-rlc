@@ -1,7 +1,5 @@
 const MODULO_PREFIX = /^M[oó]dulo \d+:\s*/i
-// Excluye módulos de tipo evaluación/examen
-const EXCLUDED_TITLES = /examen|evaluaci[oó]n|final|quiz/i
-const MAX_MODULES = 4
+const EXCLUDED_TITLES = /examen|evaluaci[oó]n|final|quiz|calificaci[oó]n/i
 
 export function formatModulesDescription(modules: unknown): string {
   const list = Array.isArray(modules) ? modules : modules ? [modules] : []
@@ -13,7 +11,6 @@ export function formatModulesDescription(modules: unknown): string {
   const titles = withOrder
     .map((m) => m.title.replace(MODULO_PREFIX, "").trim())
     .filter((t) => t && !EXCLUDED_TITLES.test(t))
-    .slice(0, MAX_MODULES)
   if (titles.length === 0) return ""
   return `El programa comprendió: ${titles.join(", ")}.`
 }

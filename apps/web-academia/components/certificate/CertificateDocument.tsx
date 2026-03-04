@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
   },
   modulesText: {
     position: "absolute",
-    top: 550,
+    top: 540,
     left: 130,
     right: 130,
     textAlign: "center",
