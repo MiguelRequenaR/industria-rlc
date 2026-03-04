@@ -15,6 +15,17 @@ interface CourseDetailsProps {
 
 export function CourseDetails({ course, onEditClick, onAssignInstructorClick, isAdmin = true }: CourseDetailsProps) {
   const isArchived = !!course.deleted_at
+
+  const formatCourseDate = (value?: string | null) => {
+    if (!value) return null
+    const iso = value.split("T")[0] // YYYY-MM-DD
+    const parts = iso.split("-")
+    if (parts.length !== 3) return null
+    const [year, month, day] = parts
+    if (!year || !month || !day) return null
+    return `${day.padStart(2, "0")}/${month.padStart(2, "0")}/${year}`
+  }
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
       {/* Contenido principal */}
@@ -83,9 +94,7 @@ export function CourseDetails({ course, onEditClick, onAssignInstructorClick, is
                 Fecha de inicio
               </p>
               <p className="mt-1 font-medium uppercase">
-                {course.start_date
-                  ? new Date(course.start_date).toLocaleDateString("es-ES")
-                  : "Sin definir"}
+                {formatCourseDate(course.start_date) ?? "Sin definir"}
               </p>
             </div>
             <div>
@@ -93,9 +102,7 @@ export function CourseDetails({ course, onEditClick, onAssignInstructorClick, is
                 Fecha de finalización
               </p>
               <p className="mt-1 font-medium uppercase">
-                {course.end_date
-                  ? new Date(course.end_date).toLocaleDateString("es-ES")
-                  : "Sin definir"}
+                {formatCourseDate(course.end_date) ?? "Sin definir"}
               </p>
             </div>
             <div>

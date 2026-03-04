@@ -23,6 +23,32 @@ function formatIssueDateForPdf(isoDate: string): string {
   })
 }
 
+function formatCourseDateForPdf(value?: string | null): string | null {
+  if (!value) return null
+  const iso = value.split("T")[0]
+  const parts = iso.split("-")
+  if (parts.length !== 3) return null
+  const [year, month, day] = parts
+  const monthIndex = Number(month) - 1
+  const months = [
+    "enero",
+    "febrero",
+    "marzo",
+    "abril",
+    "mayo",
+    "junio",
+    "julio",
+    "agosto",
+    "septiembre",
+    "octubre",
+    "noviembre",
+    "diciembre",
+  ]
+  const monthName = months[monthIndex] ?? ""
+  if (!year || !monthName || !day) return null
+  return `${Number(day)} de ${monthName} de ${year}`
+}
+
 export default function ValidateCertificate() {
   const [code, setCode] = useState("")
   const [loading, setLoading] = useState(false)
@@ -57,7 +83,6 @@ export default function ValidateCertificate() {
     }
   }
 
-  // Generar PDF en cliente cuando no hay pdf_url
   useEffect(() => {
     if (!certificate || certificate.pdf_url) {
       setGeneratedPdfUrl(null)
@@ -68,9 +93,10 @@ export default function ValidateCertificate() {
     setPdfGenerating(true)
     setGeneratedPdfUrl(null)
     const issueDateFormatted = formatIssueDateForPdf(certificate.issued_at)
-    const periodStartDate = enrollmentDate
-      ? formatIssueDateForPdf(enrollmentDate)
-      : issueDateFormatted
+    const periodStartDate =
+      formatCourseDateForPdf(certificate.course.start_date) ?? "No registrada"
+    const periodEndDate =
+      formatCourseDateForPdf(certificate.course.end_date) ?? "No registrada"
     const studentName = certificate.student.full_name ?? "—"
     const courseName = certificate.course.title
     const durationHours = certificate.course.duration_hours ?? 0
@@ -86,7 +112,7 @@ export default function ValidateCertificate() {
         durationHours={durationHours}
         note={note}
         periodStartDate={periodStartDate}
-        periodEndDate={issueDateFormatted}
+        periodEndDate={periodEndDate}
         modality={modality}
         modulesDescription={modulesDescription}
       />

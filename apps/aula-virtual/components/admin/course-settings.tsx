@@ -18,6 +18,16 @@ export function CourseSettings({ course }: CourseSettingsProps) {
   const queryClient = useQueryClient()
   const isArchived = !!course.deleted_at
 
+  const formatCourseDate = (value?: string | null) => {
+    if (!value) return "Sin definir"
+    const iso = value.split("T")[0] // YYYY-MM-DD
+    const parts = iso.split("-")
+    if (parts.length !== 3) return "Sin definir"
+    const [year, month, day] = parts
+    if (!year || !month || !day) return "Sin definir"
+    return `${day.padStart(2, "0")}/${month.padStart(2, "0")}/${year}`
+  }
+
   useEffect(() => {
     setIsPublished(course.deleted_at ? false : course.is_published)
   }, [course.is_published, course.deleted_at])
@@ -268,11 +278,7 @@ export function CourseSettings({ course }: CourseSettingsProps) {
             </label>
             <input
               type="text"
-              value={
-                course.start_date
-                  ? new Date(course.start_date).toLocaleDateString("es-ES")
-                  : "Sin definir"
-              }
+              value={formatCourseDate(course.start_date)}
               disabled
               className="w-full px-3 py-2 rounded-3xl bg-gray-50 text-gray-500 cursor-not-allowed"
             />
@@ -283,11 +289,7 @@ export function CourseSettings({ course }: CourseSettingsProps) {
             </label>
             <input
               type="text"
-              value={
-                course.end_date
-                  ? new Date(course.end_date).toLocaleDateString("es-ES")
-                  : "Sin definir"
-              }
+              value={formatCourseDate(course.end_date)}
               disabled
               className="w-full px-3 py-2 rounded-3xl bg-gray-50 text-gray-500 cursor-not-allowed"
             />

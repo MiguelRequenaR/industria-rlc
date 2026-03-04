@@ -107,21 +107,60 @@ export function UsersTable({ users, currentUserIsOwner = false }: UsersTableProp
     if (!selectedUser) return
     setDownloadingCertId(cert.id)
     try {
-      const issueDate = new Date(cert.issued_at).toLocaleDateString("es-ES", {
-        day: "numeric",
-        month: "long",
-        year: "numeric",
-      })
-      const periodStartDate = cert.enrollmentDate
-        ? new Date(cert.enrollmentDate).toLocaleDateString("es-ES", {
-            day: "numeric",
-            month: "long",
-            year: "numeric",
-          })
-        : issueDate
-      const durationHours = cert.course?.duration_hours ?? 0
-      const courseName = cert.course?.title ?? "Curso"
-      const courseWithModules = cert.course as { modality?: string; modules?: unknown } | null
+      const formatIssueDate = (value?: string | null) =>
+        value
+          ? new Date(value).toLocaleDateString("es-ES", {
+              day: "numeric",
+              month: "long",
+              year: "numeric",
+            })
+          : null
+
+      const formatCourseDate = (value?: string | null) => {
+        if (!value) return null
+        const iso = value.split("T")[0] // YYYY-MM-DD
+        const parts = iso.split("-")
+        if (parts.length !== 3) return null
+        const [year, month, day] = parts
+        const monthIndex = Number(month) - 1
+        const months = [
+          "enero",
+          "febrero",
+          "marzo",
+          "abril",
+          "mayo",
+          "junio",
+          "julio",
+          "agosto",
+          "septiembre",
+          "octubre",
+          "noviembre",
+          "diciembre",
+        ]
+        const monthName = months[monthIndex] ?? ""
+        if (!year || !monthName || !day) return null
+        return `${Number(day)} de ${monthName} de ${year}`
+      }
+
+      const issueDate = formatIssueDate(cert.issued_at) ?? ""
+
+      const courseWithDetails = cert.course as {
+        duration_hours?: number
+        modality?: string
+        modules?: unknown
+        start_date?: string | null
+        end_date?: string | null
+      } | null
+
+      const periodStartDate =
+        formatCourseDate(courseWithDetails?.start_date) ?? "No registrada"
+
+      const periodEndDate =
+        formatCourseDate(courseWithDetails?.end_date) ?? "No registrada"
+
+      const durationHours = courseWithDetails?.duration_hours ?? 0
+      const courseName = courseWithDetails?.title ?? "Curso"
+      const courseWithModules = courseWithDetails
       const modality = courseWithModules?.modality ?? "Virtual"
       const modulesDescription = formatModulesDescription(courseWithModules?.modules)
 
@@ -134,7 +173,7 @@ export function UsersTable({ users, currentUserIsOwner = false }: UsersTableProp
           durationHours={durationHours}
           note={cert.final_grade ?? 0}
           periodStartDate={periodStartDate}
-          periodEndDate={issueDate}
+          periodEndDate={periodEndDate}
           modality={modality}
           modulesDescription={modulesDescription}
         />

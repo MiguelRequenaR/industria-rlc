@@ -92,7 +92,15 @@ export async function getLatestCertificates(
       `
       *,
       student:profiles!student_id(id, full_name, avatar_url),
-      course:courses!course_id(id, title, duration_hours, modality, modules(title, order_index))
+      course:courses!course_id(
+        id,
+        title,
+        duration_hours,
+        modality,
+        start_date,
+        end_date,
+        modules(title, order_index)
+      )
     `
     )
     .order("issued_at", { ascending: false })

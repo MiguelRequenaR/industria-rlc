@@ -74,22 +74,59 @@ export function CertificateButton({ courseId, courseName, studentName }: Certifi
     setIsDownloading(true)
     
     try {
-      const issueDate = new Date(cert.issued_at).toLocaleDateString('es-ES', {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric'
-      })
+      const formatIssueDate = (value?: string | null) =>
+        value
+          ? new Date(value).toLocaleDateString("es-ES", {
+              day: "numeric",
+              month: "long",
+              year: "numeric",
+            })
+          : null
 
-      const periodStartDate = enrollDate
-        ? new Date(enrollDate).toLocaleDateString('es-ES', {
-            day: 'numeric',
-            month: 'long',
-            year: 'numeric'
-          })
-        : issueDate
+      const formatCourseDate = (value?: string | null) => {
+        if (!value) return null
+        const iso = value.split("T")[0] // YYYY-MM-DD
+        const parts = iso.split("-")
+        if (parts.length !== 3) return null
+        const [year, month, day] = parts
+        const monthIndex = Number(month) - 1
+        const months = [
+          "enero",
+          "febrero",
+          "marzo",
+          "abril",
+          "mayo",
+          "junio",
+          "julio",
+          "agosto",
+          "septiembre",
+          "octubre",
+          "noviembre",
+          "diciembre",
+        ]
+        const monthName = months[monthIndex] ?? ""
+        if (!year || !monthName || !day) return null
+        return `${Number(day)} de ${monthName} de ${year}`
+      }
 
-      const durationHours = cert.course?.duration_hours ?? 0
-      const courseWithModules = cert.course as { modality?: string; modules?: unknown } | undefined
+      const issueDate = formatIssueDate(cert.issued_at) ?? ""
+
+      const courseWithDetails = cert.course as {
+        duration_hours?: number
+        modality?: string
+        modules?: unknown
+        start_date?: string | null
+        end_date?: string | null
+      } | undefined
+
+      const periodStartDate =
+        formatCourseDate(courseWithDetails?.start_date) ?? "No registrada"
+
+      const periodEndDate =
+        formatCourseDate(courseWithDetails?.end_date) ?? "No registrada"
+
+      const durationHours = courseWithDetails?.duration_hours ?? 0
+      const courseWithModules = courseWithDetails
       const modality = courseWithModules?.modality ?? "Virtual"
       const modulesDescription = formatModulesDescription(courseWithModules?.modules)
 
@@ -102,7 +139,7 @@ export function CertificateButton({ courseId, courseName, studentName }: Certifi
           durationHours={durationHours}
           note={cert.final_grade ?? 0}
           periodStartDate={periodStartDate}
-          periodEndDate={issueDate}
+          periodEndDate={periodEndDate}
           modality={modality}
           modulesDescription={modulesDescription}
         />

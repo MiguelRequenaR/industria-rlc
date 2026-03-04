@@ -81,7 +81,7 @@ export default function CourseDetailPage({ course, relatedCourses }: CourseDetai
               <div className="pt-4">
                 <Link
                   href={`/contacto`}
-                  className="mt-6 inline-flex items-center gap-2 bg-secondary hover:bg-primary hover:text-secondary border border-transparent hover:border-secondary transition-all duration-300 text-primary rounded-xl px-8 py-4 font-bold text-lg"
+                  className="mt-6 inline-flex items-center gap-2 bg-secondary hover:bg-primary hover:text-secondary border border-transparent hover:border-secondary transition-all duration-300 text-primary rounded-xl px-8 py-4 font-bold text-lg uppercase"
                 >
                   <Users className="w-5 h-5" />
                   Inscribirme Ahora
