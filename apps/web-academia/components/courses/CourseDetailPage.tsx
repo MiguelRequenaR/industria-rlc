@@ -2,7 +2,7 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import { Clock, Award, Users, GraduationCap, ArrowLeft, Zap, Info, ArrowRight } from "lucide-react"
+import { Clock, Award, Users, GraduationCap, ArrowLeft, Zap, Info, ArrowRight, Tag, Calendar } from "lucide-react"
 import type { Course } from "@/lib/types"
 
 interface CourseDetailPageProps {
@@ -11,6 +11,27 @@ interface CourseDetailPageProps {
 }
 
 export default function CourseDetailPage({ course, relatedCourses }: CourseDetailPageProps) {
+
+  const formatDate = (value?: string | null) => {
+    if (!value) return null
+    const iso = value.split("T")[0]
+    const parts = iso.split("-")
+    if (parts.length !== 3) return null
+    const [year, month, day] = parts
+    if (!year || !month || !day) return null
+    return `${day.padStart(2, "0")}/${month.padStart(2, "0")}/${year}`
+  }
+
+  const formattedStartDate = formatDate(course.startDate)
+  const formattedEndDate = formatDate(course.endDate)
+  const formattedPrice =
+    typeof course.price === "number"
+      ? course.price.toLocaleString("es-PE", {
+          style: "currency",
+          currency: "PEN",
+          minimumFractionDigits: 2,
+        })
+      : null
 
   return (
     <div className="min-h-screen">
@@ -33,10 +54,34 @@ export default function CourseDetailPage({ course, relatedCourses }: CourseDetai
               <p className="text-white/90 text-lg">
                 {course.detailedDescription}
               </p>
+              <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-white/90">
+                <div className="bg-secondary text-primary rounded-xl p-5 flex flex-col gap-2 hover:bg-primary hover:text-secondary border border-transparent hover:border-secondary transition-all duration-300 group cursor-pointer">
+                  <p className="text-sm font-semibold uppercase">
+                    Fecha de inicio:
+                  </p>
+                  <div className="flex items-center gap-2">
+                    <Calendar className="w-5 h-5 text-primary group-hover:text-secondary transition-all duration-300" />
+                    <p className="text-xl font-semibold">
+                      {formattedStartDate ?? "Por definir"}
+                    </p>
+                  </div>
+                </div>
+                <div className="bg-secondary text-primary rounded-xl p-5 flex flex-col gap-2 hover:bg-primary hover:text-secondary border border-transparent hover:border-secondary transition-all duration-300 group cursor-pointer">
+                  <p className="text-sm font-semibold uppercase">
+                    Inversión:
+                  </p>
+                  <div className="flex items-center gap-2">
+                    <Tag className="w-5 h-5 text-primary group-hover:text-secondary transition-all duration-300" />
+                    <p className="text-xl font-semibold">
+                      {formattedPrice ?? "Consultar"}
+                    </p>
+                  </div>
+                </div>
+              </div>
               <div className="pt-4">
                 <Link
                   href={`/contacto`}
-                  className="mt-6 inline-flex items-center gap-2 bg-secondary hover:bg-secondary/90 transition-colors duration-300 text-primary rounded-xl px-8 py-4 font-bold text-lg"
+                  className="mt-6 inline-flex items-center gap-2 bg-secondary hover:bg-primary hover:text-secondary border border-transparent hover:border-secondary transition-all duration-300 text-primary rounded-xl px-8 py-4 font-bold text-lg"
                 >
                   <Users className="w-5 h-5" />
                   Inscribirme Ahora

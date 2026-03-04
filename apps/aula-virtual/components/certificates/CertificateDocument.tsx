@@ -157,8 +157,8 @@ export function CertificateDocument({
 
   const durationText =
     durationHours === 1
-      ? 'con una duración de 1 hora.'
-      : `con una duración de ${durationHours} horas.`
+      ? 'con una duración de 1 hora'
+      : `con una duración de ${durationHours} horas`
 
   return (
     <Document>

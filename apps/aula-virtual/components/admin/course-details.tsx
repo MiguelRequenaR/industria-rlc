@@ -71,6 +71,49 @@ export function CourseDetails({ course, onEditClick, onAssignInstructorClick, is
             </p>
           </div>
         </div>
+
+        {/* Información adicional del curso */}
+        <div className="bg-secondary/20 rounded-3xl p-6 space-y-4">
+          <h3 className="text-xs font-semibold text-gray-700 uppercase tracking-wide">
+            Información del curso
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm text-gray-700">
+            <div>
+              <p className="text-[11px] font-semibold uppercase text-gray-500">
+                Fecha de inicio
+              </p>
+              <p className="mt-1 font-medium uppercase">
+                {course.start_date
+                  ? new Date(course.start_date).toLocaleDateString("es-ES")
+                  : "Sin definir"}
+              </p>
+            </div>
+            <div>
+              <p className="text-[11px] font-semibold uppercase text-gray-500">
+                Fecha de finalización
+              </p>
+              <p className="mt-1 font-medium uppercase">
+                {course.end_date
+                  ? new Date(course.end_date).toLocaleDateString("es-ES")
+                  : "Sin definir"}
+              </p>
+            </div>
+            <div>
+              <p className="text-[11px] font-semibold uppercase text-gray-500">
+                Precio
+              </p>
+              <p className="mt-1 font-medium uppercase">
+                {typeof course.price === "number"
+                  ? course.price.toLocaleString("es-PE", {
+                      style: "currency",
+                      currency: "PEN",
+                      minimumFractionDigits: 2,
+                    })
+                  : "Sin definir"}
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Sidebar derecha */}

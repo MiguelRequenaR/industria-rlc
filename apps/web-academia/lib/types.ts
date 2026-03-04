@@ -17,6 +17,8 @@ export interface Course {
   duration: string;
   modality: string;
   price: number;
+  startDate?: string | null;
+  endDate?: string | null;
   instructor: {
     name: string;
     cargo?: string;

@@ -6,6 +6,33 @@ import { toast } from "react-toastify"
 import { useRouter } from "next/navigation"
 import type { CourseDifficulty, CourseModality } from "@/types/database"
 
+type UpdateCourseVariables = {
+  courseId: string
+  title: string
+  description?: string
+  imageUrl?: string
+  durationHours?: number
+  difficulty?: CourseDifficulty
+  modality?: CourseModality
+  courseCode?: string
+  startDate?: string
+  endDate?: string
+  price?: number
+}
+
+type CreateCourseVariables = {
+  title: string
+  description?: string
+  imageUrl?: string
+  durationHours?: number
+  difficulty?: CourseDifficulty
+  modality?: CourseModality
+  courseCode?: string
+  startDate?: string
+  endDate?: string
+  price?: number
+}
+
 export function useCourses() {
   return useQuery({
     queryKey: ["courses"],
@@ -16,26 +43,21 @@ export function useCourses() {
 export function useUpdateCourse() {
   const queryClient = useQueryClient()
 
-  return useMutation({
-    mutationFn: ({
-      courseId,
-      title,
-      description,
-      imageUrl,
-      durationHours,
-      difficulty,
-      modality,
-      courseCode,
-    }: {
-      courseId: string
-      title: string
-      description?: string
-      imageUrl?: string
-      durationHours?: number
-      difficulty?: CourseDifficulty
-      modality?: CourseModality
-      courseCode?: string
-    }) => updateCourse(courseId, title, description, imageUrl, durationHours, difficulty, modality, courseCode),
+  return useMutation<Awaited<ReturnType<typeof updateCourse>>, unknown, UpdateCourseVariables>({
+    mutationFn: (params: UpdateCourseVariables) =>
+      updateCourse(
+        params.courseId,
+        params.title,
+        params.description,
+        params.imageUrl,
+        params.durationHours,
+        params.difficulty,
+        params.modality,
+        params.courseCode,
+        params.startDate,
+        params.endDate,
+        params.price
+      ),
     onSuccess: (result) => {
       if (result.success) {
         toast.success("Curso actualizado correctamente")
@@ -60,24 +82,20 @@ export function useCreateCourse() {
   const queryClient = useQueryClient()
   const router = useRouter()
 
-  return useMutation({
-    mutationFn: ({
-      title,
-      description,
-      imageUrl,
-      durationHours,
-      difficulty,
-      modality,
-      courseCode,
-    }: {
-      title: string
-      description?: string
-      imageUrl?: string
-      durationHours?: number
-      difficulty?: CourseDifficulty
-      modality?: CourseModality
-      courseCode?: string
-    }) => createCourse(title, description, imageUrl, durationHours, difficulty, modality, courseCode),
+  return useMutation<Awaited<ReturnType<typeof createCourse>>, unknown, CreateCourseVariables>({
+    mutationFn: (params: CreateCourseVariables) =>
+      createCourse(
+        params.title,
+        params.description,
+        params.imageUrl,
+        params.durationHours,
+        params.difficulty,
+        params.modality,
+        params.courseCode,
+        params.startDate,
+        params.endDate,
+        params.price
+      ),
     onSuccess: (result) => {
       if (result.success) {
         toast.success("Curso creado correctamente")

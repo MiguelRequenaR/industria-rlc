@@ -34,6 +34,9 @@ export interface Course {
   difficulty: CourseDifficulty
   modality: CourseModality
   course_code: string | null
+  start_date: string | null
+  end_date: string | null
+  price: number
 }
 
 export interface Enrollment {

@@ -136,7 +136,10 @@ export async function createCourse(
   durationHours?: number,
   difficulty?: CourseDifficulty,
   modality?: CourseModality,
-  courseCode?: string
+  courseCode?: string,
+  startDate?: string,
+  endDate?: string,
+  price?: number
 ): Promise<{ success: boolean; error?: string; slug?: string }> {
   const supabase = await createClient()
 
@@ -192,6 +195,9 @@ export async function createCourse(
       difficulty: difficulty ?? "Basico",
       modality: modality ?? "Virtual",
       course_code,
+      start_date: startDate || null,
+      end_date: endDate || null,
+      price: price ?? 0,
     })
 
   if (error) {
@@ -210,7 +216,10 @@ export async function updateCourse(
   durationHours?: number,
   difficulty?: CourseDifficulty,
   modality?: CourseModality,
-  courseCode?: string
+  courseCode?: string,
+  startDate?: string,
+  endDate?: string,
+  price?: number
 ): Promise<{ success: boolean; error?: string; slug?: string }> {
   const supabase = await createClient()
 
@@ -268,6 +277,9 @@ export async function updateCourse(
       duration_hours: durationHours ?? 0,
       difficulty: difficulty ?? "Basico",
       modality: modality ?? "Virtual",
+      start_date: startDate || null,
+      end_date: endDate || null,
+      price: price ?? 0,
     })
     .eq("id", courseId)
 

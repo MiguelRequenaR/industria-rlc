@@ -261,6 +261,56 @@ export function CourseSettings({ course }: CourseSettingsProps) {
               className="w-full px-3 py-2 rounded-3xl bg-gray-50 text-gray-500 cursor-not-allowed"
             />
           </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1 uppercase">
+              Fecha de inicio
+            </label>
+            <input
+              type="text"
+              value={
+                course.start_date
+                  ? new Date(course.start_date).toLocaleDateString("es-ES")
+                  : "Sin definir"
+              }
+              disabled
+              className="w-full px-3 py-2 rounded-3xl bg-gray-50 text-gray-500 cursor-not-allowed"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1 uppercase">
+              Fecha de finalización
+            </label>
+            <input
+              type="text"
+              value={
+                course.end_date
+                  ? new Date(course.end_date).toLocaleDateString("es-ES")
+                  : "Sin definir"
+              }
+              disabled
+              className="w-full px-3 py-2 rounded-3xl bg-gray-50 text-gray-500 cursor-not-allowed"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1 uppercase">
+              Precio
+            </label>
+            <input
+              type="text"
+              value={
+                typeof course.price === "number"
+                  ? course.price.toLocaleString("es-PE", {
+                      style: "currency",
+                      currency: "PEN",
+                      minimumFractionDigits: 2,
+                    })
+                  : "Sin definir"
+              }
+              disabled
+              className="w-full px-3 py-2 rounded-3xl bg-gray-50 text-gray-500 cursor-not-allowed"
+            />
+          </div>
         </div>
       </div>
 
@@ -324,7 +374,7 @@ export function CourseSettings({ course }: CourseSettingsProps) {
 
       {/* Botón de Guardar */}
       {hasChanges && (
-        <div className="flex items-center justify-between p-4 bg-blue-50 border border-blue-200 rounded-lg">
+        <div className="flex items-center justify-between p-4 bg-blue-50 border border-blue-200 rounded-3xl">
           <p className="text-sm text-blue-700 font-medium uppercase">
             Tienes cambios sin guardar
           </p>

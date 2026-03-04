@@ -40,6 +40,9 @@ export function AddCourseModal({ isOpen, onClose }: AddCourseModalProps) {
   const [durationHours, setDurationHours] = useState(0)
   const [difficulty, setDifficulty] = useState<CourseDifficulty>("Basico")
   const [modality, setModality] = useState<CourseModality>("Virtual")
+  const [startDate, setStartDate] = useState("")
+  const [endDate, setEndDate] = useState("")
+  const [price, setPrice] = useState(0)
   const [previewCode, setPreviewCode] = useState("")
   const createCourseMutation = useCreateCourse()
 
@@ -64,6 +67,9 @@ export function AddCourseModal({ isOpen, onClose }: AddCourseModalProps) {
         durationHours,
         difficulty,
         modality,
+        startDate: startDate || undefined,
+        endDate: endDate || undefined,
+        price,
       },
       {
         onSuccess: () => {
@@ -73,6 +79,9 @@ export function AddCourseModal({ isOpen, onClose }: AddCourseModalProps) {
           setDurationHours(0)
           setDifficulty("Basico")
           setModality("Virtual")
+          setStartDate("")
+          setEndDate("")
+          setPrice(0)
           onClose()
         },
       }
@@ -87,6 +96,9 @@ export function AddCourseModal({ isOpen, onClose }: AddCourseModalProps) {
       setDurationHours(0)
       setDifficulty("Basico")
       setModality("Virtual")
+      setStartDate("")
+      setEndDate("")
+      setPrice(0)
       onClose()
     }
   }
@@ -189,7 +201,53 @@ export function AddCourseModal({ isOpen, onClose }: AddCourseModalProps) {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-1">
+                <div>
+                  <label htmlFor="startDate" className="block text-sm font-medium text-secondary mb-1">
+                    Fecha de inicio
+                  </label>
+                  <input
+                    id="startDate"
+                    type="date"
+                    value={startDate}
+                    onChange={(e) => setStartDate(e.target.value)}
+                    className="w-full px-3 py-2 border border-secondary rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary text-primary"
+                    disabled={createCourseMutation.isPending}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="endDate" className="block text-sm font-medium text-secondary mb-1">
+                    Fecha de finalización
+                  </label>
+                  <input
+                    id="endDate"
+                    type="date"
+                    value={endDate}
+                    onChange={(e) => setEndDate(e.target.value)}
+                    className="w-full px-3 py-2 border border-secondary rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary text-primary"
+                    disabled={createCourseMutation.isPending}
+                  />
+                </div>
+              </div>
+
+              <div className="mt-1">
+                <label htmlFor="price" className="block text-sm font-medium text-secondary mb-1">
+                  Precio
+                </label>
+                <input
+                  id="price"
+                  type="number"
+                  min={0}
+                  step="0.01"
+                  value={price === 0 ? "" : price}
+                  onChange={(e) => setPrice(e.target.value === "" ? 0 : Number(e.target.value))}
+                  placeholder="0.00"
+                  className="w-full px-3 py-2 border border-secondary rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary text-primary"
+                  disabled={createCourseMutation.isPending}
+                />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-1">
                 <div>
                   <label htmlFor="difficulty" className="block text-sm font-medium text-secondary mb-1">
                     Dificultad
