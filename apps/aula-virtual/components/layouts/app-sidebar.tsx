@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import { useState } from "react"
 import { usePathname } from "next/navigation"
 import {
   GraduationCap,
@@ -19,6 +20,7 @@ import {
 } from "lucide-react"
 import { useProfileQuery } from "@/hooks/use-profile-query"
 import { logoutAction } from "@/actions/auth-actions"
+import { LogoutOverlay } from "@/components/auth/logout-overlay"
 
 const menusByRole = {
   admin: {
@@ -58,9 +60,17 @@ export function AppSidebar() {
   
   const homeUrl = profile?.role ? `/${profile.role}` : "/estudiante"
 
+  const [isLoggingOut, setIsLoggingOut] = useState(false)
+
+  async function handleLogout() {
+    setIsLoggingOut(true)
+    await logoutAction()
+  }
+
   if (loading) {
     return (
       <>
+        {isLoggingOut && <LogoutOverlay />}
         <nav className="md:hidden fixed top-0 left-0 right-0 h-16 bg-white border-b border-gray-200 flex items-center justify-center z-50">
           <div className="animate-pulse flex items-center gap-4">
             <div className="w-10 h-10 bg-gray-200 rounded-lg" />
@@ -79,6 +89,7 @@ export function AppSidebar() {
 
   return (
     <>
+      {isLoggingOut && <LogoutOverlay />}
       <nav className="md:hidden fixed top-0 left-0 right-0 h-16 flex items-center z-50 mx-4">
         <div className="w-full max-w-7xl mx-auto rounded-xl shadow-lg bg-white px-2 md:px-6 flex items-center justify-between gap-1">
           <Link href={homeUrl} className="flex items-center gap-3 shrink-0">
@@ -125,7 +136,7 @@ export function AppSidebar() {
                 <p className="text-sm text-secondary font-bold truncate">{profile?.role || "Cargando..."}</p>
               </div>
             </Link>
-            <button onClick={() => logoutAction()} className="flex items-center gap-2 px-3 py-2 rounded-lg text-red-600 hover:bg-red-50 transition-colors cursor-pointer" title="Cerrar Sesión">
+            <button onClick={handleLogout} className="flex items-center gap-2 px-3 py-2 rounded-lg text-red-600 hover:bg-red-50 transition-colors cursor-pointer" title="Cerrar Sesión">
               <LogOut className="w-4 h-4" />
               <span className="text-sm font-medium hidden xl:inline">Cerrar Sesión</span>
             </button>
@@ -184,7 +195,7 @@ export function AppSidebar() {
             </div>
           </Link>
           <button
-            onClick={() => logoutAction()}
+            onClick={handleLogout}
             className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-red-600 hover:bg-red-100 border border-red-600 transition-colors cursor-pointer w-full"
             title="Cerrar Sesión"
           >
