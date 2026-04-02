@@ -70,7 +70,7 @@ export default function ContactPage() {
               </div>
               <div>
                 <h3 className="text-lg font-semibold">Ubicación</h3>
-                <p className="text-base font-light">Av. Real #S/N - Perú</p>
+                <p className="text-base font-light">Av. Bosque Huanca #1188 - El Agustino - Lima</p>
               </div>
             </div>
           </div>

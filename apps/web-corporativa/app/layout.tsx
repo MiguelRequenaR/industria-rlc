@@ -19,11 +19,11 @@ const nunito = Nunito({
 export const metadata: Metadata = {
   metadataBase: new URL('https://industriarlc.com/'),
   title: {
-    default: "Industria RLC - Servicios Eléctricos Integrales en Huancayo, Perú",
+    default: "Industria RLC - Servicios Eléctricos Integrales en Lima, Perú",
     template: "%s | Industria RLC",
   },
   description: "Empresa peruana líder en servicios eléctricos integrales, construcción, automatización y gestión de proyectos. +10 de años de experiencia. Certificados y garantías.",
-  keywords: ["servicios eléctricos Huancayo", "construcción Perú", "automatización industrial", "instalaciones eléctricas", "cableado estructurado", "domótica", "paneles eléctricos"],
+  keywords: ["servicios eléctricos Lima", "construcción Perú", "automatización industrial", "instalaciones eléctricas", "cableado estructurado", "domótica", "paneles eléctricos"],
   authors: [
     {
       name: "Industria RLC",
@@ -41,20 +41,20 @@ export const metadata: Metadata = {
     locale: "es_PE",
     url: "https://industriarlc.com/",
     siteName: "Industria RLC",
-    title: "Industria RLC - Servicios Eléctricos Integrales en Huancayo, Perú",
+    title: "Industria RLC - Servicios Eléctricos Integrales en Lima, Perú",
     description: "Empresa peruana líder en servicios eléctricos integrales, construcción, automatización y gestión de proyectos. +10 de años de experiencia.",
     images: [
       {
         url: "/ogImageRLC.png",
         width: 1200,
         height: 630,
-        alt: "Industria RLC - Servicios Eléctricos Integrales en Huancayo, Perú",
+        alt: "Industria RLC - Servicios Eléctricos Integrales en Lima, Perú",
       }
     ]
   },
   twitter: {
     card: "summary_large_image",
-    title: "Industria RLC - Servicios Eléctricos Integrales en Huancayo, Perú",
+    title: "Industria RLC - Servicios Eléctricos Integrales en Lima, Perú",
     description: "Empresa peruana líder en servicios eléctricos integrales, construcción, automatización y gestión de proyectos. +10 de años de experiencia.",
     images: ['/ogImageRLC.png'],
   },

@@ -9,8 +9,8 @@ export default function StructuredData() {
     "address": {
       "@type": "PostalAddress",
       "addressCountry": "PE",
-      "addressLocality": "Huancayo",
-      "addressRegion": "Junín"
+      "addressLocality": "Lima",
+      "addressRegion": "Lima"
     },
     "telephone": "+51940162009",
     "email": "proyectos@industriarlc.com",
@@ -39,8 +39,8 @@ export default function StructuredData() {
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "Av. de la Constitución, s/n",
-      "addressLocality": "Huancayo",
-      "addressRegion": "Junín",
+      "addressLocality": "Lima",
+      "addressRegion": "Lima",
       "addressCountry": "PE"
     },
     "openingHoursSpecification": [

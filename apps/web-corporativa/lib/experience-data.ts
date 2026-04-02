@@ -6,7 +6,7 @@ export const experienceData: Experience[] = [
     slug: "proyecto-electrico-industrial",
     title: "Mantenimiento de Pararrayos",
     client: "Corporación Industrial Huanca",
-    location: "Huancayo - Junín",
+    location: "El Agustino - Lima",
     description: "Mantenimiento preventivo y correctivo de pararrayos en la Corporación Industrial Huanca, asegurando la protección de equipos y personas contra descargas eléctricas.",
     date: "2024",
     features: [
@@ -31,7 +31,7 @@ export const experienceData: Experience[] = [
     slug: "mantenimiento-aire-acondicionado",
     title: "Mantenimiento de Aire Acondicionado",
     client: "Corporación Industrial Huanca",
-    location: "Huancayo - Junín",
+    location: "El Agustino - Lima",
     description: "Mantenimiento preventivo y correctivo de aire acondicionado en la Corporación Industrial Huanca, asegurando el confort y la eficiencia energética de los espacios.",
     date: "2025",
     features: [
@@ -50,7 +50,7 @@ export const experienceData: Experience[] = [
     slug: "instalacion-pozo-a-tierra",
     title: "Instalación de Pozo a Tierra",
     client: "Condominio Los Olivos",
-    location: "Huancayo - Junín",
+    location: "El Agustino - Lima",
     description: "Instalación de pozo a tierra en el condominio Los Olivos, asegurando la protección de equipos y personas contra descargas eléctricas.",
     date: "2025",
     features: [
@@ -68,7 +68,7 @@ export const experienceData: Experience[] = [
     slug: "instalacion-cerco-electrico",
     title: "Instalación de Cerco Eléctrico",
     client: "Vivienda particular",
-    location: "Huancayo - Junín",
+    location: "El Agustino - Lima",
     description: "Instalación de cerco eléctrico en una vivienda particular, asegurando la protección de equipos y personas contra descargas eléctricas.",
     date: "2025",
     features: [

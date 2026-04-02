@@ -6,7 +6,7 @@ import ExperienceHome from "@/components/home/ExperienceHome"
 import AdvantageSection from "@/components/home/AdvantageSection"
 
 export const metadata: Metadata = {
-  title: "Industria RLC - Servicios Eléctricos Integrales en Huancayo, Perú",
+  title: "Industria RLC - Servicios Eléctricos Integrales en Lima, Perú",
   description: "Empresa peruana líder en servicios eléctricos integrales, construcción, automatización y gestión de proyectos. +10 de años de experiencia. Certificados y garantías.",
 }
 

@@ -39,7 +39,7 @@ export default async function PageContact() {
           </div>
           <div className="flex items-center gap-2">
             <MapPin size={26} className="text-secondary"/>
-            <span className="text-primary font-bold text-base md:text-lg">Av. Real #S/N - Perú</span>
+            <span className="text-primary font-bold text-base md:text-lg">Av. Bosque Huanca #1188 - El Agustino - Lima</span>
           </div>
           <Image src="/images/rlciconpetduda.png" alt="Mapa" width={500} height={500} />
         </div>

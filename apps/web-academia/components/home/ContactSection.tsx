@@ -20,7 +20,7 @@ export default function ContactSection({ courses }: ContactSectionProps) {
           <div className="space-y-6 pt-10">
             <div className="flex items-center gap-2">
               <MapPin className="w-6 h-6 text-secondary" />
-              <span className="font-bold">Av. Real #S/N - Perú</span>
+              <span className="font-bold">Av. Bosque Huanca #1188 - El Agustino - Lima</span>
             </div>
             <div className="flex items-center gap-2">
               <Mail className="w-6 h-6 text-secondary" />
